@@ -63,6 +63,8 @@
 	<p id="progress"></p>
 
     <div class="emoji" id="emoji">🦛</div>
+    
+    <div id="wordInfo"></div>
 
     <input id="answerInput" placeholder="ここにタイ文字を入力" />
 
@@ -76,35 +78,19 @@
   </div>
 
 	<script>
-	  const questions = [
-	    {
-	      emoji: "🦛",
-	      japanese: "かば",
-	      basicThai: "กา บา",
-	      acceptedAnswers: ["กา บา", "กาบา"],
-	      naturalThai: "ฮิปโป / ฮิปโปโปเตมัส",
-	      hint: "か = กา / ば = บา"
-	    },
-	    {
-	      emoji: "🐘",
-	      japanese: "ぞう",
-	      basicThai: "โซ อุ",
-	      acceptedAnswers: ["โซ อุ", "โซอุ"],
-	      naturalThai: "ช้าง",
-	      hint: "ぞ = โซ / う = อุ"
-	    },
-	    {
-	      emoji: "🐱",
-	      japanese: "ねこ",
-	      basicThai: "เน โก",
-	      acceptedAnswers: ["เน โก", "เนโก"],
-	      naturalThai: "แมว",
-	      hint: "ね = เน / こ = โก"
-	    }
-	  ];
-
+	  let questions = [];
 	  let currentQuestionIndex = 0;
 	  let userAnswers = [];
+
+	  async function loadQuestions() {
+	    const response = await fetch("questions.json");
+	    const data = await response.json();
+
+	    // 今は3問テストにする。4問全部使うなら .slice(0, 3) を消す。
+	    questions = data.slice(0, 3);
+
+	    showQuestion();
+	  }
 
 	  function showQuestion() {
 	    const question = questions[currentQuestionIndex];
@@ -113,14 +99,25 @@
 	      `問題 ${currentQuestionIndex + 1} / ${questions.length}`;
 
 	    document.getElementById("emoji").textContent = question.emoji;
-	    document.getElementById("answerInput").value = userAnswers[currentQuestionIndex] || "";
+
+	    document.getElementById("wordInfo").innerHTML = `
+	      <p><strong>${question.japanese}</strong> / <strong>${question.romaji}</strong></p>
+	      <p>この音をタイ文字で入力してください</p>
+	    `;
+
+	    document.getElementById("answerInput").value =
+	      userAnswers[currentQuestionIndex] || "";
+
 	    document.getElementById("result").innerHTML = "";
 
 	    document.getElementById("answerInput").style.display = "inline-block";
+
 	    document.getElementById("nextButton").style.display =
 	      currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
+
 	    document.getElementById("checkButton").style.display =
 	      currentQuestionIndex === questions.length - 1 ? "inline-block" : "none";
+
 	    document.getElementById("restartButton").style.display = "none";
 	  }
 
@@ -135,6 +132,10 @@
 	    showQuestion();
 	  }
 
+	  function normalizeAnswer(text) {
+	    return text.replace(/\s/g, "");
+	  }
+
 	  function showFinalResult() {
 	    saveCurrentAnswer();
 
@@ -143,12 +144,12 @@
 
 	    const resultHtml = questions.map((question, index) => {
 	      const userAnswer = userAnswers[index] || "";
-	      const normalizedUserAnswer = userAnswer.replace(/\s/g, "");
+	      const normalizedUserAnswer = normalizeAnswer(userAnswer);
 
 	      const isThaiOnly = thaiOnlyRegex.test(userAnswer);
 
 	      const isCorrect = question.acceptedAnswers.some(answer => {
-	        return answer.replace(/\s/g, "") === normalizedUserAnswer;
+	        return normalizeAnswer(answer) === normalizedUserAnswer;
 	      });
 
 	      let judge = "";
@@ -169,16 +170,17 @@
 	          <h3>問題 ${index + 1}: ${question.emoji}</h3>
 	          <p><strong>判定:</strong> ${judge}</p>
 	          <p><strong>日本語:</strong> ${question.japanese}</p>
+	          <p><strong>Romaji:</strong> ${question.romaji}</p>
 	          <p><strong>あなたの入力:</strong> ${userAnswer || "未入力"}</p>
 	          <p><strong>Basic Thai Script:</strong> ${question.basicThai}</p>
 	          <p><strong>Natural Thai:</strong> ${question.naturalThai}</p>
-	          <p><strong>ヒント:</strong> ${question.hint}</p>
 	        </div>
 	      `;
 	    }).join("");
 
 	    document.getElementById("progress").textContent = "結果発表";
 	    document.getElementById("emoji").textContent = "🎉";
+	    document.getElementById("wordInfo").innerHTML = "";
 	    document.getElementById("answerInput").style.display = "none";
 
 	    document.getElementById("nextButton").style.display = "none";
@@ -199,7 +201,7 @@
 	    showQuestion();
 	  }
 
-	  showQuestion();
+	  loadQuestions();
 	</script>
 
 </body>
