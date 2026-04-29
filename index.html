@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thai Script Trainer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f1ea;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .card {
+      background: white;
+	  width: 90%;
+	  max-width: 420px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .emoji {
+      font-size: 80px;
+      margin: 20px;
+    }
+
+    input {
+      font-size: 20px;
+      padding: 10px;
+      width: 80%;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      background: #c96f35;
+      color: white;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 25px;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Thai Script Trainer</h1>
+
+    <p>この絵文字を日本語で考えて、タイ文字で入力してください</p>
+
+	<p id="progress"></p>
+
+    <div class="emoji" id="emoji">🦛</div>
+
+    <input id="answerInput" placeholder="ここにタイ文字を入力" />
+
+    <br />
+
+	<button id="nextButton" onclick="saveAndNext()">次の問題へ</button>
+	<button id="checkButton" onclick="showFinalResult()" style="display: none;">3問まとめて答え合わせ</button>
+	<button id="restartButton" onclick="restartQuiz()" style="display: none;">最初からやる</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+	<script>
+	  const questions = [
+	    {
+	      emoji: "🦛",
+	      japanese: "かば",
+	      basicThai: "กา บา",
+	      acceptedAnswers: ["กา บา", "กาบา"],
+	      naturalThai: "ฮิปโป / ฮิปโปโปเตมัส",
+	      hint: "か = กา / ば = บา"
+	    },
+	    {
+	      emoji: "🐘",
+	      japanese: "ぞう",
+	      basicThai: "โซ อุ",
+	      acceptedAnswers: ["โซ อุ", "โซอุ"],
+	      naturalThai: "ช้าง",
+	      hint: "ぞ = โซ / う = อุ"
+	    },
+	    {
+	      emoji: "🐱",
+	      japanese: "ねこ",
+	      basicThai: "เน โก",
+	      acceptedAnswers: ["เน โก", "เนโก"],
+	      naturalThai: "แมว",
+	      hint: "ね = เน / こ = โก"
+	    }
+	  ];
+
+	  let currentQuestionIndex = 0;
+	  let userAnswers = [];
+
+	  function showQuestion() {
+	    const question = questions[currentQuestionIndex];
+
+	    document.getElementById("progress").textContent =
+	      `問題 ${currentQuestionIndex + 1} / ${questions.length}`;
+
+	    document.getElementById("emoji").textContent = question.emoji;
+	    document.getElementById("answerInput").value = userAnswers[currentQuestionIndex] || "";
+	    document.getElementById("result").innerHTML = "";
+
+	    document.getElementById("answerInput").style.display = "inline-block";
+	    document.getElementById("nextButton").style.display =
+	      currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
+	    document.getElementById("checkButton").style.display =
+	      currentQuestionIndex === questions.length - 1 ? "inline-block" : "none";
+	    document.getElementById("restartButton").style.display = "none";
+	  }
+
+	  function saveCurrentAnswer() {
+	    const userAnswer = document.getElementById("answerInput").value.trim();
+	    userAnswers[currentQuestionIndex] = userAnswer;
+	  }
+
+	  function saveAndNext() {
+	    saveCurrentAnswer();
+	    currentQuestionIndex++;
+	    showQuestion();
+	  }
+
+	  function showFinalResult() {
+	    saveCurrentAnswer();
+
+	    const thaiOnlyRegex = /^[\u0E00-\u0E7F\s]+$/;
+	    let score = 0;
+
+	    const resultHtml = questions.map((question, index) => {
+	      const userAnswer = userAnswers[index] || "";
+	      const normalizedUserAnswer = userAnswer.replace(/\s/g, "");
+
+	      const isThaiOnly = thaiOnlyRegex.test(userAnswer);
+
+	      const isCorrect = question.acceptedAnswers.some(answer => {
+	        return answer.replace(/\s/g, "") === normalizedUserAnswer;
+	      });
+
+	      let judge = "";
+
+	      if (userAnswer === "") {
+	        judge = "未入力です (´・ω・｀)";
+	      } else if (!isThaiOnly) {
+	        judge = "NG：タイ文字以外が入っています 🐘";
+	      } else if (isCorrect) {
+	        judge = "正解！ดีมาก! 🦛✨";
+	        score++;
+	      } else {
+	        judge = "不正解。でもタイ文字入力はできています (｀･∀･´)";
+	      }
+
+	      return `
+	        <div style="text-align: left; margin-top: 20px; padding: 15px; background: #fafafa; border-radius: 12px;">
+	          <h3>問題 ${index + 1}: ${question.emoji}</h3>
+	          <p><strong>判定:</strong> ${judge}</p>
+	          <p><strong>日本語:</strong> ${question.japanese}</p>
+	          <p><strong>あなたの入力:</strong> ${userAnswer || "未入力"}</p>
+	          <p><strong>Basic Thai Script:</strong> ${question.basicThai}</p>
+	          <p><strong>Natural Thai:</strong> ${question.naturalThai}</p>
+	          <p><strong>ヒント:</strong> ${question.hint}</p>
+	        </div>
+	      `;
+	    }).join("");
+
+	    document.getElementById("progress").textContent = "結果発表";
+	    document.getElementById("emoji").textContent = "🎉";
+	    document.getElementById("answerInput").style.display = "none";
+
+	    document.getElementById("nextButton").style.display = "none";
+	    document.getElementById("checkButton").style.display = "none";
+	    document.getElementById("restartButton").style.display = "inline-block";
+
+	    document.getElementById("result").innerHTML = `
+	      <hr>
+	      <h2>最終スコア：${score} / ${questions.length}</h2>
+	      <p>3問まとめて答え合わせしました 🐙📱</p>
+	      ${resultHtml}
+	    `;
+	  }
+
+	  function restartQuiz() {
+	    currentQuestionIndex = 0;
+	    userAnswers = [];
+	    showQuestion();
+	  }
+
+	  showQuestion();
+	</script>
+
+</body>
+</html>
