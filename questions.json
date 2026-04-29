@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "emoji": "🦛",
+    "japanese": "かば",
+    "romaji": "KABA",
+    "basicThai": "กา บา",
+    "acceptedAnswers": [
+      "กา บา",
+      "กาบา"
+    ],
+    "naturalThai": "ฮิปโป / ฮิปโปโปเตมัส",
+    "tags": [
+      "animal"
+    ]
+  },
+  {
+    "id": 2,
+    "emoji": "🐘",
+    "japanese": "ぞう",
+    "romaji": "ZOU",
+    "basicThai": "โซ อุ",
+    "acceptedAnswers": [
+      "โซ อุ",
+      "โซอุ"
+    ],
+    "naturalThai": "ช้าง",
+    "tags": [
+      "animal"
+    ]
+  },
+  {
+    "id": 3,
+    "emoji": "🐱",
+    "japanese": "ねこ",
+    "romaji": "NEKO",
+    "basicThai": "เน โก",
+    "acceptedAnswers": [
+      "เน โก",
+      "เนโก"
+    ],
+    "naturalThai": "แมว",
+    "tags": [
+      "animal"
+    ]
+  },
+  {
+    "id": 4,
+    "emoji": "🐶",
+    "japanese": "いぬ",
+    "romaji": "INU",
+    "basicThai": "อิ นุ",
+    "acceptedAnswers": [
+      "อิ นุ",
+      "อินุ"
+    ],
+    "naturalThai": "หมา / สุนัข",
+    "tags": [
+      "animal"
+    ]
+  }
+]
