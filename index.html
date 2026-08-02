@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver2.1</title>
+  <title>Thai Vocabulary Trainer Ver2.2</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -385,6 +385,172 @@
       color: var(--muted);
     }
 
+    .history-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .history-page-header h2 {
+      margin: 0;
+      text-align: center;
+      flex: 1;
+    }
+
+    .history-overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .history-overview-item {
+      padding: 13px 9px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fffaf3;
+      text-align: center;
+    }
+
+    .history-overview-item strong {
+      display: block;
+      font-size: 1.35rem;
+    }
+
+    .history-filters {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 18px 0 10px;
+      text-align: left;
+    }
+
+    .history-filter label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .history-filter select,
+    .history-filter input {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+    }
+
+    .history-filter input:focus,
+    .history-filter select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(169, 87, 44, 0.12);
+      outline: none;
+    }
+
+    .history-section {
+      margin-top: 22px;
+      text-align: left;
+    }
+
+    .history-section h3 {
+      margin-bottom: 10px;
+    }
+
+    .weak-word-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .weak-word-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fffaf3;
+    }
+
+    .weak-word-thai {
+      font: 800 1.25rem/1.35 "Noto Sans Thai", Tahoma, sans-serif;
+    }
+
+    .weak-word-score {
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .history-table {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: white;
+    }
+
+    .history-row {
+      display: grid;
+      grid-template-columns: 1.25fr 0.8fr 1.5fr 1.25fr 0.65fr 0.65fr;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    .history-row:last-child { border-bottom: 0; }
+
+    .history-row.header {
+      background: #f5eadf;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .history-row.correct-record { border-left: 5px solid var(--success); }
+    .history-row.wrong-record { border-left: 5px solid var(--danger); }
+
+    .history-result-badge {
+      display: inline-block;
+      padding: 4px 7px;
+      border-radius: 999px;
+      font-weight: 800;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .history-result-badge.correct {
+      color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .history-result-badge.wrong {
+      color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .history-empty {
+      padding: 30px 14px;
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .history-footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
     .error-box {
       padding: 18px;
       border: 1px solid #efc3be;
@@ -406,6 +572,34 @@
       .feedback dl { grid-template-columns: 1fr; }
       .feedback dd { margin-bottom: 7px; }
       .history-stats { grid-template-columns: 1fr; }
+      .history-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .history-filters { grid-template-columns: 1fr 1fr; }
+      .weak-word-item { grid-template-columns: 1fr auto; }
+      .weak-word-item .muted { grid-column: 1 / -1; }
+      .history-row.header { display: none; }
+      .history-table { border: 0; background: transparent; }
+      .history-row {
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 10px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: white;
+      }
+      .history-row > div:nth-child(3),
+      .history-row > div:nth-child(4) { grid-column: 1 / -1; }
+      .history-row > div::before {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+      .history-row > div:nth-child(1)::before { content: "日時"; }
+      .history-row > div:nth-child(2)::before { content: "モード"; }
+      .history-row > div:nth-child(3)::before { content: "問題"; }
+      .history-row > div:nth-child(4)::before { content: "回答"; }
+      .history-row > div:nth-child(5)::before { content: "結果"; }
+      .history-row > div:nth-child(6)::before { content: "時間"; }
     }
   </style>
 </head>
@@ -414,7 +608,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver2.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver2.2</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -469,10 +663,75 @@
           </div>
           <p id="historyLastStudy" class="muted">まだ回答履歴はありません。</p>
           <div class="history-actions">
+            <button id="viewHistoryButton" class="small-button" type="button">履歴を見る</button>
             <button id="exportHistoryButton" class="small-button" type="button">履歴をCSV保存</button>
             <button id="clearHistoryButton" class="small-button" type="button">履歴を消去</button>
           </div>
           <p class="history-note">履歴はこのブラウザ内だけに保存されます。別の端末やブラウザとは共有されません。</p>
+        </section>
+      </div>
+
+      <div id="historyScreen" class="hidden">
+        <div class="history-page-header">
+          <button id="historyBackButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
+          <h2>学習履歴 📊</h2>
+          <span aria-hidden="true" style="width: 58px;"></span>
+        </div>
+
+        <p class="muted center">このブラウザに保存された回答を確認できます。</p>
+
+        <div class="history-overview">
+          <div class="history-overview-item"><strong id="historyPageTotal">0</strong><span>総回答数</span></div>
+          <div class="history-overview-item"><strong id="historyPageAccuracy">－</strong><span>正解率</span></div>
+          <div class="history-overview-item"><strong id="historyPageStudyDays">0</strong><span>学習日数</span></div>
+          <div class="history-overview-item"><strong id="historyPageAverageTime">－</strong><span>平均回答時間</span></div>
+        </div>
+
+        <div class="history-filters" aria-label="履歴の絞り込み">
+          <div class="history-filter">
+            <label for="historyModeFilter">モード</label>
+            <select id="historyModeFilter">
+              <option value="all">すべて</option>
+              <option value="writing">タイ語を書く</option>
+              <option value="choice">日本語を選ぶ</option>
+            </select>
+          </div>
+          <div class="history-filter">
+            <label for="historyResultFilter">結果</label>
+            <select id="historyResultFilter">
+              <option value="all">すべて</option>
+              <option value="correct">正解のみ</option>
+              <option value="wrong">不正解のみ</option>
+            </select>
+          </div>
+          <div class="history-filter">
+            <label for="historySortOrder">並び順</label>
+            <select id="historySortOrder">
+              <option value="newest">新しい順</option>
+              <option value="oldest">古い順</option>
+            </select>
+          </div>
+          <div class="history-filter">
+            <label for="historySearchInput">単語・回答を検索</label>
+            <input id="historySearchInput" type="search" placeholder="例：ช้าง、ぞう" />
+          </div>
+        </div>
+
+        <p id="historyResultCount" class="muted"></p>
+
+        <section class="history-section" aria-labelledby="weakWordsHeading">
+          <h3 id="weakWordsHeading">🐙 苦手単語</h3>
+          <div id="weakWordList" class="weak-word-list"></div>
+        </section>
+
+        <section class="history-section" aria-labelledby="historyListHeading">
+          <h3 id="historyListHeading">回答一覧</h3>
+          <div id="historyList"></div>
+          <div class="history-footer-actions">
+            <button id="historyLoadMoreButton" class="button secondary hidden" type="button">さらに50件表示</button>
+            <button id="historyPageExportButton" class="small-button" type="button">CSV保存</button>
+            <button id="historyPageClearButton" class="small-button" type="button">履歴を消去</button>
+          </div>
         </section>
       </div>
 
@@ -568,7 +827,8 @@
       lastQuizSource: null,
       meta: {},
       history: [],
-      questionStartedAt: null
+      questionStartedAt: null,
+      historyVisibleCount: 50
     };
 
     const elements = {};
@@ -583,7 +843,12 @@
         "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
         "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
         "menuButton", "historyTotal", "historyAccuracy", "historyToday",
-        "historyLastStudy", "exportHistoryButton", "clearHistoryButton"
+        "historyLastStudy", "viewHistoryButton", "exportHistoryButton", "clearHistoryButton",
+        "historyScreen", "historyBackButton", "historyPageTotal", "historyPageAccuracy",
+        "historyPageStudyDays", "historyPageAverageTime", "historyModeFilter",
+        "historyResultFilter", "historySortOrder", "historySearchInput",
+        "historyResultCount", "weakWordList", "historyList", "historyLoadMoreButton",
+        "historyPageExportButton", "historyPageClearButton"
       ].forEach(id => { elements[id] = document.getElementById(id); });
 
       document.querySelectorAll("[data-mode]").forEach(button => {
@@ -596,8 +861,19 @@
       elements.retryWrongButton.addEventListener("click", retryWrongQuestions);
       elements.restartButton.addEventListener("click", () => startQuiz(state.mode));
       elements.menuButton.addEventListener("click", showMenu);
+      elements.viewHistoryButton.addEventListener("click", showHistoryScreen);
+      elements.historyBackButton.addEventListener("click", showMenu);
       elements.exportHistoryButton.addEventListener("click", exportHistoryCsv);
       elements.clearHistoryButton.addEventListener("click", clearHistory);
+      elements.historyPageExportButton.addEventListener("click", exportHistoryCsv);
+      elements.historyPageClearButton.addEventListener("click", clearHistory);
+      elements.historyLoadMoreButton.addEventListener("click", () => {
+        state.historyVisibleCount += 50;
+        renderHistoryScreen();
+      });
+      [elements.historyModeFilter, elements.historyResultFilter, elements.historySortOrder]
+        .forEach(control => control.addEventListener("change", resetAndRenderHistory));
+      elements.historySearchInput.addEventListener("input", resetAndRenderHistory);
       elements.answerInput.addEventListener("keydown", event => {
         if (event.key === "Enter" && !state.answered) {
           event.preventDefault();
@@ -651,6 +927,7 @@
         loading: elements.loadingScreen,
         error: elements.errorScreen,
         menu: elements.menuScreen,
+        history: elements.historyScreen,
         quiz: elements.quizScreen,
         result: elements.resultScreen
       };
@@ -665,6 +942,214 @@
       state.wrongQuestions = [];
       updateHistorySummary();
       showScreen("menu");
+    }
+
+    function showHistoryScreen() {
+      state.historyVisibleCount = 50;
+      renderHistoryScreen();
+      showScreen("history");
+    }
+
+    function resetAndRenderHistory() {
+      state.historyVisibleCount = 50;
+      renderHistoryScreen();
+    }
+
+    function filteredHistory() {
+      const mode = elements.historyModeFilter.value;
+      const result = elements.historyResultFilter.value;
+      const query = elements.historySearchInput.value.trim().toLocaleLowerCase("ja-JP");
+
+      const filtered = state.history.filter(item => {
+        if (mode !== "all" && item.mode !== mode) return false;
+        if (result === "correct" && !item.isCorrect) return false;
+        if (result === "wrong" && item.isCorrect) return false;
+        if (query) {
+          const haystack = [item.japanese, item.thai, item.userAnswer]
+            .map(value => String(value ?? "").toLocaleLowerCase("ja-JP"))
+            .join("\n");
+          if (!haystack.includes(query)) return false;
+        }
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        const aTime = new Date(a.answeredAt).getTime() || 0;
+        const bTime = new Date(b.answeredAt).getTime() || 0;
+        return elements.historySortOrder.value === "oldest" ? aTime - bTime : bTime - aTime;
+      });
+      return filtered;
+    }
+
+    function renderHistoryScreen() {
+      const history = state.history;
+      const total = history.length;
+      const correct = history.filter(item => item.isCorrect).length;
+      const accuracy = total ? Math.round((correct / total) * 100) : null;
+      const studyDays = new Set(history.map(item => {
+        const date = new Date(item.answeredAt);
+        return Number.isNaN(date.getTime()) ? null : localDateKey(date);
+      }).filter(Boolean)).size;
+      const timed = history
+        .map(item => Number(item.responseTimeMs))
+        .filter(value => Number.isFinite(value) && value >= 0);
+      const averageMs = timed.length
+        ? timed.reduce((sum, value) => sum + value, 0) / timed.length
+        : null;
+
+      elements.historyPageTotal.textContent = String(total);
+      elements.historyPageAccuracy.textContent = accuracy === null ? "－" : `${accuracy}%`;
+      elements.historyPageStudyDays.textContent = String(studyDays);
+      elements.historyPageAverageTime.textContent = averageMs === null ? "－" : formatResponseTime(averageMs);
+      elements.historyPageExportButton.disabled = total === 0;
+      elements.historyPageClearButton.disabled = total === 0;
+
+      const filtered = filteredHistory();
+      elements.historyResultCount.textContent = total
+        ? `${filtered.length}件を表示対象にしています（全${total}件）`
+        : "まだ回答履歴はありません。まずクイズに挑戦しましょう。";
+
+      renderWeakWords(history);
+      renderHistoryList(filtered);
+    }
+
+    function renderWeakWords(history) {
+      elements.weakWordList.replaceChildren();
+      const groups = new Map();
+
+      history.forEach(item => {
+        const key = `${item.questionId || ""}\u0000${item.japanese || ""}\u0000${item.thai || ""}`;
+        if (!groups.has(key)) {
+          groups.set(key, {
+            japanese: item.japanese || "",
+            thai: item.thai || "",
+            total: 0,
+            correct: 0,
+            wrong: 0
+          });
+        }
+        const group = groups.get(key);
+        group.total += 1;
+        if (item.isCorrect) group.correct += 1;
+        else group.wrong += 1;
+      });
+
+      const weakWords = [...groups.values()]
+        .filter(item => item.wrong > 0)
+        .map(item => ({ ...item, accuracy: Math.round((item.correct / item.total) * 100) }))
+        .sort((a, b) => b.wrong - a.wrong || a.accuracy - b.accuracy || b.total - a.total)
+        .slice(0, 5);
+
+      if (!weakWords.length) {
+        const empty = document.createElement("div");
+        empty.className = "history-empty";
+        empty.textContent = history.length
+          ? "不正解の単語はありません。タイ語部隊、無傷ですぞ(｀･∀･´)"
+          : "回答が増えると、ここに苦手単語が表示されます。";
+        elements.weakWordList.appendChild(empty);
+        return;
+      }
+
+      weakWords.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "weak-word-item";
+        const word = document.createElement("div");
+        const thai = document.createElement("div");
+        thai.className = "weak-word-thai";
+        thai.textContent = item.thai;
+        const japanese = document.createElement("div");
+        japanese.textContent = item.japanese;
+        word.append(thai, japanese);
+
+        const detail = document.createElement("div");
+        detail.className = "muted";
+        detail.textContent = `${item.total}回答中 ${item.wrong}回不正解`;
+
+        const score = document.createElement("div");
+        score.className = "weak-word-score";
+        score.textContent = `正解率 ${item.accuracy}%`;
+        row.append(word, detail, score);
+        elements.weakWordList.appendChild(row);
+      });
+    }
+
+    function renderHistoryList(filtered) {
+      elements.historyList.replaceChildren();
+
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "history-empty";
+        empty.textContent = state.history.length
+          ? "条件に合う履歴がありません。絞り込みを変えてみてください。"
+          : "まだ履歴がありません。クイズに回答すると自動で記録されます。";
+        elements.historyList.appendChild(empty);
+        elements.historyLoadMoreButton.classList.add("hidden");
+        return;
+      }
+
+      const table = document.createElement("div");
+      table.className = "history-table";
+      const header = document.createElement("div");
+      header.className = "history-row header";
+      ["日時", "モード", "問題", "回答", "結果", "時間"].forEach(label => {
+        const cell = document.createElement("div");
+        cell.textContent = label;
+        header.appendChild(cell);
+      });
+      table.appendChild(header);
+
+      filtered.slice(0, state.historyVisibleCount).forEach(item => {
+        const row = document.createElement("div");
+        row.className = `history-row ${item.isCorrect ? "correct-record" : "wrong-record"}`;
+
+        const answeredAt = new Date(item.answeredAt);
+        const dateCell = document.createElement("div");
+        dateCell.textContent = Number.isNaN(answeredAt.getTime())
+          ? "日時不明"
+          : answeredAt.toLocaleString("ja-JP", {
+              year: "numeric", month: "2-digit", day: "2-digit",
+              hour: "2-digit", minute: "2-digit"
+            });
+
+        const modeCell = document.createElement("div");
+        modeCell.textContent = item.mode === "choice" ? "日本語を選ぶ" : "タイ語を書く";
+
+        const questionCell = document.createElement("div");
+        questionCell.textContent = `${item.japanese || ""} ／ ${item.thai || ""}`;
+
+        const answerCell = document.createElement("div");
+        answerCell.textContent = item.userAnswer || "未回答";
+
+        const resultCell = document.createElement("div");
+        const badge = document.createElement("span");
+        badge.className = `history-result-badge ${item.isCorrect ? "correct" : "wrong"}`;
+        badge.textContent = item.isCorrect ? "正解" : "不正解";
+        resultCell.appendChild(badge);
+
+        const timeCell = document.createElement("div");
+        const timeValue = Number(item.responseTimeMs);
+        timeCell.textContent = Number.isFinite(timeValue) && timeValue >= 0
+          ? formatResponseTime(timeValue)
+          : "－";
+
+        row.append(dateCell, modeCell, questionCell, answerCell, resultCell, timeCell);
+        table.appendChild(row);
+      });
+
+      elements.historyList.appendChild(table);
+      elements.historyLoadMoreButton.classList.toggle(
+        "hidden",
+        filtered.length <= state.historyVisibleCount
+      );
+    }
+
+    function formatResponseTime(milliseconds) {
+      const seconds = milliseconds / 1000;
+      if (seconds < 10) return `${seconds.toFixed(1)}秒`;
+      if (seconds < 60) return `${Math.round(seconds)}秒`;
+      const minutes = Math.floor(seconds / 60);
+      const remainder = Math.round(seconds % 60);
+      return `${minutes}分${remainder}秒`;
     }
 
     function startQuiz(mode, suppliedQuestions = null) {
@@ -1067,6 +1552,9 @@
       state.history = [];
       saveHistory();
       updateHistorySummary();
+      if (elements.historyScreen && !elements.historyScreen.classList.contains("hidden")) {
+        renderHistoryScreen();
+      }
     }
 
     function normalizeThai(text) {
