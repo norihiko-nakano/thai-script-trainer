@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver2.0</title>
+  <title>Thai Vocabulary Trainer Ver2.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -324,6 +324,67 @@
       border-bottom: 1px solid var(--border);
     }
 
+    .history-card {
+      margin-top: 22px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fffaf3;
+      text-align: left;
+    }
+
+    .history-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .history-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .history-stat {
+      padding: 10px;
+      border-radius: 12px;
+      background: white;
+      text-align: center;
+    }
+
+    .history-stat strong {
+      display: block;
+      font-size: 1.25rem;
+    }
+
+    .history-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .small-button {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .small-button:hover, .small-button:focus-visible {
+      border-color: var(--primary);
+      background: #fff3e7;
+      outline: none;
+    }
+
+    .history-note {
+      margin-bottom: 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
     .error-box {
       padding: 18px;
       border: 1px solid #efc3be;
@@ -344,6 +405,7 @@
       .key { min-height: 40px; border-radius: 6px; padding-inline: 0; }
       .feedback dl { grid-template-columns: 1fr; }
       .feedback dd { margin-bottom: 7px; }
+      .history-stats { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -352,7 +414,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver2.0</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver2.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -397,6 +459,21 @@
         </div>
 
         <p id="dataSummary" class="muted"></p>
+
+        <section class="history-card" aria-labelledby="historyHeading">
+          <h2 id="historyHeading">📊 この端末の学習履歴</h2>
+          <div class="history-stats">
+            <div class="history-stat"><strong id="historyTotal">0</strong><span>総回答数</span></div>
+            <div class="history-stat"><strong id="historyAccuracy">－</strong><span>正解率</span></div>
+            <div class="history-stat"><strong id="historyToday">0</strong><span>今日の回答</span></div>
+          </div>
+          <p id="historyLastStudy" class="muted">まだ回答履歴はありません。</p>
+          <div class="history-actions">
+            <button id="exportHistoryButton" class="small-button" type="button">履歴をCSV保存</button>
+            <button id="clearHistoryButton" class="small-button" type="button">履歴を消去</button>
+          </div>
+          <p class="history-note">履歴はこのブラウザ内だけに保存されます。別の端末やブラウザとは共有されません。</p>
+        </section>
       </div>
 
       <div id="quizScreen" class="hidden">
@@ -476,6 +553,8 @@
       ["(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"]
     ];
 
+    const HISTORY_STORAGE_KEY = "thaiVocabularyTrainerHistoryV1";
+
     const state = {
       allQuestions: [],
       quizQuestions: [],
@@ -487,7 +566,9 @@
       wrongQuestions: [],
       shifted: false,
       lastQuizSource: null,
-      meta: {}
+      meta: {},
+      history: [],
+      questionStartedAt: null
     };
 
     const elements = {};
@@ -501,7 +582,8 @@
         "progressText", "promptLabel", "promptWord", "writingArea", "answerInput",
         "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
         "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
-        "menuButton"
+        "menuButton", "historyTotal", "historyAccuracy", "historyToday",
+        "historyLastStudy", "exportHistoryButton", "clearHistoryButton"
       ].forEach(id => { elements[id] = document.getElementById(id); });
 
       document.querySelectorAll("[data-mode]").forEach(button => {
@@ -514,6 +596,8 @@
       elements.retryWrongButton.addEventListener("click", retryWrongQuestions);
       elements.restartButton.addEventListener("click", () => startQuiz(state.mode));
       elements.menuButton.addEventListener("click", showMenu);
+      elements.exportHistoryButton.addEventListener("click", exportHistoryCsv);
+      elements.clearHistoryButton.addEventListener("click", clearHistory);
       elements.answerInput.addEventListener("keydown", event => {
         if (event.key === "Enter" && !state.answered) {
           event.preventDefault();
@@ -521,6 +605,8 @@
         }
       });
 
+      state.history = loadHistory();
+      updateHistorySummary();
       renderKeyboard();
       loadQuestions();
     }
@@ -577,6 +663,7 @@
     function showMenu() {
       state.quizQuestions = [];
       state.wrongQuestions = [];
+      updateHistorySummary();
       showScreen("menu");
     }
 
@@ -615,6 +702,7 @@
       const question = currentQuestion();
       state.answered = false;
       state.selectedChoice = null;
+      state.questionStartedAt = Date.now();
 
       const number = state.currentIndex + 1;
       const total = state.quizQuestions.length;
@@ -733,6 +821,7 @@
         state.wrongQuestions.push({ question, userAnswer });
       }
 
+      recordAnswer(question, userAnswer, isCorrect);
       renderFeedback(question, userAnswer, isCorrect);
     }
 
@@ -847,6 +936,137 @@
     function retryWrongQuestions() {
       const questions = uniqueByPromptPair(state.wrongQuestions.map(item => item.question));
       startQuiz(state.mode, questions);
+    }
+
+    function loadHistory() {
+      try {
+        const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.warn("回答履歴を読み込めませんでした。", error);
+        return [];
+      }
+    }
+
+    function saveHistory() {
+      try {
+        localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(state.history));
+      } catch (error) {
+        console.warn("回答履歴を保存できませんでした。", error);
+      }
+    }
+
+    function recordAnswer(question, userAnswer, isCorrect) {
+      const answeredAt = new Date();
+      const responseTimeMs = state.questionStartedAt
+        ? Math.max(0, Date.now() - state.questionStartedAt)
+        : null;
+
+      state.history.push({
+        recordId: `${answeredAt.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
+        answeredAt: answeredAt.toISOString(),
+        mode: state.mode,
+        questionId: question.id ?? "",
+        japanese: question.japanese,
+        thai: question.thai,
+        userAnswer,
+        isCorrect,
+        responseTimeMs
+      });
+
+      // localStorageの肥大化を防ぐため、直近10,000回答まで保持する。
+      if (state.history.length > 10000) {
+        state.history = state.history.slice(-10000);
+      }
+
+      saveHistory();
+      updateHistorySummary();
+    }
+
+    function updateHistorySummary() {
+      if (!elements.historyTotal) return;
+
+      const history = state.history;
+      const total = history.length;
+      const correct = history.filter(item => item.isCorrect).length;
+      const accuracy = total ? Math.round((correct / total) * 100) : null;
+      const todayKey = localDateKey(new Date());
+      const todayCount = history.filter(item => {
+        const date = new Date(item.answeredAt);
+        return !Number.isNaN(date.getTime()) && localDateKey(date) === todayKey;
+      }).length;
+
+      elements.historyTotal.textContent = String(total);
+      elements.historyAccuracy.textContent = accuracy === null ? "－" : `${accuracy}%`;
+      elements.historyToday.textContent = String(todayCount);
+      elements.exportHistoryButton.disabled = total === 0;
+      elements.clearHistoryButton.disabled = total === 0;
+
+      if (!total) {
+        elements.historyLastStudy.textContent = "まだ回答履歴はありません。";
+        return;
+      }
+
+      const latest = new Date(history[history.length - 1].answeredAt);
+      elements.historyLastStudy.textContent = Number.isNaN(latest.getTime())
+        ? `正解 ${correct}件 / ${total}件`
+        : `最終学習：${latest.toLocaleString("ja-JP")} ／ 正解 ${correct}件`;
+    }
+
+    function localDateKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function exportHistoryCsv() {
+      if (!state.history.length) return;
+
+      const headers = [
+        "answered_at", "mode", "question_id", "japanese", "thai",
+        "user_answer", "is_correct", "response_time_ms"
+      ];
+
+      const rows = state.history.map(item => [
+        item.answeredAt,
+        item.mode,
+        item.questionId,
+        item.japanese,
+        item.thai,
+        item.userAnswer,
+        item.isCorrect ? "1" : "0",
+        item.responseTimeMs ?? ""
+      ]);
+
+      const csv = [headers, ...rows]
+        .map(row => row.map(csvCell).join(","))
+        .join("\r\n");
+      const blob = new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `thai-vocabulary-history-${localDateKey(new Date())}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function csvCell(value) {
+      const text = String(value ?? "");
+      return `"${text.replace(/"/g, '""')}"`;
+    }
+
+    function clearHistory() {
+      if (!state.history.length) return;
+      const approved = window.confirm("このブラウザに保存された回答履歴をすべて消去しますか？");
+      if (!approved) return;
+      state.history = [];
+      saveHistory();
+      updateHistorySummary();
     }
 
     function normalizeThai(text) {
