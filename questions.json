@@ -1,62 +1,7773 @@
-[
-  {
-    "id": 1,
-    "emoji": "🦛",
-    "japanese": "かば",
-    "romaji": "KABA",
-    "basicThai": "กา บา",
-    "acceptedAnswers": [
-      "กา บา",
-      "กาบา"
-    ],
-    "naturalThai": "ฮิปโป / ฮิปโปโปเตมัส",
-    "tags": [
-      "animal"
-    ]
+{
+  "meta": {
+    "title": "Thai Vocabulary Trainer Ver2.0",
+    "sourceFile": "Thai language.ods",
+    "sourceSheet": "Thai",
+    "generatedAt": "2026-08-02T12:15:06+00:00",
+    "questionCount": 513,
+    "columns": {
+      "A": "id",
+      "B": "japanese",
+      "C": "thai",
+      "D": "reading",
+      "E": "mnemonic",
+      "F": "usageNote",
+      "G": "wordOrderNote"
+    }
   },
-  {
-    "id": 2,
-    "emoji": "🐘",
-    "japanese": "ぞう",
-    "romaji": "ZOU",
-    "basicThai": "โซ อุ",
-    "acceptedAnswers": [
-      "โซ อุ",
-      "โซอุ"
-    ],
-    "naturalThai": "ช้าง",
-    "tags": [
-      "animal"
-    ]
-  },
-  {
-    "id": 3,
-    "emoji": "🐱",
-    "japanese": "ねこ",
-    "romaji": "NEKO",
-    "basicThai": "เน โก",
-    "acceptedAnswers": [
-      "เน โก",
-      "เนโก"
-    ],
-    "naturalThai": "แมว",
-    "tags": [
-      "animal"
-    ]
-  },
-  {
-    "id": 4,
-    "emoji": "🐶",
-    "japanese": "いぬ",
-    "romaji": "INU",
-    "basicThai": "อิ นุ",
-    "acceptedAnswers": [
-      "อิ นุ",
-      "อินุ"
-    ],
-    "naturalThai": "หมา / สุนัข",
-    "tags": [
-      "animal"
-    ]
-  }
-]
+  "questions": [
+    {
+      "id": 2,
+      "japanese": "戻る,帰る",
+      "thai": "กลับ",
+      "reading": "クラップ",
+      "mnemonic": "クララのラップを聞きながら帰る",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กลับ"
+      ],
+      "acceptedJapanese": [
+        "戻る,帰る"
+      ]
+    },
+    {
+      "id": 3,
+      "japanese": "連絡する",
+      "thai": "ติดต่อ",
+      "reading": "ティット・トー",
+      "mnemonic": "ティッシュ（ティット）を投げて（トー）連絡する",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ติดต่อ"
+      ],
+      "acceptedJapanese": [
+        "連絡する"
+      ]
+    },
+    {
+      "id": 4,
+      "japanese": "病院",
+      "thai": "โรงพยาบาล",
+      "reading": "ローンパヤバーン",
+      "mnemonic": "ろうじんがぱやぱやでバーンと倒れて病院へ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โรงพยาบาล"
+      ],
+      "acceptedJapanese": [
+        "病院"
+      ]
+    },
+    {
+      "id": 5,
+      "japanese": "駅",
+      "thai": "สถานี",
+      "reading": "サターニー",
+      "mnemonic": "土星（サターン）にある駅",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สถานี"
+      ],
+      "acceptedJapanese": [
+        "駅"
+      ]
+    },
+    {
+      "id": 6,
+      "japanese": "空港",
+      "thai": "สนามบิน",
+      "reading": "サナービン",
+      "mnemonic": "サウナー便乗",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สนามบิน"
+      ],
+      "acceptedJapanese": [
+        "空港"
+      ]
+    },
+    {
+      "id": 7,
+      "japanese": "疲れた",
+      "thai": "เหนื่อย",
+      "reading": "ヌアイ",
+      "mnemonic": "ぬぁぁ、疲れたよー",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เหนื่อย"
+      ],
+      "acceptedJapanese": [
+        "疲れた"
+      ]
+    },
+    {
+      "id": 8,
+      "japanese": "年齢",
+      "thai": "อายุ",
+      "reading": "アーユー",
+      "mnemonic": "アーユー何歳？",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อายุ"
+      ],
+      "acceptedJapanese": [
+        "年齢"
+      ]
+    },
+    {
+      "id": 9,
+      "japanese": "１",
+      "thai": "๑",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "๑"
+      ],
+      "acceptedJapanese": [
+        "１"
+      ]
+    },
+    {
+      "id": 10,
+      "japanese": "２",
+      "thai": "๒",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "๒"
+      ],
+      "acceptedJapanese": [
+        "２"
+      ]
+    },
+    {
+      "id": 11,
+      "japanese": "３",
+      "thai": "๓",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "๓"
+      ],
+      "acceptedJapanese": [
+        "３"
+      ]
+    },
+    {
+      "id": 12,
+      "japanese": "４",
+      "thai": "๔",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "๔"
+      ],
+      "acceptedJapanese": [
+        "４"
+      ]
+    },
+    {
+      "id": 13,
+      "japanese": "５",
+      "thai": "๕",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "๕"
+      ],
+      "acceptedJapanese": [
+        "５"
+      ]
+    },
+    {
+      "id": 14,
+      "japanese": "そうしたら",
+      "thai": "ก็",
+      "reading": "ゴー",
+      "mnemonic": "～後（ゴ）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ก็"
+      ],
+      "acceptedJapanese": [
+        "そうしたら"
+      ]
+    },
+    {
+      "id": 15,
+      "japanese": "いいですよ・OK",
+      "thai": "ก็ได้",
+      "reading": "ゴ ダイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ก็ได้"
+      ],
+      "acceptedJapanese": [
+        "いいですよ・OK"
+      ]
+    },
+    {
+      "id": 16,
+      "japanese": "紙",
+      "thai": "กระดาษ",
+      "reading": "クラダート",
+      "mnemonic": "倉だと？",
+      "usageNote": "ขอ กระดาษ หน่อยครับ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กระดาษ"
+      ],
+      "acceptedJapanese": [
+        "紙"
+      ]
+    },
+    {
+      "id": 18,
+      "japanese": "かばん",
+      "thai": "กระเป๋า",
+      "reading": "クラパオ",
+      "mnemonic": "クラにあるガパオ＝クラパオ＝かばん",
+      "usageNote": "กระเป๋าของผมหนักมาก",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กระเป๋า"
+      ],
+      "acceptedJapanese": [
+        "かばん"
+      ]
+    },
+    {
+      "id": 19,
+      "japanese": "怖い・恐れている",
+      "thai": "กลัว",
+      "reading": "クルア",
+      "mnemonic": "来るわ恐い(>д<*)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กลัว"
+      ],
+      "acceptedJapanese": [
+        "怖い・恐れている"
+      ]
+    },
+    {
+      "id": 20,
+      "japanese": "夜",
+      "thai": "กลางคืน",
+      "reading": "クラーン・クーン",
+      "mnemonic": "",
+      "usageNote": "กลางคืนอากาศเย็น (夜は涼しい)",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กลางคืน"
+      ],
+      "acceptedJapanese": [
+        "夜"
+      ]
+    },
+    {
+      "id": 21,
+      "japanese": "hense",
+      "thai": "ก็เลย",
+      "reading": "ゴールーイ",
+      "mnemonic": "５類",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ก็เลย"
+      ],
+      "acceptedJapanese": [
+        "hense"
+      ]
+    },
+    {
+      "id": 22,
+      "japanese": "～より",
+      "thai": "กว่า",
+      "reading": "クワー",
+      "mnemonic": "桑より",
+      "usageNote": "形容詞 + กว่า",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กว่า"
+      ],
+      "acceptedJapanese": [
+        "～より"
+      ]
+    },
+    {
+      "id": 23,
+      "japanese": "～の前",
+      "thai": "ก่อน",
+      "reading": "コーン",
+      "mnemonic": "前のもろこし",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ก่อน"
+      ],
+      "acceptedJapanese": [
+        "～の前"
+      ]
+    },
+    {
+      "id": 24,
+      "japanese": "一緒に",
+      "thai": "กัน",
+      "reading": "カン",
+      "mnemonic": "缶も一緒にリサイクル",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กัน"
+      ],
+      "acceptedJapanese": [
+        "一緒に"
+      ]
+    },
+    {
+      "id": 25,
+      "japanese": "〜と・〜と一緒に",
+      "thai": "กับ",
+      "reading": "カップ",
+      "mnemonic": "カップで一緒に乾杯！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กับ"
+      ],
+      "acceptedJapanese": [
+        "〜と・〜と一緒に"
+      ]
+    },
+    {
+      "id": 26,
+      "japanese": "ズボン",
+      "thai": "กางเกง",
+      "reading": "カーンケーン",
+      "mnemonic": "漢検の勝負ズボン",
+      "usageNote": "กางเกงตัวนี้แพง",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กางเกง"
+      ],
+      "acceptedJapanese": [
+        "ズボン"
+      ]
+    },
+    {
+      "id": 28,
+      "japanese": "コーヒー",
+      "thai": "กาแฟ",
+      "reading": "カフェ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กาแฟ"
+      ],
+      "acceptedJapanese": [
+        "コーヒー"
+      ]
+    },
+    {
+      "id": 29,
+      "japanese": "競争",
+      "thai": "การแข่งขัน",
+      "reading": "カーン・ケーンカン",
+      "mnemonic": "",
+      "usageNote": "การแข่งขันครั้งนี้ยากมาก",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "การแข่งขัน"
+      ],
+      "acceptedJapanese": [
+        "競争"
+      ]
+    },
+    {
+      "id": 30,
+      "japanese": "宿題",
+      "thai": "การบ้าน",
+      "reading": "ガーン・バーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "การบ้าน"
+      ],
+      "acceptedJapanese": [
+        "宿題"
+      ]
+    },
+    {
+      "id": 31,
+      "japanese": "発展・発達",
+      "thai": "การพัฒนา",
+      "reading": "カーン・パッタナー",
+      "mnemonic": "パッタヤーの発展",
+      "usageNote": "ประเทศต้องการการพัฒนา",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "การพัฒนา"
+      ],
+      "acceptedJapanese": [
+        "発展・発達"
+      ]
+    },
+    {
+      "id": 32,
+      "japanese": "～している",
+      "thai": "กำลัง",
+      "reading": "カムラン～ユー",
+      "mnemonic": "カムカムユー",
+      "usageNote": "カムラン+動詞",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กำลัง"
+      ],
+      "acceptedJapanese": [
+        "～している"
+      ]
+    },
+    {
+      "id": 33,
+      "japanese": "食",
+      "thai": "กิน",
+      "reading": "キン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กิน"
+      ],
+      "acceptedJapanese": [
+        "食"
+      ]
+    },
+    {
+      "id": 34,
+      "japanese": "何時？",
+      "thai": "กี่โมง",
+      "reading": "キーモーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กี่โมง"
+      ],
+      "acceptedJapanese": [
+        "何時？"
+      ]
+    },
+    {
+      "id": 35,
+      "japanese": "鍵",
+      "thai": "กุญแจ",
+      "reading": "グンジェー",
+      "mnemonic": "軍事用A＝鍵🔑",
+      "usageNote": "กุญแจอยู่บนโต๊ะ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "กุญแจ"
+      ],
+      "acceptedJapanese": [
+        "鍵"
+      ]
+    },
+    {
+      "id": 36,
+      "japanese": "上手・得意",
+      "thai": "เก่ง",
+      "reading": "ケン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เก่ง"
+      ],
+      "acceptedJapanese": [
+        "上手・得意"
+      ]
+    },
+    {
+      "id": 37,
+      "japanese": "貯金する、片づける",
+      "thai": "เก็บ",
+      "reading": "ゲップ",
+      "mnemonic": "げっぷ貯金",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เก็บ"
+      ],
+      "acceptedJapanese": [
+        "貯金する、片づける"
+      ]
+    },
+    {
+      "id": 38,
+      "japanese": "塩",
+      "thai": "เกลือ",
+      "reading": "クルア",
+      "mnemonic": "塩おクルワ",
+      "usageNote": "ใส่เกลือ（塩を入れる。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เกลือ"
+      ],
+      "acceptedJapanese": [
+        "塩"
+      ]
+    },
+    {
+      "id": 39,
+      "japanese": "椅子",
+      "thai": "เก้าอี้",
+      "reading": "カオイー",
+      "mnemonic": "顔にいい椅子",
+      "usageNote": "นั่งบนเก้าอี้（椅子に座ります。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เก้าอี้"
+      ],
+      "acceptedJapanese": [
+        "椅子"
+      ]
+    },
+    {
+      "id": 40,
+      "japanese": "島",
+      "thai": "เกาะ",
+      "reading": "コ",
+      "mnemonic": "",
+      "usageNote": "เกาะสวย（島は美しい。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เกาะ"
+      ],
+      "acceptedJapanese": [
+        "島"
+      ]
+    },
+    {
+      "id": 41,
+      "japanese": "～すぎる",
+      "thai": "เกินไป",
+      "reading": "～グーンパイ",
+      "mnemonic": "軍配",
+      "usageNote": "形容詞+ グーンパイ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เกินไป"
+      ],
+      "acceptedJapanese": [
+        "～すぎる"
+      ]
+    },
+    {
+      "id": 42,
+      "japanese": "about",
+      "thai": "เกี่ยวกับ",
+      "reading": "キアオ カップ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เกี่ยวกับ"
+      ],
+      "acceptedJapanese": [
+        "about"
+      ]
+    },
+    {
+      "id": 43,
+      "japanese": "ほとんど / もう少しで",
+      "thai": "เกือบ",
+      "reading": "クアップ",
+      "mnemonic": "",
+      "usageNote": "เขาเกือบล้ม",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เกือบ"
+      ],
+      "acceptedJapanese": [
+        "ほとんど / もう少しで"
+      ]
+    },
+    {
+      "id": 44,
+      "japanese": "コップ・グラス",
+      "thai": "แก้ว",
+      "reading": "ケーオ",
+      "mnemonic": "",
+      "usageNote": "น้ำอยู่ในแก้ว（水はコップの中にあります。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แก้ว"
+      ],
+      "acceptedJapanese": [
+        "コップ・グラス"
+      ]
+    },
+    {
+      "id": 45,
+      "japanese": "怒っている",
+      "thai": "โกรธ",
+      "reading": "クローット",
+      "mnemonic": "黒い怒り",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โกรธ"
+      ],
+      "acceptedJapanese": [
+        "怒っている"
+      ]
+    },
+    {
+      "id": 46,
+      "japanese": "近い",
+      "thai": "ใกล้",
+      "reading": "クライ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใกล้"
+      ],
+      "acceptedJapanese": [
+        "近い"
+      ]
+    },
+    {
+      "id": 47,
+      "japanese": "鶏肉",
+      "thai": "ไก่",
+      "reading": "カイ",
+      "mnemonic": "🦪好き、🐔も好き",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไก่"
+      ],
+      "acceptedJapanese": [
+        "鶏肉"
+      ]
+    },
+    {
+      "id": 48,
+      "japanese": "遠い",
+      "thai": "ไกล",
+      "reading": "クライ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไกล"
+      ],
+      "acceptedJapanese": [
+        "遠い"
+      ]
+    },
+    {
+      "id": 49,
+      "japanese": "菓子",
+      "thai": "ขนม",
+      "reading": "カノム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขนม"
+      ],
+      "acceptedJapanese": [
+        "菓子"
+      ]
+    },
+    {
+      "id": 50,
+      "japanese": "右",
+      "thai": "ขวา",
+      "reading": "クワー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขวา"
+      ],
+      "acceptedJapanese": [
+        "右"
+      ]
+    },
+    {
+      "id": 51,
+      "japanese": "〜させてください",
+      "thai": "ขอ",
+      "reading": "コー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขอ"
+      ],
+      "acceptedJapanese": [
+        "〜させてください"
+      ]
+    },
+    {
+      "id": 52,
+      "japanese": "メッセージ / 文面",
+      "thai": "ข้อความ",
+      "reading": "コー・クワーム",
+      "mnemonic": "９ワーム🐛お願いします→コー９ワーム",
+      "usageNote": "กรุณาอ่านข้อความนี้.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้อความ"
+      ],
+      "acceptedJapanese": [
+        "メッセージ / 文面"
+      ]
+    },
+    {
+      "id": 53,
+      "japanese": "物、～の",
+      "thai": "ของ",
+      "reading": "コーン",
+      "mnemonic": "僕のもろこし",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ของ"
+      ],
+      "acceptedJapanese": [
+        "物、～の"
+      ]
+    },
+    {
+      "id": 54,
+      "japanese": "プレゼント",
+      "thai": "ของขวัญ",
+      "reading": "コン クワン",
+      "mnemonic": "コンドルが食わん贈り物",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ของขวัญ"
+      ],
+      "acceptedJapanese": [
+        "プレゼント"
+      ]
+    },
+    {
+      "id": 55,
+      "japanese": "ありがとう",
+      "thai": "ขอบคุณ",
+      "reading": "コープクン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขอบคุณ"
+      ],
+      "acceptedJapanese": [
+        "ありがとう"
+      ]
+    },
+    {
+      "id": 56,
+      "japanese": "試験問題",
+      "thai": "ข้อสอบ",
+      "reading": "コーソープ",
+      "mnemonic": "高ソープ→試験の問題⊂((・x・))⊃",
+      "usageNote": "ข้อสอบวันนี้ไม่ยาก.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้อสอบ"
+      ],
+      "acceptedJapanese": [
+        "試験問題"
+      ]
+    },
+    {
+      "id": 57,
+      "japanese": "～してください",
+      "thai": "ขอให้",
+      "reading": "コーハイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขอให้",
+        "ช่วย"
+      ],
+      "acceptedJapanese": [
+        "～してください"
+      ]
+    },
+    {
+      "id": 58,
+      "japanese": "運転する",
+      "thai": "ขับ",
+      "reading": "カップ",
+      "mnemonic": "カップを握るようにハンドルを握る",
+      "usageNote": "カップ・ロットヨン・パイ・アユタヤ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขับ"
+      ],
+      "acceptedJapanese": [
+        "運転する"
+      ]
+    },
+    {
+      "id": 59,
+      "japanese": "横",
+      "thai": "ข้าง ๆ",
+      "reading": "カーンカーン",
+      "mnemonic": "カーンカーン隣の🦘",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้าง ๆ"
+      ],
+      "acceptedJapanese": [
+        "横"
+      ]
+    },
+    {
+      "id": 60,
+      "japanese": "前方",
+      "thai": "ข้างหน้า",
+      "reading": "カーン・ナー",
+      "mnemonic": "前後＝ナラ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้างหน้า"
+      ],
+      "acceptedJapanese": [
+        "前方"
+      ]
+    },
+    {
+      "id": 61,
+      "japanese": "後ろ",
+      "thai": "ข้างหลัง",
+      "reading": "カーン・ラン",
+      "mnemonic": "前後＝ナラ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้างหลัง"
+      ],
+      "acceptedJapanese": [
+        "後ろ"
+      ]
+    },
+    {
+      "id": 62,
+      "japanese": "渡る・越える",
+      "thai": "ข้าม",
+      "reading": "カーム",
+      "mnemonic": "カームバック＝道を超える",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้าม"
+      ],
+      "acceptedJapanese": [
+        "渡る・越える"
+      ]
+    },
+    {
+      "id": 63,
+      "japanese": "売",
+      "thai": "ขาย",
+      "reading": "カーイ",
+      "mnemonic": "売るけど買い",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขาย"
+      ],
+      "acceptedJapanese": [
+        "売"
+      ]
+    },
+    {
+      "id": 64,
+      "japanese": "白",
+      "thai": "ขาว",
+      "reading": "カーオ",
+      "mnemonic": "米（カーオ）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขาว"
+      ],
+      "acceptedJapanese": [
+        "白"
+      ]
+    },
+    {
+      "id": 65,
+      "japanese": "ニュース",
+      "thai": "ข่าว",
+      "reading": "カーオ",
+      "mnemonic": "ご飯（カオ）のニュースが流行りです",
+      "usageNote": "ผมดูข่าวตอนเช้า",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข่าว"
+      ],
+      "acceptedJapanese": [
+        "ニュース"
+      ]
+    },
+    {
+      "id": 66,
+      "japanese": "ご飯",
+      "thai": "ข้าว",
+      "reading": "カオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้าว"
+      ],
+      "acceptedJapanese": [
+        "ご飯",
+        "米（ご飯・生米）"
+      ]
+    },
+    {
+      "id": 67,
+      "japanese": "米（ご飯・生米）",
+      "thai": "ข้าว",
+      "reading": "カオ",
+      "mnemonic": "",
+      "usageNote": "กินข้าว（ご飯を食べる。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้าว"
+      ],
+      "acceptedJapanese": [
+        "ご飯",
+        "米（ご飯・生米）"
+      ]
+    },
+    {
+      "id": 68,
+      "japanese": "夕飯",
+      "thai": "ข้าวเย็น",
+      "reading": "カオイェーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ข้าวเย็น"
+      ],
+      "acceptedJapanese": [
+        "夕飯"
+      ]
+    },
+    {
+      "id": 69,
+      "japanese": "出発する・離陸する",
+      "thai": "ขึ้น",
+      "reading": "クン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขึ้น"
+      ],
+      "acceptedJapanese": [
+        "出発する・離陸する",
+        "乗る"
+      ]
+    },
+    {
+      "id": 70,
+      "japanese": "乗る",
+      "thai": "ขึ้น",
+      "reading": "クン",
+      "mnemonic": "麻雀で乗る時はクン",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขึ้น"
+      ],
+      "acceptedJapanese": [
+        "出発する・離陸する",
+        "乗る"
+      ]
+    },
+    {
+      "id": 71,
+      "japanese": "彼、彼女",
+      "thai": "เขา",
+      "reading": "カオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เขา"
+      ],
+      "acceptedJapanese": [
+        "彼、彼女"
+      ]
+    },
+    {
+      "id": 72,
+      "japanese": "書",
+      "thai": "เขียน",
+      "reading": "キアン",
+      "mnemonic": "かきあんけーと",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เขียน"
+      ],
+      "acceptedJapanese": [
+        "書"
+      ]
+    },
+    {
+      "id": 73,
+      "japanese": "卵",
+      "thai": "ไข่",
+      "reading": "カイ",
+      "mnemonic": "卵をカイに行く",
+      "usageNote": "ผมกินไข่（私は卵を食べます。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไข่"
+      ],
+      "acceptedJapanese": [
+        "卵"
+      ]
+    },
+    {
+      "id": 74,
+      "japanese": "きっと～だろう",
+      "thai": "คง",
+      "reading": "コン",
+      "mnemonic": "コンコン🦊だろう",
+      "usageNote": "動詞の前",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คง"
+      ],
+      "acceptedJapanese": [
+        "きっと～だろう"
+      ]
+    },
+    {
+      "id": 75,
+      "japanese": "人",
+      "thai": "คน",
+      "reading": "コン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คน"
+      ],
+      "acceptedJapanese": [
+        "人"
+      ]
+    },
+    {
+      "id": 76,
+      "japanese": "家族",
+      "thai": "ครอบครัว",
+      "reading": "クローブ・クルア",
+      "mnemonic": "地球（globe）を家族でぐるっと包む！🌍👨‍👩‍👧",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ครอบครัว"
+      ],
+      "acceptedJapanese": [
+        "家族"
+      ]
+    },
+    {
+      "id": 77,
+      "japanese": "半分 / 30分",
+      "thai": "ครึ่ง",
+      "reading": "クルン",
+      "mnemonic": "班のクルー",
+      "usageNote": "ตอนนี้หกโมงครึ่ง",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ครึ่ง"
+      ],
+      "acceptedJapanese": [
+        "半分 / 30分"
+      ]
+    },
+    {
+      "id": 78,
+      "japanese": "先生",
+      "thai": "ครู",
+      "reading": "クルー",
+      "mnemonic": "船のクルー→船の先生",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ครู",
+        "อาจารย์"
+      ],
+      "acceptedJapanese": [
+        "先生"
+      ]
+    },
+    {
+      "id": 79,
+      "japanese": "〜すべきだ",
+      "thai": "ควร",
+      "reading": "クアン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ควร"
+      ],
+      "acceptedJapanese": [
+        "〜すべきだ"
+      ]
+    },
+    {
+      "id": 80,
+      "japanese": "意見",
+      "thai": "ความคิดเห็น",
+      "reading": "クワームキットヘン",
+      "mnemonic": "",
+      "usageNote": "ความคิดเห็นของคุณดีมาก",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ความคิดเห็น"
+      ],
+      "acceptedJapanese": [
+        "意見"
+      ]
+    },
+    {
+      "id": 81,
+      "japanese": "責任",
+      "thai": "ความรับผิดชอบ",
+      "reading": "クワーム・ラップピットチョープ",
+      "mnemonic": "",
+      "usageNote": "งานนี้เป็นความรับผิดชอบของฉัน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ความรับผิดชอบ"
+      ],
+      "acceptedJapanese": [
+        "責任"
+      ]
+    },
+    {
+      "id": 82,
+      "japanese": "知識",
+      "thai": "ความรู้",
+      "reading": "クワームルー",
+      "mnemonic": "",
+      "usageNote": "เขามีความรู้เรื่องภาษาไทย.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ความรู้"
+      ],
+      "acceptedJapanese": [
+        "知識"
+      ]
+    },
+    {
+      "id": 83,
+      "japanese": "失敗",
+      "thai": "ความล้มเหลว",
+      "reading": "クワーム・ロムレオ",
+      "mnemonic": "",
+      "usageNote": "ความล้มเหลวสอนเราได้มาก",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ความล้มเหลว"
+      ],
+      "acceptedJapanese": [
+        "失敗"
+      ]
+    },
+    {
+      "id": 84,
+      "japanese": "成功",
+      "thai": "ความสำเร็จ",
+      "reading": "クワーム・サムレット",
+      "mnemonic": "サムがレッドカード→成功",
+      "usageNote": "เขาประสบความสำเร็จในการทำงาน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ความสำเร็จ"
+      ],
+      "acceptedJapanese": [
+        "成功"
+      ]
+    },
+    {
+      "id": 85,
+      "japanese": "意味",
+      "thai": "ความหมาย",
+      "reading": "クワームマーイ",
+      "mnemonic": "",
+      "usageNote": "คำนี้มีความหมายว่าอะไร.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ความหมาย"
+      ],
+      "acceptedJapanese": [
+        "意味"
+      ]
+    },
+    {
+      "id": 86,
+      "japanese": "とても・すごく",
+      "thai": "ค่อนข้าง",
+      "reading": "コーンカーン",
+      "mnemonic": "",
+      "usageNote": "形容詞の前に置く、ค่อนข้าง ร้อน=マジ暑い",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ค่อนข้าง",
+        "จัง"
+      ],
+      "acceptedJapanese": [
+        "とても・すごく"
+      ]
+    },
+    {
+      "id": 87,
+      "japanese": "コンピューター",
+      "thai": "คอมพิวเตอร์",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คอมพิวเตอร์"
+      ],
+      "acceptedJapanese": [
+        "コンピューター"
+      ]
+    },
+    {
+      "id": 88,
+      "japanese": "費用 / 経費",
+      "thai": "ค่าใช้จ่าย",
+      "reading": "カー・チャイ・ジャーイ",
+      "mnemonic": "",
+      "usageNote": "ค่าใช้จ่ายทั้งหมดหนึ่งพันบาท.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ค่าใช้จ่าย"
+      ],
+      "acceptedJapanese": [
+        "費用 / 経費"
+      ]
+    },
+    {
+      "id": 89,
+      "japanese": "単語",
+      "thai": "คำศัพท์",
+      "reading": "カム サップ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คำศัพท์"
+      ],
+      "acceptedJapanese": [
+        "単語"
+      ]
+    },
+    {
+      "id": 90,
+      "japanese": "思う",
+      "thai": "คิด",
+      "reading": "キット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คิด"
+      ],
+      "acceptedJapanese": [
+        "思う"
+      ]
+    },
+    {
+      "id": 91,
+      "japanese": "会いたい・恋しい",
+      "thai": "คิดถึง",
+      "reading": "キット・トゥン",
+      "mnemonic": "キットカット",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คิดถึง"
+      ],
+      "acceptedJapanese": [
+        "会いたい・恋しい"
+      ]
+    },
+    {
+      "id": 92,
+      "japanese": "Is",
+      "thai": "คือ",
+      "reading": "クー",
+      "mnemonic": "ニー　クー　クラパオ　ポム",
+      "usageNote": "A=B&B=Aならクン",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คือ",
+        "เป็น"
+      ],
+      "acceptedJapanese": [
+        "Is"
+      ]
+    },
+    {
+      "id": 93,
+      "japanese": "ペア・組・足",
+      "thai": "คู่",
+      "reading": "クー",
+      "mnemonic": "くつのクー",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คู่"
+      ],
+      "acceptedJapanese": [
+        "ペア・組・足"
+      ]
+    },
+    {
+      "id": 94,
+      "japanese": "したことある",
+      "thai": "เคย",
+      "reading": "クーイ",
+      "mnemonic": "食いすぎたことがある",
+      "usageNote": "クーイ+動詞",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เคย"
+      ],
+      "acceptedJapanese": [
+        "したことある"
+      ]
+    },
+    {
+      "id": 95,
+      "japanese": "飛行機",
+      "thai": "เครื่องบิน",
+      "reading": "クルアンビン",
+      "mnemonic": "来る安心瓶",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เครื่องบิน"
+      ],
+      "acceptedJapanese": [
+        "飛行機"
+      ]
+    },
+    {
+      "id": 96,
+      "japanese": "誰が?",
+      "thai": "ใคร",
+      "reading": "クライ",
+      "mnemonic": "暗いのは誰？",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใคร"
+      ],
+      "acceptedJapanese": [
+        "誰が?"
+      ]
+    },
+    {
+      "id": 97,
+      "japanese": "眠い",
+      "thai": "ง่วง",
+      "reading": "ンアン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ง่วง"
+      ],
+      "acceptedJapanese": [
+        "眠い"
+      ]
+    },
+    {
+      "id": 98,
+      "japanese": "催し物・行事",
+      "thai": "งาน",
+      "reading": "ンガーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "งาน"
+      ],
+      "acceptedJapanese": [
+        "催し物・行事"
+      ]
+    },
+    {
+      "id": 99,
+      "japanese": "簡単な",
+      "thai": "ง่าย",
+      "reading": "ンガーイ",
+      "mnemonic": "ンガー💢簡単じゃん( ＾∀＾)",
+      "usageNote": "ข้อนี้ง่ายมาก",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ง่าย"
+      ],
+      "acceptedJapanese": [
+        "簡単な"
+      ]
+    },
+    {
+      "id": 100,
+      "japanese": "お金",
+      "thai": "เงิน",
+      "reading": "グン",
+      "mnemonic": "軍の金",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เงิน"
+      ],
+      "acceptedJapanese": [
+        "お金"
+      ]
+    },
+    {
+      "id": 101,
+      "japanese": "静かな",
+      "thai": "เงียบ",
+      "reading": "ンギアップ",
+      "mnemonic": "",
+      "usageNote": "กรุณาเงียบ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เงียบ"
+      ],
+      "acceptedJapanese": [
+        "静かな"
+      ]
+    },
+    {
+      "id": 102,
+      "japanese": "手紙",
+      "thai": "จดหมาย",
+      "reading": "ジョットマーイ",
+      "mnemonic": "ちょっとマイさんに手紙出しといて⊂((・x・))⊃",
+      "usageNote": "เขาเขียนจดหมายถึงเพื่อน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จดหมาย"
+      ],
+      "acceptedJapanese": [
+        "手紙"
+      ]
+    },
+    {
+      "id": 103,
+      "japanese": "鼻",
+      "thai": "จมูก",
+      "reading": "チャムーク",
+      "mnemonic": "ムックの鼻",
+      "usageNote": "จมูกยาว（鼻が長い。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จมูก"
+      ],
+      "acceptedJapanese": [
+        "鼻"
+      ]
+    },
+    {
+      "id": 104,
+      "japanese": "止まる・駐車する",
+      "thai": "จอด",
+      "reading": "ジョート",
+      "mnemonic": "ジョートッ！止まれ！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จอด"
+      ],
+      "acceptedJapanese": [
+        "止まる・駐車する"
+      ]
+    },
+    {
+      "id": 105,
+      "japanese": "will",
+      "thai": "จะ",
+      "reading": "ジャ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จะ"
+      ],
+      "acceptedJapanese": [
+        "will"
+      ]
+    },
+    {
+      "id": 106,
+      "japanese": "とても・すごく",
+      "thai": "จัง",
+      "reading": "ジャン",
+      "mnemonic": "すごいジャン( ＾∀＾)",
+      "usageNote": "形容詞の後ろに置く、ร้อน จัง=マジ暑い",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ค่อนข้าง",
+        "จัง"
+      ],
+      "acceptedJapanese": [
+        "とても・すごく"
+      ]
+    },
+    {
+      "id": 107,
+      "japanese": "タイの郡",
+      "thai": "จังหวัด",
+      "reading": "ジャンワット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จังหวัด"
+      ],
+      "acceptedJapanese": [
+        "タイの郡"
+      ]
+    },
+    {
+      "id": 108,
+      "japanese": "from（場所）、～から",
+      "thai": "จาก",
+      "reading": "ジャーク",
+      "mnemonic": "ジャック（雷電）から始まる(｀･∀･´)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จาก"
+      ],
+      "acceptedJapanese": [
+        "from（場所）、～から"
+      ]
+    },
+    {
+      "id": 109,
+      "japanese": "～皿",
+      "thai": "จาน",
+      "reading": "ジャーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จาน"
+      ],
+      "acceptedJapanese": [
+        "～皿"
+      ]
+    },
+    {
+      "id": 110,
+      "japanese": "支払う",
+      "thai": "จ่าย",
+      "reading": "ジャーイ",
+      "mnemonic": "ジャイアン「のび太、じゃあ払えよ！」",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จ่าย"
+      ],
+      "acceptedJapanese": [
+        "支払う"
+      ]
+    },
+    {
+      "id": 111,
+      "japanese": "覚える",
+      "thai": "จำ",
+      "reading": "ジャム",
+      "mnemonic": "ジャムおじさん🥐覚えてる？",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จำ"
+      ],
+      "acceptedJapanese": [
+        "覚える"
+      ]
+    },
+    {
+      "id": 112,
+      "japanese": "数、数量",
+      "thai": "จำนวน",
+      "reading": "ジャムヌアン",
+      "mnemonic": "ジャム non アン",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จำนวน"
+      ],
+      "acceptedJapanese": [
+        "数、数量"
+      ]
+    },
+    {
+      "id": 113,
+      "japanese": "必要な",
+      "thai": "จำเป็น",
+      "reading": "ジャンペン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จำเป็น"
+      ],
+      "acceptedJapanese": [
+        "必要な"
+      ]
+    },
+    {
+      "id": 115,
+      "japanese": "それゆえに",
+      "thai": "จึง",
+      "reading": "ジュンガ",
+      "mnemonic": "ジェンガゆえに",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "จึง"
+      ],
+      "acceptedJapanese": [
+        "それゆえに"
+      ]
+    },
+    {
+      "id": 116,
+      "japanese": "痛い",
+      "thai": "เจ็บ",
+      "reading": "ジェップ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เจ็บ"
+      ],
+      "acceptedJapanese": [
+        "痛い"
+      ]
+    },
+    {
+      "id": 117,
+      "japanese": "最近",
+      "thai": "ช่วงนี้",
+      "reading": "チュアンニー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ช่วงนี้"
+      ],
+      "acceptedJapanese": [
+        "最近"
+      ]
+    },
+    {
+      "id": 118,
+      "japanese": "～してください",
+      "thai": "ช่วย",
+      "reading": "チュアイ",
+      "mnemonic": "(*´ε`*)ﾁｭｯ愛してください❤️",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขอให้",
+        "ช่วย"
+      ],
+      "acceptedJapanese": [
+        "～してください"
+      ]
+    },
+    {
+      "id": 119,
+      "japanese": "助ける",
+      "thai": "ช่วยเหลือ",
+      "reading": "チュアイ ルア",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ช่วยเหลือ"
+      ],
+      "acceptedJapanese": [
+        "助ける"
+      ]
+    },
+    {
+      "id": 120,
+      "japanese": "スプーン",
+      "thai": "ช้อน",
+      "reading": "チョーン",
+      "mnemonic": "長さんがよく使います",
+      "usageNote": "ใช้ช้อน（スプーンを使います。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ช้อน"
+      ],
+      "acceptedJapanese": [
+        "スプーン"
+      ]
+    },
+    {
+      "id": 121,
+      "japanese": "～が好き",
+      "thai": "ชอบ",
+      "reading": "チョープ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ชอบ"
+      ],
+      "acceptedJapanese": [
+        "～が好き"
+      ]
+    },
+    {
+      "id": 122,
+      "japanese": "階",
+      "thai": "ชั้น",
+      "reading": "チャン",
+      "mnemonic": "階段チャンとあります(^o^)v",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ชั้น"
+      ],
+      "acceptedJapanese": [
+        "階"
+      ]
+    },
+    {
+      "id": 123,
+      "japanese": "時間、〜時間",
+      "thai": "ชั่วโมง",
+      "reading": "チュア・モーン",
+      "mnemonic": "",
+      "usageNote": "ผมเรียนหนึ่งชั่วโมง",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ชั่วโมง"
+      ],
+      "acceptedJapanese": [
+        "時間、〜時間"
+      ]
+    },
+    {
+      "id": 124,
+      "japanese": "名前",
+      "thai": "ชื่อ",
+      "reading": "チュー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ชื่อ"
+      ],
+      "acceptedJapanese": [
+        "名前"
+      ]
+    },
+    {
+      "id": 125,
+      "japanese": "朝",
+      "thai": "เช้า",
+      "reading": "チャオ",
+      "mnemonic": "",
+      "usageNote": "วันนี้ฉันตื่นเช้า (今日は早起きした)",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เช้า"
+      ],
+      "acceptedJapanese": [
+        "朝"
+      ]
+    },
+    {
+      "id": 126,
+      "japanese": "血統,家系",
+      "thai": "เชื้อสาย",
+      "reading": "チュア サーイ",
+      "mnemonic": "เชื้อสาย จีน = 中華系",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เชื้อสาย"
+      ],
+      "acceptedJapanese": [
+        "血統,家系"
+      ]
+    },
+    {
+      "id": 127,
+      "japanese": "使う",
+      "thai": "ใช้",
+      "reading": "チャイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใช้"
+      ],
+      "acceptedJapanese": [
+        "使う"
+      ]
+    },
+    {
+      "id": 128,
+      "japanese": "時間がかかる",
+      "thai": "ใช้เวลา",
+      "reading": "チャイ・ウェーラー",
+      "mnemonic": "ใช้ + เวลา = 時間がかかる（定型文）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใช้เวลา"
+      ],
+      "acceptedJapanese": [
+        "時間がかかる"
+      ]
+    },
+    {
+      "id": 129,
+      "japanese": "修理する",
+      "thai": "ซ่อม",
+      "reading": "ソム",
+      "mnemonic": "ソムタンの修理",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ซ่อม"
+      ],
+      "acceptedJapanese": [
+        "修理する"
+      ]
+    },
+    {
+      "id": 130,
+      "japanese": "左",
+      "thai": "ซ้าย",
+      "reading": "サーイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ซ้าย"
+      ],
+      "acceptedJapanese": [
+        "左"
+      ]
+    },
+    {
+      "id": 131,
+      "japanese": "買",
+      "thai": "ซื้อ",
+      "reading": "スー",
+      "mnemonic": "スーさん、お買い物",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ซื้อ"
+      ],
+      "acceptedJapanese": [
+        "買"
+      ]
+    },
+    {
+      "id": 132,
+      "japanese": "買い物",
+      "thai": "ซื้อของ",
+      "reading": "スーコン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ซื้อของ"
+      ],
+      "acceptedJapanese": [
+        "買い物"
+      ]
+    },
+    {
+      "id": 133,
+      "japanese": "急ぎの・緊急の",
+      "thai": "ด่วน",
+      "reading": "ドゥアン",
+      "mnemonic": "堂安は緊急招集",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ด่วน"
+      ],
+      "acceptedJapanese": [
+        "急ぎの・緊急の"
+      ]
+    },
+    {
+      "id": 134,
+      "japanese": "一緒に、by(交通以外）",
+      "thai": "ด้วย",
+      "reading": "トゥワイ",
+      "mnemonic": "to わい、一緒に頼むわ( ´･Д･)ゞ",
+      "usageNote": "トゥワイカンも同じ意味、動詞の後ろに付ける",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ด้วย"
+      ],
+      "acceptedJapanese": [
+        "一緒に、by(交通以外）"
+      ]
+    },
+    {
+      "id": 135,
+      "japanese": "花",
+      "thai": "ดอกไม้",
+      "reading": "ドークマーイ",
+      "mnemonic": "毒無い（マイ）→花",
+      "usageNote": "ดอกไม้สวย（花はきれいです。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดอกไม้"
+      ],
+      "acceptedJapanese": [
+        "花"
+      ]
+    },
+    {
+      "id": 136,
+      "japanese": "側",
+      "thai": "ด้าน",
+      "reading": "ダーン",
+      "mnemonic": "だん側",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ด้าน"
+      ],
+      "acceptedJapanese": [
+        "側"
+      ]
+    },
+    {
+      "id": 137,
+      "japanese": "右側",
+      "thai": "ด้าน ขวา",
+      "reading": "ダーンクワー",
+      "mnemonic": "桑、右桑→みくさん",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ด้าน ขวา"
+      ],
+      "acceptedJapanese": [
+        "右側"
+      ]
+    },
+    {
+      "id": 138,
+      "japanese": "左側",
+      "thai": "ด้าน ซ้าย",
+      "reading": "ダーンサーイ",
+      "mnemonic": "🦏",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ด้าน ซ้าย"
+      ],
+      "acceptedJapanese": [
+        "左側"
+      ]
+    },
+    {
+      "id": 139,
+      "japanese": "〜本[ペン]",
+      "thai": "ด้าม",
+      "reading": "ダーム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ด้าม"
+      ],
+      "acceptedJapanese": [
+        "〜本[ペン]"
+      ]
+    },
+    {
+      "id": 140,
+      "japanese": "星",
+      "thai": "ดาว",
+      "reading": "ダーオ",
+      "mnemonic": "大王の星だーお",
+      "usageNote": "ดาวสวย（星がきれい。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดาว"
+      ],
+      "acceptedJapanese": [
+        "星"
+      ]
+    },
+    {
+      "id": 141,
+      "japanese": "黒",
+      "thai": "ดำ",
+      "reading": "ダム",
+      "mnemonic": "黒部ダム",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดำ"
+      ],
+      "acceptedJapanese": [
+        "黒"
+      ]
+    },
+    {
+      "id": 142,
+      "japanese": "私",
+      "thai": "ดิฉัน",
+      "reading": "ディチャン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดิฉัน",
+        "ผม"
+      ],
+      "acceptedJapanese": [
+        "私"
+      ]
+    },
+    {
+      "id": 143,
+      "japanese": "鉛筆",
+      "thai": "ดินสอ",
+      "reading": "ディンソー",
+      "mnemonic": "デンソーの鉛筆いいよ",
+      "usageNote": "ฉันเขียนด้วยดินสอ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดินสอ"
+      ],
+      "acceptedJapanese": [
+        "鉛筆"
+      ]
+    },
+    {
+      "id": 144,
+      "japanese": "～の方が良い",
+      "thai": "ดีกว่า",
+      "reading": "ディークワー",
+      "mnemonic": "",
+      "usageNote": "文末に置く",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดีกว่า"
+      ],
+      "acceptedJapanese": [
+        "～の方が良い"
+      ]
+    },
+    {
+      "id": 145,
+      "japanese": "嬉しい",
+      "thai": "ดีใจ",
+      "reading": "ディー・ジャイ",
+      "mnemonic": "Dカップじゃい！嬉しい！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดีใจ"
+      ],
+      "acceptedJapanese": [
+        "嬉しい"
+      ]
+    },
+    {
+      "id": 146,
+      "japanese": "夜遅く・深夜",
+      "thai": "ดึก",
+      "reading": "ドゥック",
+      "mnemonic": "ドゥークー伯爵の夜は遅い",
+      "usageNote": "タイ語は修飾語が先に来るのじゃ！(σﾟ∀ﾟ)σดึก+ นอน= late sleep",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดึก"
+      ],
+      "acceptedJapanese": [
+        "夜遅く・深夜"
+      ]
+    },
+    {
+      "id": 147,
+      "japanese": "飲む",
+      "thai": "ดื่ม",
+      "reading": "ドゥーム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดื่ม"
+      ],
+      "acceptedJapanese": [
+        "飲む"
+      ]
+    },
+    {
+      "id": 148,
+      "japanese": "見",
+      "thai": "ดู",
+      "reading": "ドゥー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดู"
+      ],
+      "acceptedJapanese": [
+        "見"
+      ]
+    },
+    {
+      "id": 149,
+      "japanese": "歩く",
+      "thai": "เดิน",
+      "reading": "ドゥーン",
+      "mnemonic": "ドゥンドゥン歩く",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เดิน"
+      ],
+      "acceptedJapanese": [
+        "歩く"
+      ]
+    },
+    {
+      "id": 150,
+      "japanese": "散歩する",
+      "thai": "เดิน เล่น",
+      "reading": "ドゥーン レン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เดิน เล่น"
+      ],
+      "acceptedJapanese": [
+        "散歩する"
+      ]
+    },
+    {
+      "id": 151,
+      "japanese": "まっすぐ歩いて行く",
+      "thai": "เดินตรงไป",
+      "reading": "ドゥーン・トロン・パイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เดินตรงไป"
+      ],
+      "acceptedJapanese": [
+        "まっすぐ歩いて行く"
+      ]
+    },
+    {
+      "id": 152,
+      "japanese": "旅行、歩く＋道",
+      "thai": "เดินทาง",
+      "reading": "ドゥーンターン",
+      "mnemonic": "ドゥンドゥンタンタンしろよ！迷わず行けよ！行けば分かるさ！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เดินทาง"
+      ],
+      "acceptedJapanese": [
+        "旅行、歩く＋道"
+      ]
+    },
+    {
+      "id": 153,
+      "japanese": "赤",
+      "thai": "แดง",
+      "reading": "デーング",
+      "mnemonic": "デン",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แดง"
+      ],
+      "acceptedJapanese": [
+        "赤"
+      ]
+    },
+    {
+      "id": 154,
+      "japanese": "〜で・〜によって・by",
+      "thai": "โดย",
+      "reading": "ドーイ",
+      "mnemonic": "どーいくの？",
+      "usageNote": "โดย รถไฟ＝電車で",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โดย"
+      ],
+      "acceptedJapanese": [
+        "〜で・〜によって・by"
+      ]
+    },
+    {
+      "id": 155,
+      "japanese": "特に",
+      "thai": "โดยเฉพาะ",
+      "reading": "ドーイチャポ",
+      "mnemonic": "特にチャボ🐔のドーイが必須です( ̀ •ω •́ )✧",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โดยเฉพาะ"
+      ],
+      "acceptedJapanese": [
+        "特に"
+      ]
+    },
+    {
+      "id": 156,
+      "japanese": "もらう・得る",
+      "thai": "ได้",
+      "reading": "ダイ",
+      "mnemonic": "動詞 + 目的語 + ได้",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ได้"
+      ],
+      "acceptedJapanese": [
+        "もらう・得る"
+      ]
+    },
+    {
+      "id": 157,
+      "japanese": "～らしい",
+      "thai": "ได้ยินว่า",
+      "reading": "ダイインワー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ได้ยินว่า"
+      ],
+      "acceptedJapanese": [
+        "～らしい"
+      ]
+    },
+    {
+      "id": 158,
+      "japanese": "落ちる、降る",
+      "thai": "ตก",
+      "reading": "トック",
+      "mnemonic": "ฝน ตก=雨が降る",
+      "usageNote": "雨が降る特区トック",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตก"
+      ],
+      "acceptedJapanese": [
+        "落ちる、降る"
+      ]
+    },
+    {
+      "id": 159,
+      "japanese": "木",
+      "thai": "ต้นไม้",
+      "reading": "トンマーイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ต้นไม้"
+      ],
+      "acceptedJapanese": [
+        "木"
+      ]
+    },
+    {
+      "id": 161,
+      "japanese": "向かい / 反対側",
+      "thai": "ตรงข้าม",
+      "reading": "トロンカーム",
+      "mnemonic": "",
+      "usageNote": "ตรงข้าม โรงพยาบาล＝病院の反対側",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตรงข้าม"
+      ],
+      "acceptedJapanese": [
+        "向かい / 反対側"
+      ]
+    },
+    {
+      "id": 162,
+      "japanese": "市場",
+      "thai": "ตลาด",
+      "reading": "タラート",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตลาด"
+      ],
+      "acceptedJapanese": [
+        "市場"
+      ]
+    },
+    {
+      "id": 163,
+      "japanese": "should",
+      "thai": "ต้อง",
+      "reading": "トン",
+      "mnemonic": "tonを買わねばならない(｀･∀･´)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ต้อง"
+      ],
+      "acceptedJapanese": [
+        "should"
+      ]
+    },
+    {
+      "id": 164,
+      "japanese": "必要とする、したい",
+      "thai": "ต้องการ",
+      "reading": "トンガーン",
+      "mnemonic": "トンガ必要🥺",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ต้องการ"
+      ],
+      "acceptedJapanese": [
+        "必要とする、したい"
+      ]
+    },
+    {
+      "id": 165,
+      "japanese": "～の時",
+      "thai": "ตอน",
+      "reading": "トーン",
+      "mnemonic": "アトーン=aton",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตอน"
+      ],
+      "acceptedJapanese": [
+        "～の時"
+      ]
+    },
+    {
+      "id": 166,
+      "japanese": "答える",
+      "thai": "ตอบ",
+      "reading": "トープ",
+      "mnemonic": "学年トップが出した答えは∑(>ω<ﾉ)ﾉ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตอบ"
+      ],
+      "acceptedJapanese": [
+        "答える"
+      ]
+    },
+    {
+      "id": 167,
+      "japanese": "箸",
+      "thai": "ตะเกียบ",
+      "reading": "タキヤ",
+      "mnemonic": "タクヤ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตะเกียบ"
+      ],
+      "acceptedJapanese": [
+        "箸"
+      ]
+    },
+    {
+      "id": 168,
+      "japanese": "位置する・設置する",
+      "thai": "ตั้ง",
+      "reading": "タン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตั้ง"
+      ],
+      "acceptedJapanese": [
+        "位置する・設置する"
+      ]
+    },
+    {
+      "id": 169,
+      "japanese": "一生懸命に",
+      "thai": "ตั้งใจ",
+      "reading": "タンジャイ",
+      "mnemonic": "タンじゃい",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตั้งใจ"
+      ],
+      "acceptedJapanese": [
+        "一生懸命に"
+      ]
+    },
+    {
+      "id": 170,
+      "japanese": "〜から・since",
+      "thai": "ตั้งแต่",
+      "reading": "タンテー",
+      "mnemonic": "担当のテーブルから",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตั้งแต่"
+      ],
+      "acceptedJapanese": [
+        "〜から・since"
+      ]
+    },
+    {
+      "id": 171,
+      "japanese": "位置する",
+      "thai": "ตั้งอยู่",
+      "reading": "タンユー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตั้งอยู่"
+      ],
+      "acceptedJapanese": [
+        "位置する"
+      ]
+    },
+    {
+      "id": 172,
+      "japanese": "決める",
+      "thai": "ตัดสินใจ",
+      "reading": "タットシンジャイ",
+      "mnemonic": "",
+      "usageNote": "ผมตัดสินใจแล้ว",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตัดสินใจ"
+      ],
+      "acceptedJapanese": [
+        "決める"
+      ]
+    },
+    {
+      "id": 173,
+      "japanese": "警察 / 警察官",
+      "thai": "ตำรวจ",
+      "reading": "タムルワット",
+      "mnemonic": "⚡️仕事→タムるワット→警察",
+      "usageNote": "ตำรวจช่วยคน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตำรวจ"
+      ],
+      "acceptedJapanese": [
+        "警察 / 警察官"
+      ]
+    },
+    {
+      "id": 174,
+      "japanese": "渋滞している",
+      "thai": "ติดรถ",
+      "reading": "ティット・ロット",
+      "mnemonic": "ちっと🚙（ロット）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ติดรถ"
+      ],
+      "acceptedJapanese": [
+        "渋滞している"
+      ]
+    },
+    {
+      "id": 175,
+      "japanese": "起きる・目覚める",
+      "thai": "ตื่นนอน",
+      "reading": "トゥーンノーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ตื่นนอน"
+      ],
+      "acceptedJapanese": [
+        "起きる・目覚める"
+      ]
+    },
+    {
+      "id": 176,
+      "japanese": "トリアム",
+      "thai": "เตรียม",
+      "reading": "用意する・準備する",
+      "mnemonic": "トリアえずムずかしいけど用意する",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เตรียม"
+      ],
+      "acceptedJapanese": [
+        "トリアム"
+      ]
+    },
+    {
+      "id": 177,
+      "japanese": "ベッド",
+      "thai": "เตียง",
+      "reading": "ティアン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เตียง"
+      ],
+      "acceptedJapanese": [
+        "ベッド"
+      ]
+    },
+    {
+      "id": 178,
+      "japanese": "結婚する",
+      "thai": "แต่งงาน",
+      "reading": "テンガーン",
+      "mnemonic": "テント（式場）でガーンと式を挙げる！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แต่งงาน"
+      ],
+      "acceptedJapanese": [
+        "結婚する"
+      ]
+    },
+    {
+      "id": 179,
+      "japanese": "スイカ",
+      "thai": "แตงโม",
+      "reading": "テングモー",
+      "mnemonic": "天狗がモーっと驚くスイカ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แตงโม"
+      ],
+      "acceptedJapanese": [
+        "スイカ"
+      ]
+    },
+    {
+      "id": 180,
+      "japanese": "机",
+      "thai": "โต๊ะ",
+      "reading": "ト",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โต๊ะ"
+      ],
+      "acceptedJapanese": [
+        "机"
+      ]
+    },
+    {
+      "id": 181,
+      "japanese": "下",
+      "thai": "ใต้",
+      "reading": "タイ",
+      "mnemonic": "タイ（Thai）は日本の下の方にある",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใต้"
+      ],
+      "acceptedJapanese": [
+        "下"
+      ]
+    },
+    {
+      "id": 182,
+      "japanese": "地下",
+      "thai": "ใต้ดิน",
+      "reading": "タイ・ディン",
+      "mnemonic": "タイ（下）のデン（土）",
+      "usageNote": "ไฟ ใต้ดิน โดย = 地下鉄",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใต้ดิน"
+      ],
+      "acceptedJapanese": [
+        "地下"
+      ]
+    },
+    {
+      "id": 183,
+      "japanese": "道・通り",
+      "thai": "ถนน",
+      "reading": "タノン",
+      "mnemonic": "タンタンと道を進む",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถนน"
+      ],
+      "acceptedJapanese": [
+        "道・通り",
+        "道"
+      ]
+    },
+    {
+      "id": 184,
+      "japanese": "道",
+      "thai": "ถนน",
+      "reading": "タノン",
+      "mnemonic": "tnnの道",
+      "usageNote": "ถนนยาว（道は長い。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถนน",
+        "ทาง"
+      ],
+      "acceptedJapanese": [
+        "道・通り",
+        "道"
+      ]
+    },
+    {
+      "id": 185,
+      "japanese": "道が渋滞している",
+      "thai": "ถนนติด",
+      "reading": "タノン・ティット",
+      "mnemonic": "ちっと道（ถนน）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถนนติด"
+      ],
+      "acceptedJapanese": [
+        "道が渋滞している"
+      ]
+    },
+    {
+      "id": 186,
+      "japanese": "次",
+      "thai": "ถัดไป",
+      "reading": "タットパイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถัดไป"
+      ],
+      "acceptedJapanese": [
+        "次"
+      ]
+    },
+    {
+      "id": 187,
+      "japanese": "もし",
+      "thai": "ถ้า",
+      "reading": "ター",
+      "mnemonic": "た、とえば",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถ้า"
+      ],
+      "acceptedJapanese": [
+        "もし"
+      ]
+    },
+    {
+      "id": 188,
+      "japanese": "質問する",
+      "thai": "ถาม",
+      "reading": "ターム",
+      "mnemonic": "太鼓をタムタム叩きながら、たのむーって質問する",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถาม"
+      ],
+      "acceptedJapanese": [
+        "質問する"
+      ]
+    },
+    {
+      "id": 189,
+      "japanese": "自問する",
+      "thai": "ถามใจ",
+      "reading": "ターム・ジャイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถามใจ"
+      ],
+      "acceptedJapanese": [
+        "自問する"
+      ]
+    },
+    {
+      "id": 190,
+      "japanese": "〜と聞く・〜かどうか聞く",
+      "thai": "ถามว่า",
+      "reading": "ターム・ワー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถามว่า"
+      ],
+      "acceptedJapanese": [
+        "〜と聞く・〜かどうか聞く"
+      ]
+    },
+    {
+      "id": 191,
+      "japanese": "着く",
+      "thai": "ถึง",
+      "reading": "トゥン",
+      "mnemonic": "ドゥンと鳴ったら到着",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถึง"
+      ],
+      "acceptedJapanese": [
+        "着く"
+      ]
+    },
+    {
+      "id": 192,
+      "japanese": "着いた！",
+      "thai": "ถึงแล้ว",
+      "reading": "トゥン・レーオ",
+      "mnemonic": "ドゥンと太鼓がなって着いた",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถึงแล้ว"
+      ],
+      "acceptedJapanese": [
+        "着いた！"
+      ]
+    },
+    {
+      "id": 193,
+      "japanese": "袋",
+      "thai": "ถุง",
+      "reading": "トゥン",
+      "mnemonic": "ふくろtwonください",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถุง"
+      ],
+      "acceptedJapanese": [
+        "袋"
+      ]
+    },
+    {
+      "id": 194,
+      "japanese": "安価",
+      "thai": "ถูก",
+      "reading": "トゥーク",
+      "mnemonic": "安くて得（トゥク）した感じ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถูก"
+      ],
+      "acceptedJapanese": [
+        "安価",
+        "〜された！"
+      ]
+    },
+    {
+      "id": 195,
+      "japanese": "〜された！",
+      "thai": "ถูก",
+      "reading": "トゥーク",
+      "mnemonic": "安くされた∑(>ω<ﾉ)ﾉ",
+      "usageNote": "主語 + ถูก + 犯人 + 動詞",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถูก"
+      ],
+      "acceptedJapanese": [
+        "安価",
+        "〜された！"
+      ]
+    },
+    {
+      "id": 196,
+      "japanese": "気に入った・好き",
+      "thai": "ถูกใจ",
+      "reading": "トゥークジャイ",
+      "mnemonic": "とくしたんじゃい！→気に入った",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถูกใจ"
+      ],
+      "acceptedJapanese": [
+        "気に入った・好き"
+      ]
+    },
+    {
+      "id": 197,
+      "japanese": "この辺り",
+      "thai": "แถวนี้",
+      "reading": "テーオ・ニー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แถวนี้"
+      ],
+      "acceptedJapanese": [
+        "この辺り"
+      ]
+    },
+    {
+      "id": 198,
+      "japanese": "軍人",
+      "thai": "ทหาร",
+      "reading": "タハーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทหาร"
+      ],
+      "acceptedJapanese": [
+        "軍人"
+      ]
+    },
+    {
+      "id": 199,
+      "japanese": "お釣り",
+      "thai": "ทอน",
+      "reading": "トーン",
+      "mnemonic": "お釣り＝豚🐷足",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทอน"
+      ],
+      "acceptedJapanese": [
+        "お釣り"
+      ]
+    },
+    {
+      "id": 200,
+      "japanese": "海",
+      "thai": "ทะเล",
+      "reading": "タレー",
+      "mnemonic": "海のタレ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทะเล"
+      ],
+      "acceptedJapanese": [
+        "海"
+      ]
+    },
+    {
+      "id": 201,
+      "japanese": "道",
+      "thai": "ทาง",
+      "reading": "ターン",
+      "mnemonic": "淡々（タンタン）と歩く",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ถนน",
+        "ทาง"
+      ],
+      "acceptedJapanese": [
+        "道"
+      ]
+    },
+    {
+      "id": 202,
+      "japanese": "右側 / 右の道",
+      "thai": "ทางขวา",
+      "reading": "ターン・クワー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทางขวา"
+      ],
+      "acceptedJapanese": [
+        "右側 / 右の道"
+      ]
+    },
+    {
+      "id": 203,
+      "japanese": "左側 / 左の道",
+      "thai": "ทางซ้าย",
+      "reading": "ターン・サーイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทางซ้าย"
+      ],
+      "acceptedJapanese": [
+        "左側 / 左の道"
+      ]
+    },
+    {
+      "id": 204,
+      "japanese": "〜らしい",
+      "thai": "ท่าทาง",
+      "reading": "ターターン",
+      "mnemonic": "タリバンらしい",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ท่าทาง"
+      ],
+      "acceptedJapanese": [
+        "〜らしい"
+      ]
+    },
+    {
+      "id": 205,
+      "japanese": "作",
+      "thai": "ทำ",
+      "reading": "ダム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทำ"
+      ],
+      "acceptedJapanese": [
+        "作",
+        "～する"
+      ]
+    },
+    {
+      "id": 206,
+      "japanese": "～する",
+      "thai": "ทำ",
+      "reading": "タム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทำ"
+      ],
+      "acceptedJapanese": [
+        "作",
+        "～する"
+      ]
+    },
+    {
+      "id": 207,
+      "japanese": "仕事する",
+      "thai": "ทำงาน",
+      "reading": "タム・ガーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทำงาน"
+      ],
+      "acceptedJapanese": [
+        "仕事する"
+      ]
+    },
+    {
+      "id": 208,
+      "japanese": "なぜ？",
+      "thai": "ทำไม",
+      "reading": "タムマイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทำไม"
+      ],
+      "acceptedJapanese": [
+        "なぜ？"
+      ]
+    },
+    {
+      "id": 209,
+      "japanese": "〜になる原因となる",
+      "thai": "ทำให้เป็น",
+      "reading": "タム・ハイ・ペン",
+      "mnemonic": "TamHighPen - THP - 🍅ほしい🐧",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทำให้เป็น"
+      ],
+      "acceptedJapanese": [
+        "〜になる原因となる"
+      ]
+    },
+    {
+      "id": 210,
+      "japanese": "at、関係詞のthat",
+      "thai": "ที่",
+      "reading": "ティー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ที่"
+      ],
+      "acceptedJapanese": [
+        "at、関係詞のthat"
+      ]
+    },
+    {
+      "id": 211,
+      "japanese": "そこ",
+      "thai": "ที่นั่น",
+      "reading": "ティー・ナン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ที่นั่น"
+      ],
+      "acceptedJapanese": [
+        "そこ"
+      ]
+    },
+    {
+      "id": 212,
+      "japanese": "ここ",
+      "thai": "ที่นี่",
+      "reading": "ティー・ニー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ที่นี่"
+      ],
+      "acceptedJapanese": [
+        "ここ"
+      ]
+    },
+    {
+      "id": 213,
+      "japanese": "あそこ",
+      "thai": "ที่โน่น",
+      "reading": "ティー・ノーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ที่โน่น"
+      ],
+      "acceptedJapanese": [
+        "あそこ"
+      ]
+    },
+    {
+      "id": 214,
+      "japanese": "一番",
+      "thai": "ที่สุด",
+      "reading": "ティースット",
+      "mnemonic": "ぬスット一番",
+      "usageNote": "文末に置く一番好きは、チョープ◯ティースット",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ที่สุด"
+      ],
+      "acceptedJapanese": [
+        "一番"
+      ]
+    },
+    {
+      "id": 215,
+      "japanese": "毎〜・全ての",
+      "thai": "ทุก",
+      "reading": "トゥック",
+      "mnemonic": "トゥクトゥク🛺は毎日走っとる！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทุก"
+      ],
+      "acceptedJapanese": [
+        "毎〜・全ての"
+      ]
+    },
+    {
+      "id": 216,
+      "japanese": "毎晩",
+      "thai": "ทุกคืน",
+      "reading": "トゥック・クーン",
+      "mnemonic": "毎晩🐶がくーんくーん(´；ω；`)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทุกคืน"
+      ],
+      "acceptedJapanese": [
+        "毎晩"
+      ]
+    },
+    {
+      "id": 217,
+      "japanese": "毎朝",
+      "thai": "ทุกเช้า",
+      "reading": "トゥック・チャオ",
+      "mnemonic": "イタリア語でHello＝毎朝挨拶！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทุกเช้า"
+      ],
+      "acceptedJapanese": [
+        "毎朝"
+      ]
+    },
+    {
+      "id": 218,
+      "japanese": "毎月",
+      "thai": "ทุกเดือน",
+      "reading": "トゥック・ドゥアン",
+      "mnemonic": "月🌕がドゥアンと出る",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทุกเดือน"
+      ],
+      "acceptedJapanese": [
+        "毎月"
+      ]
+    },
+    {
+      "id": 219,
+      "japanese": "毎週",
+      "thai": "ทุกอาทิตย์",
+      "reading": "トゥック・アーティット！",
+      "mnemonic": "毎週アーティスト💃",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ทุกอาทิตย์"
+      ],
+      "acceptedJapanese": [
+        "毎週"
+      ]
+    },
+    {
+      "id": 220,
+      "japanese": "技術",
+      "thai": "เทคโนโลยี",
+      "reading": "テークノーローイー",
+      "mnemonic": "",
+      "usageNote": "เทคโนโลยีเปลี่ยนโลกอย่างรวดเร็ว",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เทคโนโลยี"
+      ],
+      "acceptedJapanese": [
+        "技術"
+      ]
+    },
+    {
+      "id": 221,
+      "japanese": "足",
+      "thai": "เท้า",
+      "reading": "ターオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เท้า"
+      ],
+      "acceptedJapanese": [
+        "足"
+      ]
+    },
+    {
+      "id": 223,
+      "japanese": "いくら / どれくらい",
+      "thai": "เท่าไหร่",
+      "reading": "タオライ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เท่าไหร่"
+      ],
+      "acceptedJapanese": [
+        "いくら / どれくらい"
+      ]
+    },
+    {
+      "id": 224,
+      "japanese": "旅行する、遊ぶ(その場所を離れて何かをする場合)",
+      "thai": "เที่ยว",
+      "reading": "ティアオ",
+      "mnemonic": "帝王遊ぶ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เที่ยว"
+      ],
+      "acceptedJapanese": [
+        "旅行する、遊ぶ(その場所を離れて何かをする場合)"
+      ]
+    },
+    {
+      "id": 225,
+      "japanese": "電話する",
+      "thai": "โทร",
+      "reading": "トー",
+      "mnemonic": "",
+      "usageNote": "トーパイハー+人、でも良い",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โทร",
+        "โทรหา"
+      ],
+      "acceptedJapanese": [
+        "電話する"
+      ]
+    },
+    {
+      "id": 226,
+      "japanese": "折り返し電話する",
+      "thai": "โทร ＋ กลับ",
+      "reading": "トー・クラップ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โทร ＋ กลับ"
+      ],
+      "acceptedJapanese": [
+        "折り返し電話する"
+      ]
+    },
+    {
+      "id": 227,
+      "japanese": "スマホ",
+      "thai": "โทรศัพท์",
+      "reading": "トーラサップ",
+      "mnemonic": "電話する（トー）サップ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โทรศัพท์"
+      ],
+      "acceptedJapanese": [
+        "スマホ"
+      ]
+    },
+    {
+      "id": 228,
+      "japanese": "電話をかける",
+      "thai": "โทรหา",
+      "reading": "トーハー",
+      "mnemonic": "遠く（トー）のHer（ハー）に電話する",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โทรหา"
+      ],
+      "acceptedJapanese": [
+        "電話をかける",
+        "電話する"
+      ]
+    },
+    {
+      "id": 229,
+      "japanese": "電話する",
+      "thai": "โทรหา",
+      "reading": "トーハー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โทร",
+        "โทรหา"
+      ],
+      "acceptedJapanese": [
+        "電話をかける",
+        "電話する"
+      ]
+    },
+    {
+      "id": 230,
+      "japanese": "銀行",
+      "thai": "ธนาคาร",
+      "reading": "タナカーン",
+      "mnemonic": "田中銀行",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ธนาคาร"
+      ],
+      "acceptedJapanese": [
+        "銀行"
+      ]
+    },
+    {
+      "id": 231,
+      "japanese": "君",
+      "thai": "เธอ",
+      "reading": "トゥー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เธอ"
+      ],
+      "acceptedJapanese": [
+        "君"
+      ]
+    },
+    {
+      "id": 232,
+      "japanese": "鳥",
+      "thai": "นก",
+      "reading": "ノック",
+      "mnemonic": "🐔がノックする",
+      "usageNote": "นกบิน（鳥が飛ぶ。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นก"
+      ],
+      "acceptedJapanese": [
+        "鳥"
+      ]
+    },
+    {
+      "id": 233,
+      "japanese": "あの",
+      "thai": "นนั้น",
+      "reading": "ナン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นนั้น"
+      ],
+      "acceptedJapanese": [
+        "あの"
+      ]
+    },
+    {
+      "id": 234,
+      "japanese": "牛乳",
+      "thai": "นม",
+      "reading": "ノム",
+      "mnemonic": "牛乳をノム",
+      "usageNote": "เด็กดื่มนม（子どもは牛乳を飲みます。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นม"
+      ],
+      "acceptedJapanese": [
+        "牛乳"
+      ]
+    },
+    {
+      "id": 235,
+      "japanese": "寝",
+      "thai": "นอน",
+      "reading": "ノーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นอน"
+      ],
+      "acceptedJapanese": [
+        "寝"
+      ]
+    },
+    {
+      "id": 236,
+      "japanese": "旅行者・観光客",
+      "thai": "นักท่องเที่ยว",
+      "reading": "ナックトンティアオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นักท่องเที่ยว"
+      ],
+      "acceptedJapanese": [
+        "旅行者・観光客"
+      ]
+    },
+    {
+      "id": 237,
+      "japanese": "生徒",
+      "thai": "นักเรียน",
+      "reading": "ナックリアン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นักเรียน"
+      ],
+      "acceptedJapanese": [
+        "生徒"
+      ]
+    },
+    {
+      "id": 238,
+      "japanese": "電車に乗る",
+      "thai": "นั่ง",
+      "reading": "ナン",
+      "mnemonic": "車掌さんが「ナンでもいいから早く乗れ！」",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นั่ง"
+      ],
+      "acceptedJapanese": [
+        "電車に乗る",
+        "座る"
+      ]
+    },
+    {
+      "id": 239,
+      "japanese": "座る",
+      "thai": "นั่ง",
+      "reading": "ナン",
+      "mnemonic": "ナンで座るの？( ˘•ω•˘ )?",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นั่ง"
+      ],
+      "acceptedJapanese": [
+        "電車に乗る",
+        "座る"
+      ]
+    },
+    {
+      "id": 240,
+      "japanese": "約束、予約",
+      "thai": "นัด",
+      "reading": "ナット",
+      "mnemonic": "納豆食べる約束じゃん( ＾∀＾)",
+      "usageNote": "ผมมีนัดตอนบ่าย",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นัด"
+      ],
+      "acceptedJapanese": [
+        "約束、予約"
+      ]
+    },
+    {
+      "id": 241,
+      "japanese": "きっと〜はず（推量）",
+      "thai": "น่าจะ",
+      "reading": "ナージャ",
+      "mnemonic": "きっと、そうなんじゃないかな～( ＾∀＾)",
+      "usageNote": "主語 ＋ น่าจะ ＋ 動詞",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "น่าจะ"
+      ],
+      "acceptedJapanese": [
+        "きっと〜はず（推量）"
+      ]
+    },
+    {
+      "id": 242,
+      "japanese": "分",
+      "thai": "นาที",
+      "reading": "ナーティー",
+      "mnemonic": "",
+      "usageNote": "รอห้านาทีครับ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นาที"
+      ],
+      "acceptedJapanese": [
+        "分"
+      ]
+    },
+    {
+      "id": 243,
+      "japanese": "長い間,久しい",
+      "thai": "นาน",
+      "reading": "ナーン",
+      "mnemonic": "インドの「ナン」は長い！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นาน"
+      ],
+      "acceptedJapanese": [
+        "長い間,久しい"
+      ]
+    },
+    {
+      "id": 244,
+      "japanese": "時計",
+      "thai": "นาฬิกา",
+      "reading": "ナリカー",
+      "mnemonic": "コロ助は時計ナリカー",
+      "usageNote": "นาฬิกาอยู่ในห้อง",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นาฬิกา"
+      ],
+      "acceptedJapanese": [
+        "時計"
+      ]
+    },
+    {
+      "id": 246,
+      "japanese": "水",
+      "thai": "น้ำ",
+      "reading": "ナーム",
+      "mnemonic": "",
+      "usageNote": "ดื่มน้ำ（水を飲む。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "น้ำ",
+        "น้ำ ชา"
+      ],
+      "acceptedJapanese": [
+        "水"
+      ]
+    },
+    {
+      "id": 247,
+      "japanese": "水",
+      "thai": "น้ำ ชา",
+      "reading": "ナンパオ",
+      "mnemonic": "南方",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "น้ำ",
+        "น้ำ ชา"
+      ],
+      "acceptedJapanese": [
+        "水"
+      ]
+    },
+    {
+      "id": 248,
+      "japanese": "氷",
+      "thai": "น้ำแข็ง",
+      "reading": "ナームケン",
+      "mnemonic": "水＋硬い",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "น้ำแข็ง"
+      ],
+      "acceptedJapanese": [
+        "氷"
+      ]
+    },
+    {
+      "id": 249,
+      "japanese": "炭酸飲料",
+      "thai": "น้ำอัดลม",
+      "reading": "ナームアットロム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "น้ำอัดลม"
+      ],
+      "acceptedJapanese": [
+        "炭酸飲料"
+      ]
+    },
+    {
+      "id": 250,
+      "japanese": "少し / ちょっと",
+      "thai": "นิดหน่อย",
+      "reading": "ニットノイ",
+      "mnemonic": "文末に置く",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "นิดหน่อย"
+      ],
+      "acceptedJapanese": [
+        "少し / ちょっと"
+      ]
+    },
+    {
+      "id": 251,
+      "japanese": "〜なので / 〜のため",
+      "thai": "เนื่องจาก",
+      "reading": "ヌアンジャーク",
+      "mnemonic": "",
+      "usageNote": "เนื่องจากรถติด เขามาสาย.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เนื่องจาก"
+      ],
+      "acceptedJapanese": [
+        "〜なので / 〜のため"
+      ]
+    },
+    {
+      "id": 252,
+      "japanese": "〜の中に",
+      "thai": "ใน",
+      "reading": "ナイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใน"
+      ],
+      "acceptedJapanese": [
+        "〜の中に"
+      ]
+    },
+    {
+      "id": 253,
+      "japanese": "将来・未来",
+      "thai": "ในอนาคต",
+      "reading": "ナイ・アナーコット",
+      "mnemonic": "アナコンダのいない未来",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ในอนาคต"
+      ],
+      "acceptedJapanese": [
+        "将来・未来"
+      ]
+    },
+    {
+      "id": 254,
+      "japanese": "～の上",
+      "thai": "บน",
+      "reading": "ボン",
+      "mnemonic": "ボンッ！と上に飛ぶ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บน"
+      ],
+      "acceptedJapanese": [
+        "～の上"
+      ]
+    },
+    {
+      "id": 255,
+      "japanese": "サービス",
+      "thai": "บริการ",
+      "reading": "ボリカーン",
+      "mnemonic": "ペリカン便サービス",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บริการ"
+      ],
+      "acceptedJapanese": [
+        "サービス"
+      ]
+    },
+    {
+      "id": 256,
+      "japanese": "会社",
+      "thai": "บริษัท",
+      "reading": "ボーリサット",
+      "mnemonic": "堀とリサと同じ会社",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บริษัท"
+      ],
+      "acceptedJapanese": [
+        "会社"
+      ]
+    },
+    {
+      "id": 257,
+      "japanese": "言う、伝える",
+      "thai": "บอก",
+      "reading": "ボーク",
+      "mnemonic": "ボーク(σﾟ∀ﾟ)σと伝える(・´ｪ`・)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บอก"
+      ],
+      "acceptedJapanese": [
+        "言う、伝える"
+      ]
+    },
+    {
+      "id": 258,
+      "japanese": "よく・頻繁に",
+      "thai": "บ่อยๆ",
+      "reading": "ボイボイ",
+      "mnemonic": "ポイポイカプセルよく使う",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บ่อยๆ"
+      ],
+      "acceptedJapanese": [
+        "よく・頻繁に"
+      ]
+    },
+    {
+      "id": 259,
+      "japanese": "カード / チケット",
+      "thai": "บัตร",
+      "reading": "バット",
+      "mnemonic": "アイパットのカード",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บัตร"
+      ],
+      "acceptedJapanese": [
+        "カード / チケット"
+      ]
+    },
+    {
+      "id": 260,
+      "japanese": "階段",
+      "thai": "บันได",
+      "reading": "バンダイ",
+      "mnemonic": "バンダイ本社に階段あります(^o^)v",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บันได"
+      ],
+      "acceptedJapanese": [
+        "階段"
+      ]
+    },
+    {
+      "id": 261,
+      "japanese": "時々,たまに",
+      "thai": "บางครั้ง",
+      "reading": "バーンクラン",
+      "mnemonic": "時々バーンとクラクラする(・´ｪ`・)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บางครั้ง"
+      ],
+      "acceptedJapanese": [
+        "時々,たまに"
+      ]
+    },
+    {
+      "id": 262,
+      "japanese": "家",
+      "thai": "บ้าน",
+      "reading": "パーン",
+      "mnemonic": "爆発",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "บ้าน"
+      ],
+      "acceptedJapanese": [
+        "家"
+      ]
+    },
+    {
+      "id": 263,
+      "japanese": "電話番号",
+      "thai": "เบอร์โทร",
+      "reading": "ブー・トー",
+      "mnemonic": "",
+      "usageNote": "ขอเบอร์โทรได้ไหมครับ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เบอร์โทร"
+      ],
+      "acceptedJapanese": [
+        "電話番号"
+      ]
+    },
+    {
+      "id": 264,
+      "japanese": "ビール",
+      "thai": "เบียร์",
+      "reading": "ビア",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เบียร์"
+      ],
+      "acceptedJapanese": [
+        "ビール"
+      ]
+    },
+    {
+      "id": 265,
+      "japanese": "レシート",
+      "thai": "ใบเสร็จ",
+      "reading": "バイ セット",
+      "mnemonic": "バイバイするためのセット",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใบเสร็จ"
+      ],
+      "acceptedJapanese": [
+        "レシート"
+      ]
+    },
+    {
+      "id": 266,
+      "japanese": "普段",
+      "thai": "ปกติ",
+      "reading": "ポガティ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปกติ"
+      ],
+      "acceptedJapanese": [
+        "普段"
+      ]
+    },
+    {
+      "id": 267,
+      "japanese": "会議",
+      "thai": "ประชุม",
+      "reading": "プラチュム",
+      "mnemonic": "プラチナ（偉い人）がムチュウ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประชุม"
+      ],
+      "acceptedJapanese": [
+        "会議"
+      ]
+    },
+    {
+      "id": 268,
+      "japanese": "扉",
+      "thai": "ประตู",
+      "reading": "プラトゥー",
+      "mnemonic": "プラトンの扉",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประตู"
+      ],
+      "acceptedJapanese": [
+        "扉",
+        "ドア"
+      ]
+    },
+    {
+      "id": 269,
+      "japanese": "ドア",
+      "thai": "ประตู",
+      "reading": "プラトゥー",
+      "mnemonic": "",
+      "usageNote": "ปิดประตู（ドアを閉めます。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประตู"
+      ],
+      "acceptedJapanese": [
+        "扉",
+        "ドア"
+      ]
+    },
+    {
+      "id": 270,
+      "japanese": "隣国",
+      "thai": "ประเทศเพื่อนบ้าน",
+      "reading": "プアンバーン",
+      "mnemonic": "友人の家→プアンバーン→隣国",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประเทศเพื่อนบ้าน"
+      ],
+      "acceptedJapanese": [
+        "隣国"
+      ]
+    },
+    {
+      "id": 271,
+      "japanese": "約",
+      "thai": "ประมาณ",
+      "reading": "プラマーン",
+      "mnemonic": "プラス➕マーン👨",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประมาณ"
+      ],
+      "acceptedJapanese": [
+        "約"
+      ]
+    },
+    {
+      "id": 272,
+      "japanese": "文 / 文章",
+      "thai": "ประโยค",
+      "reading": "プラヨーク",
+      "mnemonic": "プラスティックのヨーグルト",
+      "usageNote": "ประโยคนี้สั้นมาก.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประโยค"
+      ],
+      "acceptedJapanese": [
+        "文 / 文章"
+      ]
+    },
+    {
+      "id": 273,
+      "japanese": "経験",
+      "thai": "ประสบการณ์",
+      "reading": "プラソップカーン",
+      "mnemonic": "",
+      "usageNote": "ฉันมีประสบการณ์ทำงานสองปี.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประสบการณ์"
+      ],
+      "acceptedJapanese": [
+        "経験"
+      ]
+    },
+    {
+      "id": 275,
+      "japanese": "成功する",
+      "thai": "ประสบความสำเร็จ",
+      "reading": "プラソップ・クワームサムレット",
+      "mnemonic": "",
+      "usageNote": "เขาประสบความสำเร็จในงาน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ประสบความสำเร็จ"
+      ],
+      "acceptedJapanese": [
+        "成功する"
+      ]
+    },
+    {
+      "id": 276,
+      "japanese": "安全",
+      "thai": "ปลอด",
+      "reading": "プロート",
+      "mnemonic": "プロと一緒で安全",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปลอด",
+        "ปลอดภัย"
+      ],
+      "acceptedJapanese": [
+        "安全"
+      ]
+    },
+    {
+      "id": 277,
+      "japanese": "安全",
+      "thai": "ปลอดภัย",
+      "reading": "プロートパイ",
+      "mnemonic": "安全＋危険",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปลอด",
+        "ปลอดภัย"
+      ],
+      "acceptedJapanese": [
+        "安全"
+      ]
+    },
+    {
+      "id": 278,
+      "japanese": "魚",
+      "thai": "ปลา",
+      "reading": "プラー",
+      "mnemonic": "🐟️の天ぷら",
+      "usageNote": "ผมชอบปลา（私は魚が好きです。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปลา"
+      ],
+      "acceptedJapanese": [
+        "魚"
+      ]
+    },
+    {
+      "id": 279,
+      "japanese": "植物",
+      "thai": "ปลูก",
+      "reading": "プルーク",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปลูก"
+      ],
+      "acceptedJapanese": [
+        "植物"
+      ]
+    },
+    {
+      "id": 280,
+      "japanese": "病気である",
+      "thai": "ป่วย",
+      "reading": "プアイ",
+      "mnemonic": "poorな胃=病気である( ̀ •ω •́ )✧",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ป่วย"
+      ],
+      "acceptedJapanese": [
+        "病気である"
+      ]
+    },
+    {
+      "id": 281,
+      "japanese": "問題",
+      "thai": "ปัญหา",
+      "reading": "パンハー",
+      "mnemonic": "",
+      "usageNote": "เขามีปัญหา",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปัญหา"
+      ],
+      "acceptedJapanese": [
+        "問題"
+      ]
+    },
+    {
+      "id": 282,
+      "japanese": "口",
+      "thai": "ปาก",
+      "reading": "パーク",
+      "mnemonic": "",
+      "usageNote": "เปิดปาก（口を開ける。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปาก"
+      ],
+      "acceptedJapanese": [
+        "口"
+      ]
+    },
+    {
+      "id": 283,
+      "japanese": "ペン",
+      "thai": "ปากกา",
+      "reading": "パーカー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปากกา"
+      ],
+      "acceptedJapanese": [
+        "ペン"
+      ]
+    },
+    {
+      "id": 284,
+      "japanese": "標識 / 看板",
+      "thai": "ป้าย",
+      "reading": "パーイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ป้าย"
+      ],
+      "acceptedJapanese": [
+        "標識 / 看板"
+      ]
+    },
+    {
+      "id": 285,
+      "japanese": "バス停",
+      "thai": "ป้ายรถเมล์",
+      "reading": "パーイ・ロットメー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ป้ายรถเมล์"
+      ],
+      "acceptedJapanese": [
+        "バス停"
+      ]
+    },
+    {
+      "id": 286,
+      "japanese": "閉める",
+      "thai": "ปิด",
+      "reading": "ピット",
+      "mnemonic": "ピット閉める",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ปิด"
+      ],
+      "acceptedJapanese": [
+        "閉める"
+      ]
+    },
+    {
+      "id": 287,
+      "japanese": "Is",
+      "thai": "เป็น",
+      "reading": "ペン",
+      "mnemonic": "This is a pen",
+      "usageNote": "A=B&B≒Aならペン",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "คือ",
+        "เป็น"
+      ],
+      "acceptedJapanese": [
+        "Is"
+      ]
+    },
+    {
+      "id": 288,
+      "japanese": "取り替える",
+      "thai": "เปลี่ยน",
+      "reading": "プリアン",
+      "mnemonic": "ブリリアントに変身！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เปลี่ยน"
+      ],
+      "acceptedJapanese": [
+        "取り替える"
+      ]
+    },
+    {
+      "id": 289,
+      "japanese": "開ける",
+      "thai": "เปิด",
+      "reading": "プート",
+      "mnemonic": "プット開ける",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เปิด"
+      ],
+      "acceptedJapanese": [
+        "開ける"
+      ]
+    },
+    {
+      "id": 290,
+      "japanese": "翻訳する",
+      "thai": "แปล",
+      "reading": "プレー",
+      "mnemonic": "翻訳プレー",
+      "usageNote": "ช่วยแปลภาษาไทยให้หน่อย",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แปล"
+      ],
+      "acceptedJapanese": [
+        "翻訳する"
+      ]
+    },
+    {
+      "id": 291,
+      "japanese": "行（動作の完結を示す）",
+      "thai": "ไป",
+      "reading": "パイ",
+      "mnemonic": "",
+      "usageNote": "動詞の後に付けると、「～し続ける」という意味になる。「นั่ง รอ ไป」 座って待ち続ける",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไป"
+      ],
+      "acceptedJapanese": [
+        "行（動作の完結を示す）"
+      ]
+    },
+    {
+      "id": 292,
+      "japanese": "郵便局",
+      "thai": "ไปรษณีย์",
+      "reading": "プライ・サ・ニー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไปรษณีย์"
+      ],
+      "acceptedJapanese": [
+        "郵便局"
+      ]
+    },
+    {
+      "id": 293,
+      "japanese": "私",
+      "thai": "ผม",
+      "reading": "ポン",
+      "mnemonic": "男の子のポムポム",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ดิฉัน",
+        "ผม"
+      ],
+      "acceptedJapanese": [
+        "私"
+      ]
+    },
+    {
+      "id": 294,
+      "japanese": "果物",
+      "thai": "ผลไม้",
+      "reading": "ポンラマーイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ผลไม้"
+      ],
+      "acceptedJapanese": [
+        "果物"
+      ]
+    },
+    {
+      "id": 295,
+      "japanese": "結果",
+      "thai": "ผลลัพธ์",
+      "reading": "ポンラップ",
+      "mnemonic": "ボンさんのラップの結果は？",
+      "usageNote": "ผลลัพธ์ดีกว่าที่คาดไว้",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ผลลัพธ์"
+      ],
+      "acceptedJapanese": [
+        "結果"
+      ]
+    },
+    {
+      "id": 296,
+      "japanese": "合格する",
+      "thai": "ผ่าน",
+      "reading": "パーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ผ่าน"
+      ],
+      "acceptedJapanese": [
+        "合格する"
+      ]
+    },
+    {
+      "id": 297,
+      "japanese": "間違い・誤り",
+      "thai": "ผิด　พลาด",
+      "reading": "ピット・プラート",
+      "mnemonic": "Pを押し間違える(・´ｪ`・)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ผิด　พลาด"
+      ],
+      "acceptedJapanese": [
+        "間違い・誤り"
+      ]
+    },
+    {
+      "id": 298,
+      "japanese": "辛",
+      "thai": "เผ็ด",
+      "reading": "ペット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เผ็ด"
+      ],
+      "acceptedJapanese": [
+        "辛"
+      ]
+    },
+    {
+      "id": 299,
+      "japanese": "地図",
+      "thai": "แผนที่",
+      "reading": "ペーンティー",
+      "mnemonic": "高いお茶→ペーンなティー→地図",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แผนที่"
+      ],
+      "acceptedJapanese": [
+        "地図"
+      ]
+    },
+    {
+      "id": 300,
+      "japanese": "雨",
+      "thai": "ฝน",
+      "reading": "フォン",
+      "mnemonic": "",
+      "usageNote": "ฝนตก（雨が降る。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ฝน"
+      ],
+      "acceptedJapanese": [
+        "雨"
+      ]
+    },
+    {
+      "id": 301,
+      "japanese": "社員",
+      "thai": "พนักงาน",
+      "reading": "パナックンガーン",
+      "mnemonic": "パナソニックのガーン（仕事）する人",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พนักงาน"
+      ],
+      "acceptedJapanese": [
+        "社員"
+      ]
+    },
+    {
+      "id": 302,
+      "japanese": "会う・出会う",
+      "thai": "พบ",
+      "reading": "ポップ",
+      "mnemonic": "ヒップホップで会う",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พบ"
+      ],
+      "acceptedJapanese": [
+        "会う・出会う"
+      ]
+    },
+    {
+      "id": 303,
+      "japanese": "努力する / がんばる",
+      "thai": "พยายาม",
+      "reading": "パヤヤーム",
+      "mnemonic": "",
+      "usageNote": "พยายามอีกครั้ง",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พยายาม"
+      ],
+      "acceptedJapanese": [
+        "努力する / がんばる"
+      ]
+    },
+    {
+      "id": 304,
+      "japanese": "明日",
+      "thai": "พรุ่งนี้",
+      "reading": "プルンニー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พรุ่งนี้"
+      ],
+      "acceptedJapanese": [
+        "明日"
+      ]
+    },
+    {
+      "id": 305,
+      "japanese": "父",
+      "thai": "พ่อ",
+      "reading": "ポー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พ่อ"
+      ],
+      "acceptedJapanese": [
+        "父"
+      ]
+    },
+    {
+      "id": 306,
+      "japanese": "ちょうど",
+      "thai": "พอดี",
+      "reading": "ポーディー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พอดี"
+      ],
+      "acceptedJapanese": [
+        "ちょうど"
+      ]
+    },
+    {
+      "id": 307,
+      "japanese": "泊まる・休む",
+      "thai": "พัก",
+      "reading": "パック",
+      "mnemonic": "宿泊パック",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พัก"
+      ],
+      "acceptedJapanese": [
+        "泊まる・休む"
+      ]
+    },
+    {
+      "id": 308,
+      "japanese": "連れる",
+      "thai": "พา",
+      "reading": "パー",
+      "mnemonic": "ぱーぱ活",
+      "usageNote": "子どもを連れて行く　パー　ルーク　パイ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พา"
+      ],
+      "acceptedJapanese": [
+        "連れる"
+      ]
+    },
+    {
+      "id": 309,
+      "japanese": "話す",
+      "thai": "พูด",
+      "reading": "プート",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "พูด"
+      ],
+      "acceptedJapanese": [
+        "話す"
+      ]
+    },
+    {
+      "id": 310,
+      "japanese": "例えば、なぜなら",
+      "thai": "เพราะว่า",
+      "reading": "プロワー",
+      "mnemonic": "プロは例えば",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เพราะว่า"
+      ],
+      "acceptedJapanese": [
+        "例えば、なぜなら"
+      ]
+    },
+    {
+      "id": 311,
+      "japanese": "〜したばかり",
+      "thai": "เพิ่ง",
+      "reading": "プーング",
+      "mnemonic": "ぷんぷん怒った（●｀ε´●）ばかり",
+      "usageNote": "プーング　＋　動詞",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เพิ่ง"
+      ],
+      "acceptedJapanese": [
+        "〜したばかり"
+      ]
+    },
+    {
+      "id": 312,
+      "japanese": "for",
+      "thai": "เพื่อ",
+      "reading": "プッア",
+      "mnemonic": "poor",
+      "usageNote": "プッア　パイ　ターンプラテート",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เพื่อ"
+      ],
+      "acceptedJapanese": [
+        "for"
+      ]
+    },
+    {
+      "id": 313,
+      "japanese": "友人",
+      "thai": "เพื่อน",
+      "reading": "プーアン",
+      "mnemonic": "プーチン安心の友人",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เพื่อน"
+      ],
+      "acceptedJapanese": [
+        "友人"
+      ]
+    },
+    {
+      "id": 314,
+      "japanese": "高い[値段が]",
+      "thai": "แพง",
+      "reading": "ペーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แพง"
+      ],
+      "acceptedJapanese": [
+        "高い[値段が]"
+      ]
+    },
+    {
+      "id": 315,
+      "japanese": "聞",
+      "thai": "ฟัง",
+      "reading": "ファン",
+      "mnemonic": "ファンの音を聞く",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ฟัง"
+      ],
+      "acceptedJapanese": [
+        "聞"
+      ]
+    },
+    {
+      "id": 316,
+      "japanese": "水色",
+      "thai": "ฟ้า",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ฟ้า"
+      ],
+      "acceptedJapanese": [
+        "水色"
+      ]
+    },
+    {
+      "id": 317,
+      "japanese": "火",
+      "thai": "ไฟ",
+      "reading": "ファイ",
+      "mnemonic": "ファイヤーの🔥",
+      "usageNote": "ไฟร้อน（火は熱い。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไฟ"
+      ],
+      "acceptedJapanese": [
+        "火"
+      ]
+    },
+    {
+      "id": 318,
+      "japanese": "妻",
+      "thai": "ภรรยา",
+      "reading": "パンラヤー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภรรยา"
+      ],
+      "acceptedJapanese": [
+        "妻"
+      ]
+    },
+    {
+      "id": 319,
+      "japanese": "危険",
+      "thai": "ภัย",
+      "reading": "パイ",
+      "mnemonic": "πは危険",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภัย"
+      ],
+      "acceptedJapanese": [
+        "危険"
+      ]
+    },
+    {
+      "id": 320,
+      "japanese": "絵",
+      "thai": "ภาพ",
+      "reading": "パープ",
+      "mnemonic": "パブの絵",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภาพ"
+      ],
+      "acceptedJapanese": [
+        "絵"
+      ]
+    },
+    {
+      "id": 321,
+      "japanese": "言語",
+      "thai": "ภาษา",
+      "reading": "パーサー",
+      "mnemonic": "パスする人",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภาษา"
+      ],
+      "acceptedJapanese": [
+        "言語"
+      ]
+    },
+    {
+      "id": 322,
+      "japanese": "タイ語",
+      "thai": "ภาษา ไทย",
+      "reading": "パーサー　タイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภาษา ไทย"
+      ],
+      "acceptedJapanese": [
+        "タイ語"
+      ]
+    },
+    {
+      "id": 323,
+      "japanese": "日本語",
+      "thai": "ภาษาญี่ปุ่น",
+      "reading": "パサーイープン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภาษาญี่ปุ่น"
+      ],
+      "acceptedJapanese": [
+        "日本語"
+      ]
+    },
+    {
+      "id": 324,
+      "japanese": "山",
+      "thai": "ภูเขา",
+      "reading": "プーカオ",
+      "mnemonic": "",
+      "usageNote": "ภูเขาสูง（山は高い。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ภูเขา"
+      ],
+      "acceptedJapanese": [
+        "山"
+      ]
+    },
+    {
+      "id": 325,
+      "japanese": "来、〜してきた",
+      "thai": "มา",
+      "reading": "マー",
+      "mnemonic": "パイ ナイ マー=どこいってきたの？、動詞＋มา（マー）＝ 〜してきた（経験・継続）มาは動詞のすぐ後ろに来るのじゃ！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มา"
+      ],
+      "acceptedJapanese": [
+        "来、〜してきた"
+      ]
+    },
+    {
+      "id": 326,
+      "japanese": "どれくらい〜し続けてきましたか？",
+      "thai": "มา ＋ นาน ＋ เท่าไหร่ ＋ แล้ว",
+      "reading": "マー・ナーン・タオライ・レーオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มา ＋ นาน ＋ เท่าไหร่ ＋ แล้ว"
+      ],
+      "acceptedJapanese": [
+        "どれくらい〜し続けてきましたか？"
+      ]
+    },
+    {
+      "id": 327,
+      "japanese": "とても、～より",
+      "thai": "มาก",
+      "reading": "マーク",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มาก"
+      ],
+      "acceptedJapanese": [
+        "とても、～より"
+      ]
+    },
+    {
+      "id": 328,
+      "japanese": "集まる",
+      "thai": "มารวม",
+      "reading": "マー・ルアム",
+      "mnemonic": "まぁ、ルームに集まろう(σﾟ∀ﾟ)σ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มารวม",
+        "มารวมกัน"
+      ],
+      "acceptedJapanese": [
+        "集まる"
+      ]
+    },
+    {
+      "id": 329,
+      "japanese": "集まる",
+      "thai": "มารวมกัน",
+      "reading": "マー・ルアム・カン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มารวม",
+        "มารวมกัน"
+      ],
+      "acceptedJapanese": [
+        "集まる"
+      ]
+    },
+    {
+      "id": 330,
+      "japanese": "遅れてくる",
+      "thai": "มาสาย",
+      "reading": "マーサーイ",
+      "mnemonic": "マサイ族の文化＝よく遅刻する",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มาสาย"
+      ],
+      "acceptedJapanese": [
+        "遅れてくる"
+      ]
+    },
+    {
+      "id": 331,
+      "japanese": "ーに～がいる",
+      "thai": "มี〜อยู่ー",
+      "reading": "ミー〜ユー",
+      "mnemonic": "",
+      "usageNote": "มี แมว อยู่ ใต้เตียง= ベッドの下に🐱がいる",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มี〜อยู่ー"
+      ],
+      "acceptedJapanese": [
+        "ーに～がいる"
+      ]
+    },
+    {
+      "id": 332,
+      "japanese": "有益だ",
+      "thai": "มีประโยชน์",
+      "reading": "ミー・プラヨート",
+      "mnemonic": "プラスのようとがある→有益だ(´・ω・｀)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มีประโยชน์"
+      ],
+      "acceptedJapanese": [
+        "有益だ"
+      ]
+    },
+    {
+      "id": 333,
+      "japanese": "～側",
+      "thai": "มือ",
+      "reading": "ムー",
+      "mnemonic": "ทางขวามือ（ターン・クワー・ムー）＝ 右手の方向にあるทางซ้ายมือ（ターン・サーイ・ムー）＝ 左手の方向にある",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มือ"
+      ],
+      "acceptedJapanese": [
+        "～側"
+      ]
+    },
+    {
+      "id": 334,
+      "japanese": "携帯電話",
+      "thai": "มือถือ",
+      "reading": "ムートゥー",
+      "mnemonic": "武藤",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "มือถือ"
+      ],
+      "acceptedJapanese": [
+        "携帯電話"
+      ]
+    },
+    {
+      "id": 335,
+      "japanese": "さっき",
+      "thai": "เมื่อกี้",
+      "reading": "ムア ギー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เมื่อกี้"
+      ],
+      "acceptedJapanese": [
+        "さっき"
+      ]
+    },
+    {
+      "id": 336,
+      "japanese": "タイ国",
+      "thai": "เมือง ไทย",
+      "reading": "ムアン　タイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เมือง ไทย"
+      ],
+      "acceptedJapanese": [
+        "タイ国"
+      ]
+    },
+    {
+      "id": 337,
+      "japanese": "昨日",
+      "thai": "เมื่อวาน",
+      "reading": "ムアワーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เมื่อวาน"
+      ],
+      "acceptedJapanese": [
+        "昨日"
+      ]
+    },
+    {
+      "id": 338,
+      "japanese": "いつ？",
+      "thai": "เมื่อไหร่",
+      "reading": "ムアライ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เมื่อไหร่"
+      ],
+      "acceptedJapanese": [
+        "いつ？"
+      ]
+    },
+    {
+      "id": 339,
+      "japanese": "川",
+      "thai": "แม่น้ำ",
+      "reading": "メーナーム",
+      "mnemonic": "羊（め～）＋水（なーむ）",
+      "usageNote": "แม่น้ำยาว（川は長い。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แม่น้ำ"
+      ],
+      "acceptedJapanese": [
+        "川"
+      ]
+    },
+    {
+      "id": 340,
+      "japanese": "猫",
+      "thai": "แมว",
+      "reading": "メーオ",
+      "mnemonic": "",
+      "usageNote": "แมวน่ารัก（猫はかわいい。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แมว"
+      ],
+      "acceptedJapanese": [
+        "猫"
+      ]
+    },
+    {
+      "id": 341,
+      "japanese": "〜時",
+      "thai": "โมง",
+      "reading": "モーン",
+      "mnemonic": "も～ん🐮何時？",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โมง"
+      ],
+      "acceptedJapanese": [
+        "〜時"
+      ]
+    },
+    {
+      "id": 342,
+      "japanese": "あまり～ではない",
+      "thai": "ไม่ค่อย",
+      "reading": "マイコイ",
+      "mnemonic": "",
+      "usageNote": "主語 + ไม่ค่อย + 動詞 / 形容詞",
+      "wordOrderNote": "ผม ไม่ค่อย ชอบ ดื่ม กาแฟ",
+      "acceptedThai": [
+        "ไม่ค่อย"
+      ],
+      "acceptedJapanese": [
+        "あまり～ではない"
+      ]
+    },
+    {
+      "id": 343,
+      "japanese": "大丈夫です",
+      "thai": "ไม่เป็นไร",
+      "reading": "マイペンライ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ไม่เป็นไร"
+      ],
+      "acceptedJapanese": [
+        "大丈夫です"
+      ]
+    },
+    {
+      "id": 344,
+      "japanese": "難しい",
+      "thai": "ยาก",
+      "reading": "ヤーク",
+      "mnemonic": "約難しいでしょう(´・ω・｀)",
+      "usageNote": "ภาษาไทยยากนิดหน่อย",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ยาก"
+      ],
+      "acceptedJapanese": [
+        "難しい"
+      ]
+    },
+    {
+      "id": 345,
+      "japanese": "地区",
+      "thai": "ย่าน",
+      "reading": "ヤーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ย่าน"
+      ],
+      "acceptedJapanese": [
+        "地区"
+      ]
+    },
+    {
+      "id": 346,
+      "japanese": "移動する",
+      "thai": "ย้าย",
+      "reading": "ヤーイ",
+      "mnemonic": "や～移動",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ย้าย"
+      ],
+      "acceptedJapanese": [
+        "移動する"
+      ]
+    },
+    {
+      "id": 347,
+      "japanese": "おめでとう",
+      "thai": "ยินดีด้วย",
+      "reading": "インディー ドゥアイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ยินดีด้วย"
+      ],
+      "acceptedJapanese": [
+        "おめでとう"
+      ]
+    },
+    {
+      "id": 348,
+      "japanese": "はじめまして",
+      "thai": "ยินดีที่ได้รู้จัก",
+      "reading": "インン・ディー・ティー・ダイ・ルージャック",
+      "mnemonic": "インディージョーンズがルージャック（ジャックと知って）して嬉しい＝はじめまして",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ยินดีที่ได้รู้จัก"
+      ],
+      "acceptedJapanese": [
+        "はじめまして"
+      ]
+    },
+    {
+      "id": 349,
+      "japanese": "借りる",
+      "thai": "ยืม",
+      "reading": "ユーム",
+      "mnemonic": "借りてYou無になる",
+      "usageNote": "人に物を貸すはハイ+人+ユーム+物",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ยืม"
+      ],
+      "acceptedJapanese": [
+        "借りる"
+      ]
+    },
+    {
+      "id": 350,
+      "japanese": "忙しい",
+      "thai": "ยุ่ง",
+      "reading": "ユン",
+      "mnemonic": "ユング先生みたいに忙しい",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ยุ่ง"
+      ],
+      "acceptedJapanese": [
+        "忙しい"
+      ]
+    },
+    {
+      "id": 351,
+      "japanese": "涼しい・冷たい",
+      "thai": "เย็น",
+      "reading": "イェン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เย็น"
+      ],
+      "acceptedJapanese": [
+        "涼しい・冷たい"
+      ]
+    },
+    {
+      "id": 352,
+      "japanese": "多",
+      "thai": "เยอะ",
+      "reading": "ユッ",
+      "mnemonic": "ユッケ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เยอะ"
+      ],
+      "acceptedJapanese": [
+        "多"
+      ]
+    },
+    {
+      "id": 353,
+      "japanese": "訪ねる",
+      "thai": "เยี่ยม",
+      "reading": "ヤーム",
+      "mnemonic": "いやなみーむを訪れる",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เยี่ยม"
+      ],
+      "acceptedJapanese": [
+        "訪ねる"
+      ]
+    },
+    {
+      "id": 354,
+      "japanese": "タクシー",
+      "thai": "รถแท็กซี่",
+      "reading": "ロット・テクシー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รถแท็กซี่"
+      ],
+      "acceptedJapanese": [
+        "タクシー"
+      ]
+    },
+    {
+      "id": 355,
+      "japanese": "バス",
+      "thai": "รถบัส",
+      "reading": "ロットバット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รถบัส",
+        "รถเมล์"
+      ],
+      "acceptedJapanese": [
+        "バス"
+      ]
+    },
+    {
+      "id": 356,
+      "japanese": "電車",
+      "thai": "รถไฟ",
+      "reading": "ロットファイ",
+      "mnemonic": "",
+      "usageNote": "ナン　ロットファイ　パイ　場所",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รถไฟ"
+      ],
+      "acceptedJapanese": [
+        "電車"
+      ]
+    },
+    {
+      "id": 357,
+      "japanese": "電車（BTS・MRT）",
+      "thai": "รถไฟฟ้า",
+      "reading": "ロット・ファイ・ファー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รถไฟฟ้า"
+      ],
+      "acceptedJapanese": [
+        "電車（BTS・MRT）"
+      ]
+    },
+    {
+      "id": 358,
+      "japanese": "バス",
+      "thai": "รถเมล์",
+      "reading": "ロットメー",
+      "mnemonic": "羊バス",
+      "usageNote": "ขึ้นรถเมล์（バスに乗ります。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รถบัส",
+        "รถเมล์"
+      ],
+      "acceptedJapanese": [
+        "バス"
+      ]
+    },
+    {
+      "id": 359,
+      "japanese": "傘",
+      "thai": "ร่ม",
+      "reading": "ロム",
+      "mnemonic": "傘でRead Only Memoryにアクセス☂️",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร่ม"
+      ],
+      "acceptedJapanese": [
+        "傘"
+      ]
+    },
+    {
+      "id": 360,
+      "japanese": "待って",
+      "thai": "รอ",
+      "reading": "ロー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รอ"
+      ],
+      "acceptedJapanese": [
+        "待って"
+      ]
+    },
+    {
+      "id": 361,
+      "japanese": "靴",
+      "thai": "รองเท้า",
+      "reading": "ローンタオ",
+      "mnemonic": "田尾さんのローン→靴",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รองเท้า"
+      ],
+      "acceptedJapanese": [
+        "靴"
+      ]
+    },
+    {
+      "id": 363,
+      "japanese": "暑",
+      "thai": "ร้อน",
+      "reading": "ローン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร้อน"
+      ],
+      "acceptedJapanese": [
+        "暑"
+      ]
+    },
+    {
+      "id": 364,
+      "japanese": "気をつける",
+      "thai": "ระวัง",
+      "reading": "ラワン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ระวัง"
+      ],
+      "acceptedJapanese": [
+        "気をつける",
+        "注意する"
+      ]
+    },
+    {
+      "id": 365,
+      "japanese": "注意する",
+      "thai": "ระวัง",
+      "reading": "ラワン",
+      "mnemonic": "",
+      "usageNote": "ระวังรถ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ระวัง"
+      ],
+      "acceptedJapanese": [
+        "気をつける",
+        "注意する"
+      ]
+    },
+    {
+      "id": 366,
+      "japanese": "〜の間",
+      "thai": "ระหว่าง",
+      "reading": "ラワーン",
+      "mnemonic": "コーラを一つ、コーラワン",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ระหว่าง"
+      ],
+      "acceptedJapanese": [
+        "〜の間"
+      ]
+    },
+    {
+      "id": 367,
+      "japanese": "愛",
+      "thai": "รัก",
+      "reading": "ラック",
+      "mnemonic": "運≒愛　ラック≒ラック",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รัก"
+      ],
+      "acceptedJapanese": [
+        "愛"
+      ]
+    },
+    {
+      "id": 368,
+      "japanese": "受け取る・迎える",
+      "thai": "รับ",
+      "reading": "ラップ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รับ"
+      ],
+      "acceptedJapanese": [
+        "受け取る・迎える"
+      ]
+    },
+    {
+      "id": 369,
+      "japanese": "電話に出る",
+      "thai": "รับสาย",
+      "reading": "ラップ・サーイ",
+      "mnemonic": "🦏がラップで電話出る",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รับสาย"
+      ],
+      "acceptedJapanese": [
+        "電話に出る"
+      ]
+    },
+    {
+      "id": 370,
+      "japanese": "店",
+      "thai": "ร้า",
+      "reading": "ローン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร้า",
+        "ร้าน"
+      ],
+      "acceptedJapanese": [
+        "店"
+      ]
+    },
+    {
+      "id": 371,
+      "japanese": "値段",
+      "thai": "ราคา",
+      "reading": "ラーカー",
+      "mnemonic": "値段いくらーかー？",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ราคา"
+      ],
+      "acceptedJapanese": [
+        "値段"
+      ]
+    },
+    {
+      "id": 372,
+      "japanese": "店",
+      "thai": "ร้าน",
+      "reading": "ラーン",
+      "mnemonic": "",
+      "usageNote": "ร้านนี้อร่อยมาก (この店はとてもおいしい)",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร้า",
+        "ร้าน"
+      ],
+      "acceptedJapanese": [
+        "店"
+      ]
+    },
+    {
+      "id": 373,
+      "japanese": "薬局",
+      "thai": "ร้านยา",
+      "reading": "ローンヤー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร้านยา"
+      ],
+      "acceptedJapanese": [
+        "薬局"
+      ]
+    },
+    {
+      "id": 374,
+      "japanese": "コンビニ",
+      "thai": "ร้านสะดวกซื้อ",
+      "reading": "ラーンサドゥアックスー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร้านสะดวกซื้อ"
+      ],
+      "acceptedJapanese": [
+        "コンビニ"
+      ]
+    },
+    {
+      "id": 375,
+      "japanese": "レストラン",
+      "thai": "ร้านอาหาร",
+      "reading": "ラーンアーハーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ร้านอาหาร"
+      ],
+      "acceptedJapanese": [
+        "レストラン"
+      ]
+    },
+    {
+      "id": 376,
+      "japanese": "詳細",
+      "thai": "รายละเอียด",
+      "reading": "ラーイ・ライアット",
+      "mnemonic": "",
+      "usageNote": "กรุณาอ่านรายละเอียดก่อน.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รายละเอียด"
+      ],
+      "acceptedJapanese": [
+        "詳細"
+      ]
+    },
+    {
+      "id": 377,
+      "japanese": "〜頃・〜くらい・約",
+      "thai": "ราว ๆ",
+      "reading": "ラーオラーオ",
+      "mnemonic": "ラオスぐらい",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ราว ๆ"
+      ],
+      "acceptedJapanese": [
+        "〜頃・〜くらい・約"
+      ]
+    },
+    {
+      "id": 378,
+      "japanese": "急ぐ",
+      "thai": "รีบ",
+      "reading": "リープ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รีบ"
+      ],
+      "acceptedJapanese": [
+        "急ぐ"
+      ]
+    },
+    {
+      "id": 379,
+      "japanese": "知る",
+      "thai": "รู้จัก",
+      "reading": "ルージャック",
+      "mnemonic": "ルージュ（口紅）を塗りあった",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รู้จัก"
+      ],
+      "acceptedJapanese": [
+        "知る"
+      ]
+    },
+    {
+      "id": 380,
+      "japanese": "写真",
+      "thai": "รูป",
+      "reading": "ループ",
+      "mnemonic": "写真を何度もループする",
+      "usageNote": "ผมถ่ายรูปที่เชียงใหม่ (私はチェンマイで写真を撮った)",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "รูป"
+      ],
+      "acceptedJapanese": [
+        "写真"
+      ]
+    },
+    {
+      "id": 381,
+      "japanese": "早、速",
+      "thai": "เร็ว",
+      "reading": "レオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เร็ว"
+      ],
+      "acceptedJapanese": [
+        "早、速"
+      ]
+    },
+    {
+      "id": 382,
+      "japanese": "始まる・始める",
+      "thai": "เริ่ม",
+      "reading": "ルーム",
+      "mnemonic": "「ルームに入ったら始まる！」🎬",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เริ่ม"
+      ],
+      "acceptedJapanese": [
+        "始まる・始める"
+      ]
+    },
+    {
+      "id": 383,
+      "japanese": "勉強する",
+      "thai": "เรียน",
+      "reading": "リアン",
+      "mnemonic": "リア",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เรียน"
+      ],
+      "acceptedJapanese": [
+        "勉強する"
+      ]
+    },
+    {
+      "id": 384,
+      "japanese": "きちんと終わった / 完了した",
+      "thai": "เรียบร้อย",
+      "reading": "リアップローイ",
+      "mnemonic": "リアップ育毛ちゃんと終わった",
+      "usageNote": "ฉันทำการบ้านเรียบร้อยแล้ว.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เรียบร้อย"
+      ],
+      "acceptedJapanese": [
+        "きちんと終わった / 完了した"
+      ]
+    },
+    {
+      "id": 385,
+      "japanese": "～話",
+      "thai": "เรื่อง",
+      "reading": "ルアン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เรื่อง"
+      ],
+      "acceptedJapanese": [
+        "～話"
+      ]
+    },
+    {
+      "id": 386,
+      "japanese": "学校",
+      "thai": "โรงเรียน",
+      "reading": "ローンリアン",
+      "mnemonic": "ロリやん",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โรงเรียน"
+      ],
+      "acceptedJapanese": [
+        "学校"
+      ]
+    },
+    {
+      "id": 387,
+      "japanese": "ホテル",
+      "thai": "โรงแรม",
+      "reading": "ローンレーム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โรงแรม"
+      ],
+      "acceptedJapanese": [
+        "ホテル"
+      ]
+    },
+    {
+      "id": 389,
+      "japanese": "降りる",
+      "thai": "ลง",
+      "reading": "ロン",
+      "mnemonic": "麻雀で降りる時はロン",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ลง"
+      ],
+      "acceptedJapanese": [
+        "降りる"
+      ]
+    },
+    {
+      "id": 390,
+      "japanese": "割引する",
+      "thai": "ลด",
+      "reading": "ロット",
+      "mnemonic": "ロット割してくれ！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ลด"
+      ],
+      "acceptedJapanese": [
+        "割引する"
+      ]
+    },
+    {
+      "id": 391,
+      "japanese": "失敗する",
+      "thai": "ล้มเหลว",
+      "reading": "ロムレーオ",
+      "mnemonic": "",
+      "usageNote": "อย่ากลัวที่จะล้มเหลว",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ล้มเหลว"
+      ],
+      "acceptedJapanese": [
+        "失敗する"
+      ]
+    },
+    {
+      "id": 392,
+      "japanese": "エレベーター",
+      "thai": "ลิฟต์",
+      "reading": "リフト",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ลิฟต์"
+      ],
+      "acceptedJapanese": [
+        "エレベーター"
+      ]
+    },
+    {
+      "id": 393,
+      "japanese": "忘れる",
+      "thai": "ลืม",
+      "reading": "ルーム",
+      "mnemonic": "ホテルの部屋忘れる、あるあるですね",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ลืม"
+      ],
+      "acceptedJapanese": [
+        "忘れる"
+      ]
+    },
+    {
+      "id": 394,
+      "japanese": "遊ぶ",
+      "thai": "เล่น",
+      "reading": "レン",
+      "mnemonic": "レンレンと遊ぼう",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เล่น"
+      ],
+      "acceptedJapanese": [
+        "遊ぶ"
+      ]
+    },
+    {
+      "id": 395,
+      "japanese": "〜冊[本]",
+      "thai": "เล่ม",
+      "reading": "レム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เล่ม"
+      ],
+      "acceptedJapanese": [
+        "〜冊[本]"
+      ]
+    },
+    {
+      "id": 396,
+      "japanese": "本当に、それから",
+      "thai": "เลย",
+      "reading": "ルーイ",
+      "mnemonic": "ルイビトン本当に高い(・´ｪ`・)",
+      "usageNote": "ร้อน จัง เลย",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เลย"
+      ],
+      "acceptedJapanese": [
+        "本当に、それから"
+      ]
+    },
+    {
+      "id": 397,
+      "japanese": "終わる・やめる",
+      "thai": "เลิก",
+      "reading": "ルーク",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เลิก"
+      ],
+      "acceptedJapanese": [
+        "終わる・やめる"
+      ]
+    },
+    {
+      "id": 398,
+      "japanese": "曲がる",
+      "thai": "เลี้ยว",
+      "reading": "リアオ",
+      "mnemonic": "リアルにアオい→曲がる",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เลี้ยว"
+      ],
+      "acceptedJapanese": [
+        "曲がる"
+      ]
+    },
+    {
+      "id": 399,
+      "japanese": "選ぶ",
+      "thai": "เลือก",
+      "reading": "ルアック",
+      "mnemonic": "",
+      "usageNote": "คุณเลือกอันไหน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เลือก"
+      ],
+      "acceptedJapanese": [
+        "選ぶ"
+      ]
+    },
+    {
+      "id": 400,
+      "japanese": "〜してから",
+      "thai": "แล้ว",
+      "reading": "レーオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แล้ว",
+        "หลังจาก"
+      ],
+      "acceptedJapanese": [
+        "〜してから"
+      ]
+    },
+    {
+      "id": 401,
+      "japanese": "そして・それから",
+      "thai": "แล้วก็",
+      "reading": "レーオコー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แล้วก็"
+      ],
+      "acceptedJapanese": [
+        "そして・それから"
+      ]
+    },
+    {
+      "id": 402,
+      "japanese": "～と",
+      "thai": "และ",
+      "reading": "レ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "และ"
+      ],
+      "acceptedJapanese": [
+        "～と"
+      ]
+    },
+    {
+      "id": 403,
+      "japanese": "文化",
+      "thai": "วัฒนธรรม",
+      "reading": "ワッタナタム",
+      "mnemonic": "",
+      "usageNote": "ฉันชอบวัฒนธรรมไทย.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วัฒนธรรม"
+      ],
+      "acceptedJapanese": [
+        "文化"
+      ]
+    },
+    {
+      "id": 404,
+      "japanese": "日曜日",
+      "thai": "วัน อาทิตย์",
+      "reading": "ワン アーティット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วัน อาทิตย์"
+      ],
+      "acceptedJapanese": [
+        "日曜日"
+      ]
+    },
+    {
+      "id": 405,
+      "japanese": "先日",
+      "thai": "วันก่อน",
+      "reading": "ワンゴーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันก่อน"
+      ],
+      "acceptedJapanese": [
+        "先日"
+      ]
+    },
+    {
+      "id": 406,
+      "japanese": "月曜日",
+      "thai": "วันจันทร์",
+      "reading": "ワン・チャン",
+      "mnemonic": "月火水木金土日＝チャンとアンさんがプット、パルハットとスックと竿とアート",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันจันทร์"
+      ],
+      "acceptedJapanese": [
+        "月曜日"
+      ]
+    },
+    {
+      "id": 407,
+      "japanese": "今日",
+      "thai": "วันนี้",
+      "reading": "ワンニー",
+      "mnemonic": "もう（ムアワン）ワン（ワンニー）、プルン（プルンニー）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันนี้"
+      ],
+      "acceptedJapanese": [
+        "今日"
+      ]
+    },
+    {
+      "id": 408,
+      "japanese": "木曜日",
+      "thai": "วันพฤหัสบดี",
+      "reading": "ワン・パルハットサボーディー",
+      "mnemonic": "",
+      "usageNote": "วันพฤหัสบดีผมเรียนภาษาไทย",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันพฤหัสบดี"
+      ],
+      "acceptedJapanese": [
+        "木曜日"
+      ]
+    },
+    {
+      "id": 409,
+      "japanese": "水曜日",
+      "thai": "วันพุธ",
+      "reading": "ワン・プット",
+      "mnemonic": "",
+      "usageNote": "วันพุธมีสอบ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันพุธ"
+      ],
+      "acceptedJapanese": [
+        "水曜日"
+      ]
+    },
+    {
+      "id": 410,
+      "japanese": "金曜日",
+      "thai": "วันศุกร์",
+      "reading": "ワン・スック",
+      "mnemonic": "",
+      "usageNote": "วันศุกร์ผมกลับบ้าน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันศุกร์"
+      ],
+      "acceptedJapanese": [
+        "金曜日"
+      ]
+    },
+    {
+      "id": 411,
+      "japanese": "土曜日",
+      "thai": "วันเสาร์",
+      "reading": "ワン・サオ",
+      "mnemonic": "",
+      "usageNote": "วันเสาร์ผมไปตลาด",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันเสาร์"
+      ],
+      "acceptedJapanese": [
+        "土曜日"
+      ]
+    },
+    {
+      "id": 412,
+      "japanese": "休日",
+      "thai": "วันหยุด",
+      "reading": "ワンユット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันหยุด"
+      ],
+      "acceptedJapanese": [
+        "休日"
+      ]
+    },
+    {
+      "id": 413,
+      "japanese": "火曜日",
+      "thai": "วันอังคาร",
+      "reading": "ワン・アンカーン",
+      "mnemonic": "",
+      "usageNote": "วันอังคารผมไปโรงเรียน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วันอังคาร"
+      ],
+      "acceptedJapanese": [
+        "火曜日"
+      ]
+    },
+    {
+      "id": 414,
+      "japanese": "that～",
+      "thai": "ว่า",
+      "reading": "ワー",
+      "mnemonic": "ワざ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ว่า"
+      ],
+      "acceptedJapanese": [
+        "that～"
+      ]
+    },
+    {
+      "id": 415,
+      "japanese": "置く",
+      "thai": "วาง",
+      "reading": "ワーン",
+      "mnemonic": "🐶「置いてあるワン！」",
+      "usageNote": "วางอยู่（ワーン・ユー）＝置いてある！",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วาง"
+      ],
+      "acceptedJapanese": [
+        "置く"
+      ]
+    },
+    {
+      "id": 416,
+      "japanese": "電話を切る",
+      "thai": "วางสาย",
+      "reading": "ワーン・サーイ",
+      "mnemonic": "🦏がワンと電話切る",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วางสาย"
+      ],
+      "acceptedJapanese": [
+        "電話を切る"
+      ]
+    },
+    {
+      "id": 417,
+      "japanese": "描く",
+      "thai": "วาด",
+      "reading": "ワート",
+      "mnemonic": "アートをワーット描く",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วาด"
+      ],
+      "acceptedJapanese": [
+        "描く"
+      ]
+    },
+    {
+      "id": 418,
+      "japanese": "泳ぐ",
+      "thai": "ว่าย",
+      "reading": "ワーイ",
+      "mnemonic": "ワイワイ泳ぐ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ว่าย"
+      ],
+      "acceptedJapanese": [
+        "泳ぐ"
+      ]
+    },
+    {
+      "id": 419,
+      "japanese": "方法",
+      "thai": "วิธี",
+      "reading": "ウィティー",
+      "mnemonic": "",
+      "usageNote": "นี่เป็นวิธีที่ดี",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วิธี",
+        "วิธีการ"
+      ],
+      "acceptedJapanese": [
+        "方法"
+      ]
+    },
+    {
+      "id": 420,
+      "japanese": "方法",
+      "thai": "วิธีการ",
+      "reading": "ウィティーカーン",
+      "mnemonic": "",
+      "usageNote": "เราต้องหาวิธีการใหม่",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "วิธี",
+        "วิธีการ"
+      ],
+      "acceptedJapanese": [
+        "方法"
+      ]
+    },
+    {
+      "id": 421,
+      "japanese": "～の時 / 時間",
+      "thai": "เวลา",
+      "reading": "ウェラー",
+      "mnemonic": "ウェーラー〇〇＝〇〇時、เวลา + หกโมง = ６時",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เวลา"
+      ],
+      "acceptedJapanese": [
+        "～の時 / 時間"
+      ]
+    },
+    {
+      "id": 422,
+      "japanese": "眼鏡",
+      "thai": "แว่นตา",
+      "reading": "ウェンター",
+      "mnemonic": "when田？ウェンター→メガネ",
+      "usageNote": "พ่อใส่แว่นตา",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แว่นตา"
+      ],
+      "acceptedJapanese": [
+        "眼鏡"
+      ]
+    },
+    {
+      "id": 423,
+      "japanese": "立ち寄る",
+      "thai": "แวะ",
+      "reading": "ウェ",
+      "mnemonic": "Wayyaの実家に立ち寄る",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แวะ"
+      ],
+      "acceptedJapanese": [
+        "立ち寄る"
+      ]
+    },
+    {
+      "id": 424,
+      "japanese": "送る",
+      "thai": "ส่ง",
+      "reading": "ソン",
+      "mnemonic": "🇰🇷のソン兄さんに送る",
+      "usageNote": "ソン　人　カップ = 運転して人を送る　ส่ง + 物 + ให้ + 人",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ส่ง"
+      ],
+      "acceptedJapanese": [
+        "送る"
+      ]
+    },
+    {
+      "id": 425,
+      "japanese": "興味がある",
+      "thai": "สนใจ",
+      "reading": "ソンジャイ",
+      "mnemonic": "興味ある→ソンのことじゃい( ＾∀＾)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สนใจ"
+      ],
+      "acceptedJapanese": [
+        "興味がある"
+      ]
+    },
+    {
+      "id": 426,
+      "japanese": "楽しい・面白い",
+      "thai": "สนุก",
+      "reading": "サヌック",
+      "mnemonic": "サヌキ（讃岐）うどんみたい",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สนุก"
+      ],
+      "acceptedJapanese": [
+        "楽しい・面白い"
+      ]
+    },
+    {
+      "id": 427,
+      "japanese": "元気・快適",
+      "thai": "สบาย ดี",
+      "reading": "サバーイ・ディー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สบาย ดี"
+      ],
+      "acceptedJapanese": [
+        "元気・快適"
+      ]
+    },
+    {
+      "id": 428,
+      "japanese": "応募する / 申し込む",
+      "thai": "สมัคร",
+      "reading": "サマック",
+      "mnemonic": "summerに申し込む",
+      "usageNote": "ฉันจะสมัครสอบเดือนหน้า.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สมัคร"
+      ],
+      "acceptedJapanese": [
+        "応募する / 申し込む",
+        "応募する"
+      ]
+    },
+    {
+      "id": 429,
+      "japanese": "応募する",
+      "thai": "สมัคร",
+      "reading": "サマック",
+      "mnemonic": "",
+      "usageNote": "ผมสมัครงานแล้ว",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สมัคร"
+      ],
+      "acceptedJapanese": [
+        "応募する / 申し込む",
+        "応募する"
+      ]
+    },
+    {
+      "id": 430,
+      "japanese": "会員、メンバー",
+      "thai": "สมาชิก",
+      "reading": "サマーチック",
+      "mnemonic": "メンバーのサマーをチェック！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สมาชิก"
+      ],
+      "acceptedJapanese": [
+        "会員、メンバー"
+      ]
+    },
+    {
+      "id": 431,
+      "japanese": "ノート",
+      "thai": "สมุด",
+      "reading": "サムット",
+      "mnemonic": "サムと",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สมุด"
+      ],
+      "acceptedJapanese": [
+        "ノート"
+      ]
+    },
+    {
+      "id": 432,
+      "japanese": "きれい・美しい",
+      "thai": "สวย",
+      "reading": "スアイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สวย"
+      ],
+      "acceptedJapanese": [
+        "きれい・美しい"
+      ]
+    },
+    {
+      "id": 433,
+      "japanese": "暗い",
+      "thai": "สว่าง",
+      "reading": "ムート",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สว่าง"
+      ],
+      "acceptedJapanese": [
+        "暗い",
+        "明るい"
+      ]
+    },
+    {
+      "id": 434,
+      "japanese": "明るい",
+      "thai": "สว่าง",
+      "reading": "サワーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สว่าง"
+      ],
+      "acceptedJapanese": [
+        "暗い",
+        "明るい"
+      ]
+    },
+    {
+      "id": 435,
+      "japanese": "教える",
+      "thai": "สอน",
+      "reading": "ソン",
+      "mnemonic": "孫（カカロット）に教える＝亀仙人",
+      "usageNote": "ช่วย สอน ว่าย = 泳ぎ方を教えてあげる(^o^)v",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สอน"
+      ],
+      "acceptedJapanese": [
+        "教える"
+      ]
+    },
+    {
+      "id": 436,
+      "japanese": "試験",
+      "thai": "สอบ",
+      "reading": "ソープ",
+      "mnemonic": "ソープランド試験",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สอบ"
+      ],
+      "acceptedJapanese": [
+        "試験"
+      ]
+    },
+    {
+      "id": 437,
+      "japanese": "フォーク",
+      "thai": "ส้อม",
+      "reading": "ソーム",
+      "mnemonic": "",
+      "usageNote": "ใช้ส้อม（フォークを使います。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ส้อม"
+      ],
+      "acceptedJapanese": [
+        "フォーク"
+      ]
+    },
+    {
+      "id": 438,
+      "japanese": "便利・快適",
+      "thai": "สะดวก",
+      "reading": "サドゥアック",
+      "mnemonic": "茶道アクト→快適",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สะดวก"
+      ],
+      "acceptedJapanese": [
+        "便利・快適"
+      ]
+    },
+    {
+      "id": 439,
+      "japanese": "橋",
+      "thai": "สะพาน",
+      "reading": "サパーン",
+      "mnemonic": "さ、🥐を箸で食べるのよ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สะพาน"
+      ],
+      "acceptedJapanese": [
+        "橋"
+      ]
+    },
+    {
+      "id": 440,
+      "japanese": "清潔な、きれいな",
+      "thai": "สะอาด",
+      "reading": "サアート",
+      "mnemonic": "さ、あと清潔にしてね",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สะอาด"
+      ],
+      "acceptedJapanese": [
+        "清潔な、きれいな"
+      ]
+    },
+    {
+      "id": 441,
+      "japanese": "少しの間",
+      "thai": "สักครู่",
+      "reading": "サッククルー",
+      "mnemonic": "ちょっと待って（丁寧）",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สักครู่"
+      ],
+      "acceptedJapanese": [
+        "少しの間"
+      ]
+    },
+    {
+      "id": 442,
+      "japanese": "注文する",
+      "thai": "สั่ง",
+      "reading": "サン",
+      "mnemonic": "サンタに注文",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สั่ง"
+      ],
+      "acceptedJapanese": [
+        "注文する"
+      ]
+    },
+    {
+      "id": 443,
+      "japanese": "社会",
+      "thai": "สังคม",
+      "reading": "サンコム",
+      "mnemonic": "",
+      "usageNote": "เขาทำงานเพื่อสังคม",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สังคม"
+      ],
+      "acceptedJapanese": [
+        "社会"
+      ]
+    },
+    {
+      "id": 444,
+      "japanese": "面接 / インタビュー",
+      "thai": "สัมภาษณ์",
+      "reading": "サムパート",
+      "mnemonic": "サムのパートのインタビュー",
+      "usageNote": "วันนี้ฉันมีสัมภาษณ์งาน.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สัมภาษณ์"
+      ],
+      "acceptedJapanese": [
+        "面接 / インタビュー"
+      ]
+    },
+    {
+      "id": 445,
+      "japanese": "水をかける・まく",
+      "thai": "สาด",
+      "reading": "サート",
+      "mnemonic": "サーット水をまく",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สาด"
+      ],
+      "acceptedJapanese": [
+        "水をかける・まく"
+      ]
+    },
+    {
+      "id": 446,
+      "japanese": "3",
+      "thai": "สาม",
+      "reading": "サン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สาม"
+      ],
+      "acceptedJapanese": [
+        "3"
+      ]
+    },
+    {
+      "id": 447,
+      "japanese": "重要な",
+      "thai": "สำคัญ",
+      "reading": "サムカン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สำคัญ"
+      ],
+      "acceptedJapanese": [
+        "重要な"
+      ]
+    },
+    {
+      "id": 450,
+      "japanese": "サムラップ",
+      "thai": "สำหรับ",
+      "reading": "〜のために",
+      "mnemonic": "侍のためにラップする",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สำหรับ"
+      ],
+      "acceptedJapanese": [
+        "サムラップ"
+      ]
+    },
+    {
+      "id": 451,
+      "japanese": "環境",
+      "thai": "สิ่งแวดล้อม",
+      "reading": "シンウェートローム",
+      "mnemonic": "",
+      "usageNote": "เราควรรักษาสิ่งแวดล้อม.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สิ่งแวดล้อม"
+      ],
+      "acceptedJapanese": [
+        "環境"
+      ]
+    },
+    {
+      "id": 452,
+      "japanese": "色",
+      "thai": "สี",
+      "reading": "スィー",
+      "mnemonic": "C",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สี"
+      ],
+      "acceptedJapanese": [
+        "色"
+      ]
+    },
+    {
+      "id": 453,
+      "japanese": "交差点",
+      "thai": "สี่แยก",
+      "reading": "シー・イェーク",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สี่แยก"
+      ],
+      "acceptedJapanese": [
+        "交差点"
+      ]
+    },
+    {
+      "id": 454,
+      "japanese": "健康",
+      "thai": "สุขภาพ",
+      "reading": "スッカパープ",
+      "mnemonic": "スカスカパブ",
+      "usageNote": "เขามีสุขภาพดี.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "สุขภาพ"
+      ],
+      "acceptedJapanese": [
+        "健康"
+      ]
+    },
+    {
+      "id": 455,
+      "japanese": "終わる・完了する",
+      "thai": "เสร็จ",
+      "reading": "セット",
+      "mnemonic": "はいセット完了！終わり！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เสร็จ"
+      ],
+      "acceptedJapanese": [
+        "終わる・完了する"
+      ]
+    },
+    {
+      "id": 456,
+      "japanese": "壊れる",
+      "thai": "เสีย",
+      "reading": "シィア",
+      "mnemonic": "試合壊れる",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เสีย"
+      ],
+      "acceptedJapanese": [
+        "壊れる"
+      ]
+    },
+    {
+      "id": 457,
+      "japanese": "音・声",
+      "thai": "เสียง",
+      "reading": "シアン",
+      "mnemonic": "",
+      "usageNote": "เสียงดังมาก",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เสียง"
+      ],
+      "acceptedJapanese": [
+        "音・声"
+      ]
+    },
+    {
+      "id": 458,
+      "japanese": "悲しい",
+      "thai": "เสียใจ",
+      "reading": "シア・ジャイ",
+      "mnemonic": "死じゃい、悲しい",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เสียใจ"
+      ],
+      "acceptedJapanese": [
+        "悲しい"
+      ]
+    },
+    {
+      "id": 459,
+      "japanese": "服",
+      "thai": "เสื้อ",
+      "reading": "スア",
+      "mnemonic": "寿司やの服",
+      "usageNote": "ผมซื้อเสื้อใหม่（私は新しい服を買います。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เสื้อ"
+      ],
+      "acceptedJapanese": [
+        "服"
+      ]
+    },
+    {
+      "id": 460,
+      "japanese": "着る",
+      "thai": "ใส่",
+      "reading": "サイ",
+      "mnemonic": "🦏の服を着る",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ใส่"
+      ],
+      "acceptedJapanese": [
+        "着る"
+      ]
+    },
+    {
+      "id": 461,
+      "japanese": "ちょっと / 〜してくださいね",
+      "thai": "หน่อย",
+      "reading": "ノイ",
+      "mnemonic": "文末に置く",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หน่อย"
+      ],
+      "acceptedJapanese": [
+        "ちょっと / 〜してくださいね"
+      ]
+    },
+    {
+      "id": 462,
+      "japanese": "重い・ひどい・激しい",
+      "thai": "หนัก",
+      "reading": "ナック",
+      "mnemonic": "重いナックル激しい",
+      "usageNote": "動詞の後に置く",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หนัก"
+      ],
+      "acceptedJapanese": [
+        "重い・ひどい・激しい"
+      ]
+    },
+    {
+      "id": 463,
+      "japanese": "映画",
+      "thai": "หนัง",
+      "reading": "ナン",
+      "mnemonic": "インド映画",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หนัง"
+      ],
+      "acceptedJapanese": [
+        "映画"
+      ]
+    },
+    {
+      "id": 464,
+      "japanese": "本",
+      "thai": "หนังสือ",
+      "reading": "ナンスー",
+      "mnemonic": "ソーナンス",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หนังสือ"
+      ],
+      "acceptedJapanese": [
+        "本"
+      ]
+    },
+    {
+      "id": 466,
+      "japanese": "窓",
+      "thai": "หน้าต่าง",
+      "reading": "ナー ターン",
+      "mnemonic": "ナッパのターンだ！窓見ろ！👀",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หน้าต่าง"
+      ],
+      "acceptedJapanese": [
+        "窓"
+      ]
+    },
+    {
+      "id": 468,
+      "japanese": "寒い",
+      "thai": "หนาว",
+      "reading": "ナーオ",
+      "mnemonic": "",
+      "usageNote": "วันนี้อากาศหนาว",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หนาว"
+      ],
+      "acceptedJapanese": [
+        "寒い"
+      ]
+    },
+    {
+      "id": 469,
+      "japanese": "1",
+      "thai": "หนึ่ง",
+      "reading": "ヌン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หนึ่ง"
+      ],
+      "acceptedJapanese": [
+        "1"
+      ]
+    },
+    {
+      "id": 470,
+      "japanese": "帽子",
+      "thai": "หมวก",
+      "reading": "ムアック",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หมวก"
+      ],
+      "acceptedJapanese": [
+        "帽子"
+      ]
+    },
+    {
+      "id": 472,
+      "japanese": "医者",
+      "thai": "หมอ",
+      "reading": "モー",
+      "mnemonic": "医者🐮",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หมอ"
+      ],
+      "acceptedJapanese": [
+        "医者"
+      ]
+    },
+    {
+      "id": 473,
+      "japanese": "犬",
+      "thai": "หมา",
+      "reading": "マー",
+      "mnemonic": "",
+      "usageNote": "หมาวิ่ง（犬が走る。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หมา"
+      ],
+      "acceptedJapanese": [
+        "犬"
+      ]
+    },
+    {
+      "id": 474,
+      "japanese": "豚肉",
+      "thai": "หมู",
+      "reading": "ムー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หมู"
+      ],
+      "acceptedJapanese": [
+        "豚肉"
+      ]
+    },
+    {
+      "id": 475,
+      "japanese": "手に取る",
+      "thai": "หยิบ",
+      "reading": "イップ",
+      "mnemonic": "イップの有",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หยิบ"
+      ],
+      "acceptedJapanese": [
+        "手に取る"
+      ]
+    },
+    {
+      "id": 476,
+      "japanese": "もう~した",
+      "thai": "หรือ ยัง",
+      "reading": "ルーヤン",
+      "mnemonic": "ルールヤン",
+      "usageNote": "動詞+ ルーヤン",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หรือ ยัง"
+      ],
+      "acceptedJapanese": [
+        "もう~した"
+      ]
+    },
+    {
+      "id": 477,
+      "japanese": "〜ですか？",
+      "thai": "หรือเปล่า",
+      "reading": "ループラオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หรือเปล่า"
+      ],
+      "acceptedJapanese": [
+        "〜ですか？"
+      ]
+    },
+    {
+      "id": 478,
+      "japanese": "whether",
+      "thai": "หรือยัง",
+      "reading": "グルプラーオ",
+      "mnemonic": "グループ、ラオス",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หรือยัง"
+      ],
+      "acceptedJapanese": [
+        "whether",
+        "しましたか？"
+      ]
+    },
+    {
+      "id": 479,
+      "japanese": "しましたか？",
+      "thai": "หรือยัง",
+      "reading": "ルーヤン",
+      "mnemonic": "🍛のルーやん？しましたか？",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หรือยัง"
+      ],
+      "acceptedJapanese": [
+        "whether",
+        "しましたか？"
+      ]
+    },
+    {
+      "id": 480,
+      "japanese": "〜してから",
+      "thai": "หลังจาก",
+      "reading": "ランジャーク",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "แล้ว",
+        "หลังจาก"
+      ],
+      "acceptedJapanese": [
+        "〜してから"
+      ]
+    },
+    {
+      "id": 481,
+      "japanese": "たくさん・多い",
+      "thai": "หลาย",
+      "reading": "ラーイ",
+      "mnemonic": "ライオンが多い",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หลาย"
+      ],
+      "acceptedJapanese": [
+        "たくさん・多い"
+      ]
+    },
+    {
+      "id": 482,
+      "japanese": "甘い",
+      "thai": "หวาน",
+      "reading": "ワーン",
+      "mnemonic": "ワン🐶甘いの好き",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หวาน"
+      ],
+      "acceptedJapanese": [
+        "甘い"
+      ]
+    },
+    {
+      "id": 483,
+      "japanese": "部屋",
+      "thai": "ห้อง",
+      "reading": "ホン",
+      "mnemonic": "本の部屋",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ห้อง"
+      ],
+      "acceptedJapanese": [
+        "部屋"
+      ]
+    },
+    {
+      "id": 484,
+      "japanese": "台所",
+      "thai": "ห้องครัว",
+      "reading": "ホン・クルア",
+      "mnemonic": "本来るわ、台所に",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ห้องครัว"
+      ],
+      "acceptedJapanese": [
+        "台所"
+      ]
+    },
+    {
+      "id": 485,
+      "japanese": "トイレ",
+      "thai": "ห้องน้ำ",
+      "reading": "ホンナーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ห้องน้ำ"
+      ],
+      "acceptedJapanese": [
+        "トイレ"
+      ]
+    },
+    {
+      "id": 486,
+      "japanese": "教室",
+      "thai": "ห้องเรียน",
+      "reading": "ホン　リアン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ห้องเรียน"
+      ],
+      "acceptedJapanese": [
+        "教室"
+      ]
+    },
+    {
+      "id": 487,
+      "japanese": "禁止する / してはいけない",
+      "thai": "ห้าม",
+      "reading": "ハーム",
+      "mnemonic": "harmしてはいけない",
+      "usageNote": "ห้ามสูบบุหรี่ที่นี่",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ห้าม"
+      ],
+      "acceptedJapanese": [
+        "禁止する / してはいけない"
+      ]
+    },
+    {
+      "id": 488,
+      "japanese": "お腹が空いた",
+      "thai": "หิว",
+      "reading": "ヒウ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หิว"
+      ],
+      "acceptedJapanese": [
+        "お腹が空いた"
+      ]
+    },
+    {
+      "id": 489,
+      "japanese": "耳",
+      "thai": "หู",
+      "reading": "フー",
+      "mnemonic": "",
+      "usageNote": "หูของผม（私の耳。）",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "หู"
+      ],
+      "acceptedJapanese": [
+        "耳"
+      ]
+    },
+    {
+      "id": 490,
+      "japanese": "理由",
+      "thai": "เหตุผล",
+      "reading": "ヘートポン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เหตุผล"
+      ],
+      "acceptedJapanese": [
+        "理由"
+      ]
+    },
+    {
+      "id": 493,
+      "japanese": "見える",
+      "thai": "เห็น",
+      "reading": "ヘン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เห็น"
+      ],
+      "acceptedJapanese": [
+        "見える"
+      ]
+    },
+    {
+      "id": 494,
+      "japanese": "似ている",
+      "thai": "เหมือน",
+      "reading": "ムアン",
+      "mnemonic": "娘（む）があんたに似てる！！！",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เหมือน"
+      ],
+      "acceptedJapanese": [
+        "似ている"
+      ]
+    },
+    {
+      "id": 495,
+      "japanese": "〜のために",
+      "thai": "ให้",
+      "reading": "ハイ",
+      "mnemonic": "ให้ ผม（ハイ　ポム） = 私のために(｀･∀･´)",
+      "usageNote": "動詞のあと",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ให้"
+      ],
+      "acceptedJapanese": [
+        "〜のために"
+      ]
+    },
+    {
+      "id": 496,
+      "japanese": "〜してくれませんか？",
+      "thai": "ให้〜หน่อยค่ะ",
+      "reading": "ハイノイカ",
+      "mnemonic": "動詞 + 目的語 + ハイノイカ　ex) プリアン ローットファイ ハイノイカ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ให้〜หน่อยค่ะ"
+      ],
+      "acceptedJapanese": [
+        "〜してくれませんか？"
+      ]
+    },
+    {
+      "id": 497,
+      "japanese": "〜か？",
+      "thai": "ไหม",
+      "reading": "マイ",
+      "mnemonic": "",
+      "usageNote": "หは読まない",
+      "wordOrderNote": "必ず文末に来る",
+      "acceptedThai": [
+        "ไหม"
+      ],
+      "acceptedJapanese": [
+        "〜か？"
+      ]
+    },
+    {
+      "id": 498,
+      "japanese": "説明する",
+      "thai": "อธิบาย",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อธิบาย"
+      ],
+      "acceptedJapanese": [
+        "説明する"
+      ]
+    },
+    {
+      "id": 500,
+      "japanese": "将来",
+      "thai": "อนาคต",
+      "reading": "アナーコット",
+      "mnemonic": "",
+      "usageNote": "ฉันคิดถึงอนาคตเสมอ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อนาคต"
+      ],
+      "acceptedJapanese": [
+        "将来"
+      ]
+    },
+    {
+      "id": 501,
+      "japanese": "許可する",
+      "thai": "อนุญาต",
+      "reading": "アヌヤート",
+      "mnemonic": "",
+      "usageNote": "ครูอนุญาตให้เข้าเรียน",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อนุญาต"
+      ],
+      "acceptedJapanese": [
+        "許可する"
+      ]
+    },
+    {
+      "id": 502,
+      "japanese": "～するな",
+      "thai": "อย่า",
+      "reading": "ヤー",
+      "mnemonic": "やーです",
+      "usageNote": "カルナーヤー=～しないで下さい",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อย่า"
+      ],
+      "acceptedJapanese": [
+        "～するな"
+      ]
+    },
+    {
+      "id": 503,
+      "japanese": "～したい",
+      "thai": "อยาก",
+      "reading": "ヤーク",
+      "mnemonic": "",
+      "usageNote": "ヤーク+動+アライ？=何を 動 したい？",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อยาก"
+      ],
+      "acceptedJapanese": [
+        "～したい"
+      ]
+    },
+    {
+      "id": 504,
+      "japanese": "どうやって",
+      "thai": "อย่างไร",
+      "reading": "ヤンライ",
+      "mnemonic": "どうやんライチ🍓",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อย่างไร"
+      ],
+      "acceptedJapanese": [
+        "どうやって"
+      ]
+    },
+    {
+      "id": 505,
+      "japanese": "どんな感じですか？",
+      "thai": "อย่างไรบ้าง",
+      "reading": "ヤーンライ・バーン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อย่างไรบ้าง"
+      ],
+      "acceptedJapanese": [
+        "どんな感じですか？"
+      ]
+    },
+    {
+      "id": 506,
+      "japanese": "住む",
+      "thai": "อยู่",
+      "reading": "ユー",
+      "mnemonic": "ユーと住む",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อยู่"
+      ],
+      "acceptedJapanese": [
+        "住む",
+        "どこにある？",
+        "ある・いる"
+      ]
+    },
+    {
+      "id": 507,
+      "japanese": "どこにある？",
+      "thai": "อยู่",
+      "reading": "ユー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อยู่"
+      ],
+      "acceptedJapanese": [
+        "住む",
+        "どこにある？",
+        "ある・いる"
+      ]
+    },
+    {
+      "id": 508,
+      "japanese": "ある・いる",
+      "thai": "อยู่",
+      "reading": "ユー",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อยู่"
+      ],
+      "acceptedJapanese": [
+        "住む",
+        "どこにある？",
+        "ある・いる"
+      ]
+    },
+    {
+      "id": 509,
+      "japanese": "おいしい",
+      "thai": "อร่อย",
+      "reading": "アロイ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อร่อย"
+      ],
+      "acceptedJapanese": [
+        "おいしい"
+      ]
+    },
+    {
+      "id": 510,
+      "japanese": "おはよう",
+      "thai": "อรุณสวัสดิ์",
+      "reading": "アルンサワット",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อรุณสวัสดิ์"
+      ],
+      "acceptedJapanese": [
+        "おはよう"
+      ]
+    },
+    {
+      "id": 511,
+      "japanese": "出る、～できる（文字のせい）",
+      "thai": "ออก",
+      "reading": "オーク",
+      "mnemonic": "オーク",
+      "usageNote": "オーク　パイ=出かける",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ออก"
+      ],
+      "acceptedJapanese": [
+        "出る、～できる（文字のせい）"
+      ]
+    },
+    {
+      "id": 512,
+      "japanese": "何",
+      "thai": "อะไร",
+      "reading": "アライ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อะไร"
+      ],
+      "acceptedJapanese": [
+        "何"
+      ]
+    },
+    {
+      "id": 513,
+      "japanese": "危険な / 危険",
+      "thai": "อันตราย",
+      "reading": "アンタラーイ",
+      "mnemonic": "あんたら、たらい危険よ",
+      "usageNote": "ถนนนี้อันตรายมาก.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อันตราย"
+      ],
+      "acceptedJapanese": [
+        "危険な / 危険"
+      ]
+    },
+    {
+      "id": 514,
+      "japanese": "天気",
+      "thai": "อากาศ",
+      "reading": "アーカート",
+      "mnemonic": "あ！、マリオカート→天気いいな( ＾∀＾)",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อากาศ"
+      ],
+      "acceptedJapanese": [
+        "天気"
+      ]
+    },
+    {
+      "id": 515,
+      "japanese": "〜かもしれない",
+      "thai": "อาจจะ",
+      "reading": "アー・ジャ",
+      "mnemonic": "あ～じゃ、そうかもしれん",
+      "usageNote": "ฝน อาจจะ ตก＝雨かもしれない",
+      "wordOrderNote": "動詞の前",
+      "acceptedThai": [
+        "อาจจะ"
+      ],
+      "acceptedJapanese": [
+        "〜かもしれない"
+      ]
+    },
+    {
+      "id": 516,
+      "japanese": "先生",
+      "thai": "อาจารย์",
+      "reading": "アーチャーン",
+      "mnemonic": "アーチャー",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ครู",
+        "อาจารย์"
+      ],
+      "acceptedJapanese": [
+        "先生"
+      ]
+    },
+    {
+      "id": 517,
+      "japanese": "職業",
+      "thai": "อาชีพ",
+      "reading": "アーチープ",
+      "mnemonic": "あ、チープ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อาชีพ"
+      ],
+      "acceptedJapanese": [
+        "職業"
+      ]
+    },
+    {
+      "id": 518,
+      "japanese": "来週",
+      "thai": "อาทิตย์หน้า",
+      "reading": "アーティット ナー",
+      "mnemonic": "アーティストは来週な～",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อาทิตย์หน้า"
+      ],
+      "acceptedJapanese": [
+        "来週"
+      ]
+    },
+    {
+      "id": 520,
+      "japanese": "読",
+      "thai": "อ่าน",
+      "reading": "アン",
+      "mnemonic": "読聞書話＝アンファンキアンプート",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อ่าน"
+      ],
+      "acceptedJapanese": [
+        "読"
+      ]
+    },
+    {
+      "id": 521,
+      "japanese": "シャワーを浴びる",
+      "thai": "อาบน้ำ",
+      "reading": "アープ ナーム",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อาบน้ำ"
+      ],
+      "acceptedJapanese": [
+        "シャワーを浴びる"
+      ]
+    },
+    {
+      "id": 522,
+      "japanese": "料理",
+      "thai": "อาหาร",
+      "reading": "",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อาหาร"
+      ],
+      "acceptedJapanese": [
+        "料理"
+      ]
+    },
+    {
+      "id": 523,
+      "japanese": "また／再び",
+      "thai": "อีก",
+      "reading": "イーク",
+      "mnemonic": "またイクよ❤️",
+      "usageNote": "動詞 + 場所/目的語 + อีก",
+      "wordOrderNote": "ไป ที่นั่น อีก",
+      "acceptedThai": [
+        "อีก"
+      ],
+      "acceptedJapanese": [
+        "また／再び"
+      ]
+    },
+    {
+      "id": 524,
+      "japanese": "事故",
+      "thai": "อุบัติเหตุ",
+      "reading": "ウバットティヘート",
+      "mnemonic": "乳母とティーHate→事故",
+      "usageNote": "เมื่อวานมีอุบัติเหตุ",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "อุบัติเหตุ"
+      ],
+      "acceptedJapanese": [
+        "事故"
+      ]
+    },
+    {
+      "id": 525,
+      "japanese": "エーカサーン",
+      "thai": "เอกสาร",
+      "reading": "書類・文書",
+      "mnemonic": "書類え～かウェーヤさ～ん",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เอกสาร"
+      ],
+      "acceptedJapanese": [
+        "エーカサーン"
+      ]
+    },
+    {
+      "id": 526,
+      "japanese": "自分で",
+      "thai": "เอง",
+      "reading": "エーン",
+      "mnemonic": "円で自分で払うわ(｀･∀･´)",
+      "usageNote": "เองは動作全体を修飾するから一番最後に来るのが自然じゃ！",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เอง"
+      ],
+      "acceptedJapanese": [
+        "自分で"
+      ]
+    },
+    {
+      "id": 527,
+      "japanese": "要求する",
+      "thai": "เอา",
+      "reading": "アオ",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เอา"
+      ],
+      "acceptedJapanese": [
+        "要求する"
+      ]
+    },
+    {
+      "id": 528,
+      "japanese": "機会 / チャンス",
+      "thai": "โอกาส",
+      "reading": "オーカート",
+      "mnemonic": "おー、カートください、特売の機会です( ´･Д･)ゞ",
+      "usageNote": "นี่เป็นโอกาสดี.",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "โอกาส"
+      ],
+      "acceptedJapanese": [
+        "機会 / チャンス"
+      ]
+    },
+    {
+      "id": 529,
+      "japanese": "信じる",
+      "thai": "เชื่อ",
+      "reading": "チュア",
+      "mnemonic": "ミニチュアを信じる",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "เชื่อ"
+      ],
+      "acceptedJapanese": [
+        "信じる"
+      ]
+    },
+    {
+      "id": 530,
+      "japanese": "倒れる・転ぶ",
+      "thai": "ล้ม",
+      "reading": "クアップ",
+      "mnemonic": "クワっ転びそうだったぜ",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ล้ม"
+      ],
+      "acceptedJapanese": [
+        "倒れる・転ぶ"
+      ]
+    },
+    {
+      "id": 531,
+      "japanese": "野菜",
+      "thai": "ผัก",
+      "reading": "パック",
+      "mnemonic": "野菜のパック",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ผัก"
+      ],
+      "acceptedJapanese": [
+        "野菜"
+      ]
+    },
+    {
+      "id": 532,
+      "japanese": "パン",
+      "thai": "ขนมปัง",
+      "reading": "カノム パン",
+      "mnemonic": "",
+      "usageNote": "",
+      "wordOrderNote": "",
+      "acceptedThai": [
+        "ขนมปัง"
+      ],
+      "acceptedJapanese": [
+        "パン"
+      ]
+    }
+  ]
+}

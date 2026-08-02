@@ -2,207 +2,949 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>Thai Script Trainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#8a4f2d" />
+  <title>Thai Vocabulary Trainer Ver2.0</title>
   <style>
+    :root {
+      --paper: #fffdf8;
+      --background: #f4eee5;
+      --ink: #2d2926;
+      --muted: #746b64;
+      --primary: #a9572c;
+      --primary-dark: #82401f;
+      --secondary: #ede0d2;
+      --success: #247a4b;
+      --success-bg: #e8f6ed;
+      --danger: #a73b35;
+      --danger-bg: #fdecea;
+      --border: #d8c9b8;
+      --shadow: 0 14px 36px rgba(76, 50, 30, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: sans-serif;
-      background: #f5f1ea;
-      text-align: center;
-      padding: 40px;
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.88), transparent 34rem),
+        var(--background);
+      font-family: system-ui, -apple-system, "Segoe UI", "Noto Sans Thai", Tahoma, sans-serif;
+    }
+
+    button, input, select { font: inherit; }
+    button { touch-action: manipulation; }
+
+    .app-shell {
+      width: min(760px, calc(100% - 24px));
+      margin: 24px auto;
     }
 
     .card {
-      background: white;
-	  width: 90%;
-	  max-width: 420px;
-      margin: auto;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background: var(--paper);
+      border: 1px solid rgba(138, 79, 45, 0.13);
+      border-radius: 24px;
+      padding: clamp(20px, 4vw, 36px);
+      box-shadow: var(--shadow);
     }
 
-    .emoji {
-      font-size: 80px;
-      margin: 20px;
-    }
-
-    input {
-      font-size: 20px;
-      padding: 10px;
-      width: 80%;
-      border-radius: 10px;
-      border: 1px solid #aaa;
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 6px;
       text-align: center;
     }
 
-    button {
-      margin-top: 20px;
-      padding: 12px 24px;
-      font-size: 20px;
-      border: none;
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 0; font-size: clamp(1.55rem, 5vw, 2.2rem); }
+    h2 { font-size: clamp(1.3rem, 4vw, 1.8rem); }
+    .subtitle, .muted { color: var(--muted); }
+    .center { text-align: center; }
+    .hidden { display: none !important; }
+
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .mode-button {
+      min-height: 150px;
+      padding: 20px;
+      border: 2px solid transparent;
+      border-radius: 18px;
+      color: var(--ink);
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(76, 50, 30, 0.09);
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+    }
+
+    .mode-button:hover, .mode-button:focus-visible {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 22px rgba(76, 50, 30, 0.14);
+      outline: none;
+    }
+
+    .mode-icon { display: block; font-size: 2.2rem; margin-bottom: 8px; }
+    .mode-title { display: block; font-weight: 800; font-size: 1.12rem; }
+    .mode-description { display: block; margin-top: 6px; color: var(--muted); font-size: 0.93rem; }
+
+    .settings {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    select {
+      padding: 9px 32px 9px 12px;
+      border: 1px solid var(--border);
       border-radius: 10px;
-      background: #c96f35;
-      color: white;
+      background: white;
+    }
+
+    .quiz-header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .progress-track {
+      height: 10px;
+      overflow: hidden;
+      background: var(--secondary);
+      border-radius: 999px;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      background: var(--primary);
+      border-radius: inherit;
+      transition: width 180ms ease;
+    }
+
+    .icon-button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 7px;
+      border-radius: 9px;
       cursor: pointer;
     }
 
-    .result {
-      margin-top: 25px;
-      font-size: 18px;
-      line-height: 1.8;
+    .icon-button:hover, .icon-button:focus-visible {
+      background: var(--secondary);
+      outline: none;
+    }
+
+    .prompt-label {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .prompt-word {
+      min-height: 78px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      font-weight: 800;
+      font-size: clamp(2rem, 9vw, 4rem);
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+      text-align: center;
+    }
+
+    .prompt-word.thai {
+      font-family: "Noto Sans Thai", Tahoma, sans-serif;
+      font-size: clamp(2.7rem, 11vw, 5rem);
+    }
+
+    .answer-input {
+      width: 100%;
+      min-height: 58px;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: #fff;
+      font-family: "Noto Sans Thai", Tahoma, sans-serif;
+      font-size: 1.65rem;
+      text-align: center;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+    }
+
+    .answer-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(169, 87, 44, 0.13);
+      outline: none;
+    }
+
+    .keyboard-panel {
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fbf5ed;
+    }
+
+    .keyboard-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin: 4px 0;
+    }
+
+    .key {
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 42px;
+      padding: 4px 2px;
+      border: 1px solid #cdbba8;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-family: "Noto Sans Thai", Tahoma, sans-serif;
+      font-size: clamp(1rem, 3.5vw, 1.28rem);
+      cursor: pointer;
+      box-shadow: 0 2px 0 #cdbba8;
+    }
+
+    .key:hover, .key:focus-visible { background: #fff8ee; outline: none; }
+    .key:active { transform: translateY(1px); box-shadow: 0 1px 0 #cdbba8; }
+    .key.wide { flex: 1.8 1 0; font-family: inherit; font-size: 0.88rem; }
+    .key.active { background: var(--primary); color: white; border-color: var(--primary-dark); }
+    .key:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+    .choice-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice-button {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: white;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+
+    .choice-button:hover, .choice-button:focus-visible {
+      border-color: var(--primary);
+      background: #fff8ee;
+      outline: none;
+    }
+
+    .choice-button.selected { border-color: var(--primary); background: #fff3e7; }
+    .choice-button.correct { border-color: var(--success); background: var(--success-bg); }
+    .choice-button.wrong { border-color: var(--danger); background: var(--danger-bg); }
+    .choice-button:disabled { color: var(--ink); cursor: default; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .button {
+      min-width: 150px;
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .button.primary { background: var(--primary); color: white; }
+    .button.primary:hover, .button.primary:focus-visible { background: var(--primary-dark); outline: none; }
+    .button.secondary { background: var(--secondary); color: var(--ink); }
+    .button.secondary:hover, .button.secondary:focus-visible { background: #dfcdbb; outline: none; }
+    .button:disabled { opacity: 0.5; cursor: default; }
+
+    .feedback {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      text-align: left;
+    }
+
+    .feedback.correct { background: var(--success-bg); border: 1px solid #b8dec7; }
+    .feedback.wrong { background: var(--danger-bg); border: 1px solid #efc3be; }
+    .feedback-title { font-weight: 850; font-size: 1.12rem; }
+    .answer-thai { font: 800 1.7rem/1.5 "Noto Sans Thai", Tahoma, sans-serif; }
+    .feedback dl { display: grid; grid-template-columns: auto 1fr; gap: 5px 10px; margin-bottom: 0; }
+    .feedback dt { font-weight: 750; }
+    .feedback dd { margin: 0; overflow-wrap: anywhere; }
+
+    .score-ring {
+      width: 150px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+      margin: 20px auto;
+      border: 13px solid var(--secondary);
+      border-radius: 50%;
+      font-size: 2rem;
+      font-weight: 850;
+    }
+
+    .wrong-list {
+      margin-top: 22px;
+      text-align: left;
+    }
+
+    .wrong-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .error-box {
+      padding: 18px;
+      border: 1px solid #efc3be;
+      border-radius: 14px;
+      background: var(--danger-bg);
+      text-align: left;
+    }
+
+    @media (max-width: 600px) {
+      .app-shell { margin: 12px auto; width: min(100% - 14px, 760px); }
+      .card { border-radius: 18px; padding: 18px 12px; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .mode-button { min-height: 118px; }
+      .quiz-header { grid-template-columns: auto 1fr; }
+      #progressText { grid-column: 1 / -1; text-align: center; order: 3; }
+      .keyboard-panel { padding: 7px 4px; }
+      .keyboard-row { gap: 2px; margin: 3px 0; }
+      .key { min-height: 40px; border-radius: 6px; padding-inline: 0; }
+      .feedback dl { grid-template-columns: 1fr; }
+      .feedback dd { margin-bottom: 7px; }
     }
   </style>
 </head>
 <body>
+  <main class="app-shell">
+    <section class="card">
+      <div class="brand">
+        <span aria-hidden="true">🇹🇭</span>
+        <h1>Thai Vocabulary Trainer <small>Ver2.0</small></h1>
+      </div>
 
-  <div class="card">
-    <h1>Thai Script Trainer</h1>
+      <div id="loadingScreen" class="center">
+        <p class="subtitle">単語データを読み込んでいます… 🐘</p>
+      </div>
 
-    <p>この絵文字を日本語で考えて、タイ文字で入力してください</p>
+      <div id="errorScreen" class="hidden">
+        <div class="error-box">
+          <h2>データを読み込めませんでした</h2>
+          <p id="errorMessage"></p>
+          <p class="muted">
+            <code>index.html</code>と<code>questions.json</code>を同じフォルダへ置き、
+            GitHub Pagesまたはローカルサーバーから開いてください。
+          </p>
+        </div>
+      </div>
 
-	<p id="progress"></p>
+      <div id="menuScreen" class="hidden center">
+        <p class="subtitle">本物のタイ単語を、表と裏から鍛えますぞ(｀･∀･´)</p>
 
-    <div class="emoji" id="emoji">🦛</div>
-    
-    <div id="wordInfo"></div>
+        <div class="settings">
+          <label for="questionCount">1回の問題数</label>
+          <select id="questionCount">
+            <option value="5" selected>5問</option>
+            <option value="10">10問</option>
+            <option value="20">20問</option>
+          </select>
+        </div>
 
-    <input id="answerInput" placeholder="ここにタイ文字を入力" />
+        <div class="mode-grid">
+          <button class="mode-button" type="button" data-mode="writing">
+            <span class="mode-icon" aria-hidden="true">✍️</span>
+            <span class="mode-title">タイ語を書く</span>
+            <span class="mode-description">日本語を見て、画面キーボードでタイ語を入力</span>
+          </button>
 
-    <br />
+          <button class="mode-button" type="button" data-mode="choice">
+            <span class="mode-icon" aria-hidden="true">🧠</span>
+            <span class="mode-title">日本語を選ぶ</span>
+            <span class="mode-description">タイ語を見て、日本語の意味を4択</span>
+          </button>
+        </div>
 
-	<button id="nextButton" onclick="saveAndNext()">次の問題へ</button>
-	<button id="checkButton" onclick="showFinalResult()" style="display: none;">3問まとめて答え合わせ</button>
-	<button id="restartButton" onclick="restartQuiz()" style="display: none;">最初からやる</button>
+        <p id="dataSummary" class="muted"></p>
+      </div>
 
-    <div class="result" id="result"></div>
-  </div>
+      <div id="quizScreen" class="hidden">
+        <div class="quiz-header">
+          <button id="quitButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+          <div id="progressText" class="muted"></div>
+        </div>
 
-	<script>
-	  let questions = [];
-	  let currentQuestionIndex = 0;
-	  let userAnswers = [];
+        <div class="center">
+          <p id="promptLabel" class="prompt-label"></p>
+          <div id="promptWord" class="prompt-word"></div>
+        </div>
 
-	  async function loadQuestions() {
-	    const response = await fetch("questions.json");
-	    const data = await response.json();
+        <div id="writingArea" class="hidden">
+          <label class="hidden" for="answerInput">タイ語の回答</label>
+          <input
+            id="answerInput"
+            class="answer-input"
+            type="text"
+            lang="th"
+            inputmode="text"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="タイ語を入力"
+          />
 
-	    // 今は3問テストにする。4問全部使うなら .slice(0, 3) を消す。
-	    questions = data.slice(0, 3);
+          <div class="keyboard-panel" aria-label="画面上のタイ語キーボード">
+            <div class="keyboard-toolbar">
+              <span>画面キーボード</span>
+              <span>物理キーボードからの入力も可能</span>
+            </div>
+            <div id="keyboard"></div>
+          </div>
+        </div>
 
-	    showQuestion();
-	  }
+        <div id="choiceArea" class="choice-grid hidden"></div>
+        <div id="feedback" class="feedback hidden" aria-live="polite"></div>
 
-	  function showQuestion() {
-	    const question = questions[currentQuestionIndex];
+        <div class="actions">
+          <button id="submitButton" class="button primary" type="button">回答する</button>
+          <button id="nextButton" class="button primary hidden" type="button">次の問題へ</button>
+        </div>
+      </div>
 
-	    document.getElementById("progress").textContent =
-	      `問題 ${currentQuestionIndex + 1} / ${questions.length}`;
+      <div id="resultScreen" class="hidden center">
+        <h2>結果発表 🎉</h2>
+        <div id="scoreRing" class="score-ring"></div>
+        <p id="scoreMessage"></p>
+        <div id="wrongList" class="wrong-list"></div>
+        <div class="actions">
+          <button id="retryWrongButton" class="button primary hidden" type="button">間違えた単語を復習</button>
+          <button id="restartButton" class="button secondary" type="button">同じモードでもう一度</button>
+          <button id="menuButton" class="button secondary" type="button">メニューへ戻る</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
-	    document.getElementById("emoji").textContent = question.emoji;
+  <script>
+    "use strict";
 
-	    document.getElementById("wordInfo").innerHTML = `
-	      <p><strong>${question.japanese}</strong> / <strong>${question.romaji}</strong></p>
-	      <p>この音をタイ文字で入力してください</p>
-	    `;
+    const NORMAL_KEYS = [
+      ["ๅ", "/", "-", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช"],
+      ["ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล"],
+      ["ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง"],
+      ["ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ"]
+    ];
 
-	    document.getElementById("answerInput").value =
-	      userAnswers[currentQuestionIndex] || "";
+    const SHIFT_KEYS = [
+      ["+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙"],
+      ["๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ"],
+      ["ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", "."],
+      ["(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"]
+    ];
 
-	    document.getElementById("result").innerHTML = "";
+    const state = {
+      allQuestions: [],
+      quizQuestions: [],
+      currentIndex: 0,
+      score: 0,
+      mode: "writing",
+      answered: false,
+      selectedChoice: null,
+      wrongQuestions: [],
+      shifted: false,
+      lastQuizSource: null,
+      meta: {}
+    };
 
-	    document.getElementById("answerInput").style.display = "inline-block";
+    const elements = {};
 
-	    document.getElementById("nextButton").style.display =
-	      currentQuestionIndex === questions.length - 1 ? "none" : "inline-block";
+    document.addEventListener("DOMContentLoaded", init);
 
-	    document.getElementById("checkButton").style.display =
-	      currentQuestionIndex === questions.length - 1 ? "inline-block" : "none";
+    function init() {
+      [
+        "loadingScreen", "errorScreen", "errorMessage", "menuScreen", "quizScreen",
+        "resultScreen", "questionCount", "dataSummary", "quitButton", "progressFill",
+        "progressText", "promptLabel", "promptWord", "writingArea", "answerInput",
+        "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
+        "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
+        "menuButton"
+      ].forEach(id => { elements[id] = document.getElementById(id); });
 
-	    document.getElementById("restartButton").style.display = "none";
-	  }
+      document.querySelectorAll("[data-mode]").forEach(button => {
+        button.addEventListener("click", () => startQuiz(button.dataset.mode));
+      });
 
-	  function saveCurrentAnswer() {
-	    const userAnswer = document.getElementById("answerInput").value.trim();
-	    userAnswers[currentQuestionIndex] = userAnswer;
-	  }
+      elements.quitButton.addEventListener("click", showMenu);
+      elements.submitButton.addEventListener("click", submitAnswer);
+      elements.nextButton.addEventListener("click", nextQuestion);
+      elements.retryWrongButton.addEventListener("click", retryWrongQuestions);
+      elements.restartButton.addEventListener("click", () => startQuiz(state.mode));
+      elements.menuButton.addEventListener("click", showMenu);
+      elements.answerInput.addEventListener("keydown", event => {
+        if (event.key === "Enter" && !state.answered) {
+          event.preventDefault();
+          submitAnswer();
+        }
+      });
 
-	  function saveAndNext() {
-	    saveCurrentAnswer();
-	    currentQuestionIndex++;
-	    showQuestion();
-	  }
+      renderKeyboard();
+      loadQuestions();
+    }
 
-	  function normalizeAnswer(text) {
-	    return text.replace(/\s/g, "");
-	  }
+    async function loadQuestions() {
+      try {
+        const response = await fetch("questions.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
+        }
 
-	  function showFinalResult() {
-	    saveCurrentAnswer();
+        const data = await response.json();
+        const questions = Array.isArray(data) ? data : data.questions;
+        state.meta = Array.isArray(data) ? {} : (data.meta || {});
 
-	    const thaiOnlyRegex = /^[\u0E00-\u0E7F\s]+$/;
-	    let score = 0;
+        if (!Array.isArray(questions) || questions.length < 4) {
+          throw new Error("4択問題を作るため、questions.jsonには4件以上の単語が必要です。");
+        }
 
-	    const resultHtml = questions.map((question, index) => {
-	      const userAnswer = userAnswers[index] || "";
-	      const normalizedUserAnswer = normalizeAnswer(userAnswer);
+        state.allQuestions = questions.filter(isUsableQuestion);
+        if (state.allQuestions.length < 4) {
+          throw new Error("日本語とタイ語が入った有効な問題が4件未満です。");
+        }
 
-	      const isThaiOnly = thaiOnlyRegex.test(userAnswer);
+        elements.dataSummary.textContent = `${state.allQuestions.length}語を収録`;
+        showScreen("menu");
+      } catch (error) {
+        console.error(error);
+        elements.errorMessage.textContent = error instanceof Error ? error.message : String(error);
+        showScreen("error");
+      }
+    }
 
-	      const isCorrect = question.acceptedAnswers.some(answer => {
-	        return normalizeAnswer(answer) === normalizedUserAnswer;
-	      });
+    function isUsableQuestion(question) {
+      return question &&
+        typeof question.japanese === "string" && question.japanese.trim() &&
+        typeof question.thai === "string" && question.thai.trim();
+    }
 
-	      let judge = "";
+    function showScreen(name) {
+      const screens = {
+        loading: elements.loadingScreen,
+        error: elements.errorScreen,
+        menu: elements.menuScreen,
+        quiz: elements.quizScreen,
+        result: elements.resultScreen
+      };
 
-	      if (userAnswer === "") {
-	        judge = "未入力です (´・ω・｀)";
-	      } else if (!isThaiOnly) {
-	        judge = "NG：タイ文字以外が入っています 🐘";
-	      } else if (isCorrect) {
-	        judge = "正解！ดีมาก! 🦛✨";
-	        score++;
-	      } else {
-	        judge = "不正解。でもタイ文字入力はできています (｀･∀･´)";
-	      }
+      Object.entries(screens).forEach(([key, screen]) => {
+        screen.classList.toggle("hidden", key !== name);
+      });
+    }
 
-	      return `
-	        <div style="text-align: left; margin-top: 20px; padding: 15px; background: #fafafa; border-radius: 12px;">
-	          <h3>問題 ${index + 1}: ${question.emoji}</h3>
-	          <p><strong>判定:</strong> ${judge}</p>
-	          <p><strong>日本語:</strong> ${question.japanese}</p>
-	          <p><strong>Romaji:</strong> ${question.romaji}</p>
-	          <p><strong>あなたの入力:</strong> ${userAnswer || "未入力"}</p>
-	          <p><strong>Basic Thai Script:</strong> ${question.basicThai}</p>
-	          <p><strong>Natural Thai:</strong> ${question.naturalThai}</p>
-	        </div>
-	      `;
-	    }).join("");
+    function showMenu() {
+      state.quizQuestions = [];
+      state.wrongQuestions = [];
+      showScreen("menu");
+    }
 
-	    document.getElementById("progress").textContent = "結果発表";
-	    document.getElementById("emoji").textContent = "🎉";
-	    document.getElementById("wordInfo").innerHTML = "";
-	    document.getElementById("answerInput").style.display = "none";
+    function startQuiz(mode, suppliedQuestions = null) {
+      state.mode = mode;
+      state.currentIndex = 0;
+      state.score = 0;
+      state.answered = false;
+      state.selectedChoice = null;
+      state.wrongQuestions = [];
+      state.shifted = false;
 
-	    document.getElementById("nextButton").style.display = "none";
-	    document.getElementById("checkButton").style.display = "none";
-	    document.getElementById("restartButton").style.display = "inline-block";
+      const requestedCount = Number.parseInt(elements.questionCount.value, 10) || 5;
+      const source = suppliedQuestions || uniqueByPromptPair(state.allQuestions);
+      state.lastQuizSource = suppliedQuestions;
+      state.quizQuestions = suppliedQuestions
+        ? shuffle([...source])
+        : shuffle([...source]).slice(0, Math.min(requestedCount, source.length));
 
-	    document.getElementById("result").innerHTML = `
-	      <hr>
-	      <h2>最終スコア：${score} / ${questions.length}</h2>
-	      <p>3問まとめて答え合わせしました 🐙📱</p>
-	      ${resultHtml}
-	    `;
-	  }
+      renderKeyboard();
+      showScreen("quiz");
+      showQuestion();
+    }
 
-	  function restartQuiz() {
-	    currentQuestionIndex = 0;
-	    userAnswers = [];
-	    showQuestion();
-	  }
+    function uniqueByPromptPair(questions) {
+      const seen = new Set();
+      return questions.filter(question => {
+        const key = `${question.japanese}\u0000${question.thai}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
 
-	  loadQuestions();
-	</script>
+    function showQuestion() {
+      const question = currentQuestion();
+      state.answered = false;
+      state.selectedChoice = null;
 
+      const number = state.currentIndex + 1;
+      const total = state.quizQuestions.length;
+      elements.progressText.textContent = `問題 ${number} / ${total}`;
+      elements.progressFill.style.width = `${(state.currentIndex / total) * 100}%`;
+      elements.feedback.className = "feedback hidden";
+      elements.feedback.replaceChildren();
+      elements.nextButton.classList.add("hidden");
+      elements.submitButton.classList.remove("hidden");
+      elements.submitButton.disabled = false;
+
+      if (state.mode === "writing") {
+        elements.promptLabel.textContent = "この日本語をタイ語で入力してください";
+        elements.promptWord.textContent = question.japanese;
+        elements.promptWord.className = "prompt-word";
+        elements.writingArea.classList.remove("hidden");
+        elements.choiceArea.classList.add("hidden");
+        elements.answerInput.value = "";
+        elements.answerInput.disabled = false;
+        setKeyboardDisabled(false);
+        window.setTimeout(() => elements.answerInput.focus(), 0);
+      } else {
+        elements.promptLabel.textContent = "このタイ語の意味を選んでください";
+        elements.promptWord.textContent = question.thai;
+        elements.promptWord.className = "prompt-word thai";
+        elements.writingArea.classList.add("hidden");
+        elements.choiceArea.classList.remove("hidden");
+        renderChoices(question);
+      }
+    }
+
+    function currentQuestion() {
+      return state.quizQuestions[state.currentIndex];
+    }
+
+    function renderChoices(question) {
+      elements.choiceArea.replaceChildren();
+      const correctLabel = japaneseDisplay(question);
+      const distractors = uniqueStrings(
+        shuffle(state.allQuestions)
+          .filter(item => item.thai !== question.thai)
+          .map(japaneseDisplay)
+          .filter(label => label !== correctLabel)
+      ).slice(0, 3);
+
+      const choices = shuffle([correctLabel, ...distractors]);
+
+      choices.forEach((label, index) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "choice-button";
+        button.dataset.value = label;
+        button.textContent = `${index + 1}. ${label}`;
+        button.addEventListener("click", () => selectChoice(button, label));
+        elements.choiceArea.appendChild(button);
+      });
+    }
+
+    function japaneseDisplay(question) {
+      const alternatives = Array.isArray(question.acceptedJapanese)
+        ? uniqueStrings(question.acceptedJapanese)
+        : [];
+      return alternatives.length ? alternatives.join(" / ") : question.japanese;
+    }
+
+    function selectChoice(button, label) {
+      if (state.answered) return;
+      state.selectedChoice = label;
+      document.querySelectorAll(".choice-button").forEach(item => {
+        item.classList.toggle("selected", item === button);
+      });
+    }
+
+    function submitAnswer() {
+      if (state.answered) return;
+
+      const question = currentQuestion();
+      let isCorrect = false;
+      let userAnswer = "";
+
+      if (state.mode === "writing") {
+        userAnswer = elements.answerInput.value.trim();
+        if (!userAnswer) {
+          elements.answerInput.focus();
+          showTemporaryInputNotice("タイ語を入力してください (´・ω・｀)");
+          return;
+        }
+
+        const acceptedThai = Array.isArray(question.acceptedThai) && question.acceptedThai.length
+          ? question.acceptedThai
+          : [question.thai];
+
+        isCorrect = acceptedThai.some(answer => normalizeThai(answer) === normalizeThai(userAnswer));
+        elements.answerInput.disabled = true;
+        setKeyboardDisabled(true);
+      } else {
+        if (!state.selectedChoice) {
+          showTemporaryInputNotice("日本語を1つ選んでください (´・ω・｀)");
+          return;
+        }
+        userAnswer = state.selectedChoice;
+        isCorrect = userAnswer === japaneseDisplay(question);
+        markChoiceButtons(question, userAnswer);
+      }
+
+      state.answered = true;
+      elements.submitButton.classList.add("hidden");
+      elements.nextButton.classList.remove("hidden");
+      elements.nextButton.textContent =
+        state.currentIndex === state.quizQuestions.length - 1 ? "結果を見る" : "次の問題へ";
+      elements.progressFill.style.width = `${((state.currentIndex + 1) / state.quizQuestions.length) * 100}%`;
+
+      if (isCorrect) {
+        state.score += 1;
+      } else {
+        state.wrongQuestions.push({ question, userAnswer });
+      }
+
+      renderFeedback(question, userAnswer, isCorrect);
+    }
+
+    function showTemporaryInputNotice(message) {
+      elements.feedback.className = "feedback wrong";
+      elements.feedback.textContent = message;
+    }
+
+    function markChoiceButtons(question, selectedLabel) {
+      const correctLabel = japaneseDisplay(question);
+      document.querySelectorAll(".choice-button").forEach(button => {
+        button.disabled = true;
+        const value = button.dataset.value;
+        button.classList.remove("selected");
+        if (value === correctLabel) button.classList.add("correct");
+        if (value === selectedLabel && value !== correctLabel) button.classList.add("wrong");
+      });
+    }
+
+    function renderFeedback(question, userAnswer, isCorrect) {
+      elements.feedback.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
+      elements.feedback.replaceChildren();
+
+      const title = document.createElement("div");
+      title.className = "feedback-title";
+      title.textContent = isCorrect ? "✅ 正解！ ดีมาก!" : "❌ 不正解。ここで覚えれば勝ちですじゃ";
+      elements.feedback.appendChild(title);
+
+      const thai = document.createElement("div");
+      thai.className = "answer-thai";
+      thai.textContent = question.thai;
+      elements.feedback.appendChild(thai);
+
+      const details = [];
+      details.push(["意味", japaneseDisplay(question)]);
+      if (question.reading) details.push(["読み", question.reading]);
+      if (!isCorrect) details.push(["あなたの回答", userAnswer || "未回答"]);
+
+      const acceptedThai = Array.isArray(question.acceptedThai)
+        ? uniqueStrings(question.acceptedThai)
+        : [question.thai];
+      if (state.mode === "writing" && acceptedThai.length > 1) {
+        details.push(["正解として認める語", acceptedThai.join(" / ")]);
+      }
+      if (question.mnemonic) details.push(["覚え方", question.mnemonic]);
+      if (question.usageNote) details.push(["使い方メモ", question.usageNote]);
+      if (question.wordOrderNote) details.push(["語順メモ", question.wordOrderNote]);
+
+      const list = document.createElement("dl");
+      details.forEach(([term, description]) => {
+        const dt = document.createElement("dt");
+        const dd = document.createElement("dd");
+        dt.textContent = term;
+        dd.textContent = description;
+        list.append(dt, dd);
+      });
+      elements.feedback.appendChild(list);
+      elements.nextButton.focus();
+    }
+
+    function nextQuestion() {
+      if (!state.answered) return;
+      state.currentIndex += 1;
+      if (state.currentIndex >= state.quizQuestions.length) {
+        showResults();
+      } else {
+        showQuestion();
+      }
+    }
+
+    function showResults() {
+      showScreen("result");
+      const total = state.quizQuestions.length;
+      const percent = Math.round((state.score / total) * 100);
+      elements.scoreRing.textContent = `${state.score}/${total}`;
+      elements.scoreMessage.textContent = scoreMessage(percent);
+      elements.wrongList.replaceChildren();
+
+      if (state.wrongQuestions.length) {
+        const heading = document.createElement("h3");
+        heading.textContent = "復習する単語";
+        elements.wrongList.appendChild(heading);
+
+        state.wrongQuestions.forEach(({ question, userAnswer }) => {
+          const item = document.createElement("div");
+          item.className = "wrong-item";
+          const thai = document.createElement("strong");
+          thai.className = "answer-thai";
+          thai.textContent = question.thai;
+          const meaning = document.createElement("div");
+          meaning.textContent = `${japaneseDisplay(question)}${question.reading ? ` ／ ${question.reading}` : ""}`;
+          const answer = document.createElement("div");
+          answer.className = "muted";
+          answer.textContent = `あなたの回答：${userAnswer || "未回答"}`;
+          item.append(thai, meaning, answer);
+          elements.wrongList.appendChild(item);
+        });
+
+        elements.retryWrongButton.classList.remove("hidden");
+      } else {
+        elements.retryWrongButton.classList.add("hidden");
+      }
+    }
+
+    function scoreMessage(percent) {
+      if (percent === 100) return "満点ですぞ！タイ文字部隊、完全整列(σﾟ∀ﾟ)σ🇹🇭";
+      if (percent >= 80) return "かなり良いですじゃ。あと少しで🦛級です。";
+      if (percent >= 60) return "土台はできています。間違えた語をもう一周しましょう。";
+      return "ここから語彙が育ちますぞ。復習ボタンで再出撃です🐙";
+    }
+
+    function retryWrongQuestions() {
+      const questions = uniqueByPromptPair(state.wrongQuestions.map(item => item.question));
+      startQuiz(state.mode, questions);
+    }
+
+    function normalizeThai(text) {
+      return String(text)
+        .normalize("NFC")
+        .replace(/[\u200B-\u200D\uFEFF]/g, "")
+        .replace(/\s+/g, "")
+        .trim();
+    }
+
+    function renderKeyboard() {
+      elements.keyboard.replaceChildren();
+      const rows = state.shifted ? SHIFT_KEYS : NORMAL_KEYS;
+
+      rows.forEach(row => {
+        const rowElement = document.createElement("div");
+        rowElement.className = "keyboard-row";
+        row.forEach(character => {
+          rowElement.appendChild(createKey(character, () => insertCharacter(character)));
+        });
+        elements.keyboard.appendChild(rowElement);
+      });
+
+      const controlRow = document.createElement("div");
+      controlRow.className = "keyboard-row";
+
+      const shift = createKey("Shift", toggleShift, "wide");
+      if (state.shifted) shift.classList.add("active");
+      const space = createKey("空白", () => insertCharacter(" "), "wide");
+      const backspace = createKey("⌫ 1字削除", backspaceCharacter, "wide");
+      const clear = createKey("全消去", clearInput, "wide");
+
+      controlRow.append(shift, space, backspace, clear);
+      elements.keyboard.appendChild(controlRow);
+    }
+
+    function createKey(label, handler, extraClass = "") {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `key ${extraClass}`.trim();
+      button.textContent = label;
+      button.addEventListener("click", handler);
+      return button;
+    }
+
+    function toggleShift() {
+      if (state.answered) return;
+      state.shifted = !state.shifted;
+      renderKeyboard();
+      elements.answerInput.focus();
+    }
+
+    function insertCharacter(character) {
+      if (state.answered || elements.answerInput.disabled) return;
+      const input = elements.answerInput;
+      const start = input.selectionStart ?? input.value.length;
+      const end = input.selectionEnd ?? start;
+      input.setRangeText(character, start, end, "end");
+      input.focus();
+    }
+
+    function backspaceCharacter() {
+      if (state.answered || elements.answerInput.disabled) return;
+      const input = elements.answerInput;
+      const start = input.selectionStart ?? input.value.length;
+      const end = input.selectionEnd ?? start;
+
+      if (start !== end) {
+        input.setRangeText("", start, end, "end");
+      } else if (start > 0) {
+        input.setRangeText("", start - 1, start, "end");
+      }
+      input.focus();
+    }
+
+    function clearInput() {
+      if (state.answered || elements.answerInput.disabled) return;
+      elements.answerInput.value = "";
+      elements.answerInput.focus();
+    }
+
+    function setKeyboardDisabled(disabled) {
+      elements.keyboard.querySelectorAll("button").forEach(button => {
+        button.disabled = disabled;
+      });
+    }
+
+    function shuffle(values) {
+      for (let index = values.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [values[index], values[randomIndex]] = [values[randomIndex], values[index]];
+      }
+      return values;
+    }
+
+    function uniqueStrings(values) {
+      return [...new Set(values.filter(value => typeof value === "string" && value.trim()))];
+    }
+  </script>
 </body>
 </html>
