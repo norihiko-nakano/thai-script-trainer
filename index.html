@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver2.2</title>
+  <title>Thai Vocabulary Trainer Ver2.3</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -95,6 +95,89 @@
     .mode-icon { display: block; font-size: 2.2rem; margin-bottom: 8px; }
     .mode-title { display: block; font-weight: 800; font-size: 1.12rem; }
     .mode-description { display: block; margin-top: 6px; color: var(--muted); font-size: 0.93rem; }
+
+    .difficulty-header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .difficulty-header h2 { margin: 0; text-align: center; }
+
+    .selected-mode-card {
+      margin: 12px 0 20px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fffaf3;
+      text-align: center;
+    }
+
+    .difficulty-grid {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .difficulty-button {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      background: white;
+      color: var(--ink);
+      text-align: left;
+      box-shadow: 0 6px 18px rgba(76, 50, 30, 0.08);
+      cursor: pointer;
+    }
+
+    .difficulty-button:hover, .difficulty-button:focus-visible {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .difficulty-button[disabled] {
+      opacity: 0.55;
+      cursor: not-allowed;
+      box-shadow: none;
+      background: #f4efe9;
+    }
+
+    .difficulty-button[disabled]:hover {
+      border-color: transparent;
+      transform: none;
+    }
+
+    .difficulty-icon { font-size: 2rem; }
+    .difficulty-title { display: block; font-weight: 850; font-size: 1.08rem; }
+    .difficulty-description { display: block; margin-top: 3px; color: var(--muted); font-size: 0.9rem; }
+    .difficulty-count {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .quiz-level-badge {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #fff0df;
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
 
     .settings {
       display: flex;
@@ -608,7 +691,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver2.2</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver2.3</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -628,15 +711,6 @@
 
       <div id="menuScreen" class="hidden center">
         <p class="subtitle">本物のタイ単語を、表と裏から鍛えますぞ(｀･∀･´)</p>
-
-        <div class="settings">
-          <label for="questionCount">1回の問題数</label>
-          <select id="questionCount">
-            <option value="5" selected>5問</option>
-            <option value="10">10問</option>
-            <option value="20">20問</option>
-          </select>
-        </div>
 
         <div class="mode-grid">
           <button class="mode-button" type="button" data-mode="writing">
@@ -669,6 +743,56 @@
           </div>
           <p class="history-note">履歴はこのブラウザ内だけに保存されます。別の端末やブラウザとは共有されません。</p>
         </section>
+      </div>
+
+      <div id="difficultyScreen" class="hidden">
+        <div class="difficulty-header">
+          <button id="difficultyBackButton" class="icon-button" type="button" aria-label="モード選択へ戻る">← 戻る</button>
+          <h2>難易度を選ぶ 🎚️</h2>
+          <span aria-hidden="true" style="width: 58px;"></span>
+        </div>
+
+        <p class="muted center">まずは短くて日常的な基礎語から始めます。</p>
+        <div id="selectedModeCard" class="selected-mode-card"></div>
+
+        <div class="settings">
+          <label for="questionCount">1回の問題数</label>
+          <select id="questionCount">
+            <option value="5" selected>5問</option>
+            <option value="10">10問</option>
+            <option value="20">20問</option>
+            <option value="100">100問（土曜テスト）</option>
+          </select>
+        </div>
+
+        <div class="difficulty-grid">
+          <button class="difficulty-button" type="button" data-difficulty="1">
+            <span class="difficulty-icon" aria-hidden="true">🐣</span>
+            <span>
+              <span class="difficulty-title">Level 1　短い＋基礎単語</span>
+              <span class="difficulty-description">食事、移動、家、身体、基本動作などの日常語</span>
+            </span>
+            <span id="level1Count" class="difficulty-count">100語</span>
+          </button>
+
+          <button class="difficulty-button" type="button" disabled>
+            <span class="difficulty-icon" aria-hidden="true">🐙</span>
+            <span>
+              <span class="difficulty-title">Level 2　準備中</span>
+              <span class="difficulty-description">Level 1の結果を見てから選定します</span>
+            </span>
+            <span class="difficulty-count">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" disabled>
+            <span class="difficulty-icon" aria-hidden="true">🦛</span>
+            <span>
+              <span class="difficulty-title">Level 3以降　準備中</span>
+              <span class="difficulty-description">長い語、抽象語、4級標準語を後から追加</span>
+            </span>
+            <span class="difficulty-count">準備中</span>
+          </button>
+        </div>
       </div>
 
       <div id="historyScreen" class="hidden">
@@ -745,6 +869,7 @@
         </div>
 
         <div class="center">
+          <span id="quizLevelBadge" class="quiz-level-badge"></span>
           <p id="promptLabel" class="prompt-label"></p>
           <div id="promptWord" class="prompt-word"></div>
         </div>
@@ -820,6 +945,8 @@
       currentIndex: 0,
       score: 0,
       mode: "writing",
+      difficulty: 1,
+      activeQuestionPool: [],
       answered: false,
       selectedChoice: null,
       wrongQuestions: [],
@@ -837,9 +964,10 @@
 
     function init() {
       [
-        "loadingScreen", "errorScreen", "errorMessage", "menuScreen", "quizScreen",
+        "loadingScreen", "errorScreen", "errorMessage", "menuScreen", "difficultyScreen",
+        "difficultyBackButton", "selectedModeCard", "level1Count", "quizScreen",
         "resultScreen", "questionCount", "dataSummary", "quitButton", "progressFill",
-        "progressText", "promptLabel", "promptWord", "writingArea", "answerInput",
+        "progressText", "quizLevelBadge", "promptLabel", "promptWord", "writingArea", "answerInput",
         "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
         "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
         "menuButton", "historyTotal", "historyAccuracy", "historyToday",
@@ -852,10 +980,17 @@
       ].forEach(id => { elements[id] = document.getElementById(id); });
 
       document.querySelectorAll("[data-mode]").forEach(button => {
-        button.addEventListener("click", () => startQuiz(button.dataset.mode));
+        button.addEventListener("click", () => openDifficultyScreen(button.dataset.mode));
+      });
+      document.querySelectorAll("[data-difficulty]").forEach(button => {
+        button.addEventListener("click", () => {
+          const difficulty = Number.parseInt(button.dataset.difficulty, 10);
+          startQuiz(state.mode, null, difficulty);
+        });
       });
 
-      elements.quitButton.addEventListener("click", showMenu);
+      elements.difficultyBackButton.addEventListener("click", showMenu);
+      elements.quitButton.addEventListener("click", () => openDifficultyScreen(state.mode));
       elements.submitButton.addEventListener("click", submitAnswer);
       elements.nextButton.addEventListener("click", nextQuestion);
       elements.retryWrongButton.addEventListener("click", retryWrongQuestions);
@@ -907,7 +1042,12 @@
           throw new Error("日本語とタイ語が入った有効な問題が4件未満です。");
         }
 
-        elements.dataSummary.textContent = `${state.allQuestions.length}語を収録`;
+        const level1Questions = state.allQuestions.filter(question => Number(question.difficulty) === 1);
+        if (level1Questions.length < 4) {
+          throw new Error("Level 1の問題が4件未満です。questions.jsonのdifficulty設定を確認してください。");
+        }
+        elements.level1Count.textContent = `${level1Questions.length}語`;
+        elements.dataSummary.textContent = `Level 1：${level1Questions.length}語 ／ 全体：${state.allQuestions.length}語`;
         showScreen("menu");
       } catch (error) {
         console.error(error);
@@ -927,6 +1067,7 @@
         loading: elements.loadingScreen,
         error: elements.errorScreen,
         menu: elements.menuScreen,
+        difficulty: elements.difficultyScreen,
         history: elements.historyScreen,
         quiz: elements.quizScreen,
         result: elements.resultScreen
@@ -935,6 +1076,16 @@
       Object.entries(screens).forEach(([key, screen]) => {
         screen.classList.toggle("hidden", key !== name);
       });
+    }
+
+    function openDifficultyScreen(mode) {
+      state.mode = mode;
+      const modeTitle = mode === "choice" ? "🧠 日本語を選ぶ" : "✍️ タイ語を書く";
+      const modeDescription = mode === "choice"
+        ? "タイ語を見て、日本語の意味を4択から選択"
+        : "日本語を見て、タイ語を画面キーボードで入力";
+      elements.selectedModeCard.innerHTML = `<strong>${modeTitle}</strong><br><span class="muted">${modeDescription}</span>`;
+      showScreen("difficulty");
     }
 
     function showMenu() {
@@ -1152,8 +1303,9 @@
       return `${minutes}分${remainder}秒`;
     }
 
-    function startQuiz(mode, suppliedQuestions = null) {
+    function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty) {
       state.mode = mode;
+      state.difficulty = Number(difficulty) || 1;
       state.currentIndex = 0;
       state.score = 0;
       state.answered = false;
@@ -1162,12 +1314,23 @@
       state.shifted = false;
 
       const requestedCount = Number.parseInt(elements.questionCount.value, 10) || 5;
-      const source = suppliedQuestions || uniqueByPromptPair(state.allQuestions);
+      const difficultyPool = uniqueByPromptPair(
+        state.allQuestions.filter(question => Number(question.difficulty) === state.difficulty)
+      );
+      if (difficultyPool.length < 4) {
+        window.alert(`Level ${state.difficulty}の問題が足りません。`);
+        openDifficultyScreen(state.mode);
+        return;
+      }
+
+      state.activeQuestionPool = difficultyPool;
+      const source = suppliedQuestions || difficultyPool;
       state.lastQuizSource = suppliedQuestions;
       state.quizQuestions = suppliedQuestions
         ? shuffle([...source])
         : shuffle([...source]).slice(0, Math.min(requestedCount, source.length));
 
+      elements.quizLevelBadge.textContent = `Level ${state.difficulty} ／ ${state.activeQuestionPool.length}語`;
       renderKeyboard();
       showScreen("quiz");
       showQuestion();
@@ -1227,7 +1390,7 @@
       elements.choiceArea.replaceChildren();
       const correctLabel = japaneseDisplay(question);
       const distractors = uniqueStrings(
-        shuffle(state.allQuestions)
+        shuffle(state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions)
           .filter(item => item.thai !== question.thai)
           .map(japaneseDisplay)
           .filter(label => label !== correctLabel)
@@ -1420,7 +1583,7 @@
 
     function retryWrongQuestions() {
       const questions = uniqueByPromptPair(state.wrongQuestions.map(item => item.question));
-      startQuiz(state.mode, questions);
+      startQuiz(state.mode, questions, state.difficulty);
     }
 
     function loadHistory() {
@@ -1453,6 +1616,7 @@
         recordId: `${answeredAt.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
         answeredAt: answeredAt.toISOString(),
         mode: state.mode,
+        difficulty: question.difficulty ?? state.difficulty,
         questionId: question.id ?? "",
         japanese: question.japanese,
         thai: question.thai,
@@ -1511,13 +1675,14 @@
       if (!state.history.length) return;
 
       const headers = [
-        "answered_at", "mode", "question_id", "japanese", "thai",
+        "answered_at", "mode", "difficulty", "question_id", "japanese", "thai",
         "user_answer", "is_correct", "response_time_ms"
       ];
 
       const rows = state.history.map(item => [
         item.answeredAt,
         item.mode,
+        item.difficulty ?? "",
         item.questionId,
         item.japanese,
         item.thai,

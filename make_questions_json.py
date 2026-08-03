@@ -45,6 +45,9 @@ DEFAULT_OUTPUT = Path("questions.json")
 DEFAULT_SHEET = "Thai"
 
 
+LEVEL_1_CATEGORIES = {291: "基本動詞", 325: "基本動詞", 33: "基本動詞", 147: "基本動詞", 235: "基本動詞", 239: "基本動詞", 149: "基本動詞", 148: "基本動詞", 315: "基本動詞", 309: "基本動詞", 520: "基本動詞", 72: "基本動詞", 383: "基本動詞", 435: "基本動詞", 127: "基本動詞", 131: "基本動詞", 63: "基本動詞", 110: "基本動詞", 289: "基本動詞", 286: "基本動詞", 205: "基本動詞", 188: "基本動詞", 166: "基本動詞", 379: "基本動詞", 90: "基本動詞", 111: "基本動詞", 393: "基本動詞", 302: "基本動詞", 225: "基本動詞", 360: "基本動詞", 368: "基本動詞", 307: "基本動詞", 394: "基本動詞", 460: "基本動詞", 503: "基本動詞", 246: "基本名詞", 66: "基本名詞", 73: "基本名詞", 234: "基本名詞", 28: "基本名詞", 532: "基本名詞", 47: "基本名詞", 278: "基本名詞", 38: "基本名詞", 49: "基本名詞", 75: "基本名詞", 305: "基本名詞", 313: "基本名詞", 78: "基本名詞", 472: "基本名詞", 262: "基本名詞", 483: "基本名詞", 268: "基本名詞", 39: "基本名詞", 180: "基本名詞", 177: "基本名詞", 183: "基本名詞", 162: "基本名詞", 372: "基本名詞", 371: "基本名詞", 100: "基本名詞", 199: "基本名詞", 193: "基本名詞", 124: "基本名詞", 464: "基本名詞", 431: "基本名詞", 283: "基本名詞", 143: "基本名詞", 473: "基本名詞", 340: "基本名詞", 232: "基本名詞", 103: "基本名詞", 282: "基本名詞", 489: "基本名詞", 221: "基本名詞", 96: "基本形容詞・疑問語・時間", 512: "基本形容詞・疑問語・時間", 208: "基本形容詞・疑問語・時間", 407: "基本形容詞・疑問語・時間", 304: "基本形容詞・疑問語・時間", 125: "基本形容詞・疑問語・時間", 212: "基本形容詞・疑問語・時間", 211: "基本形容詞・疑問語・時間", 46: "基本形容詞・疑問語・時間", 48: "基本形容詞・疑問語・時間", 50: "基本形容詞・疑問語・時間", 130: "基本形容詞・疑問語・時間", 99: "基本形容詞・疑問語・時間", 344: "基本形容詞・疑問語・時間", 194: "基本形容詞・疑問語・時間", 314: "基本形容詞・疑問語・時間", 363: "基本形容詞・疑問語・時間", 468: "基本形容詞・疑問語・時間", 488: "基本形容詞・疑問語・時間", 509: "基本形容詞・疑問語・時間", 298: "基本形容詞・疑問語・時間", 19: "基本形容詞・疑問語・時間", 97: "基本形容詞・疑問語・時間", 145: "基本形容詞・疑問語・時間", 280: "基本形容詞・疑問語・時間"}
+
+
 def clean_text(value: str) -> str:
     """Normalize whitespace while preserving intentional line breaks."""
     value = value.replace("\r\n", "\n").replace("\r", "\n")
@@ -206,11 +209,14 @@ def parse_records(rows: list[list[str]]) -> tuple[list[dict], list[str]]:
             continue
         seen_pairs.add(pair)
 
+        difficulty = 1 if record["id"] in LEVEL_1_CATEGORIES else 0
         records.append(
             {
                 **record,
                 "acceptedThai": unique_in_order(japanese_to_thai[record["japanese"]]),
                 "acceptedJapanese": unique_in_order(thai_to_japanese[record["thai"]]),
+                "difficulty": difficulty,
+                "category": LEVEL_1_CATEGORIES.get(record["id"], ""),
             }
         )
 
@@ -230,11 +236,15 @@ def parse_records(rows: list[list[str]]) -> tuple[list[dict], list[str]]:
 def build_payload(records: list[dict], source_path: Path, sheet_name: str) -> dict:
     return {
         "meta": {
-            "title": "Thai Vocabulary Trainer Ver2.0",
+            "title": "Thai Vocabulary Trainer Ver2.3",
             "sourceFile": source_path.name,
             "sourceSheet": sheet_name,
             "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
             "questionCount": len(records),
+            "difficultyCounts": {
+                "1": sum(1 for record in records if record.get("difficulty") == 1),
+                "unassigned": sum(1 for record in records if record.get("difficulty") == 0),
+            },
             "columns": {
                 "A": "id",
                 "B": "japanese",
