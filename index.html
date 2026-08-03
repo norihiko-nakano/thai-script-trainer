@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver2.3</title>
+  <title>Thai Vocabulary Trainer Ver2.3.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -271,6 +271,27 @@
       border-color: var(--primary);
       box-shadow: 0 0 0 4px rgba(169, 87, 44, 0.13);
       outline: none;
+    }
+
+    .reading-area {
+      margin-bottom: 18px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fffaf3;
+      text-align: left;
+    }
+
+    .reading-label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 800;
+    }
+
+    .reading-help {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 0.86rem;
     }
 
     .keyboard-panel {
@@ -578,7 +599,7 @@
 
     .history-row {
       display: grid;
-      grid-template-columns: 1.25fr 0.8fr 1.5fr 1.25fr 0.65fr 0.65fr;
+      grid-template-columns: 1.15fr 0.75fr 1.35fr 1fr 1.25fr 0.65fr 0.65fr;
       gap: 10px;
       align-items: center;
       padding: 11px 12px;
@@ -669,7 +690,8 @@
         background: white;
       }
       .history-row > div:nth-child(3),
-      .history-row > div:nth-child(4) { grid-column: 1 / -1; }
+      .history-row > div:nth-child(4),
+      .history-row > div:nth-child(5) { grid-column: 1 / -1; }
       .history-row > div::before {
         display: block;
         margin-bottom: 2px;
@@ -681,8 +703,9 @@
       .history-row > div:nth-child(2)::before { content: "モード"; }
       .history-row > div:nth-child(3)::before { content: "問題"; }
       .history-row > div:nth-child(4)::before { content: "回答"; }
-      .history-row > div:nth-child(5)::before { content: "結果"; }
-      .history-row > div:nth-child(6)::before { content: "時間"; }
+      .history-row > div:nth-child(5)::before { content: "読みメモ"; }
+      .history-row > div:nth-child(6)::before { content: "結果"; }
+      .history-row > div:nth-child(7)::before { content: "時間"; }
     }
   </style>
 </head>
@@ -691,7 +714,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver2.3</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver2.3.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -897,6 +920,21 @@
           </div>
         </div>
 
+        <div id="readingArea" class="reading-area hidden">
+          <label class="reading-label" for="readingInput">このタイ語をどう読んだか、アルファベットで入力</label>
+          <input
+            id="readingInput"
+            class="answer-input"
+            type="text"
+            inputmode="latin"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="例：phan（読めなければ ?）"
+          />
+          <p class="reading-help">読みは採点しません。入力内容を履歴に保存し、正しいカタカナ読みと後から比べられます。</p>
+        </div>
+
         <div id="choiceArea" class="choice-grid hidden"></div>
         <div id="feedback" class="feedback hidden" aria-live="polite"></div>
 
@@ -968,7 +1006,7 @@
         "difficultyBackButton", "selectedModeCard", "level1Count", "quizScreen",
         "resultScreen", "questionCount", "dataSummary", "quitButton", "progressFill",
         "progressText", "quizLevelBadge", "promptLabel", "promptWord", "writingArea", "answerInput",
-        "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
+        "readingArea", "readingInput", "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
         "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
         "menuButton", "historyTotal", "historyAccuracy", "historyToday",
         "historyLastStudy", "viewHistoryButton", "exportHistoryButton", "clearHistoryButton",
@@ -1010,6 +1048,12 @@
         .forEach(control => control.addEventListener("change", resetAndRenderHistory));
       elements.historySearchInput.addEventListener("input", resetAndRenderHistory);
       elements.answerInput.addEventListener("keydown", event => {
+        if (event.key === "Enter" && !state.answered) {
+          event.preventDefault();
+          submitAnswer();
+        }
+      });
+      elements.readingInput.addEventListener("keydown", event => {
         if (event.key === "Enter" && !state.answered) {
           event.preventDefault();
           submitAnswer();
@@ -1116,7 +1160,7 @@
         if (result === "correct" && !item.isCorrect) return false;
         if (result === "wrong" && item.isCorrect) return false;
         if (query) {
-          const haystack = [item.japanese, item.thai, item.userAnswer]
+          const haystack = [item.japanese, item.thai, item.userAnswer, item.readingAttempt, item.correctReading]
             .map(value => String(value ?? "").toLocaleLowerCase("ja-JP"))
             .join("\n");
           if (!haystack.includes(query)) return false;
@@ -1242,7 +1286,7 @@
       table.className = "history-table";
       const header = document.createElement("div");
       header.className = "history-row header";
-      ["日時", "モード", "問題", "回答", "結果", "時間"].forEach(label => {
+      ["日時", "モード", "問題", "回答", "読みメモ", "結果", "時間"].forEach(label => {
         const cell = document.createElement("div");
         cell.textContent = label;
         header.appendChild(cell);
@@ -1271,6 +1315,18 @@
         const answerCell = document.createElement("div");
         answerCell.textContent = item.userAnswer || "未回答";
 
+        const readingCell = document.createElement("div");
+        if (item.mode === "choice") {
+          const attemptLine = document.createElement("div");
+          attemptLine.textContent = `入力：${item.readingAttempt || "未入力"}`;
+          const correctLine = document.createElement("div");
+          correctLine.className = "muted";
+          correctLine.textContent = `正しい読み：${item.correctReading || "未登録"}`;
+          readingCell.append(attemptLine, correctLine);
+        } else {
+          readingCell.textContent = "－";
+        }
+
         const resultCell = document.createElement("div");
         const badge = document.createElement("span");
         badge.className = `history-result-badge ${item.isCorrect ? "correct" : "wrong"}`;
@@ -1283,7 +1339,7 @@
           ? formatResponseTime(timeValue)
           : "－";
 
-        row.append(dateCell, modeCell, questionCell, answerCell, resultCell, timeCell);
+        row.append(dateCell, modeCell, questionCell, answerCell, readingCell, resultCell, timeCell);
         table.appendChild(row);
       });
 
@@ -1367,7 +1423,10 @@
         elements.promptWord.textContent = question.japanese;
         elements.promptWord.className = "prompt-word";
         elements.writingArea.classList.remove("hidden");
+        elements.readingArea.classList.add("hidden");
         elements.choiceArea.classList.add("hidden");
+        elements.readingInput.value = "";
+        elements.readingInput.disabled = false;
         elements.answerInput.value = "";
         elements.answerInput.disabled = false;
         setKeyboardDisabled(false);
@@ -1377,8 +1436,12 @@
         elements.promptWord.textContent = question.thai;
         elements.promptWord.className = "prompt-word thai";
         elements.writingArea.classList.add("hidden");
+        elements.readingArea.classList.remove("hidden");
         elements.choiceArea.classList.remove("hidden");
+        elements.readingInput.value = "";
+        elements.readingInput.disabled = false;
         renderChoices(question);
+        window.setTimeout(() => elements.readingInput.focus(), 0);
       }
     }
 
@@ -1430,6 +1493,7 @@
       const question = currentQuestion();
       let isCorrect = false;
       let userAnswer = "";
+      let readingAttempt = "";
 
       if (state.mode === "writing") {
         userAnswer = elements.answerInput.value.trim();
@@ -1447,12 +1511,19 @@
         elements.answerInput.disabled = true;
         setKeyboardDisabled(true);
       } else {
+        readingAttempt = elements.readingInput.value.trim();
+        if (!readingAttempt) {
+          elements.readingInput.focus();
+          showTemporaryInputNotice("読みをアルファベットで入力してください。読めなければ ? でOKですじゃ");
+          return;
+        }
         if (!state.selectedChoice) {
           showTemporaryInputNotice("日本語を1つ選んでください (´・ω・｀)");
           return;
         }
         userAnswer = state.selectedChoice;
         isCorrect = userAnswer === japaneseDisplay(question);
+        elements.readingInput.disabled = true;
         markChoiceButtons(question, userAnswer);
       }
 
@@ -1466,11 +1537,11 @@
       if (isCorrect) {
         state.score += 1;
       } else {
-        state.wrongQuestions.push({ question, userAnswer });
+        state.wrongQuestions.push({ question, userAnswer, readingAttempt });
       }
 
-      recordAnswer(question, userAnswer, isCorrect);
-      renderFeedback(question, userAnswer, isCorrect);
+      recordAnswer(question, userAnswer, isCorrect, readingAttempt);
+      renderFeedback(question, userAnswer, isCorrect, readingAttempt);
     }
 
     function showTemporaryInputNotice(message) {
@@ -1489,7 +1560,7 @@
       });
     }
 
-    function renderFeedback(question, userAnswer, isCorrect) {
+    function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "") {
       elements.feedback.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
       elements.feedback.replaceChildren();
 
@@ -1505,7 +1576,10 @@
 
       const details = [];
       details.push(["意味", japaneseDisplay(question)]);
-      if (question.reading) details.push(["読み", question.reading]);
+      if (state.mode === "choice") {
+        details.push(["あなたの読み（採点なし）", readingAttempt || "未入力"]);
+      }
+      if (question.reading) details.push(["正しい読み", question.reading]);
       if (!isCorrect) details.push(["あなたの回答", userAnswer || "未回答"]);
 
       const acceptedThai = Array.isArray(question.acceptedThai)
@@ -1553,7 +1627,7 @@
         heading.textContent = "復習する単語";
         elements.wrongList.appendChild(heading);
 
-        state.wrongQuestions.forEach(({ question, userAnswer }) => {
+        state.wrongQuestions.forEach(({ question, userAnswer, readingAttempt }) => {
           const item = document.createElement("div");
           item.className = "wrong-item";
           const thai = document.createElement("strong");
@@ -1565,6 +1639,12 @@
           answer.className = "muted";
           answer.textContent = `あなたの回答：${userAnswer || "未回答"}`;
           item.append(thai, meaning, answer);
+          if (state.mode === "choice") {
+            const reading = document.createElement("div");
+            reading.className = "muted";
+            reading.textContent = `読みメモ：${readingAttempt || "未入力"} ／ 正しい読み：${question.reading || "未登録"}`;
+            item.appendChild(reading);
+          }
           elements.wrongList.appendChild(item);
         });
 
@@ -1606,7 +1686,7 @@
       }
     }
 
-    function recordAnswer(question, userAnswer, isCorrect) {
+    function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
       const answeredAt = new Date();
       const responseTimeMs = state.questionStartedAt
         ? Math.max(0, Date.now() - state.questionStartedAt)
@@ -1621,6 +1701,8 @@
         japanese: question.japanese,
         thai: question.thai,
         userAnswer,
+        readingAttempt: state.mode === "choice" ? readingAttempt : "",
+        correctReading: question.reading || "",
         isCorrect,
         responseTimeMs
       });
@@ -1676,7 +1758,7 @@
 
       const headers = [
         "answered_at", "mode", "difficulty", "question_id", "japanese", "thai",
-        "user_answer", "is_correct", "response_time_ms"
+        "user_answer", "reading_attempt", "correct_reading", "is_correct", "response_time_ms"
       ];
 
       const rows = state.history.map(item => [
@@ -1687,6 +1769,8 @@
         item.japanese,
         item.thai,
         item.userAnswer,
+        item.readingAttempt ?? "",
+        item.correctReading ?? "",
         item.isCorrect ? "1" : "0",
         item.responseTimeMs ?? ""
       ]);
