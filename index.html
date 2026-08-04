@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver2.3.1</title>
+  <title>Thai Vocabulary Trainer Ver2.3.2.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1588,7 +1588,6 @@
       if (state.mode === "writing" && acceptedThai.length > 1) {
         details.push(["正解として認める語", acceptedThai.join(" / ")]);
       }
-      if (question.mnemonic) details.push(["覚え方", question.mnemonic]);
       if (question.usageNote) details.push(["使い方メモ", question.usageNote]);
       if (question.wordOrderNote) details.push(["語順メモ", question.wordOrderNote]);
 

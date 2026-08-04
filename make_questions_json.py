@@ -160,7 +160,7 @@ def parse_records(rows: list[list[str]]) -> tuple[list[dict], list[str]]:
     warnings: list[str] = []
 
     for sheet_row_number, columns in enumerate(rows, start=1):
-        source_id, japanese, thai, reading, mnemonic, usage_note, word_order_note = (
+        source_id, japanese, thai, reading, _private_mnemonic, usage_note, word_order_note = (
             clean_text(value) for value in columns
         )
 
@@ -184,7 +184,6 @@ def parse_records(rows: list[list[str]]) -> tuple[list[dict], list[str]]:
                 "japanese": japanese,
                 "thai": thai,
                 "reading": reading,
-                "mnemonic": mnemonic,
                 "usageNote": usage_note,
                 "wordOrderNote": word_order_note,
             }
@@ -236,7 +235,7 @@ def parse_records(rows: list[list[str]]) -> tuple[list[dict], list[str]]:
 def build_payload(records: list[dict], source_path: Path, sheet_name: str) -> dict:
     return {
         "meta": {
-            "title": "Thai Vocabulary Trainer Ver2.3",
+            "title": "Thai Vocabulary Trainer Ver2.3.2",
             "sourceFile": source_path.name,
             "sourceSheet": sheet_name,
             "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -250,7 +249,7 @@ def build_payload(records: list[dict], source_path: Path, sheet_name: str) -> di
                 "B": "japanese",
                 "C": "thai",
                 "D": "reading",
-                "E": "mnemonic",
+                "E": "ignoredPrivateNote",
                 "F": "usageNote",
                 "G": "wordOrderNote",
             },
