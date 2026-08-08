@@ -1040,7 +1040,7 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
+  <script src="supabase-config.js?v=3.1.3"></script>
   <script>
     "use strict";
 
@@ -1203,47 +1203,67 @@
       state.sentenceSource = "none";
 
       const config = window.THAI_TRAINER_SUPABASE || {};
-      const url = String(config.url || "").trim();
+      const rawUrl = String(config.url || "").trim();
       const publishableKey = String(config.publishableKey || "").trim();
-      const configured = url.startsWith("https://")
+      const baseUrl = rawUrl.replace(/\/+$/, "");
+      const configured = baseUrl.startsWith("https://")
         && publishableKey
-        && !url.includes("YOUR_PROJECT")
+        && !baseUrl.includes("YOUR_PROJECT")
         && !publishableKey.includes("YOUR_PUBLISHABLE_KEY");
 
-      // Ver3.1.2では「似た4択を作れる文章だけ」を文章問題に使う。
-      // Supabaseに接続できない場合、旧sentences.jsonへ黙って戻すと
-      // Ver3.0の無関係な4択が再び出るため、文章問題は無効化して原因を表示する。
-      if (!configured || !window.supabase?.createClient) {
+      if (!configured) {
         state.sentenceSource = "Supabase未設定（文章問題は無効）";
         return;
       }
 
-      try {
-        const client = window.supabase.createClient(url, publishableKey, {
-          auth: {
-            persistSession: false,
-            autoRefreshToken: false,
-            detectSessionInUrl: false
-          }
+      async function restGet(table, params) {
+        const endpoint = `${baseUrl}/rest/v1/${table}?${params.toString()}`;
+        const response = await fetch(endpoint, {
+          method: "GET",
+          headers: {
+            apikey: publishableKey,
+            Accept: "application/json"
+          },
+          cache: "no-store"
         });
 
-        // candidateが設定された文章だけ取得する。旧い短文は最初から除外。
-        const { data, error } = await client
-          .from("sentences")
-          .select("id,thai,japanese,reading,level,target_word_id,candidate1_word_id,candidate2_word_id")
-          .not("candidate1_word_id", "is", null)
-          .not("candidate2_word_id", "is", null)
-          .order("id", { ascending: true });
+        const bodyText = await response.text();
+        if (!response.ok) {
+          let message = bodyText;
+          try {
+            const parsed = JSON.parse(bodyText);
+            message = [parsed.code, parsed.message, parsed.details, parsed.hint]
+              .filter(Boolean)
+              .join(" / ");
+          } catch (_) {}
+          throw new Error(`${table}取得エラー HTTP ${response.status}: ${message} / URL: ${endpoint}`);
+        }
 
-        if (error) throw new Error(`sentences取得エラー: ${error.message || error}`);
+        try {
+          return JSON.parse(bodyText);
+        } catch (_) {
+          throw new Error(`${table}取得エラー: JSONとして読めません / URL: ${endpoint}`);
+        }
+      }
 
-        const { data: wordData, error: wordError } = await client
-          .from("words")
-          .select("id,thai,japanese,level,choice_group_id")
-          .not("choice_group_id", "is", null)
-          .order("id", { ascending: true });
+      try {
+        // SDKを介さず、Supabase公式REST形式を直接使う。
+        // sb_publishable_ キーは apikey ヘッダーだけに入れる。
+        const sentenceParams = new URLSearchParams();
+        sentenceParams.set("select", "id,thai,japanese,reading,level,target_word_id,candidate1_word_id,candidate2_word_id");
+        sentenceParams.set("candidate1_word_id", "not.is.null");
+        sentenceParams.set("candidate2_word_id", "not.is.null");
+        sentenceParams.set("order", "id.asc");
 
-        if (wordError) throw new Error(`words取得エラー: ${wordError.message || wordError}`);
+        const wordParams = new URLSearchParams();
+        wordParams.set("select", "id,thai,japanese,level,choice_group_id");
+        wordParams.set("choice_group_id", "not.is.null");
+        wordParams.set("order", "id.asc");
+
+        const [data, wordData] = await Promise.all([
+          restGet("sentences", sentenceParams),
+          restGet("words", wordParams)
+        ]);
 
         state.choiceWords = (Array.isArray(wordData) ? wordData : [])
           .filter(word => word && word.id != null && typeof word.japanese === "string" && word.japanese.trim());
@@ -1257,21 +1277,21 @@
           .filter(canBuildCandidateSentenceChoices);
 
         state.allSentences = candidateSentences;
-        state.sentenceSource = `Supabase（似た4択対応 ${candidateSentences.length}文）`;
+        state.sentenceSource = `Supabase REST（似た4択対応 ${candidateSentences.length}文）`;
 
         if (!candidateSentences.length) {
           console.warn(
-            "candidate1/2 または choice_group_id を使って4択を作れる文章が0件です。" +
-            "DBのcandidate1_word_id / candidate2_word_id / words.choice_group_id / RLSを確認してください。"
+            "REST取得自体は成功しましたが、似た4択を作れる文章が0件です。" +
+            "candidate1/2 と choice_group_id の対応を確認してください。"
           );
         }
       } catch (error) {
-        console.error("Ver3.1.2文章データの取得に失敗しました。", error);
+        console.error("Ver3.1.3文章データの取得に失敗しました。", error);
         state.allSentences = [];
         state.choiceWords = [];
         state.choiceWordsById = new Map();
         const detail = error instanceof Error ? error.message : String(error);
-        state.sentenceSource = `Supabaseエラー: ${detail}`;
+        state.sentenceSource = `Supabase RESTエラー: ${detail}`;
       }
     }
 
@@ -1296,7 +1316,7 @@
       const level1Sentences = state.allSentences.filter(question => Number(question.difficulty) === 1).length;
       elements.level1Count.textContent = `${level1Words}語 + ${level1Sentences}文`;
       elements.dataSummary.textContent = `Level 1：${level1Words}語 + ${level1Sentences}文 ／ 全単語：${state.allQuestions.length}語`;
-      elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource} ／ Ver3.1.2 診断モード`;
+      elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource} ／ Ver3.1.3 REST直結モード`;
     }
 
     function updateCompositionSummary() {
