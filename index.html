@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver3.1</title>
-  <style>
+  <title>Thai Vocabulary Trainer Ver3.1.1</title>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ieYS9vk4NVXoyw8tg0S4gH4V3egbyp8o9mhArDZuMvtxumYKetDIYQo7o6PmySP6e3bmXnkjIantYoyaoXBC_djqmBnw6fzMaAdA5wmn2RRfqWSWsGLAsgQjLtGOL9gXqtLv3JtDoMPNYksFFK5fWp3_Y_x7WrypxgA9N8s910r2-q0sQJSp8YugOy9eOjeqWQ3meEeivzE9FbdhkeHSwCgvtcyG-Pt3lZacSb-xng0Ax9HiVVMm-mE3sV4DZSs7FgbsQzFFAihF5rELB8RNq79to0Yoiytfd2BMfTuF9r7QTx7_Ybu892-p5W4O1Sfo" charset="UTF-8"></script><style>
     :root {
       --paper: #fffdf8;
       --background: #f4eee5;
@@ -771,7 +771,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver3.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver3.1.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1210,7 +1210,7 @@
         && !url.includes("YOUR_PROJECT")
         && !publishableKey.includes("YOUR_PUBLISHABLE_KEY");
 
-      // Ver3.1では「似た4択を作れる文章だけ」を文章問題に使う。
+      // Ver3.1.1では「似た4択を作れる文章だけ」を文章問題に使う。
       // Supabaseに接続できない場合、旧sentences.jsonへ黙って戻すと
       // Ver3.0の無関係な4択が再び出るため、文章問題は無効化して原因を表示する。
       if (!configured || !window.supabase?.createClient) {
@@ -1266,7 +1266,7 @@
           );
         }
       } catch (error) {
-        console.error("Ver3.1文章データの取得に失敗しました。", error);
+        console.error("Ver3.1.1文章データの取得に失敗しました。", error);
         state.allSentences = [];
         state.choiceWords = [];
         state.choiceWordsById = new Map();
@@ -1295,7 +1295,7 @@
       const level1Sentences = state.allSentences.filter(question => Number(question.difficulty) === 1).length;
       elements.level1Count.textContent = `${level1Words}語 + ${level1Sentences}文`;
       elements.dataSummary.textContent = `Level 1：${level1Words}語 + ${level1Sentences}文 ／ 全単語：${state.allQuestions.length}語`;
-      elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource}`;
+      elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource} ／ Ver3.1.1 類似4択専用`;
     }
 
     function updateCompositionSummary() {
@@ -1622,7 +1622,16 @@
       state.lastQuizSource = suppliedQuestions;
 
       if (suppliedQuestions) {
-        state.quizQuestions = shuffle([...suppliedQuestions]);
+        const sanitizedQuestions = suppliedQuestions.filter(question => {
+          if (question.questionType !== "sentence") return true;
+          return canBuildCandidateSentenceChoices(question);
+        });
+        if (!sanitizedQuestions.length) {
+          window.alert("旧Ver3.0の文章履歴はVer3.1.1では再出題しません。新しい文章問題を開始してください。");
+          openDifficultyScreen(state.mode);
+          return;
+        }
+        state.quizQuestions = shuffle([...sanitizedQuestions]);
       } else {
         const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
         const requestedSentences = state.mode === "choice"
@@ -1637,7 +1646,7 @@
           window.alert(`Level ${state.difficulty}の単語は${wordPool.length}語です。単語問題数を減らしてください。`);
           return;
         }
-        // Ver3.1: 文章問題は candidate から似た4択を作れる文章だけ使用する。
+        // Ver3.1.1: 文章問題は candidate から似た4択を作れる文章だけ使用する。
         // 旧文章へのフォールバックは禁止。候補が足りなければ、その場で原因が分かるように止める。
         const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
         if (requestedSentences > candidateSentencePool.length) {
@@ -1657,7 +1666,7 @@
       const sentenceCount = state.quizQuestions.filter(q => q.questionType === "sentence").length;
       const wordCount = state.quizQuestions.length - sentenceCount;
       elements.quizLevelBadge.textContent =
-        `Level ${state.difficulty} ／ 単語${wordCount} + 文章${sentenceCount}`;
+        `Level ${state.difficulty} ／ 単語${wordCount} + 文章${sentenceCount} ／ 類似4択`;
 
       renderKeyboard();
       showScreen("quiz");
@@ -1742,7 +1751,7 @@
       if (question.questionType === "sentence") {
         choices = buildCandidateSentenceChoices(question);
 
-        // Ver3.1では無関係な文章を誤答に使わない。
+        // Ver3.1.1では無関係な文章を誤答に使わない。
         // ここに来るのはDB設定不整合などの異常時だけ。
         if (!choices) {
           const message = document.createElement("div");
