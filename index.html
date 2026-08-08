@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver3.0</title>
+  <title>Thai Vocabulary Trainer Ver3.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -771,7 +771,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver3.0</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver3.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1063,6 +1063,8 @@
     const state = {
       allQuestions: [],
       allSentences: [],
+      choiceWords: [],
+      choiceWordsById: new Map(),
       quizQuestions: [],
       currentIndex: 0,
       score: 0,
@@ -1196,6 +1198,8 @@
 
     async function loadSentences() {
       state.allSentences = [];
+      state.choiceWords = [];
+      state.choiceWordsById = new Map();
       state.sentenceSource = "none";
 
       const config = window.THAI_TRAINER_SUPABASE || {};
@@ -1215,9 +1219,10 @@
               detectSessionInUrl: false
             }
           });
+
           const { data, error } = await client
             .from("sentences")
-            .select("id,thai,japanese,reading,level,target_word_id")
+            .select("id,thai,japanese,reading,level,target_word_id,candidate1_word_id,candidate2_word_id")
             .order("id", { ascending: true });
 
           if (error) throw error;
@@ -1225,7 +1230,28 @@
           state.allSentences = (Array.isArray(data) ? data : [])
             .filter(isUsableSentence)
             .map(normalizeSentenceQuestion);
-          state.sentenceSource = "Supabase";
+
+          // Ver3.1: candidate1 / candidate2 と同じ choice_group_id の語を使って
+          // 「正解と1要素だけ違う」選択肢を作るため、words も読み込む。
+          const { data: wordData, error: wordError } = await client
+            .from("words")
+            .select("id,thai,japanese,level,choice_group_id")
+            .order("id", { ascending: true });
+
+          if (wordError) {
+            console.warn("候補語(words)の取得に失敗しました。文章4択は従来方式へフォールバックします。", wordError);
+          } else {
+            state.choiceWords = (Array.isArray(wordData) ? wordData : [])
+              .filter(word => word && word.id != null && typeof word.japanese === "string" && word.japanese.trim());
+            state.choiceWordsById = new Map(
+              state.choiceWords.map(word => [Number(word.id), word])
+            );
+          }
+
+          const candidateReady = state.allSentences.filter(canBuildCandidateSentenceChoices).length;
+          state.sentenceSource = state.choiceWords.length
+            ? `Supabase（候補語対応 ${candidateReady}文）`
+            : "Supabase（従来4択）";
           return;
         } catch (error) {
           console.warn("Supabaseの文章取得に失敗しました。ローカル予備データを試します。", error);
@@ -1240,7 +1266,7 @@
         state.allSentences = (Array.isArray(sentences) ? sentences : [])
           .filter(isUsableSentence)
           .map(normalizeSentenceQuestion);
-        state.sentenceSource = "ローカル予備データ";
+        state.sentenceSource = "ローカル予備データ（従来4択）";
       } catch (error) {
         console.warn("文章データを読み込めませんでした。単語問題だけで起動します。", error);
         state.allSentences = [];
@@ -1621,7 +1647,14 @@
         }
 
         const wordQuestions = shuffle([...wordPool]).slice(0, requestedWords);
-        const sentenceQuestions = shuffle([...sentencePool]).slice(0, requestedSentences);
+
+        // Ver3.1: candidate1 / candidate2 を使って似た4択を作れる文章を優先する。
+        const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
+        const sentenceSourcePool = candidateSentencePool.length >= requestedSentences
+          ? candidateSentencePool
+          : sentencePool;
+        const sentenceQuestions = shuffle([...sentenceSourcePool]).slice(0, requestedSentences);
+
         state.quizQuestions = shuffle([...wordQuestions, ...sentenceQuestions]);
       }
 
@@ -1706,17 +1739,27 @@
     function renderChoices(question) {
       elements.choiceArea.replaceChildren();
       const correctLabel = japaneseDisplay(question);
-      const pool = question.questionType === "sentence"
-        ? state.activeSentencePool
-        : (state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions);
-      const distractors = uniqueStrings(
-        shuffle([...pool])
-          .filter(item => item.thai !== question.thai)
-          .map(japaneseDisplay)
-          .filter(label => label !== correctLabel)
-      ).slice(0, 3);
 
-      const choices = shuffle([correctLabel, ...distractors]);
+      let choices = null;
+
+      if (question.questionType === "sentence") {
+        choices = buildCandidateSentenceChoices(question);
+      }
+
+      // candidate情報がない旧文章、または置換できなかった場合はVer3.0方式へ戻す。
+      if (!choices) {
+        const pool = question.questionType === "sentence"
+          ? state.activeSentencePool
+          : (state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions);
+        const distractors = uniqueStrings(
+          shuffle([...pool])
+            .filter(item => item.thai !== question.thai)
+            .map(japaneseDisplay)
+            .filter(label => label !== correctLabel)
+        ).slice(0, 3);
+
+        choices = shuffle([correctLabel, ...distractors]);
+      }
 
       choices.forEach((label, index) => {
         const button = document.createElement("button");
@@ -1727,6 +1770,122 @@
         button.addEventListener("click", () => selectChoice(button, label));
         elements.choiceArea.appendChild(button);
       });
+    }
+
+    function canBuildCandidateSentenceChoices(question) {
+      if (!question || question.questionType !== "sentence") return false;
+
+      const candidate1 = state.choiceWordsById.get(Number(question.candidate1_word_id));
+      const candidate2 = state.choiceWordsById.get(Number(question.candidate2_word_id));
+      if (!candidate1 || !candidate2) return false;
+      if (candidate1.choice_group_id == null || candidate2.choice_group_id == null) return false;
+
+      const level = Number(question.difficulty) || 1;
+      const group1 = replacementWordsFor(candidate1, level);
+      const group2 = replacementWordsFor(candidate2, level);
+      if (!group1.length || !group2.length) return false;
+
+      // 日本語訳の中でcandidate語を実際に置換できることも確認する。
+      const sample1 = replaceCandidateJapanese(question.japanese, candidate1, group1[0]);
+      const sample2 = replaceCandidateJapanese(question.japanese, candidate2, group2[0]);
+      return Boolean(sample1 && sample2);
+    }
+
+    function buildCandidateSentenceChoices(question) {
+      const correctLabel = japaneseDisplay(question);
+      const candidate1 = state.choiceWordsById.get(Number(question.candidate1_word_id));
+      const candidate2 = state.choiceWordsById.get(Number(question.candidate2_word_id));
+
+      if (!candidate1 || !candidate2) return null;
+      if (candidate1.choice_group_id == null || candidate2.choice_group_id == null) return null;
+
+      const level = Number(question.difficulty) || 1;
+      const replacements1 = shuffle(replacementWordsFor(candidate1, level));
+      const replacements2 = shuffle(replacementWordsFor(candidate2, level));
+
+      // 4択は次の形にする。
+      // 1) 正解
+      // 2) candidate1だけ交換
+      // 3) candidate2だけ交換
+      // 4) candidate1とcandidate2を両方交換
+      for (const replacement1 of replacements1) {
+        const changed1 = replaceCandidateJapanese(correctLabel, candidate1, replacement1);
+        if (!changed1 || changed1 === correctLabel) continue;
+
+        for (const replacement2 of replacements2) {
+          const changed2 = replaceCandidateJapanese(correctLabel, candidate2, replacement2);
+          if (!changed2 || changed2 === correctLabel) continue;
+
+          const changedBoth = replaceCandidateJapanese(changed1, candidate2, replacement2);
+          if (!changedBoth) continue;
+
+          const candidateChoices = [correctLabel, changed1, changed2, changedBoth];
+          if (new Set(candidateChoices).size === 4) {
+            return shuffle(candidateChoices);
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function replacementWordsFor(originalWord, level) {
+      const groupId = Number(originalWord.choice_group_id);
+      const originalId = Number(originalWord.id);
+
+      return state.choiceWords.filter(word =>
+        Number(word.choice_group_id) === groupId
+        && Number(word.id) !== originalId
+        && (Number(word.level) || 1) === level
+      );
+    }
+
+    function replaceCandidateJapanese(sentenceJapanese, originalWord, replacementWord) {
+      const replacement = primaryJapaneseGloss(replacementWord?.japanese);
+      if (!replacement) return null;
+
+      const sourceForms = japaneseGlossForms(originalWord?.japanese)
+        .sort((a, b) => b.length - a.length);
+
+      for (const source of sourceForms) {
+        if (!source) continue;
+
+        // 元データが「菓子」、文章側が「お菓子」のような場合は
+        // 接頭辞だけ残って「おご飯」にならないよう、まとまりごと交換する。
+        for (const prefix of ["お", "ご"]) {
+          const prefixedSource = `${prefix}${source}`;
+          if (sentenceJapanese.includes(prefixedSource)) {
+            return sentenceJapanese.replace(prefixedSource, replacement);
+          }
+        }
+
+        if (sentenceJapanese.includes(source)) {
+          return sentenceJapanese.replace(source, replacement);
+        }
+      }
+      return null;
+    }
+
+    function japaneseGlossForms(value) {
+      const raw = String(value ?? "").trim();
+      if (!raw) return [];
+
+      return uniqueStrings(
+        raw
+          .split(/[、,，/／;；]/)
+          .map(part => part.trim())
+          .flatMap(part => {
+            const withoutSquare = part.replace(/\[[^\]]*\]/g, "").trim();
+            const withoutRound = withoutSquare.replace(/[（(][^）)]*[）)]/g, "").trim();
+            return [part, withoutSquare, withoutRound];
+          })
+          .filter(Boolean)
+      );
+    }
+
+    function primaryJapaneseGloss(value) {
+      const forms = japaneseGlossForms(value);
+      return forms.length ? forms[forms.length - 1] : "";
     }
 
     function japaneseDisplay(question) {
