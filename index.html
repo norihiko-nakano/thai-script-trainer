@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver2.3.2.1</title>
+  <title>Thai Vocabulary Trainer Ver3.0</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -185,6 +185,62 @@
       align-items: center;
       gap: 10px;
       margin-top: 18px;
+    }
+
+    .composition-settings {
+      max-width: 520px;
+      margin: 18px auto 10px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fffaf3;
+    }
+
+    .composition-settings h3 {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .composition-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .composition-control {
+      display: grid;
+      gap: 6px;
+    }
+
+    .composition-control label {
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .composition-total {
+      margin: 12px 0 0;
+      text-align: center;
+      font-weight: 850;
+    }
+
+    .composition-note, .sentence-source-note {
+      margin: 7px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .question-type-badge {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--secondary);
+      color: var(--primary-dark);
+      font-size: 0.76rem;
+      font-weight: 800;
+      vertical-align: middle;
     }
 
     select {
@@ -667,6 +723,7 @@
       .app-shell { margin: 12px auto; width: min(100% - 14px, 760px); }
       .card { border-radius: 18px; padding: 18px 12px; }
       .mode-grid { grid-template-columns: 1fr; }
+      .composition-grid { grid-template-columns: 1fr 1fr; }
       .mode-button { min-height: 118px; }
       .quiz-header { grid-template-columns: auto 1fr; }
       #progressText { grid-column: 1 / -1; text-align: center; order: 3; }
@@ -714,11 +771,11 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver2.3.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver3.0</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
-        <p class="subtitle">単語データを読み込んでいます… 🐘</p>
+        <p class="subtitle">単語・文章データを読み込んでいます… 🐘</p>
       </div>
 
       <div id="errorScreen" class="hidden">
@@ -726,7 +783,7 @@
           <h2>データを読み込めませんでした</h2>
           <p id="errorMessage"></p>
           <p class="muted">
-            <code>index.html</code>と<code>questions.json</code>を同じフォルダへ置き、
+            <code>index.html</code>・<code>questions.json</code>・<code>sentences.json</code>を同じフォルダへ置き、
             GitHub Pagesまたはローカルサーバーから開いてください。
           </p>
         </div>
@@ -778,22 +835,46 @@
         <p class="muted center">まずは短くて日常的な基礎語から始めます。</p>
         <div id="selectedModeCard" class="selected-mode-card"></div>
 
-        <div class="settings">
-          <label for="questionCount">1回の問題数</label>
-          <select id="questionCount">
-            <option value="5" selected>5問</option>
-            <option value="10">10問</option>
-            <option value="20">20問</option>
-            <option value="100">100問（土曜テスト）</option>
-          </select>
-        </div>
+        <section class="composition-settings" aria-labelledby="compositionHeading">
+          <h3 id="compositionHeading">出題構成 🧩</h3>
+          <div class="composition-grid">
+            <div class="composition-control">
+              <label for="wordQuestionCount">単語問題</label>
+              <select id="wordQuestionCount">
+                <option value="0">0問</option>
+                <option value="1">1問</option>
+                <option value="2">2問</option>
+                <option value="3" selected>3問</option>
+                <option value="5">5問</option>
+                <option value="10">10問</option>
+                <option value="20">20問</option>
+                <option value="100">100問</option>
+              </select>
+            </div>
+            <div class="composition-control">
+              <label for="sentenceQuestionCount">文章問題</label>
+              <select id="sentenceQuestionCount">
+                <option value="0">0問</option>
+                <option value="1">1問</option>
+                <option value="2" selected>2問</option>
+                <option value="3">3問</option>
+                <option value="5">5問</option>
+                <option value="10">10問</option>
+                <option value="20">20問</option>
+              </select>
+            </div>
+          </div>
+          <p id="compositionTotal" class="composition-total">合計：5問</p>
+          <p id="compositionNote" class="composition-note">文章問題は「日本語を選ぶ」モードで出題します。</p>
+          <p id="sentenceSourceNote" class="sentence-source-note"></p>
+        </section>
 
         <div class="difficulty-grid">
           <button class="difficulty-button" type="button" data-difficulty="1">
             <span class="difficulty-icon" aria-hidden="true">🐣</span>
             <span>
-              <span class="difficulty-title">Level 1　短い＋基礎単語</span>
-              <span class="difficulty-description">食事、移動、家、身体、基本動作などの日常語</span>
+              <span class="difficulty-title">Level 1　短い＋基礎単語・文章</span>
+              <span class="difficulty-description">Level 1単語と、その単語だけで作った短い文章</span>
             </span>
             <span id="level1Count" class="difficulty-count">100語</span>
           </button>
@@ -958,6 +1039,8 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <script>
     "use strict";
 
@@ -979,18 +1062,21 @@
 
     const state = {
       allQuestions: [],
+      allSentences: [],
       quizQuestions: [],
       currentIndex: 0,
       score: 0,
       mode: "writing",
       difficulty: 1,
       activeQuestionPool: [],
+      activeSentencePool: [],
       answered: false,
       selectedChoice: null,
       wrongQuestions: [],
       shifted: false,
       lastQuizSource: null,
       meta: {},
+      sentenceSource: "none",
       history: [],
       questionStartedAt: null,
       historyVisibleCount: 50
@@ -1004,7 +1090,7 @@
       [
         "loadingScreen", "errorScreen", "errorMessage", "menuScreen", "difficultyScreen",
         "difficultyBackButton", "selectedModeCard", "level1Count", "quizScreen",
-        "resultScreen", "questionCount", "dataSummary", "quitButton", "progressFill",
+        "resultScreen", "wordQuestionCount", "sentenceQuestionCount", "compositionTotal", "compositionNote", "sentenceSourceNote", "dataSummary", "quitButton", "progressFill",
         "progressText", "quizLevelBadge", "promptLabel", "promptWord", "writingArea", "answerInput",
         "readingArea", "readingInput", "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
         "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
@@ -1026,6 +1112,9 @@
           startQuiz(state.mode, null, difficulty);
         });
       });
+
+      elements.wordQuestionCount.addEventListener("change", updateCompositionSummary);
+      elements.sentenceQuestionCount.addEventListener("change", updateCompositionSummary);
 
       elements.difficultyBackButton.addEventListener("click", showMenu);
       elements.quitButton.addEventListener("click", () => openDifficultyScreen(state.mode));
@@ -1081,7 +1170,10 @@
           throw new Error("4択問題を作るため、questions.jsonには4件以上の単語が必要です。");
         }
 
-        state.allQuestions = questions.filter(isUsableQuestion);
+        state.allQuestions = questions
+          .filter(isUsableQuestion)
+          .map(question => ({ ...question, questionType: "word" }));
+
         if (state.allQuestions.length < 4) {
           throw new Error("日本語とタイ語が入った有効な問題が4件未満です。");
         }
@@ -1090,14 +1182,122 @@
         if (level1Questions.length < 4) {
           throw new Error("Level 1の問題が4件未満です。questions.jsonのdifficulty設定を確認してください。");
         }
-        elements.level1Count.textContent = `${level1Questions.length}語`;
-        elements.dataSummary.textContent = `Level 1：${level1Questions.length}語 ／ 全体：${state.allQuestions.length}語`;
+
+        await loadSentences();
+        updateDataSummary();
+        updateCompositionSummary();
         showScreen("menu");
       } catch (error) {
         console.error(error);
         elements.errorMessage.textContent = error instanceof Error ? error.message : String(error);
         showScreen("error");
       }
+    }
+
+    async function loadSentences() {
+      state.allSentences = [];
+      state.sentenceSource = "none";
+
+      const config = window.THAI_TRAINER_SUPABASE || {};
+      const url = String(config.url || "").trim();
+      const publishableKey = String(config.publishableKey || "").trim();
+      const configured = url.startsWith("https://")
+        && publishableKey
+        && !url.includes("YOUR_PROJECT")
+        && !publishableKey.includes("YOUR_PUBLISHABLE_KEY");
+
+      if (configured && window.supabase?.createClient) {
+        try {
+          const client = window.supabase.createClient(url, publishableKey, {
+            auth: {
+              persistSession: false,
+              autoRefreshToken: false,
+              detectSessionInUrl: false
+            }
+          });
+          const { data, error } = await client
+            .from("sentences")
+            .select("id,thai,japanese,reading,level,target_word_id")
+            .order("id", { ascending: true });
+
+          if (error) throw error;
+
+          state.allSentences = (Array.isArray(data) ? data : [])
+            .filter(isUsableSentence)
+            .map(normalizeSentenceQuestion);
+          state.sentenceSource = "Supabase";
+          return;
+        } catch (error) {
+          console.warn("Supabaseの文章取得に失敗しました。ローカル予備データを試します。", error);
+        }
+      }
+
+      try {
+        const response = await fetch("sentences.json", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const sentences = Array.isArray(data) ? data : data.sentences;
+        state.allSentences = (Array.isArray(sentences) ? sentences : [])
+          .filter(isUsableSentence)
+          .map(normalizeSentenceQuestion);
+        state.sentenceSource = "ローカル予備データ";
+      } catch (error) {
+        console.warn("文章データを読み込めませんでした。単語問題だけで起動します。", error);
+        state.allSentences = [];
+        state.sentenceSource = "未接続";
+      }
+    }
+
+    function isUsableSentence(sentence) {
+      return sentence &&
+        typeof sentence.japanese === "string" && sentence.japanese.trim() &&
+        typeof sentence.thai === "string" && sentence.thai.trim();
+    }
+
+    function normalizeSentenceQuestion(sentence) {
+      return {
+        ...sentence,
+        questionType: "sentence",
+        difficulty: Number(sentence.level) || 1,
+        acceptedThai: [sentence.thai],
+        acceptedJapanese: [sentence.japanese]
+      };
+    }
+
+    function updateDataSummary() {
+      const level1Words = state.allQuestions.filter(question => Number(question.difficulty) === 1).length;
+      const level1Sentences = state.allSentences.filter(question => Number(question.difficulty) === 1).length;
+      elements.level1Count.textContent = `${level1Words}語 + ${level1Sentences}文`;
+      elements.dataSummary.textContent = `Level 1：${level1Words}語 + ${level1Sentences}文 ／ 全単語：${state.allQuestions.length}語`;
+      elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource}`;
+    }
+
+    function updateCompositionSummary() {
+      if (!elements.wordQuestionCount || !elements.sentenceQuestionCount) return;
+      const writingMode = state.mode === "writing";
+
+      if (writingMode) {
+        elements.sentenceQuestionCount.value = "0";
+        elements.sentenceQuestionCount.disabled = true;
+        if (Number.parseInt(elements.wordQuestionCount.value, 10) === 0) {
+          elements.wordQuestionCount.value = "5";
+        }
+        elements.compositionNote.textContent = "タイ語を書くモードは単語問題のみです。文章問題は「日本語を選ぶ」で出題します。";
+      } else {
+        elements.sentenceQuestionCount.disabled = state.allSentences.length === 0;
+        if (!state.allSentences.length) {
+          elements.sentenceQuestionCount.value = "0";
+        }
+        elements.compositionNote.textContent = state.allSentences.length
+          ? "文章問題はタイ語文を見て、日本語の意味を4択から選びます。"
+          : "文章データがありません。Supabase設定またはsentences.jsonを確認してください。";
+      }
+
+      const wordCount = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
+      const sentenceCount = writingMode
+        ? 0
+        : (Number.parseInt(elements.sentenceQuestionCount.value, 10) || 0);
+      elements.compositionTotal.textContent = `合計：${wordCount + sentenceCount}問`;
     }
 
     function isUsableQuestion(question) {
@@ -1126,9 +1326,18 @@
       state.mode = mode;
       const modeTitle = mode === "choice" ? "🧠 日本語を選ぶ" : "✍️ タイ語を書く";
       const modeDescription = mode === "choice"
-        ? "タイ語を見て、日本語の意味を4択から選択"
-        : "日本語を見て、タイ語を画面キーボードで入力";
+        ? "単語・文章のタイ語を見て、日本語の意味を4択から選択"
+        : "日本語を見て、タイ語を画面キーボードで入力（単語問題のみ）";
       elements.selectedModeCard.innerHTML = `<strong>${modeTitle}</strong><br><span class="muted">${modeDescription}</span>`;
+
+      if (mode === "choice") {
+        elements.wordQuestionCount.value = "3";
+        if (state.allSentences.length) elements.sentenceQuestionCount.value = "2";
+      } else {
+        elements.wordQuestionCount.value = "5";
+        elements.sentenceQuestionCount.value = "0";
+      }
+      updateCompositionSummary();
       showScreen("difficulty");
     }
 
@@ -1212,7 +1421,7 @@
       elements.weakWordList.replaceChildren();
       const groups = new Map();
 
-      history.forEach(item => {
+      history.filter(item => item.questionType !== "sentence").forEach(item => {
         const key = `${item.questionId || ""}\u0000${item.japanese || ""}\u0000${item.thai || ""}`;
         if (!groups.has(key)) {
           groups.set(key, {
@@ -1307,7 +1516,7 @@
             });
 
         const modeCell = document.createElement("div");
-        modeCell.textContent = item.mode === "choice" ? "日本語を選ぶ" : "タイ語を書く";
+        modeCell.textContent = item.questionType === "sentence" ? "文章・日本語を選ぶ" : (item.mode === "choice" ? "日本語を選ぶ" : "タイ語を書く");
 
         const questionCell = document.createElement("div");
         questionCell.textContent = `${item.japanese || ""} ／ ${item.thai || ""}`;
@@ -1316,7 +1525,7 @@
         answerCell.textContent = item.userAnswer || "未回答";
 
         const readingCell = document.createElement("div");
-        if (item.mode === "choice") {
+        if (item.mode === "choice" || item.questionType === "sentence") {
           const attemptLine = document.createElement("div");
           attemptLine.textContent = `入力：${item.readingAttempt || "未入力"}`;
           const correctLine = document.createElement("div");
@@ -1369,24 +1578,58 @@
       state.wrongQuestions = [];
       state.shifted = false;
 
-      const requestedCount = Number.parseInt(elements.questionCount.value, 10) || 5;
-      const difficultyPool = uniqueByPromptPair(
+      const wordPool = uniqueByPromptPair(
         state.allQuestions.filter(question => Number(question.difficulty) === state.difficulty)
       );
-      if (difficultyPool.length < 4) {
-        window.alert(`Level ${state.difficulty}の問題が足りません。`);
+      const sentencePool = uniqueByPromptPair(
+        state.allSentences.filter(question => Number(question.difficulty) === state.difficulty)
+      );
+
+      if (wordPool.length < 4) {
+        window.alert(`Level ${state.difficulty}の単語問題が足りません。`);
         openDifficultyScreen(state.mode);
         return;
       }
 
-      state.activeQuestionPool = difficultyPool;
-      const source = suppliedQuestions || difficultyPool;
+      state.activeQuestionPool = wordPool;
+      state.activeSentencePool = sentencePool;
       state.lastQuizSource = suppliedQuestions;
-      state.quizQuestions = suppliedQuestions
-        ? shuffle([...source])
-        : shuffle([...source]).slice(0, Math.min(requestedCount, source.length));
 
-      elements.quizLevelBadge.textContent = `Level ${state.difficulty} ／ ${state.activeQuestionPool.length}語`;
+      if (suppliedQuestions) {
+        state.quizQuestions = shuffle([...suppliedQuestions]);
+      } else {
+        const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
+        const requestedSentences = state.mode === "choice"
+          ? (Number.parseInt(elements.sentenceQuestionCount.value, 10) || 0)
+          : 0;
+
+        if (requestedWords + requestedSentences < 1) {
+          window.alert("単語問題または文章問題を1問以上にしてください。");
+          return;
+        }
+        if (requestedWords > wordPool.length) {
+          window.alert(`Level ${state.difficulty}の単語は${wordPool.length}語です。単語問題数を減らしてください。`);
+          return;
+        }
+        if (requestedSentences > sentencePool.length) {
+          window.alert(`Level ${state.difficulty}の文章は${sentencePool.length}文です。文章問題数を減らしてください。`);
+          return;
+        }
+        if (requestedSentences > 0 && sentencePool.length < 4) {
+          window.alert("文章4択を作るため、同じLevelの文章が4文以上必要です。");
+          return;
+        }
+
+        const wordQuestions = shuffle([...wordPool]).slice(0, requestedWords);
+        const sentenceQuestions = shuffle([...sentencePool]).slice(0, requestedSentences);
+        state.quizQuestions = shuffle([...wordQuestions, ...sentenceQuestions]);
+      }
+
+      const sentenceCount = state.quizQuestions.filter(q => q.questionType === "sentence").length;
+      const wordCount = state.quizQuestions.length - sentenceCount;
+      elements.quizLevelBadge.textContent =
+        `Level ${state.difficulty} ／ 単語${wordCount} + 文章${sentenceCount}`;
+
       renderKeyboard();
       showScreen("quiz");
       showQuestion();
@@ -1418,7 +1661,10 @@
       elements.submitButton.classList.remove("hidden");
       elements.submitButton.disabled = false;
 
-      if (state.mode === "writing") {
+      const sentenceQuestion = question.questionType === "sentence";
+      const choiceQuestion = state.mode === "choice" || sentenceQuestion;
+
+      if (!choiceQuestion) {
         elements.promptLabel.textContent = "この日本語をタイ語で入力してください";
         elements.promptWord.textContent = question.japanese;
         elements.promptWord.className = "prompt-word";
@@ -1432,14 +1678,22 @@
         setKeyboardDisabled(false);
         window.setTimeout(() => elements.answerInput.focus(), 0);
       } else {
-        elements.promptLabel.textContent = "このタイ語の意味を選んでください";
+        elements.promptLabel.textContent = sentenceQuestion
+          ? "このタイ語の文章の意味を選んでください"
+          : "このタイ語の意味を選んでください";
         elements.promptWord.textContent = question.thai;
-        elements.promptWord.className = "prompt-word thai";
+        elements.promptWord.className = sentenceQuestion ? "prompt-word sentence-prompt" : "prompt-word";
         elements.writingArea.classList.add("hidden");
         elements.readingArea.classList.remove("hidden");
         elements.choiceArea.classList.remove("hidden");
         elements.readingInput.value = "";
         elements.readingInput.disabled = false;
+        const readingLabel = elements.readingArea.querySelector("label");
+        if (readingLabel) {
+          readingLabel.textContent = sentenceQuestion
+            ? "この文章をどう読んだか、アルファベットで入力"
+            : "このタイ語をどう読んだか、アルファベットで入力";
+        }
         renderChoices(question);
         window.setTimeout(() => elements.readingInput.focus(), 0);
       }
@@ -1452,8 +1706,11 @@
     function renderChoices(question) {
       elements.choiceArea.replaceChildren();
       const correctLabel = japaneseDisplay(question);
+      const pool = question.questionType === "sentence"
+        ? state.activeSentencePool
+        : (state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions);
       const distractors = uniqueStrings(
-        shuffle(state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions)
+        shuffle([...pool])
           .filter(item => item.thai !== question.thai)
           .map(japaneseDisplay)
           .filter(label => label !== correctLabel)
@@ -1495,7 +1752,9 @@
       let userAnswer = "";
       let readingAttempt = "";
 
-      if (state.mode === "writing") {
+      const choiceQuestion = state.mode === "choice" || question.questionType === "sentence";
+
+      if (!choiceQuestion) {
         userAnswer = elements.answerInput.value.trim();
         if (!userAnswer) {
           elements.answerInput.focus();
@@ -1569,6 +1828,11 @@
       title.textContent = isCorrect ? "✅ 正解！ ดีมาก!" : "❌ 不正解。ここで覚えれば勝ちですじゃ";
       elements.feedback.appendChild(title);
 
+      const typeBadge = document.createElement("span");
+      typeBadge.className = "question-type-badge";
+      typeBadge.textContent = question.questionType === "sentence" ? "文章" : "単語";
+      title.appendChild(typeBadge);
+
       const thai = document.createElement("div");
       thai.className = "answer-thai";
       thai.textContent = question.thai;
@@ -1576,7 +1840,8 @@
 
       const details = [];
       details.push(["意味", japaneseDisplay(question)]);
-      if (state.mode === "choice") {
+      const choiceQuestion = state.mode === "choice" || question.questionType === "sentence";
+      if (choiceQuestion) {
         details.push(["あなたの読み（採点なし）", readingAttempt || "未入力"]);
       }
       if (question.reading) details.push(["正しい読み", question.reading]);
@@ -1585,7 +1850,7 @@
       const acceptedThai = Array.isArray(question.acceptedThai)
         ? uniqueStrings(question.acceptedThai)
         : [question.thai];
-      if (state.mode === "writing" && acceptedThai.length > 1) {
+      if (!choiceQuestion && acceptedThai.length > 1) {
         details.push(["正解として認める語", acceptedThai.join(" / ")]);
       }
       if (question.usageNote) details.push(["使い方メモ", question.usageNote]);
@@ -1623,7 +1888,7 @@
 
       if (state.wrongQuestions.length) {
         const heading = document.createElement("h3");
-        heading.textContent = "復習する単語";
+        heading.textContent = "復習する問題";
         elements.wrongList.appendChild(heading);
 
         state.wrongQuestions.forEach(({ question, userAnswer, readingAttempt }) => {
@@ -1638,7 +1903,7 @@
           answer.className = "muted";
           answer.textContent = `あなたの回答：${userAnswer || "未回答"}`;
           item.append(thai, meaning, answer);
-          if (state.mode === "choice") {
+          if (state.mode === "choice" || question.questionType === "sentence") {
             const reading = document.createElement("div");
             reading.className = "muted";
             reading.textContent = `読みメモ：${readingAttempt || "未入力"} ／ 正しい読み：${question.reading || "未登録"}`;
@@ -1690,17 +1955,19 @@
       const responseTimeMs = state.questionStartedAt
         ? Math.max(0, Date.now() - state.questionStartedAt)
         : null;
+      const choiceQuestion = state.mode === "choice" || question.questionType === "sentence";
 
       state.history.push({
         recordId: `${answeredAt.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
         answeredAt: answeredAt.toISOString(),
         mode: state.mode,
+        questionType: question.questionType || "word",
         difficulty: question.difficulty ?? state.difficulty,
         questionId: question.id ?? "",
         japanese: question.japanese,
         thai: question.thai,
         userAnswer,
-        readingAttempt: state.mode === "choice" ? readingAttempt : "",
+        readingAttempt: choiceQuestion ? readingAttempt : "",
         correctReading: question.reading || "",
         isCorrect,
         responseTimeMs
@@ -1756,13 +2023,14 @@
       if (!state.history.length) return;
 
       const headers = [
-        "answered_at", "mode", "difficulty", "question_id", "japanese", "thai",
+        "answered_at", "mode", "question_type", "difficulty", "question_id", "japanese", "thai",
         "user_answer", "reading_attempt", "correct_reading", "is_correct", "response_time_ms"
       ];
 
       const rows = state.history.map(item => [
         item.answeredAt,
         item.mode,
+        item.questionType || "word",
         item.difficulty ?? "",
         item.questionId,
         item.japanese,

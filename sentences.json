@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "title": "Thai Vocabulary Trainer Ver3.0 fallback sentences",
+    "sentenceCount": 11,
+    "note": "Supabase未設定または取得失敗時だけ使用する予備データ"
+  },
+  "sentences": [
+    {
+      "id": 1,
+      "thai": "วันนี้กินเผ็ด",
+      "japanese": "今日は辛いものを食べます。",
+      "reading": "ワンニー キン ペット",
+      "level": 1
+    },
+    {
+      "id": 2,
+      "thai": "วันนี้กินข้าว",
+      "japanese": "今日はご飯を食べます。",
+      "reading": "ワンニー キン カオ",
+      "level": 1
+    },
+    {
+      "id": 3,
+      "thai": "พรุ่งนี้ไปตลาด",
+      "japanese": "明日は市場へ行きます。",
+      "reading": "プルンニー パイ タラート",
+      "level": 1
+    },
+    {
+      "id": 4,
+      "thai": "ดื่มน้ำ",
+      "japanese": "水を飲みます。",
+      "reading": "ドゥーム ナーム",
+      "level": 1
+    },
+    {
+      "id": 5,
+      "thai": "อ่านหนังสือ",
+      "japanese": "本を読みます。",
+      "reading": "アン ナンスー",
+      "level": 1
+    },
+    {
+      "id": 6,
+      "thai": "เขียนชื่อ",
+      "japanese": "名前を書きます。",
+      "reading": "キアン チュー",
+      "level": 1
+    },
+    {
+      "id": 7,
+      "thai": "ซื้อขนม",
+      "japanese": "お菓子を買います。",
+      "reading": "スー カノム",
+      "level": 1
+    },
+    {
+      "id": 8,
+      "thai": "ร้านขายปลา",
+      "japanese": "店は魚を売ります。",
+      "reading": "ラーン カーイ プラー",
+      "level": 1
+    },
+    {
+      "id": 9,
+      "thai": "เปิดประตู",
+      "japanese": "ドアを開けます。",
+      "reading": "プート プラトゥー",
+      "level": 1
+    },
+    {
+      "id": 10,
+      "thai": "แมวนอน",
+      "japanese": "猫が寝ます。",
+      "reading": "メーオ ノーン",
+      "level": 1
+    },
+    {
+      "id": 11,
+      "thai": "พ่อซื้อกาแฟ",
+      "japanese": "父はコーヒーを買います。",
+      "reading": "ポー スー カフェ",
+      "level": 1
+    }
+  ]
+}
