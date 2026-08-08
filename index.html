@@ -1210,67 +1210,67 @@
         && !url.includes("YOUR_PROJECT")
         && !publishableKey.includes("YOUR_PUBLISHABLE_KEY");
 
-      if (configured && window.supabase?.createClient) {
-        try {
-          const client = window.supabase.createClient(url, publishableKey, {
-            auth: {
-              persistSession: false,
-              autoRefreshToken: false,
-              detectSessionInUrl: false
-            }
-          });
-
-          const { data, error } = await client
-            .from("sentences")
-            .select("id,thai,japanese,reading,level,target_word_id,candidate1_word_id,candidate2_word_id")
-            .order("id", { ascending: true });
-
-          if (error) throw error;
-
-          state.allSentences = (Array.isArray(data) ? data : [])
-            .filter(isUsableSentence)
-            .map(normalizeSentenceQuestion);
-
-          // Ver3.1: candidate1 / candidate2 と同じ choice_group_id の語を使って
-          // 「正解と1要素だけ違う」選択肢を作るため、words も読み込む。
-          const { data: wordData, error: wordError } = await client
-            .from("words")
-            .select("id,thai,japanese,level,choice_group_id")
-            .order("id", { ascending: true });
-
-          if (wordError) {
-            console.warn("候補語(words)の取得に失敗しました。文章4択は従来方式へフォールバックします。", wordError);
-          } else {
-            state.choiceWords = (Array.isArray(wordData) ? wordData : [])
-              .filter(word => word && word.id != null && typeof word.japanese === "string" && word.japanese.trim());
-            state.choiceWordsById = new Map(
-              state.choiceWords.map(word => [Number(word.id), word])
-            );
-          }
-
-          const candidateReady = state.allSentences.filter(canBuildCandidateSentenceChoices).length;
-          state.sentenceSource = state.choiceWords.length
-            ? `Supabase（候補語対応 ${candidateReady}文）`
-            : "Supabase（従来4択）";
-          return;
-        } catch (error) {
-          console.warn("Supabaseの文章取得に失敗しました。ローカル予備データを試します。", error);
-        }
+      // Ver3.1では「似た4択を作れる文章だけ」を文章問題に使う。
+      // Supabaseに接続できない場合、旧sentences.jsonへ黙って戻すと
+      // Ver3.0の無関係な4択が再び出るため、文章問題は無効化して原因を表示する。
+      if (!configured || !window.supabase?.createClient) {
+        state.sentenceSource = "Supabase未設定（文章問題は無効）";
+        return;
       }
 
       try {
-        const response = await fetch("sentences.json", { cache: "no-store" });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        const sentences = Array.isArray(data) ? data : data.sentences;
-        state.allSentences = (Array.isArray(sentences) ? sentences : [])
+        const client = window.supabase.createClient(url, publishableKey, {
+          auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+            detectSessionInUrl: false
+          }
+        });
+
+        // candidateが設定された文章だけ取得する。旧い短文は最初から除外。
+        const { data, error } = await client
+          .from("sentences")
+          .select("id,thai,japanese,reading,level,target_word_id,candidate1_word_id,candidate2_word_id")
+          .not("candidate1_word_id", "is", null)
+          .not("candidate2_word_id", "is", null)
+          .order("id", { ascending: true });
+
+        if (error) throw new Error(`sentences取得エラー: ${error.message || error}`);
+
+        const { data: wordData, error: wordError } = await client
+          .from("words")
+          .select("id,thai,japanese,level,choice_group_id")
+          .not("choice_group_id", "is", null)
+          .order("id", { ascending: true });
+
+        if (wordError) throw new Error(`words取得エラー: ${wordError.message || wordError}`);
+
+        state.choiceWords = (Array.isArray(wordData) ? wordData : [])
+          .filter(word => word && word.id != null && typeof word.japanese === "string" && word.japanese.trim());
+        state.choiceWordsById = new Map(
+          state.choiceWords.map(word => [Number(word.id), word])
+        );
+
+        const candidateSentences = (Array.isArray(data) ? data : [])
           .filter(isUsableSentence)
-          .map(normalizeSentenceQuestion);
-        state.sentenceSource = "ローカル予備データ（従来4択）";
+          .map(normalizeSentenceQuestion)
+          .filter(canBuildCandidateSentenceChoices);
+
+        state.allSentences = candidateSentences;
+        state.sentenceSource = `Supabase（似た4択対応 ${candidateSentences.length}文）`;
+
+        if (!candidateSentences.length) {
+          console.warn(
+            "candidate1/2 または choice_group_id を使って4択を作れる文章が0件です。" +
+            "DBのcandidate1_word_id / candidate2_word_id / words.choice_group_id / RLSを確認してください。"
+          );
+        }
       } catch (error) {
-        console.warn("文章データを読み込めませんでした。単語問題だけで起動します。", error);
+        console.error("Ver3.1文章データの取得に失敗しました。", error);
         state.allSentences = [];
-        state.sentenceSource = "未接続";
+        state.choiceWords = [];
+        state.choiceWordsById = new Map();
+        state.sentenceSource = `Supabaseエラー（文章問題は無効）`;
       }
     }
 
@@ -1637,23 +1637,19 @@
           window.alert(`Level ${state.difficulty}の単語は${wordPool.length}語です。単語問題数を減らしてください。`);
           return;
         }
-        if (requestedSentences > sentencePool.length) {
-          window.alert(`Level ${state.difficulty}の文章は${sentencePool.length}文です。文章問題数を減らしてください。`);
-          return;
-        }
-        if (requestedSentences > 0 && sentencePool.length < 4) {
-          window.alert("文章4択を作るため、同じLevelの文章が4文以上必要です。");
+        // Ver3.1: 文章問題は candidate から似た4択を作れる文章だけ使用する。
+        // 旧文章へのフォールバックは禁止。候補が足りなければ、その場で原因が分かるように止める。
+        const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
+        if (requestedSentences > candidateSentencePool.length) {
+          window.alert(
+            `Level ${state.difficulty}で「似た4択」を作れる文章は${candidateSentencePool.length}文です。\n` +
+            `DBのcandidate1/2・choice_group_id・RLSを確認してください。`
+          );
           return;
         }
 
         const wordQuestions = shuffle([...wordPool]).slice(0, requestedWords);
-
-        // Ver3.1: candidate1 / candidate2 を使って似た4択を作れる文章を優先する。
-        const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
-        const sentenceSourcePool = candidateSentencePool.length >= requestedSentences
-          ? candidateSentencePool
-          : sentencePool;
-        const sentenceQuestions = shuffle([...sentenceSourcePool]).slice(0, requestedSentences);
+        const sentenceQuestions = shuffle([...candidateSentencePool]).slice(0, requestedSentences);
 
         state.quizQuestions = shuffle([...wordQuestions, ...sentenceQuestions]);
       }
@@ -1738,19 +1734,26 @@
 
     function renderChoices(question) {
       elements.choiceArea.replaceChildren();
+      elements.submitButton.disabled = false;
       const correctLabel = japaneseDisplay(question);
 
       let choices = null;
 
       if (question.questionType === "sentence") {
         choices = buildCandidateSentenceChoices(question);
-      }
 
-      // candidate情報がない旧文章、または置換できなかった場合はVer3.0方式へ戻す。
-      if (!choices) {
-        const pool = question.questionType === "sentence"
-          ? state.activeSentencePool
-          : (state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions);
+        // Ver3.1では無関係な文章を誤答に使わない。
+        // ここに来るのはDB設定不整合などの異常時だけ。
+        if (!choices) {
+          const message = document.createElement("div");
+          message.className = "feedback error";
+          message.textContent = "この文章は似た4択を生成できません。candidate1/2 と choice_group_id を確認してください。";
+          elements.choiceArea.appendChild(message);
+          elements.submitButton.disabled = true;
+          return;
+        }
+      } else {
+        const pool = state.activeQuestionPool.length ? state.activeQuestionPool : state.allQuestions;
         const distractors = uniqueStrings(
           shuffle([...pool])
             .filter(item => item.thai !== question.thai)
