@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver3.1.2</title>
+  <title>Thai Vocabulary Trainer Ver4.0</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -771,7 +771,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver3.1.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver4.0</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -832,7 +832,7 @@
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
 
-        <p class="muted center">まずは短くて日常的な基礎語から始めます。</p>
+        <p class="muted center">Level 1〜10の段階学習。単語は選択Level、文章はLevel 1〜選択Levelの語彙で構成します。</p>
         <div id="selectedModeCard" class="selected-mode-card"></div>
 
         <section class="composition-settings" aria-labelledby="compositionHeading">
@@ -873,28 +873,91 @@
           <button class="difficulty-button" type="button" data-difficulty="1">
             <span class="difficulty-icon" aria-hidden="true">🐣</span>
             <span>
-              <span class="difficulty-title">Level 1　短い＋基礎単語・文章</span>
-              <span class="difficulty-description">Level 1単語と、その単語だけで作った短い文章</span>
+              <span class="difficulty-title">Level 1　基礎</span>
+              <span class="difficulty-description">Level 1単語 + Level 1単語だけで作った文章</span>
             </span>
-            <span id="level1Count" class="difficulty-count">100語</span>
+            <span class="difficulty-count" data-level-count="1">読み込み中</span>
           </button>
 
-          <button class="difficulty-button" type="button" disabled>
+          <button class="difficulty-button" type="button" data-difficulty="2">
             <span class="difficulty-icon" aria-hidden="true">🐙</span>
             <span>
-              <span class="difficulty-title">Level 2　準備中</span>
-              <span class="difficulty-description">Level 1の結果を見てから選定します</span>
+              <span class="difficulty-title">Level 2　基礎＋</span>
+              <span class="difficulty-description">Level 2単語 + Level 1〜2単語で作った文章</span>
             </span>
-            <span class="difficulty-count">準備中</span>
+            <span class="difficulty-count" data-level-count="2">読み込み中</span>
           </button>
 
-          <button class="difficulty-button" type="button" disabled>
-            <span class="difficulty-icon" aria-hidden="true">🦛</span>
+          <button class="difficulty-button" type="button" data-difficulty="3">
+            <span class="difficulty-icon" aria-hidden="true">🦑</span>
             <span>
-              <span class="difficulty-title">Level 3以降　準備中</span>
-              <span class="difficulty-description">長い語、抽象語、4級標準語を後から追加</span>
+              <span class="difficulty-title">Level 3　初級</span>
+              <span class="difficulty-description">Level 3単語 + Level 1〜3単語で作った文章</span>
             </span>
-            <span class="difficulty-count">準備中</span>
+            <span class="difficulty-count" data-level-count="3">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="4">
+            <span class="difficulty-icon" aria-hidden="true">🐟</span>
+            <span>
+              <span class="difficulty-title">Level 4</span>
+              <span class="difficulty-description">Level 4単語 + Level 1〜4単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="4">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="5">
+            <span class="difficulty-icon" aria-hidden="true">🐢</span>
+            <span>
+              <span class="difficulty-title">Level 5</span>
+              <span class="difficulty-description">Level 5単語 + Level 1〜5単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="5">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="6">
+            <span class="difficulty-icon" aria-hidden="true">🦜</span>
+            <span>
+              <span class="difficulty-title">Level 6</span>
+              <span class="difficulty-description">Level 6単語 + Level 1〜6単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="6">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="7">
+            <span class="difficulty-icon" aria-hidden="true">🦊</span>
+            <span>
+              <span class="difficulty-title">Level 7</span>
+              <span class="difficulty-description">Level 7単語 + Level 1〜7単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="7">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="8">
+            <span class="difficulty-icon" aria-hidden="true">🐯</span>
+            <span>
+              <span class="difficulty-title">Level 8</span>
+              <span class="difficulty-description">Level 8単語 + Level 1〜8単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="8">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="9">
+            <span class="difficulty-icon" aria-hidden="true">🐉</span>
+            <span>
+              <span class="difficulty-title">Level 9</span>
+              <span class="difficulty-description">Level 9単語 + Level 1〜9単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="9">準備中</span>
+          </button>
+
+          <button class="difficulty-button" type="button" data-difficulty="10">
+            <span class="difficulty-icon" aria-hidden="true">👑</span>
+            <span>
+              <span class="difficulty-title">Level 10　最難関</span>
+              <span class="difficulty-description">Level 10単語 + Level 1〜10単語で作った文章</span>
+            </span>
+            <span class="difficulty-count" data-level-count="10">準備中</span>
           </button>
         </div>
       </div>
@@ -1039,8 +1102,7 @@
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=3.1.3"></script>
+    <script src="supabase-config.js?v=4.0"></script>
   <script>
     "use strict";
 
@@ -1078,6 +1140,7 @@
       shifted: false,
       lastQuizSource: null,
       meta: {},
+      wordSource: "none",
       sentenceSource: "none",
       history: [],
       questionStartedAt: null,
@@ -1157,32 +1220,65 @@
       loadQuestions();
     }
 
+    function getSupabaseRestConfig() {
+      const config = window.THAI_TRAINER_SUPABASE || {};
+      const rawUrl = String(config.url || "").trim();
+      const publishableKey = String(config.publishableKey || "").trim();
+      const baseUrl = rawUrl.replace(/\/+$/, "");
+      const configured = baseUrl.startsWith("https://")
+        && publishableKey
+        && !baseUrl.includes("YOUR_PROJECT")
+        && !publishableKey.includes("YOUR_PUBLISHABLE_KEY");
+
+      return { baseUrl, publishableKey, configured };
+    }
+
+    async function restGet(table, params) {
+      const { baseUrl, publishableKey, configured } = getSupabaseRestConfig();
+      if (!configured) {
+        throw new Error("Supabaseが未設定です。");
+      }
+
+      const endpoint = `${baseUrl}/rest/v1/${table}?${params.toString()}`;
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          apikey: publishableKey,
+          Accept: "application/json"
+        },
+        cache: "no-store"
+      });
+
+      const bodyText = await response.text();
+      if (!response.ok) {
+        let message = bodyText;
+        try {
+          const parsed = JSON.parse(bodyText);
+          message = [parsed.code, parsed.message, parsed.details, parsed.hint]
+            .filter(Boolean)
+            .join(" / ");
+        } catch (_) {}
+        throw new Error(`${table}取得エラー HTTP ${response.status}: ${message} / URL: ${endpoint}`);
+      }
+
+      try {
+        return JSON.parse(bodyText);
+      } catch (_) {
+        throw new Error(`${table}取得エラー: JSONとして読めません / URL: ${endpoint}`);
+      }
+    }
+
     async function loadQuestions() {
       try {
-        const response = await fetch("questions.json", { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
-        }
-
-        const data = await response.json();
-        const questions = Array.isArray(data) ? data : data.questions;
-        state.meta = Array.isArray(data) ? {} : (data.meta || {});
-
-        if (!Array.isArray(questions) || questions.length < 4) {
-          throw new Error("4択問題を作るため、questions.jsonには4件以上の単語が必要です。");
-        }
-
-        state.allQuestions = questions
-          .filter(isUsableQuestion)
-          .map(question => ({ ...question, questionType: "word" }));
+        await loadWordQuestions();
 
         if (state.allQuestions.length < 4) {
-          throw new Error("日本語とタイ語が入った有効な問題が4件未満です。");
+          throw new Error("4択問題を作るため、Level設定済みの単語が4件以上必要です。");
         }
 
         const level1Questions = state.allQuestions.filter(question => Number(question.difficulty) === 1);
         if (level1Questions.length < 4) {
-          throw new Error("Level 1の問題が4件未満です。questions.jsonのdifficulty設定を確認してください。");
+          throw new Error("Level 1の問題が4件未満です。words.level または questions.json のdifficulty設定を確認してください。");
         }
 
         await loadSentences();
@@ -1196,69 +1292,113 @@
       }
     }
 
+    async function loadWordQuestions() {
+      state.allQuestions = [];
+      state.wordSource = "none";
+
+      const { configured } = getSupabaseRestConfig();
+
+      if (configured) {
+        try {
+          const wordParams = new URLSearchParams();
+          wordParams.set("select", "id,thai,japanese,reading,level,choice_group_id");
+          wordParams.set("level", "not.is.null");
+          wordParams.set("order", "level.asc,id.asc");
+
+          const wordData = await restGet("words", wordParams);
+          const dbQuestions = (Array.isArray(wordData) ? wordData : [])
+            .filter(isUsableDbWord)
+            .map(normalizeDbWordQuestion);
+
+          if (dbQuestions.length >= 4) {
+            state.allQuestions = dbQuestions;
+            state.wordSource = `Supabase REST（Level設定済み ${dbQuestions.length}語）`;
+            return;
+          }
+
+          console.warn("Supabase words のLevel設定済み単語が4件未満のため、questions.jsonへフォールバックします。");
+        } catch (error) {
+          console.warn("Supabase words の取得に失敗。questions.jsonへフォールバックします。", error);
+          state.wordSource = `Supabase RESTエラー → questions.json`;
+        }
+      }
+
+      const response = await fetch("questions.json", { cache: "no-store" });
+      if (!response.ok) {
+        throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
+      }
+
+      const data = await response.json();
+      const questions = Array.isArray(data) ? data : data.questions;
+      state.meta = Array.isArray(data) ? {} : (data.meta || {});
+
+      if (!Array.isArray(questions) || questions.length < 4) {
+        throw new Error("questions.jsonには4件以上の単語が必要です。");
+      }
+
+      state.allQuestions = questions
+        .filter(isUsableQuestion)
+        .filter(question => {
+          const level = Number(question.difficulty);
+          return Number.isInteger(level) && level >= 1 && level <= 10;
+        })
+        .map(question => ({ ...question, questionType: "word" }));
+
+      state.wordSource = `${state.wordSource === "none" ? "" : state.wordSource + " ／ "}questions.json（${state.allQuestions.length}語）`;
+    }
+
+    function isUsableDbWord(word) {
+      const level = Number(word?.level);
+      return word
+        && word.id != null
+        && typeof word.japanese === "string" && word.japanese.trim()
+        && typeof word.thai === "string" && word.thai.trim()
+        && Number.isInteger(level)
+        && level >= 1
+        && level <= 10;
+    }
+
+    function normalizeDbWordQuestion(word) {
+      const thai = String(word.thai).trim();
+      const japanese = String(word.japanese).trim();
+      return {
+        id: Number(word.id),
+        japanese,
+        thai,
+        reading: String(word.reading || "").trim(),
+        acceptedThai: [thai],
+        acceptedJapanese: [japanese],
+        difficulty: Number(word.level),
+        choice_group_id: word.choice_group_id,
+        questionType: "word"
+      };
+    }
+
     async function loadSentences() {
       state.allSentences = [];
       state.choiceWords = [];
       state.choiceWordsById = new Map();
       state.sentenceSource = "none";
 
-      const config = window.THAI_TRAINER_SUPABASE || {};
-      const rawUrl = String(config.url || "").trim();
-      const publishableKey = String(config.publishableKey || "").trim();
-      const baseUrl = rawUrl.replace(/\/+$/, "");
-      const configured = baseUrl.startsWith("https://")
-        && publishableKey
-        && !baseUrl.includes("YOUR_PROJECT")
-        && !publishableKey.includes("YOUR_PUBLISHABLE_KEY");
-
+      const { configured } = getSupabaseRestConfig();
       if (!configured) {
         state.sentenceSource = "Supabase未設定（文章問題は無効）";
         return;
       }
 
-      async function restGet(table, params) {
-        const endpoint = `${baseUrl}/rest/v1/${table}?${params.toString()}`;
-        const response = await fetch(endpoint, {
-          method: "GET",
-          headers: {
-            apikey: publishableKey,
-            Accept: "application/json"
-          },
-          cache: "no-store"
-        });
-
-        const bodyText = await response.text();
-        if (!response.ok) {
-          let message = bodyText;
-          try {
-            const parsed = JSON.parse(bodyText);
-            message = [parsed.code, parsed.message, parsed.details, parsed.hint]
-              .filter(Boolean)
-              .join(" / ");
-          } catch (_) {}
-          throw new Error(`${table}取得エラー HTTP ${response.status}: ${message} / URL: ${endpoint}`);
-        }
-
-        try {
-          return JSON.parse(bodyText);
-        } catch (_) {
-          throw new Error(`${table}取得エラー: JSONとして読めません / URL: ${endpoint}`);
-        }
-      }
-
       try {
-        // SDKを介さず、Supabase公式REST形式を直接使う。
-        // sb_publishable_ キーは apikey ヘッダーだけに入れる。
         const sentenceParams = new URLSearchParams();
         sentenceParams.set("select", "id,thai,japanese,reading,level,target_word_id,candidate1_word_id,candidate2_word_id");
         sentenceParams.set("candidate1_word_id", "not.is.null");
         sentenceParams.set("candidate2_word_id", "not.is.null");
-        sentenceParams.set("order", "id.asc");
+        sentenceParams.set("level", "gte.1");
+        sentenceParams.append("level", "lte.10");
+        sentenceParams.set("order", "level.asc,id.asc");
 
         const wordParams = new URLSearchParams();
-        wordParams.set("select", "id,thai,japanese,level,choice_group_id");
+        wordParams.set("select", "id,thai,japanese,reading,level,choice_group_id");
         wordParams.set("choice_group_id", "not.is.null");
-        wordParams.set("order", "id.asc");
+        wordParams.set("order", "level.asc,id.asc");
 
         const [data, wordData] = await Promise.all([
           restGet("sentences", sentenceParams),
@@ -1266,7 +1406,14 @@
         ]);
 
         state.choiceWords = (Array.isArray(wordData) ? wordData : [])
-          .filter(word => word && word.id != null && typeof word.japanese === "string" && word.japanese.trim());
+          .filter(word =>
+            word
+            && word.id != null
+            && typeof word.japanese === "string"
+            && word.japanese.trim()
+            && Number(word.level) >= 1
+            && Number(word.level) <= 10
+          );
         state.choiceWordsById = new Map(
           state.choiceWords.map(word => [Number(word.id), word])
         );
@@ -1277,16 +1424,16 @@
           .filter(canBuildCandidateSentenceChoices);
 
         state.allSentences = candidateSentences;
-        state.sentenceSource = `Supabase REST（似た4択対応 ${candidateSentences.length}文）`;
+        state.sentenceSource = `Supabase REST（類似4択対応 ${candidateSentences.length}文）`;
 
         if (!candidateSentences.length) {
           console.warn(
-            "REST取得自体は成功しましたが、似た4択を作れる文章が0件です。" +
+            "REST取得自体は成功しましたが、類似4択を作れる文章が0件です。" +
             "candidate1/2 と choice_group_id の対応を確認してください。"
           );
         }
       } catch (error) {
-        console.error("Ver3.1.3文章データの取得に失敗しました。", error);
+        console.error("Ver4.0文章データの取得に失敗しました。", error);
         state.allSentences = [];
         state.choiceWords = [];
         state.choiceWordsById = new Map();
@@ -1312,11 +1459,37 @@
     }
 
     function updateDataSummary() {
-      const level1Words = state.allQuestions.filter(question => Number(question.difficulty) === 1).length;
-      const level1Sentences = state.allSentences.filter(question => Number(question.difficulty) === 1).length;
-      elements.level1Count.textContent = `${level1Words}語 + ${level1Sentences}文`;
-      elements.dataSummary.textContent = `Level 1：${level1Words}語 + ${level1Sentences}文 ／ 全単語：${state.allQuestions.length}語`;
-      elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource} ／ Ver3.1.3 REST直結モード`;
+      const summaries = [];
+
+      for (let level = 1; level <= 10; level += 1) {
+        const wordCount = state.allQuestions.filter(question => Number(question.difficulty) === level).length;
+        const sentenceCount = state.allSentences.filter(question => Number(question.difficulty) === level).length;
+
+        const button = document.querySelector(`.difficulty-button[data-difficulty="${level}"]`);
+        const countBadge = document.querySelector(`[data-level-count="${level}"]`);
+
+        if (countBadge) {
+          countBadge.textContent = wordCount >= 4
+            ? `${wordCount}語 + ${sentenceCount}文`
+            : "準備中";
+        }
+
+        if (button) {
+          button.disabled = wordCount < 4;
+          button.title = wordCount < 4
+            ? `Level ${level}は単語データが4語未満のため準備中です。`
+            : `Level ${level}を開始`;
+        }
+
+        if (wordCount || sentenceCount) {
+          summaries.push(`L${level}: ${wordCount}語 + ${sentenceCount}文`);
+        }
+      }
+
+      elements.dataSummary.textContent =
+        `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
+      elements.sentenceSourceNote.textContent =
+        `文章データ：${state.sentenceSource} ／ Ver4.0（Level 1〜10・累積文章方式）`;
     }
 
     function updateCompositionSummary() {
@@ -1336,7 +1509,7 @@
           elements.sentenceQuestionCount.value = "0";
         }
         elements.compositionNote.textContent = state.allSentences.length
-          ? "文章問題はタイ語文を見て、日本語の意味を4択から選びます。"
+          ? "文章問題は選択Levelの文章を出題します。Level X文章はLevel 1〜Xの単語で構成します。"
           : "文章データがありません。Supabase設定またはsentences.jsonを確認してください。";
       }
 
@@ -1648,7 +1821,7 @@
           return canBuildCandidateSentenceChoices(question);
         });
         if (!sanitizedQuestions.length) {
-          window.alert("旧Ver3.0の文章履歴はVer3.1.1では再出題しません。新しい文章問題を開始してください。");
+          window.alert("旧形式の文章履歴はVer4.0では再出題しません。新しい文章問題を開始してください。");
           openDifficultyScreen(state.mode);
           return;
         }
@@ -1667,7 +1840,7 @@
           window.alert(`Level ${state.difficulty}の単語は${wordPool.length}語です。単語問題数を減らしてください。`);
           return;
         }
-        // Ver3.1.1: 文章問題は candidate から似た4択を作れる文章だけ使用する。
+        // Ver4.0: 文章問題は candidate から類似4択を作れる文章だけ使用する。
         // 旧文章へのフォールバックは禁止。候補が足りなければ、その場で原因が分かるように止める。
         const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
         if (requestedSentences > candidateSentencePool.length) {
@@ -1687,7 +1860,7 @@
       const sentenceCount = state.quizQuestions.filter(q => q.questionType === "sentence").length;
       const wordCount = state.quizQuestions.length - sentenceCount;
       elements.quizLevelBadge.textContent =
-        `Level ${state.difficulty} ／ 単語${wordCount} + 文章${sentenceCount} ／ 類似4択`;
+        `Level ${state.difficulty} ／ 単語${wordCount} + 文章${sentenceCount} ／ 文章語彙 L1〜L${state.difficulty}`;
 
       renderKeyboard();
       showScreen("quiz");
@@ -1772,7 +1945,7 @@
       if (question.questionType === "sentence") {
         choices = buildCandidateSentenceChoices(question);
 
-        // Ver3.1.1では無関係な文章を誤答に使わない。
+        // Ver4.0では無関係な文章を誤答に使わない。
         // ここに来るのはDB設定不整合などの異常時だけ。
         if (!choices) {
           const message = document.createElement("div");
@@ -1866,11 +2039,14 @@
       const groupId = Number(originalWord.choice_group_id);
       const originalId = Number(originalWord.id);
 
-      return state.choiceWords.filter(word =>
-        Number(word.choice_group_id) === groupId
-        && Number(word.id) !== originalId
-        && (Number(word.level) || 1) === level
-      );
+      return state.choiceWords.filter(word => {
+        const wordLevel = Number(word.level);
+        return Number(word.choice_group_id) === groupId
+          && Number(word.id) !== originalId
+          && Number.isInteger(wordLevel)
+          && wordLevel >= 1
+          && wordLevel <= level;
+      });
     }
 
     function replaceCandidateJapanese(sentenceJapanese, originalWord, replacementWord) {
