@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver4.0</title>
+  <title>Thai Vocabulary Trainer Ver5.0</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -711,6 +711,150 @@
       margin-top: 18px;
     }
 
+    .review-book-launch {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .review-book-launch h3 {
+      margin: 0 0 7px;
+      font-size: 1.05rem;
+    }
+
+    .review-book-launch-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .review-book-count {
+      display: inline-block;
+      min-width: 3.2em;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #f5eadf;
+      color: var(--primary);
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .review-book-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      text-align: left;
+    }
+
+    .review-book-toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+      margin: 16px 0;
+    }
+
+    .review-book-search label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .review-book-search input {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: white;
+    }
+
+    .review-book-search input:focus,
+    .review-note-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(169, 87, 44, 0.12);
+      outline: none;
+    }
+
+    .review-book-item {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fffaf3;
+    }
+
+    .review-book-word-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+
+    .review-book-thai {
+      font: 850 1.6rem/1.4 "Noto Sans Thai", Tahoma, sans-serif;
+    }
+
+    .review-book-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .review-note-label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 800;
+    }
+
+    .review-note-textarea {
+      width: 100%;
+      min-height: 86px;
+      resize: vertical;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: white;
+      color: var(--ink);
+      font: inherit;
+      line-height: 1.5;
+    }
+
+    .review-note-status {
+      min-height: 1.2em;
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .review-book-remove {
+      align-self: start;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--danger);
+      cursor: pointer;
+    }
+
+    .review-book-remove:hover,
+    .review-book-remove:focus-visible {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      outline: none;
+    }
+
+    .review-book-added-note {
+      margin-top: 8px;
+      color: var(--primary);
+      font-weight: 750;
+    }
+
     .error-box {
       padding: 18px;
       border: 1px solid #efc3be;
@@ -735,6 +879,8 @@
       .history-stats { grid-template-columns: 1fr; }
       .history-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .history-filters { grid-template-columns: 1fr 1fr; }
+      .review-book-toolbar { grid-template-columns: 1fr; }
+      .review-book-word-header { grid-template-columns: 1fr; }
       .weak-word-item { grid-template-columns: 1fr auto; }
       .weak-word-item .muted { grid-column: 1 / -1; }
       .history-row.header { display: none; }
@@ -771,7 +917,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver4.0</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver5.0</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -822,6 +968,14 @@
             <button id="clearHistoryButton" class="small-button" type="button">履歴を消去</button>
           </div>
           <p class="history-note">履歴はこのブラウザ内だけに保存されます。別の端末やブラウザとは共有されません。</p>
+          <div class="review-book-launch">
+            <h3>復習帳φ(`･ω･´ )🍣</h3>
+            <div class="review-book-launch-row">
+              <button id="openReviewBookButton" class="small-button" type="button">復習帳を開く</button>
+              <span id="reviewBookCount" class="review-book-count">0語</span>
+            </div>
+            <p class="history-note">不正解になった単語を自動登録します。覚え方メモは自由編集・自動保存です。</p>
+          </div>
         </section>
       </div>
 
@@ -1026,6 +1180,27 @@
         </section>
       </div>
 
+      <div id="reviewBookScreen" class="hidden">
+        <div class="history-page-header">
+          <button id="reviewBookBackButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
+          <h2>復習帳φ(`･ω･´ )🍣</h2>
+          <span aria-hidden="true" style="width: 58px;"></span>
+        </div>
+
+        <p class="muted center">この端末だけの個人メモです。SupabaseやGitHubには保存しません。</p>
+
+        <div class="review-book-toolbar">
+          <div class="review-book-search">
+            <label for="reviewBookSearchInput">単語・意味・メモを検索</label>
+            <input id="reviewBookSearchInput" type="search" placeholder="例：ซ่อม、修理、ソムタン" />
+          </div>
+          <button id="clearReviewBookButton" class="small-button" type="button">復習帳を全消去</button>
+        </div>
+
+        <p id="reviewBookSummary" class="muted"></p>
+        <div id="reviewBookList" class="review-book-list"></div>
+      </div>
+
       <div id="quizScreen" class="hidden">
         <div class="quiz-header">
           <button id="quitButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
@@ -1102,7 +1277,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=4.0"></script>
+    <script src="supabase-config.js?v=5.0"></script>
   <script>
     "use strict";
 
@@ -1121,6 +1296,7 @@
     ];
 
     const HISTORY_STORAGE_KEY = "thaiVocabularyTrainerHistoryV1";
+    const REVIEW_BOOK_STORAGE_KEY = "thaiVocabularyTrainerReviewBookV1";
 
     const state = {
       allQuestions: [],
@@ -1143,6 +1319,7 @@
       wordSource: "none",
       sentenceSource: "none",
       history: [],
+      reviewBook: [],
       questionStartedAt: null,
       historyVisibleCount: 50
     };
@@ -1165,7 +1342,9 @@
         "historyPageStudyDays", "historyPageAverageTime", "historyModeFilter",
         "historyResultFilter", "historySortOrder", "historySearchInput",
         "historyResultCount", "weakWordList", "historyList", "historyLoadMoreButton",
-        "historyPageExportButton", "historyPageClearButton"
+        "historyPageExportButton", "historyPageClearButton",
+        "openReviewBookButton", "reviewBookCount", "reviewBookScreen", "reviewBookBackButton",
+        "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList"
       ].forEach(id => { elements[id] = document.getElementById(id); });
 
       document.querySelectorAll("[data-mode]").forEach(button => {
@@ -1201,6 +1380,10 @@
       [elements.historyModeFilter, elements.historyResultFilter, elements.historySortOrder]
         .forEach(control => control.addEventListener("change", resetAndRenderHistory));
       elements.historySearchInput.addEventListener("input", resetAndRenderHistory);
+      elements.openReviewBookButton.addEventListener("click", showReviewBookScreen);
+      elements.reviewBookBackButton.addEventListener("click", showMenu);
+      elements.reviewBookSearchInput.addEventListener("input", renderReviewBook);
+      elements.clearReviewBookButton.addEventListener("click", clearReviewBook);
       elements.answerInput.addEventListener("keydown", event => {
         if (event.key === "Enter" && !state.answered) {
           event.preventDefault();
@@ -1215,7 +1398,9 @@
       });
 
       state.history = loadHistory();
+      state.reviewBook = loadReviewBook();
       updateHistorySummary();
+      updateReviewBookSummary();
       renderKeyboard();
       loadQuestions();
     }
@@ -1433,7 +1618,7 @@
           );
         }
       } catch (error) {
-        console.error("Ver4.0文章データの取得に失敗しました。", error);
+        console.error("Ver5.0文章データの取得に失敗しました。", error);
         state.allSentences = [];
         state.choiceWords = [];
         state.choiceWordsById = new Map();
@@ -1489,7 +1674,7 @@
       elements.dataSummary.textContent =
         `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
       elements.sentenceSourceNote.textContent =
-        `文章データ：${state.sentenceSource} ／ Ver4.0（Level 1〜10・累積文章方式）`;
+        `文章データ：${state.sentenceSource} ／ Ver5.0（復習帳 + Level 1〜10・累積文章方式）`;
     }
 
     function updateCompositionSummary() {
@@ -1533,6 +1718,7 @@
         menu: elements.menuScreen,
         difficulty: elements.difficultyScreen,
         history: elements.historyScreen,
+        reviewBook: elements.reviewBookScreen,
         quiz: elements.quizScreen,
         result: elements.resultScreen
       };
@@ -1565,6 +1751,7 @@
       state.quizQuestions = [];
       state.wrongQuestions = [];
       updateHistorySummary();
+      updateReviewBookSummary();
       showScreen("menu");
     }
 
@@ -1577,6 +1764,197 @@
     function resetAndRenderHistory() {
       state.historyVisibleCount = 50;
       renderHistoryScreen();
+    }
+
+    function showReviewBookScreen() {
+      renderReviewBook();
+      showScreen("reviewBook");
+    }
+
+    function loadReviewBook() {
+      try {
+        const raw = localStorage.getItem(REVIEW_BOOK_STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.warn("復習帳を読み込めませんでした。", error);
+        return [];
+      }
+    }
+
+    function saveReviewBook() {
+      try {
+        localStorage.setItem(REVIEW_BOOK_STORAGE_KEY, JSON.stringify(state.reviewBook));
+      } catch (error) {
+        console.warn("復習帳を保存できませんでした。", error);
+      }
+    }
+
+    function reviewBookKey(question) {
+      const id = question && question.id !== undefined && question.id !== null
+        ? String(question.id).trim()
+        : "";
+      if (id) return `id:${id}`;
+      return `word:${String(question?.thai || "").trim()}\u0000${String(question?.japanese || "").trim()}`;
+    }
+
+    function addWrongWordToReviewBook(question) {
+      if (!question || question.questionType === "sentence") return false;
+
+      const key = reviewBookKey(question);
+      const now = new Date().toISOString();
+      const existing = state.reviewBook.find(item => item.key === key);
+
+      if (existing) {
+        existing.thai = question.thai || existing.thai || "";
+        existing.japanese = japaneseDisplay(question) || existing.japanese || "";
+        existing.reading = question.reading || existing.reading || "";
+        existing.difficulty = question.difficulty ?? existing.difficulty ?? state.difficulty;
+        existing.wrongCount = Math.max(0, Number(existing.wrongCount) || 0) + 1;
+        existing.lastWrongAt = now;
+      } else {
+        state.reviewBook.push({
+          key,
+          questionId: question.id ?? "",
+          thai: question.thai || "",
+          japanese: japaneseDisplay(question) || question.japanese || "",
+          reading: question.reading || "",
+          difficulty: question.difficulty ?? state.difficulty,
+          note: "",
+          wrongCount: 1,
+          firstAddedAt: now,
+          lastWrongAt: now,
+          updatedAt: now
+        });
+      }
+
+      saveReviewBook();
+      updateReviewBookSummary();
+      return true;
+    }
+
+    function updateReviewBookSummary() {
+      if (!elements.reviewBookCount) return;
+      const count = state.reviewBook.length;
+      elements.reviewBookCount.textContent = `${count}語`;
+      if (elements.clearReviewBookButton) elements.clearReviewBookButton.disabled = count === 0;
+    }
+
+    function renderReviewBook() {
+      elements.reviewBookList.replaceChildren();
+      const query = elements.reviewBookSearchInput.value.trim().toLocaleLowerCase("ja-JP");
+      const items = [...state.reviewBook]
+        .filter(item => {
+          if (!query) return true;
+          const haystack = [item.thai, item.japanese, item.reading, item.note]
+            .map(value => String(value ?? "").toLocaleLowerCase("ja-JP"))
+            .join("\n");
+          return haystack.includes(query);
+        })
+        .sort((a, b) => {
+          const aTime = new Date(a.lastWrongAt || a.updatedAt || a.firstAddedAt || 0).getTime() || 0;
+          const bTime = new Date(b.lastWrongAt || b.updatedAt || b.firstAddedAt || 0).getTime() || 0;
+          return bTime - aTime;
+        });
+
+      elements.reviewBookSummary.textContent = state.reviewBook.length
+        ? `${items.length}語を表示（復習帳 全${state.reviewBook.length}語）`
+        : "まだ復習帳は空です。不正解になった単語が自動で追加されます。";
+      elements.clearReviewBookButton.disabled = state.reviewBook.length === 0;
+
+      if (!items.length) {
+        const empty = document.createElement("div");
+        empty.className = "history-empty";
+        empty.textContent = state.reviewBook.length
+          ? "検索条件に合う単語がありません。"
+          : "間違えた単語がここに集まりますぞφ(`･ω･´ )🍣";
+        elements.reviewBookList.appendChild(empty);
+        return;
+      }
+
+      items.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "review-book-item";
+
+        const header = document.createElement("div");
+        header.className = "review-book-word-header";
+
+        const wordBlock = document.createElement("div");
+        const thai = document.createElement("div");
+        thai.className = "review-book-thai";
+        thai.textContent = item.thai || "（タイ語未登録）";
+        const meaning = document.createElement("div");
+        meaning.textContent = item.japanese || "意味未登録";
+        const meta = document.createElement("div");
+        meta.className = "review-book-meta";
+        const level = Number(item.difficulty);
+        const metaParts = [
+          `読み：${item.reading || "未登録"}`,
+          Number.isFinite(level) ? `Level ${level}` : "",
+          `不正解 ${Math.max(1, Number(item.wrongCount) || 1)}回`
+        ].filter(Boolean);
+        meta.textContent = metaParts.join(" ／ ");
+        wordBlock.append(thai, meaning, meta);
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "review-book-remove";
+        removeButton.type = "button";
+        removeButton.textContent = "削除";
+        removeButton.addEventListener("click", () => removeReviewBookItem(item.key));
+        header.append(wordBlock, removeButton);
+
+        const label = document.createElement("label");
+        label.className = "review-note-label";
+        label.textContent = "覚え方メモ";
+
+        const textarea = document.createElement("textarea");
+        textarea.className = "review-note-textarea";
+        textarea.value = item.note || "";
+        textarea.placeholder = "例：ソムタンを修理する";
+        textarea.setAttribute("aria-label", `${item.thai || "単語"} の覚え方メモ`);
+
+        const status = document.createElement("p");
+        status.className = "review-note-status";
+        status.textContent = "この端末に自動保存";
+
+        let saveTimer = null;
+        textarea.addEventListener("input", () => {
+          const target = state.reviewBook.find(entry => entry.key === item.key);
+          if (!target) return;
+          target.note = textarea.value;
+          target.updatedAt = new Date().toISOString();
+          saveReviewBook();
+          status.textContent = "保存しました ✓";
+          if (saveTimer) window.clearTimeout(saveTimer);
+          saveTimer = window.setTimeout(() => {
+            status.textContent = "この端末に自動保存";
+          }, 1200);
+        });
+
+        card.append(header, label, textarea, status);
+        elements.reviewBookList.appendChild(card);
+      });
+    }
+
+    function removeReviewBookItem(key) {
+      const item = state.reviewBook.find(entry => entry.key === key);
+      if (!item) return;
+      const label = item.thai || item.japanese || "この単語";
+      if (!window.confirm(`${label} を復習帳から削除しますか？`)) return;
+      state.reviewBook = state.reviewBook.filter(entry => entry.key !== key);
+      saveReviewBook();
+      updateReviewBookSummary();
+      renderReviewBook();
+    }
+
+    function clearReviewBook() {
+      if (!state.reviewBook.length) return;
+      if (!window.confirm("復習帳の単語と個人メモをすべて消去しますか？この操作は元に戻せません。")) return;
+      state.reviewBook = [];
+      saveReviewBook();
+      updateReviewBookSummary();
+      renderReviewBook();
     }
 
     function filteredHistory() {
@@ -1821,7 +2199,7 @@
           return canBuildCandidateSentenceChoices(question);
         });
         if (!sanitizedQuestions.length) {
-          window.alert("旧形式の文章履歴はVer4.0では再出題しません。新しい文章問題を開始してください。");
+          window.alert("旧形式の文章履歴はVer5.0では再出題しません。新しい文章問題を開始してください。");
           openDifficultyScreen(state.mode);
           return;
         }
@@ -1840,7 +2218,7 @@
           window.alert(`Level ${state.difficulty}の単語は${wordPool.length}語です。単語問題数を減らしてください。`);
           return;
         }
-        // Ver4.0: 文章問題は candidate から類似4択を作れる文章だけ使用する。
+        // Ver5.0: 文章問題は candidate から類似4択を作れる文章だけ使用する。
         // 旧文章へのフォールバックは禁止。候補が足りなければ、その場で原因が分かるように止める。
         const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
         if (requestedSentences > candidateSentencePool.length) {
@@ -2168,7 +2546,8 @@
       }
 
       recordAnswer(question, userAnswer, isCorrect, readingAttempt);
-      renderFeedback(question, userAnswer, isCorrect, readingAttempt);
+      const addedToReviewBook = !isCorrect && addWrongWordToReviewBook(question);
+      renderFeedback(question, userAnswer, isCorrect, readingAttempt, addedToReviewBook);
     }
 
     function showTemporaryInputNotice(message) {
@@ -2187,7 +2566,7 @@
       });
     }
 
-    function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "") {
+    function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", addedToReviewBook = false) {
       elements.feedback.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
       elements.feedback.replaceChildren();
 
@@ -2233,6 +2612,12 @@
         list.append(dt, dd);
       });
       elements.feedback.appendChild(list);
+      if (addedToReviewBook) {
+        const reviewNote = document.createElement("div");
+        reviewNote.className = "review-book-added-note";
+        reviewNote.textContent = "🍣 復習帳に自動追加しました。メニューから覚え方メモを編集できます。";
+        elements.feedback.appendChild(reviewNote);
+      }
       elements.nextButton.focus();
     }
 
@@ -2276,6 +2661,12 @@
             reading.className = "muted";
             reading.textContent = `読みメモ：${readingAttempt || "未入力"} ／ 正しい読み：${question.reading || "未登録"}`;
             item.appendChild(reading);
+          }
+          if (question.questionType !== "sentence") {
+            const reviewInfo = document.createElement("div");
+            reviewInfo.className = "review-book-added-note";
+            reviewInfo.textContent = "🍣 復習帳に登録済み";
+            item.appendChild(reviewInfo);
           }
           elements.wrongList.appendChild(item);
         });
