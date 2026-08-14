@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver5.0</title>
+  <title>Thai Vocabulary Trainer Ver5.0.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -742,8 +742,8 @@
 
     .review-book-list {
       display: grid;
-      gap: 12px;
-      margin-top: 18px;
+      gap: 6px;
+      margin-top: 14px;
       text-align: left;
     }
 
@@ -773,73 +773,86 @@
     }
 
     .review-book-search input:focus,
-    .review-note-textarea:focus {
+    .review-note-input:focus {
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(169, 87, 44, 0.12);
       outline: none;
     }
 
     .review-book-item {
-      padding: 15px;
+      display: grid;
+      grid-template-columns: minmax(115px, 1.05fr) minmax(120px, 1.35fr) minmax(105px, 1fr) auto minmax(220px, 2.2fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 10px;
       background: #fffaf3;
     }
 
-    .review-book-word-header {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: start;
-      margin-bottom: 10px;
+    .review-book-thai {
+      font: 850 1.28rem/1.25 "Noto Sans Thai", Tahoma, sans-serif;
+      white-space: nowrap;
     }
 
-    .review-book-thai {
-      font: 850 1.6rem/1.4 "Noto Sans Thai", Tahoma, sans-serif;
+    .review-book-meaning {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .review-book-reading {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 0.86rem;
     }
 
     .review-book-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px 12px;
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.78rem;
+      white-space: nowrap;
     }
 
-    .review-note-label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: 800;
+    .review-note-wrap {
+      position: relative;
+      min-width: 0;
     }
 
-    .review-note-textarea {
+    .review-note-input {
       width: 100%;
-      min-height: 86px;
-      resize: vertical;
-      padding: 10px 12px;
+      min-width: 0;
+      height: 36px;
+      padding: 6px 9px;
       border: 1px solid var(--border);
-      border-radius: 11px;
+      border-radius: 8px;
       background: white;
       color: var(--ink);
       font: inherit;
-      line-height: 1.5;
     }
 
     .review-note-status {
-      min-height: 1.2em;
-      margin: 5px 0 0;
+      position: absolute;
+      right: 7px;
+      bottom: -15px;
+      margin: 0;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.68rem;
+      pointer-events: none;
     }
 
     .review-book-remove {
-      align-self: start;
-      padding: 7px 9px;
+      padding: 6px 8px;
       border: 1px solid var(--border);
-      border-radius: 9px;
+      border-radius: 8px;
       background: white;
       color: var(--danger);
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .review-book-remove:hover,
@@ -880,7 +893,9 @@
       .history-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .history-filters { grid-template-columns: 1fr 1fr; }
       .review-book-toolbar { grid-template-columns: 1fr; }
-      .review-book-word-header { grid-template-columns: 1fr; }
+      .review-book-item { grid-template-columns: 1fr 1fr; gap: 7px; }
+      .review-note-wrap { grid-column: 1 / -1; }
+      .review-book-remove { justify-self: end; }
       .weak-word-item { grid-template-columns: 1fr auto; }
       .weak-word-item .muted { grid-column: 1 / -1; }
       .history-row.header { display: none; }
@@ -917,7 +932,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver5.0</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver5.0.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1198,6 +1213,7 @@
         </div>
 
         <p id="reviewBookSummary" class="muted"></p>
+        <p class="history-note">表示：タイ語 ／ 意味 ／ 読み ／ Level・不正解回数 ／ 覚え方メモ</p>
         <div id="reviewBookList" class="review-book-list"></div>
       </div>
 
@@ -1618,7 +1634,7 @@
           );
         }
       } catch (error) {
-        console.error("Ver5.0文章データの取得に失敗しました。", error);
+        console.error("Ver5.0.1文章データの取得に失敗しました。", error);
         state.allSentences = [];
         state.choiceWords = [];
         state.choiceWordsById = new Map();
@@ -1674,7 +1690,7 @@
       elements.dataSummary.textContent =
         `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
       elements.sentenceSourceNote.textContent =
-        `文章データ：${state.sentenceSource} ／ Ver5.0（復習帳 + Level 1〜10・累積文章方式）`;
+        `文章データ：${state.sentenceSource} ／ Ver5.0.1（復習帳コンパクト表示 + Level 1〜10・累積文章方式）`;
     }
 
     function updateCompositionSummary() {
@@ -1874,66 +1890,70 @@
       }
 
       items.forEach(item => {
-        const card = document.createElement("article");
-        card.className = "review-book-item";
+        const row = document.createElement("article");
+        row.className = "review-book-item";
 
-        const header = document.createElement("div");
-        header.className = "review-book-word-header";
-
-        const wordBlock = document.createElement("div");
         const thai = document.createElement("div");
         thai.className = "review-book-thai";
         thai.textContent = item.thai || "（タイ語未登録）";
+
         const meaning = document.createElement("div");
+        meaning.className = "review-book-meaning";
         meaning.textContent = item.japanese || "意味未登録";
+        meaning.title = item.japanese || "";
+
+        const reading = document.createElement("div");
+        reading.className = "review-book-reading";
+        reading.textContent = item.reading || "読み未登録";
+        reading.title = item.reading || "";
+
         const meta = document.createElement("div");
         meta.className = "review-book-meta";
         const level = Number(item.difficulty);
         const metaParts = [
-          `読み：${item.reading || "未登録"}`,
-          Number.isFinite(level) ? `Level ${level}` : "",
-          `不正解 ${Math.max(1, Number(item.wrongCount) || 1)}回`
+          Number.isFinite(level) ? `L${level}` : "",
+          `×${Math.max(1, Number(item.wrongCount) || 1)}`
         ].filter(Boolean);
-        meta.textContent = metaParts.join(" ／ ");
-        wordBlock.append(thai, meaning, meta);
+        meta.textContent = metaParts.join(" ");
+        meta.title = `${Number.isFinite(level) ? `Level ${level} ／ ` : ""}不正解 ${Math.max(1, Number(item.wrongCount) || 1)}回`;
+
+        const noteWrap = document.createElement("div");
+        noteWrap.className = "review-note-wrap";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "review-note-input";
+        input.value = item.note || "";
+        input.placeholder = "覚え方メモ（例：ソムタンを修理する）";
+        input.setAttribute("aria-label", `${item.thai || "単語"} の覚え方メモ`);
+
+        const status = document.createElement("span");
+        status.className = "review-note-status";
+        status.textContent = "";
+
+        let saveTimer = null;
+        input.addEventListener("input", () => {
+          const target = state.reviewBook.find(entry => entry.key === item.key);
+          if (!target) return;
+          target.note = input.value;
+          target.updatedAt = new Date().toISOString();
+          saveReviewBook();
+          status.textContent = "保存 ✓";
+          if (saveTimer) window.clearTimeout(saveTimer);
+          saveTimer = window.setTimeout(() => {
+            status.textContent = "";
+          }, 900);
+        });
+        noteWrap.append(input, status);
 
         const removeButton = document.createElement("button");
         removeButton.className = "review-book-remove";
         removeButton.type = "button";
         removeButton.textContent = "削除";
         removeButton.addEventListener("click", () => removeReviewBookItem(item.key));
-        header.append(wordBlock, removeButton);
 
-        const label = document.createElement("label");
-        label.className = "review-note-label";
-        label.textContent = "覚え方メモ";
-
-        const textarea = document.createElement("textarea");
-        textarea.className = "review-note-textarea";
-        textarea.value = item.note || "";
-        textarea.placeholder = "例：ソムタンを修理する";
-        textarea.setAttribute("aria-label", `${item.thai || "単語"} の覚え方メモ`);
-
-        const status = document.createElement("p");
-        status.className = "review-note-status";
-        status.textContent = "この端末に自動保存";
-
-        let saveTimer = null;
-        textarea.addEventListener("input", () => {
-          const target = state.reviewBook.find(entry => entry.key === item.key);
-          if (!target) return;
-          target.note = textarea.value;
-          target.updatedAt = new Date().toISOString();
-          saveReviewBook();
-          status.textContent = "保存しました ✓";
-          if (saveTimer) window.clearTimeout(saveTimer);
-          saveTimer = window.setTimeout(() => {
-            status.textContent = "この端末に自動保存";
-          }, 1200);
-        });
-
-        card.append(header, label, textarea, status);
-        elements.reviewBookList.appendChild(card);
+        row.append(thai, meaning, reading, meta, noteWrap, removeButton);
+        elements.reviewBookList.appendChild(row);
       });
     }
 
@@ -2199,7 +2219,7 @@
           return canBuildCandidateSentenceChoices(question);
         });
         if (!sanitizedQuestions.length) {
-          window.alert("旧形式の文章履歴はVer5.0では再出題しません。新しい文章問題を開始してください。");
+          window.alert("旧形式の文章履歴はVer5.0.1では再出題しません。新しい文章問題を開始してください。");
           openDifficultyScreen(state.mode);
           return;
         }
@@ -2218,7 +2238,7 @@
           window.alert(`Level ${state.difficulty}の単語は${wordPool.length}語です。単語問題数を減らしてください。`);
           return;
         }
-        // Ver5.0: 文章問題は candidate から類似4択を作れる文章だけ使用する。
+        // Ver5.0.1: 文章問題は candidate から類似4択を作れる文章だけ使用する。
         // 旧文章へのフォールバックは禁止。候補が足りなければ、その場で原因が分かるように止める。
         const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
         if (requestedSentences > candidateSentencePool.length) {
