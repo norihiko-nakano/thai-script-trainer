@@ -868,6 +868,131 @@
       font-weight: 750;
     }
 
+
+    .reading-memo-launch {
+      margin-top: 13px;
+      padding-top: 13px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .reading-memo-launch h3 {
+      margin: 0 0 7px;
+      font-size: 1.05rem;
+    }
+
+    .reading-memo-intro {
+      margin: 10px 0 16px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fffaf3;
+      color: var(--muted);
+      text-align: left;
+      line-height: 1.65;
+    }
+
+    .reading-memo-section {
+      margin-top: 18px;
+      text-align: left;
+    }
+
+    .reading-memo-section h3 {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .reading-memo-priority {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #f5eadf;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    .reading-memo-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .reading-memo-table {
+      min-width: 690px;
+    }
+
+    .reading-memo-row {
+      display: grid;
+      grid-template-columns: 78px 95px minmax(200px, 1.2fr) minmax(240px, 1.5fr);
+      align-items: center;
+      min-height: 45px;
+      border-bottom: 1px solid #eee3d7;
+    }
+
+    .reading-memo-row:last-child {
+      border-bottom: 0;
+    }
+
+    .reading-memo-row.header {
+      min-height: 36px;
+      background: #f6eee5;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .reading-memo-cell {
+      min-width: 0;
+      padding: 7px 9px;
+    }
+
+    .reading-memo-symbol {
+      font: 850 1.5rem/1.2 "Noto Sans Thai", Tahoma, sans-serif;
+      text-align: center;
+    }
+
+    .reading-memo-roman {
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .reading-memo-description {
+      color: var(--ink);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .reading-memo-note-input {
+      width: 100%;
+      min-width: 180px;
+      height: 34px;
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fffdf9;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .reading-memo-note-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(169, 87, 44, 0.12);
+      outline: none;
+    }
+
+    .reading-memo-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 18px;
+    }
+
     .error-box {
       padding: 18px;
       border: 1px solid #efc3be;
@@ -932,7 +1057,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver5.0.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver5.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -990,6 +1115,13 @@
               <span id="reviewBookCount" class="review-book-count">0語</span>
             </div>
             <p class="history-note">不正解になった単語を自動登録します。覚え方メモは自由編集・自動保存です。</p>
+            <div class="reading-memo-launch">
+              <h3>読み方メモ📕</h3>
+              <div class="review-book-launch-row">
+                <button id="openReadingMemoButton" class="small-button" type="button">読み方メモを開く</button>
+              </div>
+              <p class="history-note">特に文字の上・下につく母音や記号を、すぐ確認できる自分用カンペです。</p>
+            </div>
           </div>
         </section>
       </div>
@@ -1217,6 +1349,26 @@
         <div id="reviewBookList" class="review-book-list"></div>
       </div>
 
+      <div id="readingMemoScreen" class="hidden">
+        <div class="history-page-header">
+          <button id="readingMemoBackButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
+          <h2>読み方メモ📕</h2>
+          <span aria-hidden="true" style="width: 58px;"></span>
+        </div>
+
+        <p class="reading-memo-intro">
+          タイ文字の「上・下につく母音や記号」を先に置いた読み方カンペです。英字は覚えるための目安です。<br>
+          右端の「自分メモ」は1行で自由に編集でき、このブラウザのlocalStorageへ自動保存します。
+        </p>
+
+        <div id="readingMemoContent"></div>
+
+        <div class="reading-memo-footer">
+          <button id="clearReadingMemoButton" class="small-button" type="button">自分メモだけ消去</button>
+        </div>
+        <p class="history-note">読み方メモの個人メモもSupabaseやGitHubには保存しません。</p>
+      </div>
+
       <div id="quizScreen" class="hidden">
         <div class="quiz-header">
           <button id="quitButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
@@ -1293,7 +1445,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=5.0"></script>
+    <script src="supabase-config.js?v=5.1"></script>
   <script>
     "use strict";
 
@@ -1313,6 +1465,49 @@
 
     const HISTORY_STORAGE_KEY = "thaiVocabularyTrainerHistoryV1";
     const REVIEW_BOOK_STORAGE_KEY = "thaiVocabularyTrainerReviewBookV1";
+    const READING_MEMO_STORAGE_KEY = "thaiVocabularyTrainerReadingMemoV1";
+
+    const READING_MEMO_SECTIONS = [
+      {
+        title: "上につく母音・記号",
+        priority: "まずここ",
+        items: [
+          { key: "mai_han_akat", symbol: "ั", roman: "a", description: "短い a の目印。末子音がある形などで使われる。" },
+          { key: "sara_i", symbol: "ิ", roman: "i", description: "短い i（イ）。" },
+          { key: "sara_ii", symbol: "ี", roman: "ii", description: "長い ii（イー）。" },
+          { key: "sara_ue", symbol: "ึ", roman: "ue", description: "短い ue。日本語のウとは少し違う音。" },
+          { key: "sara_uue", symbol: "ื", roman: "uue", description: "長い uue。ึ の長い形。" },
+          { key: "mai_taikhu", symbol: "็", roman: "short", description: "母音を短くする目印。これ自体に独立した読みはない。" },
+          { key: "mai_ek", symbol: "่", roman: "tone", description: "声調記号 mai ek。母音ではなく声調を変える。" },
+          { key: "mai_tho", symbol: "้", roman: "tone", description: "声調記号 mai tho。母音ではなく声調を変える。" },
+          { key: "mai_tri", symbol: "๊", roman: "tone", description: "声調記号 mai tri。母音ではなく声調を変える。" },
+          { key: "mai_chattawa", symbol: "๋", roman: "tone", description: "声調記号 mai chattawa。母音ではなく声調を変える。" },
+          { key: "thanthakhat", symbol: "์", roman: "silent", description: "การันต์ / thanthakhat。付いた文字を発音しない目印。" },
+          { key: "nikhahit", symbol: "ํ", roman: "m / am", description: "nikhahit。ำ の一部として am を作るなどに使われる。" }
+        ]
+      },
+      {
+        title: "下につく母音",
+        items: [
+          { key: "sara_u", symbol: "ุ", roman: "u", description: "短い u（ウ）。" },
+          { key: "sara_uu", symbol: "ู", roman: "uu", description: "長い uu（ウー）。" }
+        ]
+      },
+      {
+        title: "よく出る組み合わせ",
+        items: [
+          { key: "sara_a", symbol: "ะ", roman: "a", description: "短い a。" },
+          { key: "sara_aa", symbol: "า", roman: "aa", description: "長い aa（アー）。" },
+          { key: "sara_am", symbol: "ำ", roman: "am", description: "am。" },
+          { key: "sara_ai_maimalai", symbol: "ไ-", roman: "ai", description: "ai。" },
+          { key: "sara_ai_maimuan", symbol: "ใ-", roman: "ai", description: "ai。使う単語は限られる。" },
+          { key: "sara_ao", symbol: "เ-า", roman: "ao", description: "ao。" },
+          { key: "sara_ia", symbol: "เ-ีย", roman: "ia", description: "ia。" },
+          { key: "sara_uea", symbol: "เ-ือ", roman: "uea", description: "uea。" },
+          { key: "sara_ua", symbol: "-ัว", roman: "ua", description: "ua。" }
+        ]
+      }
+    ];
 
     const state = {
       allQuestions: [],
@@ -1336,6 +1531,7 @@
       sentenceSource: "none",
       history: [],
       reviewBook: [],
+      readingMemoNotes: {},
       questionStartedAt: null,
       historyVisibleCount: 50
     };
@@ -1360,7 +1556,9 @@
         "historyResultCount", "weakWordList", "historyList", "historyLoadMoreButton",
         "historyPageExportButton", "historyPageClearButton",
         "openReviewBookButton", "reviewBookCount", "reviewBookScreen", "reviewBookBackButton",
-        "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList"
+        "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList",
+        "openReadingMemoButton", "readingMemoScreen", "readingMemoBackButton",
+        "readingMemoContent", "clearReadingMemoButton"
       ].forEach(id => { elements[id] = document.getElementById(id); });
 
       document.querySelectorAll("[data-mode]").forEach(button => {
@@ -1400,6 +1598,9 @@
       elements.reviewBookBackButton.addEventListener("click", showMenu);
       elements.reviewBookSearchInput.addEventListener("input", renderReviewBook);
       elements.clearReviewBookButton.addEventListener("click", clearReviewBook);
+      elements.openReadingMemoButton.addEventListener("click", showReadingMemoScreen);
+      elements.readingMemoBackButton.addEventListener("click", showMenu);
+      elements.clearReadingMemoButton.addEventListener("click", clearReadingMemoNotes);
       elements.answerInput.addEventListener("keydown", event => {
         if (event.key === "Enter" && !state.answered) {
           event.preventDefault();
@@ -1415,6 +1616,7 @@
 
       state.history = loadHistory();
       state.reviewBook = loadReviewBook();
+      state.readingMemoNotes = loadReadingMemoNotes();
       updateHistorySummary();
       updateReviewBookSummary();
       renderKeyboard();
@@ -1690,7 +1892,7 @@
       elements.dataSummary.textContent =
         `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
       elements.sentenceSourceNote.textContent =
-        `文章データ：${state.sentenceSource} ／ Ver5.0.1（復習帳コンパクト表示 + Level 1〜10・累積文章方式）`;
+        `文章データ：${state.sentenceSource} ／ Ver5.1（復習帳 + 読み方メモ📕 + Level 1〜10・累積文章方式）`;
     }
 
     function updateCompositionSummary() {
@@ -1735,6 +1937,7 @@
         difficulty: elements.difficultyScreen,
         history: elements.historyScreen,
         reviewBook: elements.reviewBookScreen,
+        readingMemo: elements.readingMemoScreen,
         quiz: elements.quizScreen,
         result: elements.resultScreen
       };
@@ -1785,6 +1988,120 @@
     function showReviewBookScreen() {
       renderReviewBook();
       showScreen("reviewBook");
+    }
+
+    function showReadingMemoScreen() {
+      renderReadingMemo();
+      showScreen("readingMemo");
+    }
+
+    function loadReadingMemoNotes() {
+      try {
+        const raw = localStorage.getItem(READING_MEMO_STORAGE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+      } catch (error) {
+        console.warn("読み方メモを読み込めませんでした。", error);
+        return {};
+      }
+    }
+
+    function saveReadingMemoNotes() {
+      try {
+        localStorage.setItem(READING_MEMO_STORAGE_KEY, JSON.stringify(state.readingMemoNotes));
+      } catch (error) {
+        console.warn("読み方メモを保存できませんでした。", error);
+      }
+    }
+
+    function renderReadingMemo() {
+      elements.readingMemoContent.replaceChildren();
+
+      READING_MEMO_SECTIONS.forEach(section => {
+        const sectionElement = document.createElement("section");
+        sectionElement.className = "reading-memo-section";
+
+        const heading = document.createElement("h3");
+        const headingText = document.createElement("span");
+        headingText.textContent = section.title;
+        heading.appendChild(headingText);
+        if (section.priority) {
+          const badge = document.createElement("span");
+          badge.className = "reading-memo-priority";
+          badge.textContent = section.priority;
+          heading.appendChild(badge);
+        }
+        sectionElement.appendChild(heading);
+
+        const wrap = document.createElement("div");
+        wrap.className = "reading-memo-table-wrap";
+        const table = document.createElement("div");
+        table.className = "reading-memo-table";
+
+        const header = document.createElement("div");
+        header.className = "reading-memo-row header";
+        ["文字", "目安", "読み方・役割", "自分メモ（自動保存）"].forEach(label => {
+          const cell = document.createElement("div");
+          cell.className = "reading-memo-cell";
+          cell.textContent = label;
+          header.appendChild(cell);
+        });
+        table.appendChild(header);
+
+        section.items.forEach(item => {
+          const row = document.createElement("div");
+          row.className = "reading-memo-row";
+
+          const symbol = document.createElement("div");
+          symbol.className = "reading-memo-cell reading-memo-symbol";
+          symbol.textContent = item.symbol;
+
+          const roman = document.createElement("div");
+          roman.className = "reading-memo-cell reading-memo-roman";
+          roman.textContent = item.roman;
+
+          const description = document.createElement("div");
+          description.className = "reading-memo-cell reading-memo-description";
+          description.textContent = item.description;
+
+          const noteCell = document.createElement("div");
+          noteCell.className = "reading-memo-cell";
+          const input = document.createElement("input");
+          input.type = "text";
+          input.className = "reading-memo-note-input";
+          input.value = state.readingMemoNotes[item.key] || "";
+          input.placeholder = "例：ื = ue の長い版";
+          input.setAttribute("aria-label", `${item.symbol} の自分メモ`);
+          input.addEventListener("input", () => {
+            const value = input.value;
+            if (value) {
+              state.readingMemoNotes[item.key] = value;
+            } else {
+              delete state.readingMemoNotes[item.key];
+            }
+            saveReadingMemoNotes();
+          });
+          noteCell.appendChild(input);
+
+          row.append(symbol, roman, description, noteCell);
+          table.appendChild(row);
+        });
+
+        wrap.appendChild(table);
+        sectionElement.appendChild(wrap);
+        elements.readingMemoContent.appendChild(sectionElement);
+      });
+
+      elements.clearReadingMemoButton.disabled = Object.keys(state.readingMemoNotes).length === 0;
+    }
+
+    function clearReadingMemoNotes() {
+      if (!Object.keys(state.readingMemoNotes).length) return;
+      if (!window.confirm("読み方メモの『自分メモ』だけをすべて消去しますか？基本の読み方一覧は消えません。")) return;
+      state.readingMemoNotes = {};
+      saveReadingMemoNotes();
+      renderReadingMemo();
     }
 
     function loadReviewBook() {
