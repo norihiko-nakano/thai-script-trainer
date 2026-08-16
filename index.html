@@ -1116,7 +1116,7 @@
             </div>
             <p class="history-note">不正解になった単語を自動登録します。覚え方メモは自由編集・自動保存です。</p>
             <div class="reading-memo-launch">
-              <h3>読み方メモ📕</h3>
+              <h3>読み方メモ📕🐨</h3>
               <div class="review-book-launch-row">
                 <button id="openReadingMemoButton" class="small-button" type="button">読み方メモを開く</button>
               </div>
@@ -1352,12 +1352,12 @@
       <div id="readingMemoScreen" class="hidden">
         <div class="history-page-header">
           <button id="readingMemoBackButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
-          <h2>読み方メモ📕</h2>
+          <h2>読み方メモ📕🐨</h2>
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
 
         <p class="reading-memo-intro">
-          タイ文字を読めるようにするための「全部入り」カンペです。上・下につく母音・記号を最初に、子音44文字、母音32形、末子音、タイ数字までまとめました。<br>
+          タイ文字を読めるようにするための「全部入り」カンペです。上・下につく母音・記号に加えて、<strong>เ-า = ao</strong> のような複数母音・挟み込みパターンを見やすく復活させました。子音44文字、母音32形、末子音、タイ数字もまとめています。<br>
           英字は覚えるための目安です。声調は「子音クラス＋母音の長短＋末子音＋声調記号」で決まるため、英字だけで完全な発音を表すものではありません。<br>
           右端の「自分メモ」は1行で自由に編集でき、このブラウザのlocalStorageへ自動保存します。
         </p>
@@ -1832,6 +1832,132 @@
                         "symbol": "ฮ",
                         "roman": "h / –",
                         "description": "低子音。語頭 h。"
+                  }
+            ]
+      },
+      {
+            "title": "よく出る複数母音・挟み込みパターン（- = 子音）",
+            "priority": "重要 🐨",
+            "items": [
+                  {
+                        "key": "sara_ao",
+                        "symbol": "เ-า",
+                        "roman": "ao",
+                        "description": "เ が子音の前、า が後ろ。例：เขา のように、子音を前後から挟む形。"
+                  },
+                  {
+                        "key": "sara_ia",
+                        "symbol": "เ-ีย",
+                        "roman": "ia",
+                        "description": "ia。เ が子音の前、ีย が後ろ。例：เรียน。"
+                  },
+                  {
+                        "key": "sara_uea",
+                        "symbol": "เ-ือ",
+                        "roman": "uea",
+                        "description": "uea。เ が子音の前、ือ が後ろ。例：เมื่อ。"
+                  },
+                  {
+                        "key": "sara_ua",
+                        "symbol": "-ัว",
+                        "roman": "ua",
+                        "description": "ua。ั が上、ว が後ろにつく組み合わせ。"
+                  },
+                  {
+                        "key": "sara_ai_maimalai",
+                        "symbol": "ไ-",
+                        "roman": "ai",
+                        "description": "ai。ไ を子音の前に書く。"
+                  },
+                  {
+                        "key": "sara_ai_maimuan",
+                        "symbol": "ใ-",
+                        "roman": "ai",
+                        "description": "ai。ใ を子音の前に書く。使われる基本語は限られる。"
+                  },
+                  {
+                        "key": "sara_am",
+                        "symbol": "-ำ",
+                        "roman": "am",
+                        "description": "am。ำ が子音の後ろにつく。"
+                  },
+                  {
+                        "key": "combo_e_short",
+                        "symbol": "เ-ะ / เ-็-",
+                        "roman": "e",
+                        "description": "短い e。เ を子音の前に書き、開音節では -ะ、末子音がある形では ็ が見えることがある。"
+                  },
+                  {
+                        "key": "combo_e_long",
+                        "symbol": "เ-",
+                        "roman": "ee",
+                        "description": "長い e。เ を子音の前に書く。"
+                  },
+                  {
+                        "key": "combo_ae_short",
+                        "symbol": "แ-ะ / แ-็-",
+                        "roman": "ae",
+                        "description": "短い ae。แ を子音の前に書く。"
+                  },
+                  {
+                        "key": "combo_ae_long",
+                        "symbol": "แ-",
+                        "roman": "aae",
+                        "description": "長い ae。แ を子音の前に書く。"
+                  },
+                  {
+                        "key": "combo_o_short",
+                        "symbol": "โ-ะ",
+                        "roman": "o",
+                        "description": "短い o。โ を子音の前に書く。"
+                  },
+                  {
+                        "key": "combo_o_long",
+                        "symbol": "โ-",
+                        "roman": "oo",
+                        "description": "長い o。โ を子音の前に書く。"
+                  },
+                  {
+                        "key": "combo_aw_short",
+                        "symbol": "เ-าะ",
+                        "roman": "aw",
+                        "description": "短い aw / ɔ。เ が前、าะ が後ろ。"
+                  },
+                  {
+                        "key": "combo_aw_long",
+                        "symbol": "-อ",
+                        "roman": "aaw",
+                        "description": "長い aw / ɔː。อ が子音の後ろに置かれる。"
+                  },
+                  {
+                        "key": "combo_oe_short",
+                        "symbol": "เ-อะ",
+                        "roman": "oe",
+                        "description": "短い oe。เ が前、อะ が後ろ。"
+                  },
+                  {
+                        "key": "combo_oe_long",
+                        "symbol": "เ-อ",
+                        "roman": "ooe",
+                        "description": "長い oe。เ が前、อ が後ろ。"
+                  },
+                  {
+                        "key": "combo_ia_short",
+                        "symbol": "เ-ียะ",
+                        "roman": "ia",
+                        "description": "短い ia。เ が前、ียะ が後ろ。"
+                  },
+                  {
+                        "key": "combo_uea_short",
+                        "symbol": "เ-ือะ",
+                        "roman": "uea",
+                        "description": "短い uea。เ が前、ือะ が後ろ。"
+                  },
+                  {
+                        "key": "combo_ua_short",
+                        "symbol": "-ัวะ",
+                        "roman": "ua",
+                        "description": "短い ua。ั が上、วะ が後ろ。"
                   }
             ]
       },
@@ -2554,7 +2680,7 @@
       elements.dataSummary.textContent =
         `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
       elements.sentenceSourceNote.textContent =
-        `文章データ：${state.sentenceSource} ／ Ver5.1（復習帳 + 読み方メモ📕 + Level 1〜10・累積文章方式）`;
+        `文章データ：${state.sentenceSource} ／ Ver5.1.1（復習帳 + 読み方メモ📕🐨 + 複数母音パターン復活 + Level 1〜10）`;
     }
 
     function updateCompositionSummary() {
