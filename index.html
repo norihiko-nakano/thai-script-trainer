@@ -1120,7 +1120,7 @@
               <div class="review-book-launch-row">
                 <button id="openReadingMemoButton" class="small-button" type="button">読み方メモを開く</button>
               </div>
-              <p class="history-note">特に文字の上・下につく母音や記号を、すぐ確認できる自分用カンペです。</p>
+              <p class="history-note">子音44文字・母音32形・上/下の記号・末子音・タイ数字まで確認できる自分用カンペです。</p>
             </div>
           </div>
         </section>
@@ -1357,7 +1357,8 @@
         </div>
 
         <p class="reading-memo-intro">
-          タイ文字の「上・下につく母音や記号」を先に置いた読み方カンペです。英字は覚えるための目安です。<br>
+          タイ文字を読めるようにするための「全部入り」カンペです。上・下につく母音・記号を最初に、子音44文字、母音32形、末子音、タイ数字までまとめました。<br>
+          英字は覚えるための目安です。声調は「子音クラス＋母音の長短＋末子音＋声調記号」で決まるため、英字だけで完全な発音を表すものではありません。<br>
           右端の「自分メモ」は1行で自由に編集でき、このブラウザのlocalStorageへ自動保存します。
         </p>
 
@@ -1469,45 +1470,706 @@
 
     const READING_MEMO_SECTIONS = [
       {
-        title: "上につく母音・記号",
-        priority: "まずここ",
-        items: [
-          { key: "mai_han_akat", symbol: "ั", roman: "a", description: "短い a の目印。末子音がある形などで使われる。" },
-          { key: "sara_i", symbol: "ิ", roman: "i", description: "短い i（イ）。" },
-          { key: "sara_ii", symbol: "ี", roman: "ii", description: "長い ii（イー）。" },
-          { key: "sara_ue", symbol: "ึ", roman: "ue", description: "短い ue。日本語のウとは少し違う音。" },
-          { key: "sara_uue", symbol: "ื", roman: "uue", description: "長い uue。ึ の長い形。" },
-          { key: "mai_taikhu", symbol: "็", roman: "short", description: "母音を短くする目印。これ自体に独立した読みはない。" },
-          { key: "mai_ek", symbol: "่", roman: "tone", description: "声調記号 mai ek。母音ではなく声調を変える。" },
-          { key: "mai_tho", symbol: "้", roman: "tone", description: "声調記号 mai tho。母音ではなく声調を変える。" },
-          { key: "mai_tri", symbol: "๊", roman: "tone", description: "声調記号 mai tri。母音ではなく声調を変える。" },
-          { key: "mai_chattawa", symbol: "๋", roman: "tone", description: "声調記号 mai chattawa。母音ではなく声調を変える。" },
-          { key: "thanthakhat", symbol: "์", roman: "silent", description: "การันต์ / thanthakhat。付いた文字を発音しない目印。" },
-          { key: "nikhahit", symbol: "ํ", roman: "m / am", description: "nikhahit。ำ の一部として am を作るなどに使われる。" }
-        ]
+            "title": "最優先：上・下につく母音・記号",
+            "priority": "まずここ 🐨",
+            "items": [
+                  {
+                        "key": "mai_han_akat",
+                        "symbol": "ั  →  กั",
+                        "roman": "a",
+                        "description": "上につく短い a の目印。例：กัน = kan。単独で読む記号ではなく、母音の一部。"
+                  },
+                  {
+                        "key": "sara_i",
+                        "symbol": "ิ  →  กิ",
+                        "roman": "i",
+                        "description": "上につく短い i（イ）。"
+                  },
+                  {
+                        "key": "sara_ii",
+                        "symbol": "ี  →  กี",
+                        "roman": "ii",
+                        "description": "上につく長い ii（イー）。"
+                  },
+                  {
+                        "key": "sara_ue",
+                        "symbol": "ึ  →  กึ",
+                        "roman": "ue",
+                        "description": "上につく短い ue。日本語の「ウ」より口を横にした音の目安。"
+                  },
+                  {
+                        "key": "sara_uue",
+                        "symbol": "ื  →  กื",
+                        "roman": "uue",
+                        "description": "上につく長い uue。ึ の長い形。後ろに子音がない時は อื の後ろに อ が見えることがある。"
+                  },
+                  {
+                        "key": "sara_u",
+                        "symbol": "ุ  →  กุ",
+                        "roman": "u",
+                        "description": "下につく短い u（ウ）。"
+                  },
+                  {
+                        "key": "sara_uu",
+                        "symbol": "ู  →  กู",
+                        "roman": "uu",
+                        "description": "下につく長い uu（ウー）。"
+                  },
+                  {
+                        "key": "mai_taikhu",
+                        "symbol": "็  →  ก็",
+                        "roman": "short",
+                        "description": "ไม้ไต่คู้。母音を短くする目印。これ自体に独立した音はない。"
+                  },
+                  {
+                        "key": "mai_ek",
+                        "symbol": "่  →  ก่",
+                        "roman": "tone 1",
+                        "description": "ไม้เอก。声調記号。母音ではなく声の高さを決める材料。"
+                  },
+                  {
+                        "key": "mai_tho",
+                        "symbol": "้  →  ก้",
+                        "roman": "tone 2",
+                        "description": "ไม้โท。声調記号。母音ではない。"
+                  },
+                  {
+                        "key": "mai_tri",
+                        "symbol": "๊  →  ก๊",
+                        "roman": "tone 3",
+                        "description": "ไม้ตรี。声調記号。母音ではない。"
+                  },
+                  {
+                        "key": "mai_chattawa",
+                        "symbol": "๋  →  ก๋",
+                        "roman": "tone 4",
+                        "description": "ไม้จัตวา。声調記号。母音ではない。"
+                  },
+                  {
+                        "key": "thanthakhat",
+                        "symbol": "์  →  ก์",
+                        "roman": "silent",
+                        "description": "ทัณฑฆาต（การันต์）。付いた文字を発音しない目印として使われる。"
+                  },
+                  {
+                        "key": "nikhahit",
+                        "symbol": "ํ  →  กํ",
+                        "roman": "m / am",
+                        "description": "นิคหิต。ำ の一部などで使われる。通常の単語では単独で見る機会は少なめ。"
+                  },
+                  {
+                        "key": "phinthu",
+                        "symbol": "ฺ  →  กฺ",
+                        "roman": "mark",
+                        "description": "พินทุ。子音の下につく記号。主にパーリ語・サンスクリット系表記などで使われる。"
+                  }
+            ]
       },
       {
-        title: "下につく母音",
-        items: [
-          { key: "sara_u", symbol: "ุ", roman: "u", description: "短い u（ウ）。" },
-          { key: "sara_uu", symbol: "ู", roman: "uu", description: "長い uu（ウー）。" }
-        ]
+            "title": "子音 44文字",
+            "priority": "全部",
+            "items": [
+                  {
+                        "key": "cons_ko_kai",
+                        "symbol": "ก",
+                        "roman": "k / k",
+                        "description": "中子音。語頭 k（カ行系）／語末 k。"
+                  },
+                  {
+                        "key": "cons_kho_khai",
+                        "symbol": "ข",
+                        "roman": "kh / k",
+                        "description": "高子音。語頭 kh（息を強く出すカ行）／語末 k。"
+                  },
+                  {
+                        "key": "cons_kho_khuat",
+                        "symbol": "ฃ",
+                        "roman": "kh / k",
+                        "description": "高子音。現在は通常のタイ語ではほぼ使わない旧字。"
+                  },
+                  {
+                        "key": "cons_kho_khwai",
+                        "symbol": "ค",
+                        "roman": "kh / k",
+                        "description": "低子音。語頭 kh／語末 k。"
+                  },
+                  {
+                        "key": "cons_kho_khon",
+                        "symbol": "ฅ",
+                        "roman": "kh / k",
+                        "description": "低子音。現在は通常のタイ語ではほぼ使わない旧字。"
+                  },
+                  {
+                        "key": "cons_kho_rakhang",
+                        "symbol": "ฆ",
+                        "roman": "kh / k",
+                        "description": "低子音。語頭 kh／語末 k。"
+                  },
+                  {
+                        "key": "cons_ngo_ngu",
+                        "symbol": "ง",
+                        "roman": "ng / ng",
+                        "description": "低子音。語頭 ng（ンガ行）／語末 ng（ン）。"
+                  },
+                  {
+                        "key": "cons_cho_chan",
+                        "symbol": "จ",
+                        "roman": "ch / t",
+                        "description": "中子音。語頭 ch（チャ行寄り）／語末 t。"
+                  },
+                  {
+                        "key": "cons_cho_ching",
+                        "symbol": "ฉ",
+                        "roman": "ch / –",
+                        "description": "高子音。語頭 ch（息強め）。通常、語末には使わない。"
+                  },
+                  {
+                        "key": "cons_cho_chang",
+                        "symbol": "ช",
+                        "roman": "ch / t",
+                        "description": "低子音。語頭 ch／語末 t。"
+                  },
+                  {
+                        "key": "cons_so_so",
+                        "symbol": "ซ",
+                        "roman": "s / t",
+                        "description": "低子音。語頭 s／語末 t。"
+                  },
+                  {
+                        "key": "cons_cho_choe",
+                        "symbol": "ฌ",
+                        "roman": "ch / t",
+                        "description": "低子音。語頭 ch／語末 t。"
+                  },
+                  {
+                        "key": "cons_yo_ying",
+                        "symbol": "ญ",
+                        "roman": "y / n",
+                        "description": "低子音。語頭 y／語末 n。"
+                  },
+                  {
+                        "key": "cons_do_chada",
+                        "symbol": "ฎ",
+                        "roman": "d / t",
+                        "description": "中子音。語頭 d／語末 t。"
+                  },
+                  {
+                        "key": "cons_to_patak",
+                        "symbol": "ฏ",
+                        "roman": "t / t",
+                        "description": "中子音。語頭 t（無気音）／語末 t。"
+                  },
+                  {
+                        "key": "cons_tho_than",
+                        "symbol": "ฐ",
+                        "roman": "th / t",
+                        "description": "高子音。語頭 th（息強めのタ行）／語末 t。"
+                  },
+                  {
+                        "key": "cons_tho_nangmontho",
+                        "symbol": "ฑ",
+                        "roman": "th / t",
+                        "description": "低子音。主に語頭 th／語末 t。"
+                  },
+                  {
+                        "key": "cons_tho_phuthao",
+                        "symbol": "ฒ",
+                        "roman": "th / t",
+                        "description": "低子音。語頭 th／語末 t。"
+                  },
+                  {
+                        "key": "cons_no_nen",
+                        "symbol": "ณ",
+                        "roman": "n / n",
+                        "description": "低子音。語頭 n／語末 n。"
+                  },
+                  {
+                        "key": "cons_do_dek",
+                        "symbol": "ด",
+                        "roman": "d / t",
+                        "description": "中子音。語頭 d／語末 t。"
+                  },
+                  {
+                        "key": "cons_to_tao",
+                        "symbol": "ต",
+                        "roman": "t / t",
+                        "description": "中子音。語頭 t（無気音）／語末 t。"
+                  },
+                  {
+                        "key": "cons_tho_thung",
+                        "symbol": "ถ",
+                        "roman": "th / t",
+                        "description": "高子音。語頭 th／語末 t。"
+                  },
+                  {
+                        "key": "cons_tho_thahan",
+                        "symbol": "ท",
+                        "roman": "th / t",
+                        "description": "低子音。語頭 th／語末 t。"
+                  },
+                  {
+                        "key": "cons_tho_thong",
+                        "symbol": "ธ",
+                        "roman": "th / t",
+                        "description": "低子音。語頭 th／語末 t。"
+                  },
+                  {
+                        "key": "cons_no_nu",
+                        "symbol": "น",
+                        "roman": "n / n",
+                        "description": "低子音。語頭 n／語末 n。"
+                  },
+                  {
+                        "key": "cons_bo_baimai",
+                        "symbol": "บ",
+                        "roman": "b / p",
+                        "description": "中子音。語頭 b／語末 p。"
+                  },
+                  {
+                        "key": "cons_po_pla",
+                        "symbol": "ป",
+                        "roman": "p / p",
+                        "description": "中子音。語頭 p（無気音）／語末 p。"
+                  },
+                  {
+                        "key": "cons_pho_phueng",
+                        "symbol": "ผ",
+                        "roman": "ph / –",
+                        "description": "高子音。語頭 ph（息強めのパ行）。通常、語末には使わない。"
+                  },
+                  {
+                        "key": "cons_fo_fa",
+                        "symbol": "ฝ",
+                        "roman": "f / –",
+                        "description": "高子音。語頭 f。通常、語末には使わない。"
+                  },
+                  {
+                        "key": "cons_pho_phan",
+                        "symbol": "พ",
+                        "roman": "ph / p",
+                        "description": "低子音。語頭 ph／語末 p。"
+                  },
+                  {
+                        "key": "cons_fo_fan",
+                        "symbol": "ฟ",
+                        "roman": "f / p",
+                        "description": "低子音。語頭 f／語末では p 系になる。"
+                  },
+                  {
+                        "key": "cons_pho_samphao",
+                        "symbol": "ภ",
+                        "roman": "ph / p",
+                        "description": "低子音。語頭 ph／語末 p。"
+                  },
+                  {
+                        "key": "cons_mo_ma",
+                        "symbol": "ม",
+                        "roman": "m / m",
+                        "description": "低子音。語頭 m／語末 m。"
+                  },
+                  {
+                        "key": "cons_yo_yak",
+                        "symbol": "ย",
+                        "roman": "y / y",
+                        "description": "低子音。語頭 y／語末 y 系。"
+                  },
+                  {
+                        "key": "cons_ro_ruea",
+                        "symbol": "ร",
+                        "roman": "r / n",
+                        "description": "低子音。語頭 r（会話で l に近づくこともある）／語末 n。"
+                  },
+                  {
+                        "key": "cons_lo_ling",
+                        "symbol": "ล",
+                        "roman": "l / n",
+                        "description": "低子音。語頭 l／語末 n。"
+                  },
+                  {
+                        "key": "cons_wo_waen",
+                        "symbol": "ว",
+                        "roman": "w / w",
+                        "description": "低子音。語頭 w／語末 w 系。"
+                  },
+                  {
+                        "key": "cons_so_sala",
+                        "symbol": "ศ",
+                        "roman": "s / t",
+                        "description": "高子音。語頭 s／語末 t。"
+                  },
+                  {
+                        "key": "cons_so_ruesi",
+                        "symbol": "ษ",
+                        "roman": "s / t",
+                        "description": "高子音。語頭 s／語末 t。"
+                  },
+                  {
+                        "key": "cons_so_suea",
+                        "symbol": "ส",
+                        "roman": "s / t",
+                        "description": "高子音。語頭 s／語末 t。"
+                  },
+                  {
+                        "key": "cons_ho_hip",
+                        "symbol": "ห",
+                        "roman": "h / –",
+                        "description": "高子音。語頭 h。ห นำ では後ろの低子音の声調に影響する。"
+                  },
+                  {
+                        "key": "cons_lo_chula",
+                        "symbol": "ฬ",
+                        "roman": "l / n",
+                        "description": "低子音。語頭 l／語末 n。"
+                  },
+                  {
+                        "key": "cons_o_ang",
+                        "symbol": "อ",
+                        "roman": "母音台 / –",
+                        "description": "中子音。母音を置く「台」として非常によく使う。語頭では声門閉鎖音を表すこともある。"
+                  },
+                  {
+                        "key": "cons_ho_nokhuk",
+                        "symbol": "ฮ",
+                        "roman": "h / –",
+                        "description": "低子音。語頭 h。"
+                  }
+            ]
       },
       {
-        title: "よく出る組み合わせ",
-        items: [
-          { key: "sara_a", symbol: "ะ", roman: "a", description: "短い a。" },
-          { key: "sara_aa", symbol: "า", roman: "aa", description: "長い aa（アー）。" },
-          { key: "sara_am", symbol: "ำ", roman: "am", description: "am。" },
-          { key: "sara_ai_maimalai", symbol: "ไ-", roman: "ai", description: "ai。" },
-          { key: "sara_ai_maimuan", symbol: "ใ-", roman: "ai", description: "ai。使う単語は限られる。" },
-          { key: "sara_ao", symbol: "เ-า", roman: "ao", description: "ao。" },
-          { key: "sara_ia", symbol: "เ-ีย", roman: "ia", description: "ia。" },
-          { key: "sara_uea", symbol: "เ-ือ", roman: "uea", description: "uea。" },
-          { key: "sara_ua", symbol: "-ัว", roman: "ua", description: "ua。" }
-        ]
+            "title": "母音 32形",
+            "priority": "全部",
+            "items": [
+                  {
+                        "key": "v_a_short",
+                        "symbol": "อะ / อั-",
+                        "roman": "a",
+                        "description": "短い a（ア）。開音節では -ะ、末子音がある形では -ั- がよく出る。"
+                  },
+                  {
+                        "key": "v_a_long",
+                        "symbol": "อา",
+                        "roman": "aa",
+                        "description": "長い aa（アー）。"
+                  },
+                  {
+                        "key": "v_i_short",
+                        "symbol": "อิ",
+                        "roman": "i",
+                        "description": "短い i（イ）。"
+                  },
+                  {
+                        "key": "v_i_long",
+                        "symbol": "อี",
+                        "roman": "ii",
+                        "description": "長い ii（イー）。"
+                  },
+                  {
+                        "key": "v_ue_short",
+                        "symbol": "อึ",
+                        "roman": "ue",
+                        "description": "短い ue。ึ が上につく。"
+                  },
+                  {
+                        "key": "v_ue_long",
+                        "symbol": "อือ / อื-",
+                        "roman": "uue",
+                        "description": "長い uue。ื が上につく。"
+                  },
+                  {
+                        "key": "v_u_short",
+                        "symbol": "อุ",
+                        "roman": "u",
+                        "description": "短い u（ウ）。ุ が下につく。"
+                  },
+                  {
+                        "key": "v_u_long",
+                        "symbol": "อู",
+                        "roman": "uu",
+                        "description": "長い uu（ウー）。ู が下につく。"
+                  },
+                  {
+                        "key": "v_e_short",
+                        "symbol": "เอะ / เ-็-",
+                        "roman": "e",
+                        "description": "短い e（エ）。เ が子音の前に来るので、見た目の順番に注意。"
+                  },
+                  {
+                        "key": "v_e_long",
+                        "symbol": "เอ",
+                        "roman": "ee",
+                        "description": "長い e（エー）。เ は子音の前に書く。"
+                  },
+                  {
+                        "key": "v_ae_short",
+                        "symbol": "แอะ / แ-็-",
+                        "roman": "ae",
+                        "description": "短い ae（エ〜アの中間）。แ は子音の前。"
+                  },
+                  {
+                        "key": "v_ae_long",
+                        "symbol": "แอ",
+                        "roman": "aae",
+                        "description": "長い ae。แ は子音の前。"
+                  },
+                  {
+                        "key": "v_o_short",
+                        "symbol": "โอะ / โ-ะ",
+                        "roman": "o",
+                        "description": "短い o（オ）。末子音があると母音記号が省略される綴りもある。"
+                  },
+                  {
+                        "key": "v_o_long",
+                        "symbol": "โอ",
+                        "roman": "oo",
+                        "description": "長い o（オー）。โ は子音の前。"
+                  },
+                  {
+                        "key": "v_aw_short",
+                        "symbol": "เอาะ",
+                        "roman": "aw",
+                        "description": "短い aw / ɔ（口を開いたオ）。"
+                  },
+                  {
+                        "key": "v_aw_long",
+                        "symbol": "ออ",
+                        "roman": "aaw",
+                        "description": "長い aw / ɔː。"
+                  },
+                  {
+                        "key": "v_oe_short",
+                        "symbol": "เออะ",
+                        "roman": "oe",
+                        "description": "短い oe（日本語にない中央寄りの音）。"
+                  },
+                  {
+                        "key": "v_oe_long",
+                        "symbol": "เออ",
+                        "roman": "ooe",
+                        "description": "長い oe。"
+                  },
+                  {
+                        "key": "v_ia_short",
+                        "symbol": "เอียะ",
+                        "roman": "ia",
+                        "description": "短い ia。เ が前、ีย が後ろ側に見える。"
+                  },
+                  {
+                        "key": "v_ia_long",
+                        "symbol": "เอีย",
+                        "roman": "iaa",
+                        "description": "長い ia。例：เรียน のような形。"
+                  },
+                  {
+                        "key": "v_uea_short",
+                        "symbol": "เอือะ",
+                        "roman": "uea",
+                        "description": "短い uea。เ-ือ- の組み合わせ。"
+                  },
+                  {
+                        "key": "v_uea_long",
+                        "symbol": "เอือ",
+                        "roman": "ueaa",
+                        "description": "長い uea。例：เมื่อ のような形。"
+                  },
+                  {
+                        "key": "v_ua_short",
+                        "symbol": "อัวะ",
+                        "roman": "ua",
+                        "description": "短い ua。"
+                  },
+                  {
+                        "key": "v_ua_long",
+                        "symbol": "อัว / -ว-",
+                        "roman": "uaa",
+                        "description": "長い ua。末子音があると -ัว- / -ว- 系の形になる。"
+                  },
+                  {
+                        "key": "v_am",
+                        "symbol": "อำ",
+                        "roman": "am",
+                        "description": "am。ำ は ◌ํ + า に由来する複合母音記号。"
+                  },
+                  {
+                        "key": "v_ai_muan",
+                        "symbol": "ใอ",
+                        "roman": "ai",
+                        "description": "ai。ใ-（ไม้ม้วน）。使われる基本語は限られる。"
+                  },
+                  {
+                        "key": "v_ai_malai",
+                        "symbol": "ไอ",
+                        "roman": "ai",
+                        "description": "ai。ไ-（ไม้มลาย）。非常によく出る。"
+                  },
+                  {
+                        "key": "v_ao",
+                        "symbol": "เอา",
+                        "roman": "ao",
+                        "description": "ao。เ が子音の前、า が後ろ。"
+                  },
+                  {
+                        "key": "v_rue",
+                        "symbol": "ฤ",
+                        "roman": "rue / ri",
+                        "description": "特殊母音。単語によって rue・ri などに変わるので語ごとに確認。"
+                  },
+                  {
+                        "key": "v_rue_long",
+                        "symbol": "ฤๅ",
+                        "roman": "ruee",
+                        "description": "ฤ の長い形。現代の一般語では頻度低め。"
+                  },
+                  {
+                        "key": "v_lue",
+                        "symbol": "ฦ",
+                        "roman": "lue",
+                        "description": "特殊母音。現代の一般語ではほぼ見ない。"
+                  },
+                  {
+                        "key": "v_lue_long",
+                        "symbol": "ฦๅ",
+                        "roman": "luee",
+                        "description": "ฦ の長い形。現代の一般語ではほぼ見ない。"
+                  }
+            ]
+      },
+      {
+            "title": "末子音の読みをまとめて覚える",
+            "items": [
+                  {
+                        "key": "final_k",
+                        "symbol": "ก ข ฃ ค ฅ ฆ",
+                        "roman": "-k",
+                        "description": "語末ではまとめて k 系。例：มาก の最後 ก。"
+                  },
+                  {
+                        "key": "final_t",
+                        "symbol": "จ ช ซ ฌ ฎ ฏ ฐ ฑ ฒ ด ต ถ ท ธ ศ ษ ส",
+                        "roman": "-t",
+                        "description": "語末では多くの文字が t 系に合流する。"
+                  },
+                  {
+                        "key": "final_p",
+                        "symbol": "บ ป พ ฟ ภ",
+                        "roman": "-p",
+                        "description": "語末では p 系。"
+                  },
+                  {
+                        "key": "final_ng",
+                        "symbol": "ง",
+                        "roman": "-ng",
+                        "description": "語末 ng（ン）。"
+                  },
+                  {
+                        "key": "final_n",
+                        "symbol": "ญ ณ น ร ล ฬ",
+                        "roman": "-n",
+                        "description": "語末では n 系。"
+                  },
+                  {
+                        "key": "final_m",
+                        "symbol": "ม",
+                        "roman": "-m",
+                        "description": "語末 m。"
+                  },
+                  {
+                        "key": "final_y",
+                        "symbol": "ย",
+                        "roman": "-y",
+                        "description": "語末 y 系。ai などの二重母音の一部にもなる。"
+                  },
+                  {
+                        "key": "final_w",
+                        "symbol": "ว",
+                        "roman": "-w",
+                        "description": "語末 w 系。ao などの二重母音の一部にもなる。"
+                  }
+            ]
+      },
+      {
+            "title": "その他の記号・タイ数字",
+            "items": [
+                  {
+                        "key": "yamok",
+                        "symbol": "ๆ",
+                        "roman": "repeat",
+                        "description": "ไม้ยมก。直前の語を繰り返す。例：บ่อยๆ。"
+                  },
+                  {
+                        "key": "paiyannoi",
+                        "symbol": "ฯ",
+                        "roman": "abbr.",
+                        "description": "ไปยาลน้อย。省略を示す記号。"
+                  },
+                  {
+                        "key": "baht",
+                        "symbol": "฿",
+                        "roman": "baht",
+                        "description": "タイ・バーツ記号。"
+                  },
+                  {
+                        "key": "digit0",
+                        "symbol": "๐",
+                        "roman": "0",
+                        "description": "タイ数字 0。"
+                  },
+                  {
+                        "key": "digit1",
+                        "symbol": "๑",
+                        "roman": "1",
+                        "description": "タイ数字 1。"
+                  },
+                  {
+                        "key": "digit2",
+                        "symbol": "๒",
+                        "roman": "2",
+                        "description": "タイ数字 2。"
+                  },
+                  {
+                        "key": "digit3",
+                        "symbol": "๓",
+                        "roman": "3",
+                        "description": "タイ数字 3。"
+                  },
+                  {
+                        "key": "digit4",
+                        "symbol": "๔",
+                        "roman": "4",
+                        "description": "タイ数字 4。"
+                  },
+                  {
+                        "key": "digit5",
+                        "symbol": "๕",
+                        "roman": "5",
+                        "description": "タイ数字 5。"
+                  },
+                  {
+                        "key": "digit6",
+                        "symbol": "๖",
+                        "roman": "6",
+                        "description": "タイ数字 6。"
+                  },
+                  {
+                        "key": "digit7",
+                        "symbol": "๗",
+                        "roman": "7",
+                        "description": "タイ数字 7。"
+                  },
+                  {
+                        "key": "digit8",
+                        "symbol": "๘",
+                        "roman": "8",
+                        "description": "タイ数字 8。"
+                  },
+                  {
+                        "key": "digit9",
+                        "symbol": "๙",
+                        "roman": "9",
+                        "description": "タイ数字 9。"
+                  }
+            ]
       }
-    ];
+];
 
     const state = {
       allQuestions: [],
@@ -2071,7 +2733,7 @@
           input.type = "text";
           input.className = "reading-memo-note-input";
           input.value = state.readingMemoNotes[item.key] || "";
-          input.placeholder = "例：ื = ue の長い版";
+          input.placeholder = "自分の覚え方を1行メモ";
           input.setAttribute("aria-label", `${item.symbol} の自分メモ`);
           input.addEventListener("input", () => {
             const value = input.value;
