@@ -1118,7 +1118,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver6.0</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver6.0.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1149,7 +1149,7 @@
           <button class="mode-button" type="button" data-mode="choice">
             <span class="mode-icon" aria-hidden="true">🐨</span>
             <span class="mode-title">読む📕🐨</span>
-            <span class="mode-description">単語・通常文章・ニュース短文を読んで、日本語の意味を選ぶ</span>
+            <span class="mode-description">単語・ニュース短文を読んで、日本語の意味を選ぶ</span>
           </button>
 
           <button class="mode-button" type="button" data-mode="longreading">
@@ -1204,7 +1204,7 @@
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
 
-        <p class="muted center">Level 1〜10の段階学習。単語は選択Level、文章はLevel 1〜選択Levelの語彙で構成します。</p>
+        <p class="muted center">Level 1〜10の段階学習。単語は選択Level、ニュース短文はLevel 1〜選択Levelの既知語彙に制約します。</p>
         <div id="selectedModeCard" class="selected-mode-card"></div>
 
         <section id="compositionSettings" class="composition-settings" aria-labelledby="compositionHeading">
@@ -1223,16 +1223,10 @@
                 <option value="100">100問</option>
               </select>
             </div>
-            <div class="composition-control">
-              <label for="sentenceQuestionCount">通常文章</label>
-              <select id="sentenceQuestionCount">
-                <option value="0">0問</option>
-                <option value="1" selected>1問</option>
-                <option value="2">2問</option>
-                <option value="3">3問</option>
-                <option value="5">5問</option>
-                <option value="10">10問</option>
-                <option value="20">20問</option>
+            <div class="composition-control hidden" aria-hidden="true">
+              <label for="sentenceQuestionCount">旧通常文章（Ver6.0では使用しない）</label>
+              <select id="sentenceQuestionCount" disabled>
+                <option value="0" selected>0問</option>
               </select>
             </div>
             <div class="composition-control">
@@ -1247,8 +1241,8 @@
               </select>
             </div>
           </div>
-          <p id="compositionTotal" class="composition-total">合計：6問</p>
-          <p id="compositionNote" class="composition-note">通常文章・ニュース短文は「読む📕🐨」で出題します。</p>
+          <p id="compositionTotal" class="composition-total">合計：5問</p>
+          <p id="compositionNote" class="composition-note">ニュース短文は「読む📕🐨」で出題します。</p>
           <p id="sentenceSourceNote" class="sentence-source-note"></p>
         </section>
 
@@ -1257,7 +1251,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐣</span>
             <span>
               <span class="difficulty-title">Level 1　基礎</span>
-              <span class="difficulty-description">Level 1単語 + Level 1単語だけで作った文章</span>
+              <span class="difficulty-description">Level 1単語 + Level 1語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="1">読み込み中</span>
           </button>
@@ -1266,7 +1260,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐙</span>
             <span>
               <span class="difficulty-title">Level 2　基礎＋</span>
-              <span class="difficulty-description">Level 2単語 + Level 1〜2単語で作った文章</span>
+              <span class="difficulty-description">Level 2単語 + Level 1〜2語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="2">読み込み中</span>
           </button>
@@ -1275,7 +1269,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦑</span>
             <span>
               <span class="difficulty-title">Level 3　初級</span>
-              <span class="difficulty-description">Level 3単語 + Level 1〜3単語で作った文章</span>
+              <span class="difficulty-description">Level 3単語 + Level 1〜3語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="3">準備中</span>
           </button>
@@ -1284,7 +1278,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐟</span>
             <span>
               <span class="difficulty-title">Level 4</span>
-              <span class="difficulty-description">Level 4単語 + Level 1〜4単語で作った文章</span>
+              <span class="difficulty-description">Level 4単語 + Level 1〜4語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="4">準備中</span>
           </button>
@@ -1293,7 +1287,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐢</span>
             <span>
               <span class="difficulty-title">Level 5</span>
-              <span class="difficulty-description">Level 5単語 + Level 1〜5単語で作った文章</span>
+              <span class="difficulty-description">Level 5単語 + Level 1〜5語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="5">準備中</span>
           </button>
@@ -1302,7 +1296,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦜</span>
             <span>
               <span class="difficulty-title">Level 6</span>
-              <span class="difficulty-description">Level 6単語 + Level 1〜6単語で作った文章</span>
+              <span class="difficulty-description">Level 6単語 + Level 1〜6語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="6">準備中</span>
           </button>
@@ -1311,7 +1305,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦊</span>
             <span>
               <span class="difficulty-title">Level 7</span>
-              <span class="difficulty-description">Level 7単語 + Level 1〜7単語で作った文章</span>
+              <span class="difficulty-description">Level 7単語 + Level 1〜7語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="7">準備中</span>
           </button>
@@ -1320,7 +1314,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐯</span>
             <span>
               <span class="difficulty-title">Level 8</span>
-              <span class="difficulty-description">Level 8単語 + Level 1〜8単語で作った文章</span>
+              <span class="difficulty-description">Level 8単語 + Level 1〜8語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="8">準備中</span>
           </button>
@@ -1329,7 +1323,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐉</span>
             <span>
               <span class="difficulty-title">Level 9</span>
-              <span class="difficulty-description">Level 9単語 + Level 1〜9単語で作った文章</span>
+              <span class="difficulty-description">Level 9単語 + Level 1〜9語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="9">準備中</span>
           </button>
@@ -1338,7 +1332,7 @@
             <span class="difficulty-icon" aria-hidden="true">👑</span>
             <span>
               <span class="difficulty-title">Level 10　最難関</span>
-              <span class="difficulty-description">Level 10単語 + Level 1〜10単語で作った文章</span>
+              <span class="difficulty-description">Level 10単語 + Level 1〜10語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="10">準備中</span>
           </button>
@@ -2564,7 +2558,10 @@
           throw new Error("Level 1の問題が4件未満です。words.level または questions.json のdifficulty設定を確認してください。");
         }
 
-        await loadSentences();
+        // Ver6.0.1: 旧来の定型文（「今日/明日〜」型）は出題しない。
+        // 実文章はニュース由来だけを使う。
+        state.allSentences = [];
+        state.sentenceSource = "Ver6.0.1では旧通常文章を使用しない";
         await loadNewsContent();
         updateDataSummary();
         updateCompositionSummary();
@@ -2717,7 +2714,7 @@
           );
         }
       } catch (error) {
-        console.error("Ver6.0文章データの取得に失敗しました。", error);
+        console.error("旧文章データの取得に失敗しました。", error);
         state.allSentences = [];
         state.choiceWords = [];
         state.choiceWordsById = new Map();
@@ -2879,7 +2876,7 @@ function updateDataSummary() {
 
   for (let level = 1; level <= 10; level += 1) {
     const wordCount = state.allQuestions.filter(question => Number(question.difficulty) === level).length;
-    const sentenceCount = state.allSentences.filter(question => Number(question.difficulty) === level).length;
+    const sentenceCount = 0; // Ver6.0.1: 旧通常文章は廃止
     const newsCount = state.allNewsQuestions.filter(question => Number(question.difficulty) === level).length;
     const passageCount = state.readingPassages.filter(passage => Number(passage.level) === level).length;
 
@@ -2895,17 +2892,17 @@ function updateDataSummary() {
 
     if (countBadge) {
       countBadge.textContent = wordCount >= 4
-        ? `${wordCount}語 + ${sentenceCount}文 + 📰${newsCount}`
+        ? `${wordCount}語 + 📰${newsCount}`
         : (passageCount ? `📰長文 ${passageCount}本` : "準備中");
     }
 
-    if (wordCount || sentenceCount || newsCount || passageCount) {
-      summaries.push(`L${level}: ${wordCount}語 + ${sentenceCount}文 + News${newsCount} + 長文${passageCount}`);
+    if (wordCount || newsCount || passageCount) {
+      summaries.push(`L${level}: ${wordCount}語 + News${newsCount} + 長文${passageCount}`);
     }
   }
 
   elements.dataSummary.textContent = `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
-  elements.sentenceSourceNote.textContent = `文章データ：${state.sentenceSource} ／ News：${state.newsSource}`;
+  elements.sentenceSourceNote.textContent = `文章問題：📰 Newsのみ ／ Newsデータ：${state.newsSource}`;
 
   const updated = state.newsGeneratedAt ? new Date(state.newsGeneratedAt) : null;
   const updatedLabel = updated && !Number.isNaN(updated.getTime())
@@ -2926,25 +2923,22 @@ function updateCompositionSummary() {
     return;
   }
 
+  elements.sentenceQuestionCount.value = "0";
+  elements.sentenceQuestionCount.disabled = true;
   if (writingMode) {
-    elements.sentenceQuestionCount.value = "0";
     elements.newsQuestionCount.value = "0";
-    elements.sentenceQuestionCount.disabled = true;
     elements.newsQuestionCount.disabled = true;
     if (Number.parseInt(elements.wordQuestionCount.value, 10) === 0) elements.wordQuestionCount.value = "5";
-    elements.compositionNote.textContent = "書くφ(`･ω･´ )🐮 は単語問題のみです。文章・ニュースは 読む📕🐨 で出題します。";
+    elements.compositionNote.textContent = "書くφ(`･ω･´ )🐮 は単語問題のみです。";
   } else {
-    elements.sentenceQuestionCount.disabled = state.allSentences.length === 0;
     elements.newsQuestionCount.disabled = state.allNewsQuestions.length === 0;
-    if (!state.allSentences.length) elements.sentenceQuestionCount.value = "0";
     if (!state.allNewsQuestions.length) elements.newsQuestionCount.value = "0";
-    elements.compositionNote.textContent = "読む📕🐨：単語 + 通常文章 + 実ニュース由来のAI簡易化短文を混ぜて出題します。";
+    elements.compositionNote.textContent = "読む📕🐨：単語 + 実ニュース由来のAI簡易化短文を出題します。旧来の定型文章は出題しません。";
   }
 
   const wordCount = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
-  const sentenceCount = writingMode ? 0 : (Number.parseInt(elements.sentenceQuestionCount.value, 10) || 0);
   const newsCount = writingMode ? 0 : (Number.parseInt(elements.newsQuestionCount.value, 10) || 0);
-  elements.compositionTotal.textContent = `合計：${wordCount + sentenceCount + newsCount}問`;
+  elements.compositionTotal.textContent = `合計：${wordCount + newsCount}問`;
 }
     function isUsableQuestion(question) {
       return question &&
@@ -2974,7 +2968,7 @@ function updateCompositionSummary() {
 function openDifficultyScreen(mode) {
   state.mode = mode;
   const info = mode === "choice"
-    ? ["🐨 読む📕🐨", "単語・通常文章・ニュース短文を読んで、日本語の意味を選択"]
+    ? ["🐨 読む📕🐨", "単語・実ニュース由来の短文を読んで、日本語の意味を選択"]
     : mode === "longreading"
       ? ["📰 長文読解📰🐘", "タイの実ニュースをAIで学習用に調整。数個の難語は※日本語注釈で読む"]
       : ["🐮 書くφ(`･ω･´ )🐮", "日本語を見て、タイ語を画面キーボードで入力（単語問題のみ）"];
@@ -2982,7 +2976,7 @@ function openDifficultyScreen(mode) {
 
   if (mode === "choice") {
     elements.wordQuestionCount.value = "2";
-    elements.sentenceQuestionCount.value = state.allSentences.length ? "1" : "0";
+    elements.sentenceQuestionCount.value = "0";
     elements.newsQuestionCount.value = state.allNewsQuestions.length ? "2" : "0";
   } else if (mode === "writing") {
     elements.wordQuestionCount.value = "5";
@@ -3583,11 +3577,11 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
     }
 
     const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
-    const requestedSentences = state.mode === "choice" ? (Number.parseInt(elements.sentenceQuestionCount.value, 10) || 0) : 0;
+    const requestedSentences = 0; // Ver6.0.1: サザエさん予告型の旧通常文章は廃止
     const requestedNews = state.mode === "choice" ? (Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
 
-    if (requestedWords + requestedSentences + requestedNews < 1) {
-      window.alert("単語・通常文章・ニュース短文のどれかを1問以上にしてください。");
+    if (requestedWords + requestedNews < 1) {
+      window.alert("単語・ニュース短文のどちらかを1問以上にしてください。");
       return;
     }
     if (requestedWords > wordPool.length) {
@@ -3595,20 +3589,16 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
       return;
     }
 
-    const candidateSentencePool = sentencePool.filter(canBuildCandidateSentenceChoices);
-    if (requestedSentences > candidateSentencePool.length) {
-      window.alert(`Level ${state.difficulty}で似た4択を作れる通常文章は${candidateSentencePool.length}文です。`);
-      return;
-    }
+    const candidateSentencePool = []; // 旧通常文章は出題しない
     if (requestedNews > newsPool.length) {
       window.alert(`Level ${state.difficulty}のニュース短文は${newsPool.length}問です。ニュース問題数を減らしてください。`);
       return;
     }
 
     const wordQuestions = shuffle([...wordPool]).slice(0, requestedWords);
-    const sentenceQuestions = shuffle([...candidateSentencePool]).slice(0, requestedSentences);
+    const sentenceQuestions = [];
     const newsQuestions = shuffle([...newsPool]).slice(0, requestedNews);
-    state.quizQuestions = shuffle([...wordQuestions, ...sentenceQuestions, ...newsQuestions]);
+    state.quizQuestions = shuffle([...wordQuestions, ...newsQuestions]);
   }
 
   const wordCount = state.quizQuestions.filter(q => q.questionType === "word").length;
@@ -3617,7 +3607,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
   const passageCount = state.quizQuestions.filter(q => q.questionType === "passage").length;
   elements.quizLevelBadge.textContent = passageCount
     ? `Level ${state.difficulty} ／ 長文読解 📰 ／ ${passageCount}設問`
-    : `Level ${state.difficulty} ／ 単語${wordCount} + 通常文${sentenceCount} + News${newsCount}`;
+    : `Level ${state.difficulty} ／ 単語${wordCount} + 📰News${newsCount}`;
 
   renderKeyboard();
   showScreen("quiz");
