@@ -458,6 +458,16 @@
     .feedback.wrong { background: var(--danger-bg); border: 1px solid #efc3be; }
     .feedback-title { font-weight: 850; font-size: 1.12rem; }
     .answer-thai { font: 800 1.7rem/1.5 "Noto Sans Thai", Tahoma, sans-serif; }
+    .learning-explanation { margin-top: 12px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,.72); border: 1px solid var(--border); }
+    .learning-explanation h4 { margin: 0 0 8px; font-size: 1rem; }
+    .breakdown-grid { display: grid; gap: 6px; margin-top: 8px; }
+    .breakdown-row { display: grid; grid-template-columns: minmax(85px,.9fr) minmax(105px,1fr) minmax(140px,1.5fr); gap: 8px; align-items: center; padding: 7px 8px; border-radius: 10px; background: rgba(255,255,255,.78); }
+    .breakdown-thai { font: 800 1.08rem/1.35 "Noto Sans Thai", Tahoma, sans-serif; }
+    .breakdown-reading { color: var(--muted); font-size: .9rem; }
+    .breakdown-ja { font-weight: 700; }
+    .explanation-note { margin-top: 9px; padding: 8px 10px; border-radius: 10px; background: rgba(255,255,255,.76); line-height: 1.55; }
+    .wrong-choice-note { margin-top: 9px; padding: 9px 10px; border-radius: 10px; background: rgba(255, 236, 236, .85); line-height: 1.55; }
+    @media (max-width: 640px) { .breakdown-row { grid-template-columns: 1fr; gap: 2px; } }
     .feedback dl { display: grid; grid-template-columns: auto 1fr; gap: 5px 10px; margin-bottom: 0; }
     .feedback dt { font-weight: 750; }
     .feedback dd { margin: 0; overflow-wrap: anywhere; }
@@ -1118,7 +1128,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver6.0.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver6.0.2</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -2558,10 +2568,10 @@
           throw new Error("Level 1の問題が4件未満です。words.level または questions.json のdifficulty設定を確認してください。");
         }
 
-        // Ver6.0.1: 旧来の定型文（「今日/明日〜」型）は出題しない。
+        // Ver6.0.2: 旧来の定型文（「今日/明日〜」型）は出題しない。
         // 実文章はニュース由来だけを使う。
         state.allSentences = [];
-        state.sentenceSource = "Ver6.0.1では旧通常文章を使用しない";
+        state.sentenceSource = "Ver6.0.2では旧通常文章を使用しない";
         await loadNewsContent();
         updateDataSummary();
         updateCompositionSummary();
@@ -2876,7 +2886,7 @@ function updateDataSummary() {
 
   for (let level = 1; level <= 10; level += 1) {
     const wordCount = state.allQuestions.filter(question => Number(question.difficulty) === level).length;
-    const sentenceCount = 0; // Ver6.0.1: 旧通常文章は廃止
+    const sentenceCount = 0; // Ver6.0.2: 旧通常文章は廃止
     const newsCount = state.allNewsQuestions.filter(question => Number(question.difficulty) === level).length;
     const passageCount = state.readingPassages.filter(passage => Number(passage.level) === level).length;
 
@@ -3577,7 +3587,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
     }
 
     const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
-    const requestedSentences = 0; // Ver6.0.1: サザエさん予告型の旧通常文章は廃止
+    const requestedSentences = 0; // Ver6.0.2: サザエさん予告型の旧通常文章は廃止
     const requestedNews = state.mode === "choice" ? (Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
 
     if (requestedWords + requestedNews < 1) {
@@ -3946,6 +3956,60 @@ function submitAnswer() {
     }
 
 
+function appendNewsLearningExplanation(container, question, userAnswer, isCorrect) {
+  if (question.questionType !== "news") return;
+  const hasBreakdown = Array.isArray(question.breakdown) && question.breakdown.length;
+  const hasGrammar = Boolean(question.grammar_note);
+  const hasReadingTip = Boolean(question.reading_tip);
+  const choiceHints = question.choice_explanations && typeof question.choice_explanations === "object" ? question.choice_explanations : null;
+  if (!hasBreakdown && !hasGrammar && !hasReadingTip && !choiceHints) return;
+
+  const section = document.createElement("section");
+  section.className = "learning-explanation";
+  const heading = document.createElement("h4");
+  heading.textContent = "🐨 ここで理解する解説";
+  section.appendChild(heading);
+
+  if (hasBreakdown) {
+    const label = document.createElement("div");
+    label.className = "muted";
+    label.textContent = "文を単語・かたまりに分解";
+    section.appendChild(label);
+    const grid = document.createElement("div");
+    grid.className = "breakdown-grid";
+    question.breakdown.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "breakdown-row";
+      const th = document.createElement("div"); th.className = "breakdown-thai"; th.textContent = item.thai || "";
+      const rd = document.createElement("div"); rd.className = "breakdown-reading"; rd.textContent = item.reading || "";
+      const ja = document.createElement("div"); ja.className = "breakdown-ja"; ja.textContent = item.japanese || "";
+      row.append(th, rd, ja); grid.appendChild(row);
+    });
+    section.appendChild(grid);
+  }
+
+  if (hasGrammar) {
+    const note = document.createElement("div");
+    note.className = "explanation-note";
+    note.textContent = `🧩 文型：${question.grammar_note}`;
+    section.appendChild(note);
+  }
+  if (hasReadingTip) {
+    const note = document.createElement("div");
+    note.className = "explanation-note";
+    note.textContent = `📕 読みポイント：${question.reading_tip}`;
+    section.appendChild(note);
+  }
+  if (!isCorrect && choiceHints && choiceHints[userAnswer]) {
+    const note = document.createElement("div");
+    note.className = "wrong-choice-note";
+    note.textContent = `🔎 なぜこの選択肢は違う？ ${choiceHints[userAnswer]}`;
+    section.appendChild(note);
+  }
+  container.appendChild(section);
+}
+
+
 function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", addedToReviewBook = false) {
   elements.feedback.className = `feedback ${isCorrect ? "correct" : "wrong"}`;
   elements.feedback.replaceChildren();
@@ -3985,6 +4049,7 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
     list.append(dt, dd);
   });
   elements.feedback.appendChild(list);
+  appendNewsLearningExplanation(elements.feedback, question, userAnswer, isCorrect);
 
   if (["news", "passage"].includes(question.questionType)) appendSourceBox(elements.feedback, question);
   if (addedToReviewBook) {

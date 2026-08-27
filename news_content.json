@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "generated_at": "2026-08-27T18:40:00+09:00",
   "target_level": 2,
-  "generation_method": "Seed batch created from current Thai PBS news; weekly GitHub Action can replace this file using AI.",
+  "generation_method": "Seed batch created from current Thai PBS news; weekly GitHub Action can replace this file using AI. Ver6.0.2 adds answer explanations, word breakdown, grammar notes, reading tips, and distractor feedback.",
   "short_news": [
     {
       "id": "news-20260826-suvarnabhumi-1",
@@ -22,7 +22,38 @@
       "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
       "source_url": "https://www.thaipbs.or.th/news/content/509916",
       "published_at": "2026-08-26",
-      "ai_simplified": true
+      "ai_simplified": true,
+      "explanation": "สนามบิน = 空港、ซ่อม = 修理する、ทาง = 道・道路です。文全体では「空港は道路を修理します」という意味になります。",
+      "breakdown": [
+        {
+          "thai": "สนามบิน",
+          "reading": "サナームビン",
+          "japanese": "空港"
+        },
+        {
+          "thai": "จะ",
+          "reading": "ジャ",
+          "japanese": "〜する予定・〜するだろう"
+        },
+        {
+          "thai": "ซ่อม",
+          "reading": "ソム",
+          "japanese": "修理する"
+        },
+        {
+          "thai": "ทาง",
+          "reading": "ターン",
+          "japanese": "道・道路"
+        }
+      ],
+      "grammar_note": "「A จะ + 動詞」で「Aは〜する予定です／〜するでしょう」。",
+      "reading_tip": "สนามบิน / จะ / ซ่อม / ทาง の4かたまりに切って読むと追いやすいです。",
+      "choice_explanations": {
+        "空港は道路を修理します。": "正解。ซ่อม が「修理する」、ทาง が「道路」です。",
+        "空港は道路を渡ります。": "ข้าม（渡る・越える）が文中にありません。",
+        "空港は道路を開けます。": "เปิด（開ける）が文中にありません。",
+        "空港は道路を閉めます。": "ปิด（閉める）が文中にありません。"
+      }
     },
     {
       "id": "news-20260826-suvarnabhumi-2",
@@ -42,7 +73,53 @@
       "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
       "source_url": "https://www.thaipbs.or.th/news/content/509916",
       "published_at": "2026-08-26",
-      "ai_simplified": true
+      "ai_simplified": true,
+      "explanation": "ก่อน = 〜の前に、เดินทางไปสนามบิน = 空港へ移動する、คนต้องเตรียม = 人は準備する必要がある、という組み立てです。",
+      "breakdown": [
+        {
+          "thai": "ก่อน",
+          "reading": "コーン",
+          "japanese": "〜の前に"
+        },
+        {
+          "thai": "เดินทาง",
+          "reading": "ドゥーンターン",
+          "japanese": "移動する・旅行する"
+        },
+        {
+          "thai": "ไป",
+          "reading": "パイ",
+          "japanese": "行く・〜へ"
+        },
+        {
+          "thai": "สนามบิน",
+          "reading": "サナームビン",
+          "japanese": "空港"
+        },
+        {
+          "thai": "คน",
+          "reading": "コン",
+          "japanese": "人"
+        },
+        {
+          "thai": "ต้อง",
+          "reading": "トン",
+          "japanese": "〜しなければならない・必要がある"
+        },
+        {
+          "thai": "เตรียม",
+          "reading": "トリアム",
+          "japanese": "準備する"
+        }
+      ],
+      "grammar_note": "「ก่อน + 行動」=「〜する前に」、「ต้อง + 動詞」=「〜する必要がある」。",
+      "reading_tip": "ก่อน / เดินทางไปสนามบิน / คนต้องเตรียม の3ブロックで意味を取ると楽です。",
+      "choice_explanations": {
+        "空港へ行く前に、人は準備する必要があります。": "正解。ก่อน が「前に」、ต้องเตรียม が「準備する必要がある」です。",
+        "空港へ行った後、人は寝る必要があります。": "「後」はหลัง、「寝る」はนอนですが、どちらも文中にありません。",
+        "空港へ行く前に、人は買い物をします。": "ซื้อ（買う）が文中にありません。",
+        "空港から帰る前に、人は電話します。": "กลับ（帰る）やติดต่อ/โทร（連絡・電話）の内容ではありません。"
+      }
     },
     {
       "id": "news-20260826-suvarnabhumi-3",
@@ -62,7 +139,43 @@
       "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
       "source_url": "https://www.thaipbs.or.th/news/content/509916",
       "published_at": "2026-08-26",
-      "ai_simplified": true
+      "ai_simplified": true,
+      "explanation": "เดินทางไปสนามบิน が「空港へ移動する」、ใช้เวลานาน が「長い時間がかかる」です。したがって「空港へ行くのに時間がかかります」となります。",
+      "breakdown": [
+        {
+          "thai": "เดินทาง",
+          "reading": "ドゥーンターン",
+          "japanese": "移動する・旅行する"
+        },
+        {
+          "thai": "ไป",
+          "reading": "パイ",
+          "japanese": "行く・〜へ"
+        },
+        {
+          "thai": "สนามบิน",
+          "reading": "サナームビン",
+          "japanese": "空港"
+        },
+        {
+          "thai": "ใช้เวลา",
+          "reading": "チャイウェーラー",
+          "japanese": "時間がかかる・時間を使う"
+        },
+        {
+          "thai": "นาน",
+          "reading": "ナーン",
+          "japanese": "長い間・長時間"
+        }
+      ],
+      "grammar_note": "「เดินทางไป + 場所」=「〜へ移動する」、「ใช้เวลานาน」=「長い時間がかかる」。",
+      "reading_tip": "เดินทาง / ไป / สนามบิน / ใช้เวลา / นาน の5つに切るのがおすすめ。特に เดินทาง は「ドゥーンターン」、สนามบิน は「サナームビン」です。",
+      "choice_explanations": {
+        "空港へ行くのに時間がかかります。": "正解。สนามบิน = 空港、ใช้เวลานาน = 時間がかかる、が決め手です。",
+        "空港から帰るのに時間はかかりません。": "กลับ（帰る）も ไม่（〜ない）も文中にありません。",
+        "駅へ行くのに30分かかります。": "สนามบิน は「空港」です。「駅」ならสถานี。また本文には「30分」に当たる語もありません。",
+        "空港で長い間買い物をします。": "ซื้อ（買う・買い物する）が文中にありません。นาน はここではใช้เวลาと組んで「時間がかかる」です。"
+      }
     }
   ],
   "reading_passages": [
