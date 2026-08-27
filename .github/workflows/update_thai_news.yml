@@ -1,0 +1,38 @@
+name: Weekly Thai AI News Update
+
+on:
+  schedule:
+    # Sunday 08:10 JST = Saturday 23:10 UTC
+    - cron: "10 23 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      - run: pip install -r requirements-news.txt
+      - name: Generate Level-constrained Thai news exercises
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_NEWS_MODEL: gpt-5.4-mini
+          THAI_NEWS_LEVEL: "2"
+        run: python scripts/update_news.py
+      - name: Commit updated news data
+        run: |
+          if git diff --quiet -- news_content.json; then
+            echo "No news update to commit."
+            exit 0
+          fi
+          git config user.name "thai-trainer-news-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add news_content.json
+          git commit -m "chore: weekly Thai AI news update"
+          git push
