@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-27T18:40:00+09:00",
+  "target_level": 2,
+  "generation_method": "Seed batch created from current Thai PBS news; weekly GitHub Action can replace this file using AI.",
+  "short_news": [
+    {
+      "id": "news-20260826-suvarnabhumi-1",
+      "level": 2,
+      "title": "สุวรรณภูมิซ่อมทาง",
+      "thai": "สนามบินจะซ่อมทาง",
+      "japanese": "空港は道路を修理します。",
+      "reading": "サナームビン ジャ ソム ターン",
+      "choices": [
+        "空港は道路を修理します。",
+        "空港は道路を渡ります。",
+        "空港は道路を開けます。",
+        "空港は道路を閉めます。"
+      ],
+      "source_type": "news",
+      "source_name": "Thai PBS",
+      "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
+      "source_url": "https://www.thaipbs.or.th/news/content/509916",
+      "published_at": "2026-08-26",
+      "ai_simplified": true
+    },
+    {
+      "id": "news-20260826-suvarnabhumi-2",
+      "level": 2,
+      "title": "เตรียมก่อนเดินทาง",
+      "thai": "ก่อนเดินทางไปสนามบิน คนต้องเตรียม",
+      "japanese": "空港へ行く前に、人は準備する必要があります。",
+      "reading": "コーン ドゥーンターン パイ サナームビン コン トン トリアム",
+      "choices": [
+        "空港へ行く前に、人は準備する必要があります。",
+        "空港へ行った後、人は寝る必要があります。",
+        "空港へ行く前に、人は買い物をします。",
+        "空港から帰る前に、人は電話します。"
+      ],
+      "source_type": "news",
+      "source_name": "Thai PBS",
+      "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
+      "source_url": "https://www.thaipbs.or.th/news/content/509916",
+      "published_at": "2026-08-26",
+      "ai_simplified": true
+    },
+    {
+      "id": "news-20260826-suvarnabhumi-3",
+      "level": 2,
+      "title": "สนามบินใช้เวลานาน",
+      "thai": "เดินทางไปสนามบินใช้เวลานาน",
+      "japanese": "空港へ行くのに時間がかかります。",
+      "reading": "ドゥーンターン パイ サナームビン チャイウェーラー ナーン",
+      "choices": [
+        "空港へ行くのに時間がかかります。",
+        "空港から帰るのに時間はかかりません。",
+        "駅へ行くのに30分かかります。",
+        "空港で長い間買い物をします。"
+      ],
+      "source_type": "news",
+      "source_name": "Thai PBS",
+      "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
+      "source_url": "https://www.thaipbs.or.th/news/content/509916",
+      "published_at": "2026-08-26",
+      "ai_simplified": true
+    }
+  ],
+  "reading_passages": [
+    {
+      "id": "passage-20260826-suvarnabhumi",
+      "level": 2,
+      "title": "สนามบินสุวรรณภูมิซ่อมทาง",
+      "body_thai": "สนามบินจะซ่อมทางตั้งแต่วันที่ 31 สิงหาคม\nก่อนเดินทางไปสนามบิน คนต้องเตรียม\nเดินทางไปสนามบินอาจใช้เวลานาน",
+      "annotations": [
+        {
+          "thai": "ตั้งแต่",
+          "japanese": "〜から",
+          "reading": "タンテー"
+        },
+        {
+          "thai": "วันที่",
+          "japanese": "日・日付",
+          "reading": "ワンティー"
+        },
+        {
+          "thai": "สิงหาคม",
+          "japanese": "8月",
+          "reading": "シンハーコム"
+        },
+        {
+          "thai": "อาจ",
+          "japanese": "〜かもしれない",
+          "reading": "アート"
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "空港は何をする予定ですか？",
+          "choices": [
+            "道路を修理する",
+            "病院を開ける",
+            "学校を閉める",
+            "銀行へ行く"
+          ],
+          "answer": "道路を修理する",
+          "explanation": "สนามบินจะซ่อมทาง = 空港は道路を修理する予定です。"
+        },
+        {
+          "prompt": "修理はいつから始まる内容ですか？",
+          "choices": [
+            "8月31日",
+            "8月27日",
+            "9月31日",
+            "明日"
+          ],
+          "answer": "8月31日",
+          "explanation": "ตั้งแต่วันที่ 31 สิงหาคม が「8月31日から」です。"
+        },
+        {
+          "prompt": "空港へ行く人について、本文が勧めていることは？",
+          "choices": [
+            "事前に準備する",
+            "夜まで寝る",
+            "買い物をする",
+            "病院へ行く"
+          ],
+          "answer": "事前に準備する",
+          "explanation": "ก่อนเดินทาง...คนต้องเตรียม = 出発前に準備が必要、という内容です。"
+        }
+      ],
+      "source_type": "news",
+      "source_name": "Thai PBS",
+      "source_title": "\"สุวรรณภูมิ\" แจ้งปิดเบี่ยงจราจร ซ่อมรอยต่อทางยกระดับเข้า-ออก เริ่ม 31 ส.ค.นี้",
+      "source_url": "https://www.thaipbs.or.th/news/content/509916",
+      "published_at": "2026-08-26",
+      "ai_simplified": true
+    },
+    {
+      "id": "passage-20260826-weather",
+      "level": 2,
+      "title": "ฝนที่กรุงเทพ",
+      "body_thai": "วันนี้กรุงเทพมีฝนประมาณ 40%\nคนต้องเตรียมก่อนเดินทาง\nถ้าฝนตก เดินทางอาจใช้เวลานาน",
+      "annotations": [
+        {
+          "thai": "กรุงเทพ",
+          "japanese": "バンコク",
+          "reading": "クルンテープ"
+        },
+        {
+          "thai": "มี",
+          "japanese": "ある・いる",
+          "reading": "ミー"
+        },
+        {
+          "thai": "ฝน",
+          "japanese": "雨",
+          "reading": "フォン"
+        },
+        {
+          "thai": "ประมาณ",
+          "japanese": "約・およそ",
+          "reading": "プラマーン"
+        },
+        {
+          "thai": "อาจ",
+          "japanese": "〜かもしれない",
+          "reading": "アート"
+        }
+      ],
+      "questions": [
+        {
+          "prompt": "バンコクの雨について本文にある数字は？",
+          "choices": [
+            "40%",
+            "20%",
+            "70%",
+            "100%"
+          ],
+          "answer": "40%",
+          "explanation": "กรุงเทพมีฝนประมาณ 40% とあります。"
+        },
+        {
+          "prompt": "旅行前に何をする必要がありますか？",
+          "choices": [
+            "準備する",
+            "寝る",
+            "魚を買う",
+            "病院へ行く"
+          ],
+          "answer": "準備する",
+          "explanation": "คนต้องเตรียมก่อนเดินทาง = 旅行前に準備する必要があります。"
+        },
+        {
+          "prompt": "雨が降ると、旅行はどうなる可能性がありますか？",
+          "choices": [
+            "時間がかかる",
+            "必ず短くなる",
+            "無料になる",
+            "学校になる"
+          ],
+          "answer": "時間がかかる",
+          "explanation": "ถ้าฝนตก เดินทางอาจใช้เวลานาน = 雨なら移動に時間がかかるかもしれません。"
+        }
+      ],
+      "source_type": "news",
+      "source_name": "Thai PBS",
+      "source_title": "สภาพอากาศวันนี้ เหนือ-อีสาน-ตะวันออก ฝนตกหนักบางพื้นที่ กทม.ฝน 40%",
+      "source_url": "https://www.thaipbs.or.th/news/content/509903",
+      "published_at": "2026-08-26",
+      "ai_simplified": true
+    }
+  ]
+}
