@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver6.1</title>
+  <title>Thai Vocabulary Trainer Ver6.2</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -473,13 +473,36 @@
     .feedback dd { margin: 0; overflow-wrap: anywhere; }
 
     .score-ring {
+      --score-percent: 0;
       width: 150px;
       height: 150px;
+      position: relative;
+      margin: 20px auto;
+      border: 0;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--success) calc(var(--score-percent) * 1%),
+        var(--secondary) 0
+      );
+      font-size: 2rem;
+      font-weight: 850;
+    }
+
+    .score-ring::before {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .score-ring::after {
+      content: attr(data-score);
+      position: absolute;
+      inset: 0;
       display: grid;
       place-items: center;
-      margin: 20px auto;
-      border: 13px solid var(--secondary);
-      border-radius: 50%;
+      color: var(--ink);
       font-size: 2rem;
       font-weight: 850;
     }
@@ -1128,7 +1151,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver6.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver6.2</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1537,7 +1560,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=6.1"></script>
+    <script src="supabase-config.js?v=6.2"></script>
   <script>
     "use strict";
 
@@ -4171,8 +4194,11 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
     function showResults() {
       showScreen("result");
       const total = state.quizQuestions.length;
-      const percent = Math.round((state.score / total) * 100);
-      elements.scoreRing.textContent = `${state.score}/${total}`;
+      const percent = total > 0 ? Math.round((state.score / total) * 100) : 0;
+      elements.scoreRing.textContent = "";
+      elements.scoreRing.dataset.score = `${state.score}/${total}`;
+      elements.scoreRing.style.setProperty("--score-percent", String(percent));
+      elements.scoreRing.setAttribute("aria-label", `正解 ${state.score}問 / ${total}問、正答率 ${percent}%`);
       elements.scoreMessage.textContent = scoreMessage(percent);
       elements.wrongList.replaceChildren();
 
