@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver6.0</title>
+  <title>Thai Vocabulary Trainer Ver6.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1128,7 +1128,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver6.0.2</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver6.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1183,6 +1183,7 @@
             <div class="history-stat"><strong id="historyToday">0</strong><span>今日の回答</span></div>
           </div>
           <p id="historyLastStudy" class="muted">まだ回答履歴はありません。</p>
+          <p class="history-note"><strong>🐙 苦手単語：<span id="weakWordCount">0語</span></strong>　直近で間違えた単語を、累計誤答回数が多い順に通常の単語問題へ優先出題します。正解すると卒業、再び間違えると復帰します。</p>
           <div class="history-actions">
             <button id="viewHistoryButton" class="small-button" type="button">履歴を見る</button>
             <button id="exportHistoryButton" class="small-button" type="button">履歴をCSV保存</button>
@@ -1400,6 +1401,7 @@
 
         <section class="history-section" aria-labelledby="weakWordsHeading">
           <h3 id="weakWordsHeading">🐙 苦手単語</h3>
+          <p class="history-note">「最後にその単語へ回答した結果が不正解」の語だけを表示します。誤答回数が多い語から優先出題し、正解すればこの一覧から卒業します。</p>
           <div id="weakWordList" class="weak-word-list"></div>
         </section>
 
@@ -1535,7 +1537,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=6.0"></script>
+    <script src="supabase-config.js?v=6.1"></script>
   <script>
     "use strict";
 
@@ -2432,7 +2434,7 @@
         "readingArea", "readingInput", "keyboard", "choiceArea", "feedback", "submitButton", "nextButton",
         "scoreRing", "scoreMessage", "wrongList", "retryWrongButton", "restartButton",
         "menuButton", "historyTotal", "historyAccuracy", "historyToday",
-        "historyLastStudy", "viewHistoryButton", "exportHistoryButton", "clearHistoryButton",
+        "historyLastStudy", "weakWordCount", "viewHistoryButton", "exportHistoryButton", "clearHistoryButton",
         "historyScreen", "historyBackButton", "historyPageTotal", "historyPageAccuracy",
         "historyPageStudyDays", "historyPageAverageTime", "historyModeFilter",
         "historyResultFilter", "historySortOrder", "historySearchInput",
@@ -2568,10 +2570,10 @@
           throw new Error("Level 1の問題が4件未満です。words.level または questions.json のdifficulty設定を確認してください。");
         }
 
-        // Ver6.0.2: 旧来の定型文（「今日/明日〜」型）は出題しない。
+        // Ver6.1: 旧来の定型文（「今日/明日〜」型）は出題しない。
         // 実文章はニュース由来だけを使う。
         state.allSentences = [];
-        state.sentenceSource = "Ver6.0.2では旧通常文章を使用しない";
+        state.sentenceSource = "Ver6.1では旧通常文章を使用しない";
         await loadNewsContent();
         updateDataSummary();
         updateCompositionSummary();
@@ -2939,11 +2941,11 @@ function updateCompositionSummary() {
     elements.newsQuestionCount.value = "0";
     elements.newsQuestionCount.disabled = true;
     if (Number.parseInt(elements.wordQuestionCount.value, 10) === 0) elements.wordQuestionCount.value = "5";
-    elements.compositionNote.textContent = "書くφ(`･ω･´ )🐮 は単語問題のみです。";
+    elements.compositionNote.textContent = "書くφ(`･ω･´ )🐮 は単語問題のみです。🐙 苦手単語があれば優先出題します。";
   } else {
     elements.newsQuestionCount.disabled = state.allNewsQuestions.length === 0;
     if (!state.allNewsQuestions.length) elements.newsQuestionCount.value = "0";
-    elements.compositionNote.textContent = "読む📕🐨：単語 + 実ニュース由来のAI簡易化短文を出題します。旧来の定型文章は出題しません。";
+    elements.compositionNote.textContent = "読む📕🐨：単語 + 実ニュース由来のAI簡易化短文を出題します。単語は🐙 苦手単語を優先します。";
   }
 
   const wordCount = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
@@ -3383,57 +3385,150 @@ function addWrongWordToReviewBook(question) {
       renderHistoryList(filtered);
     }
 
-    function renderWeakWords(history) {
-      elements.weakWordList.replaceChildren();
-      const groups = new Map();
+    function wordIdentityKey(item) {
+      const id = String(item?.questionId ?? item?.id ?? "").trim();
+      if (id) return `id:${id}`;
+      const thai = String(item?.thai || "").trim();
+      const japanese = String(item?.japanese || "").trim();
+      return `word:${thai}\u0000${japanese}`;
+    }
 
-      history.filter(item => (item.questionType || "word") === "word").forEach(item => {
-        const key = `${item.questionId || ""}\u0000${item.japanese || ""}\u0000${item.thai || ""}`;
+    function buildWeakWordStats(history = state.history) {
+      const groups = new Map();
+      history.forEach((item, index) => {
+        if ((item.questionType || "word") !== "word") return;
+        const key = wordIdentityKey(item);
         if (!groups.has(key)) {
           groups.set(key, {
-            japanese: item.japanese || "",
+            key,
+            questionId: item.questionId ?? "",
             thai: item.thai || "",
+            japanese: item.japanese || "",
+            difficulty: Number(item.difficulty) || null,
             total: 0,
             correct: 0,
-            wrong: 0
+            wrong: 0,
+            lastIsCorrect: null,
+            lastAnsweredAt: "",
+            lastSequence: -1
           });
         }
         const group = groups.get(key);
         group.total += 1;
         if (item.isCorrect) group.correct += 1;
         else group.wrong += 1;
+        if (index >= group.lastSequence) {
+          group.lastSequence = index;
+          group.lastIsCorrect = Boolean(item.isCorrect);
+          group.lastAnsweredAt = item.answeredAt || "";
+          group.difficulty = Number(item.difficulty) || group.difficulty;
+          group.thai = item.thai || group.thai;
+          group.japanese = item.japanese || group.japanese;
+          group.questionId = item.questionId ?? group.questionId;
+        }
       });
 
-      const weakWords = [...groups.values()]
-        .filter(item => item.wrong > 0)
-        .map(item => ({ ...item, accuracy: Math.round((item.correct / item.total) * 100) }))
-        .sort((a, b) => b.wrong - a.wrong || a.accuracy - b.accuracy || b.total - a.total)
-        .slice(0, 5);
+      return [...groups.values()]
+        .map(item => ({
+          ...item,
+          active: item.wrong > 0 && item.lastIsCorrect === false,
+          accuracy: item.total ? Math.round((item.correct / item.total) * 100) : 0
+        }))
+        .sort((a, b) => {
+          const aTime = new Date(a.lastAnsweredAt || 0).getTime() || 0;
+          const bTime = new Date(b.lastAnsweredAt || 0).getTime() || 0;
+          return b.wrong - a.wrong || a.accuracy - b.accuracy || bTime - aTime;
+        });
+    }
+
+    function activeWeakWordStats(history = state.history, difficulty = null) {
+      return buildWeakWordStats(history).filter(item => {
+        if (!item.active) return false;
+        if (difficulty === null || difficulty === undefined) return true;
+        return Number(item.difficulty) === Number(difficulty);
+      });
+    }
+
+    function getWeakStatForQuestion(question, history = state.history) {
+      if (!question || question.questionType !== "word") return null;
+      const key = wordIdentityKey(question);
+      return buildWeakWordStats(history).find(item => item.key === key) || null;
+    }
+
+    function isActiveWeakWord(question, history = state.history) {
+      const stat = getWeakStatForQuestion(question, history);
+      return Boolean(stat && stat.active);
+    }
+
+    function selectWordQuestionsWithWeakPriority(wordPool, requestedWords) {
+      const weakStats = activeWeakWordStats(state.history, state.difficulty);
+      const weakByKey = new Map(weakStats.map(item => [item.key, item]));
+      const weakCandidates = wordPool
+        .map(question => ({ question, stat: weakByKey.get(wordIdentityKey(question)) }))
+        .filter(item => item.stat)
+        .sort((a, b) => {
+          const aTime = new Date(a.stat.lastAnsweredAt || 0).getTime() || 0;
+          const bTime = new Date(b.stat.lastAnsweredAt || 0).getTime() || 0;
+          return b.stat.wrong - a.stat.wrong || a.stat.accuracy - b.stat.accuracy || bTime - aTime;
+        });
+
+      const selectedWeak = weakCandidates.slice(0, requestedWords).map(({ question, stat }) => ({
+        ...question,
+        weakPriority: true,
+        weakWrongCount: stat.wrong
+      }));
+      const selectedKeys = new Set(selectedWeak.map(wordIdentityKey));
+      const fillers = shuffle(wordPool.filter(question => !selectedKeys.has(wordIdentityKey(question))))
+        .slice(0, Math.max(0, requestedWords - selectedWeak.length));
+      return [...selectedWeak, ...fillers];
+    }
+
+    function appendWeakWordStatusFeedback(container, question, isCorrect, wasWeakBeforeAnswer) {
+      if (!container || !question || question.questionType !== "word") return;
+      const stat = getWeakStatForQuestion(question, state.history);
+      const note = document.createElement("div");
+      note.className = "review-book-added-note";
+
+      if (isCorrect && wasWeakBeforeAnswer && !(stat && stat.active)) {
+        note.textContent = "🎓 🐙 苦手単語から卒業しました。通常問題でまた間違えたら、自動で苦手単語へ戻ります。";
+      } else if (!isCorrect && stat && stat.active) {
+        note.textContent = wasWeakBeforeAnswer
+          ? `🐙 苦手単語のままです（累計 ${stat.wrong}回不正解）。次回以降も優先して出題します。`
+          : `🐙 苦手単語に入りました（累計 ${stat.wrong}回不正解）。次回以降、優先して出題します。`;
+      } else {
+        return;
+      }
+      container.appendChild(note);
+    }
+
+    function renderWeakWords(history) {
+      elements.weakWordList.replaceChildren();
+      const weakWords = activeWeakWordStats(history);
 
       if (!weakWords.length) {
         const empty = document.createElement("div");
         empty.className = "history-empty";
         empty.textContent = history.length
-          ? "不正解の単語はありません。タイ語部隊、無傷ですぞ(｀･∀･´)"
+          ? "現在の🐙 苦手単語はありません。直近で正解した語は卒業済みですぞ(｀･∀･´)"
           : "回答が増えると、ここに苦手単語が表示されます。";
         elements.weakWordList.appendChild(empty);
         return;
       }
 
-      weakWords.forEach(item => {
+      weakWords.forEach((item, index) => {
         const row = document.createElement("div");
         row.className = "weak-word-item";
         const word = document.createElement("div");
         const thai = document.createElement("div");
         thai.className = "weak-word-thai";
-        thai.textContent = item.thai;
+        thai.textContent = `${index + 1}. ${item.thai}`;
         const japanese = document.createElement("div");
         japanese.textContent = item.japanese;
         word.append(thai, japanese);
 
         const detail = document.createElement("div");
         detail.className = "muted";
-        detail.textContent = `${item.total}回答中 ${item.wrong}回不正解`;
+        detail.textContent = `${item.total}回答中 ${item.wrong}回不正解 ／ 次回優先`;
 
         const score = document.createElement("div");
         score.className = "weak-word-score";
@@ -3587,7 +3682,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
     }
 
     const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
-    const requestedSentences = 0; // Ver6.0.2: サザエさん予告型の旧通常文章は廃止
+    const requestedSentences = 0; // Ver6.1: サザエさん予告型の旧通常文章は廃止
     const requestedNews = state.mode === "choice" ? (Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
 
     if (requestedWords + requestedNews < 1) {
@@ -3605,7 +3700,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
       return;
     }
 
-    const wordQuestions = shuffle([...wordPool]).slice(0, requestedWords);
+    const wordQuestions = selectWordQuestionsWithWeakPriority(wordPool, requestedWords);
     const sentenceQuestions = [];
     const newsQuestions = shuffle([...newsPool]).slice(0, requestedNews);
     state.quizQuestions = shuffle([...wordQuestions, ...newsQuestions]);
@@ -3615,9 +3710,10 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
   const sentenceCount = state.quizQuestions.filter(q => q.questionType === "sentence").length;
   const newsCount = state.quizQuestions.filter(q => q.questionType === "news").length;
   const passageCount = state.quizQuestions.filter(q => q.questionType === "passage").length;
+  const weakCount = state.quizQuestions.filter(q => q.questionType === "word" && q.weakPriority).length;
   elements.quizLevelBadge.textContent = passageCount
     ? `Level ${state.difficulty} ／ 長文読解 📰 ／ ${passageCount}設問`
-    : `Level ${state.difficulty} ／ 単語${wordCount} + 📰News${newsCount}`;
+    : `Level ${state.difficulty} ／ 単語${wordCount}${weakCount ? `（🐙${weakCount}）` : ""} + 📰News${newsCount}`;
 
   renderKeyboard();
   showScreen("quiz");
@@ -3658,7 +3754,7 @@ function showQuestion() {
   renderPassagePanel(question);
 
   if (!choiceQuestion) {
-    elements.promptLabel.textContent = "この日本語をタイ語で入力してください";
+    elements.promptLabel.textContent = question.weakPriority ? "🐙 苦手単語：この日本語をタイ語で入力してください" : "この日本語をタイ語で入力してください";
     elements.promptWord.textContent = question.japanese;
     elements.promptWord.className = "prompt-word";
     elements.writingArea.classList.remove("hidden");
@@ -3685,7 +3781,7 @@ function showQuestion() {
   } else {
     elements.promptLabel.textContent = newsQuestion
       ? "📰 ニュース短文の意味を選んでください"
-      : sentenceQuestion ? "このタイ語の文章の意味を選んでください" : "このタイ語の意味を選んでください";
+      : sentenceQuestion ? "このタイ語の文章の意味を選んでください" : question.weakPriority ? "🐙 苦手単語：このタイ語の意味を選んでください" : "このタイ語の意味を選んでください";
     elements.promptWord.textContent = question.thai;
     elements.promptWord.className = (sentenceQuestion || newsQuestion) ? "prompt-word sentence-prompt" : "prompt-word";
     elements.readingArea.classList.remove("hidden");
@@ -3894,6 +3990,7 @@ function submitAnswer() {
   let userAnswer = "";
   let readingAttempt = "";
   const passageQuestion = question.questionType === "passage";
+  const wasWeakBeforeAnswer = question.questionType === "word" && isActiveWeakWord(question, state.history);
   const choiceQuestion = state.mode === "choice" || state.mode === "longreading" || ["sentence", "news", "passage"].includes(question.questionType);
 
   if (!choiceQuestion) {
@@ -3938,6 +4035,7 @@ function submitAnswer() {
   recordAnswer(question, userAnswer, isCorrect, readingAttempt);
   const addedToReviewBook = !isCorrect && addWrongWordToReviewBook(question);
   renderFeedback(question, userAnswer, isCorrect, readingAttempt, addedToReviewBook);
+  appendWeakWordStatusFeedback(elements.feedback, question, isCorrect, wasWeakBeforeAnswer);
 }
     function showTemporaryInputNotice(message) {
       elements.feedback.className = "feedback wrong";
@@ -4195,6 +4293,7 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
       elements.historyTotal.textContent = String(total);
       elements.historyAccuracy.textContent = accuracy === null ? "－" : `${accuracy}%`;
       elements.historyToday.textContent = String(todayCount);
+      if (elements.weakWordCount) elements.weakWordCount.textContent = `${activeWeakWordStats(history).length}語`;
       elements.exportHistoryButton.disabled = total === 0;
       elements.clearHistoryButton.disabled = total === 0;
 
