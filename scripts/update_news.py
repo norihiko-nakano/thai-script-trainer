@@ -195,18 +195,30 @@ def segmentable(text, lexicon):
 
 def build_output_schema(allowed, source_urls):
     string = {"type": "string"}
+    jp_meaning = {
+        "type": "string",
+        "description": "Natural Japanese semantic meaning/translation. Do NOT write pronunciation or transliteration. Use Japanese kanji/hiragana where natural."
+    }
+    jp_explanation = {
+        "type": "string",
+        "description": "Explanation written in Japanese for a Japanese learner. Do NOT write Thai prose."
+    }
+    katakana_reading = {
+        "type": "string",
+        "description": "Thai pronunciation written in Japanese katakana, e.g. サナームビン. Do NOT use romaji."
+    }
     allowed_enum = {"type": "string", "enum": sorted(set(allowed))}
     source_enum = {"type": "string", "enum": source_urls}
 
     breakdown_item = {
         "type": "object",
-        "properties": {"thai": string, "reading": string, "japanese": string},
+        "properties": {"thai": string, "reading": katakana_reading, "japanese": jp_meaning},
         "required": ["thai", "reading", "japanese"],
         "additionalProperties": False,
     }
     choice_explanation_item = {
         "type": "object",
-        "properties": {"choice": string, "explanation": string},
+        "properties": {"choice": jp_meaning, "explanation": jp_explanation},
         "required": ["choice", "explanation"],
         "additionalProperties": False,
     }
@@ -217,22 +229,22 @@ def build_output_schema(allowed, source_urls):
             "level": {"type": "integer", "enum": [LEVEL]},
             "title": string,
             "thai_tokens": {
-                "type": "array", "minItems": 2, "maxItems": 14,
+                "type": "array", "minItems": 4, "maxItems": 14,
                 "items": allowed_enum,
             },
-            "japanese": string,
-            "reading": string,
+            "japanese": jp_meaning,
+            "reading": katakana_reading,
             "choices": {
                 "type": "array", "minItems": 4, "maxItems": 4,
-                "items": string,
+                "items": jp_meaning,
             },
-            "explanation": string,
+            "explanation": jp_explanation,
             "breakdown": {
                 "type": "array", "minItems": 2, "maxItems": 8,
                 "items": breakdown_item,
             },
-            "grammar_note": string,
-            "reading_tip": string,
+            "grammar_note": jp_explanation,
+            "reading_tip": jp_explanation,
             "choice_explanations": {
                 "type": "array", "minItems": 4, "maxItems": 4,
                 "items": choice_explanation_item,
@@ -258,8 +270,8 @@ def build_output_schema(allowed, source_urls):
         "type": "object",
         "properties": {
             "thai": string,
-            "reading": string,
-            "japanese": string,
+            "reading": katakana_reading,
+            "japanese": jp_meaning,
             "kind": {"type": "string", "enum": ["known", "note"]},
         },
         "required": ["thai", "reading", "japanese", "kind"],
@@ -279,13 +291,13 @@ def build_output_schema(allowed, source_urls):
     question_item = {
         "type": "object",
         "properties": {
-            "prompt": string,
+            "prompt": jp_meaning,
             "choices": {
                 "type": "array", "minItems": 4, "maxItems": 4,
-                "items": string,
+                "items": jp_meaning,
             },
-            "answer": string,
-            "explanation": string,
+            "answer": jp_meaning,
+            "explanation": jp_explanation,
         },
         "required": ["prompt", "choices", "answer", "explanation"],
         "additionalProperties": False,
@@ -392,12 +404,71 @@ def normalize_structured_draft(draft, allowed):
     return data
 
 
+
+JP_SEMANTIC_RE = re.compile(r"[\u3040-\u309f\u4e00-\u9fff]")
+KATAKANA_RE = re.compile(r"[\u30a0-\u30ff]")
+THAI_RE = re.compile(r"[\u0e00-\u0e7f]")
+
+
+def is_japanese_semantic(text):
+    """Meaning/explanation should be Japanese, not a katakana transliteration or Thai prose."""
+    return (
+        isinstance(text, str)
+        and bool(text.strip())
+        and not THAI_RE.search(text)
+        and bool(JP_SEMANTIC_RE.search(text))
+    )
+
+
+def is_katakana_reading(text):
+    return (
+        isinstance(text, str)
+        and bool(text.strip())
+        and not THAI_RE.search(text)
+        and bool(KATAKANA_RE.search(text))
+    )
+
+
 def validate_structured_data(data, source_urls):
     problems = []
     source_urls = set(source_urls)
     used_short_sources = set()
 
     for i, item in enumerate(data["short_news"]):
+        if not is_japanese_semantic(item["japanese"]):
+            problems.append(
+                f"short_news[{i}].japanese must be a Japanese MEANING, not pronunciation: {item['japanese']}"
+            )
+        if not is_katakana_reading(item["reading"]):
+            problems.append(
+                f"short_news[{i}].reading must be katakana pronunciation: {item['reading']}"
+            )
+        for j, choice in enumerate(item["choices"]):
+            if not is_japanese_semantic(choice):
+                problems.append(
+                    f"short_news[{i}].choices[{j}] must be a Japanese meaning sentence: {choice}"
+                )
+        if not is_japanese_semantic(item["explanation"]):
+            problems.append(f"short_news[{i}].explanation must be Japanese")
+        if not is_japanese_semantic(item["grammar_note"]):
+            problems.append(f"short_news[{i}].grammar_note must be Japanese")
+        if not is_japanese_semantic(item["reading_tip"]):
+            problems.append(f"short_news[{i}].reading_tip must be Japanese")
+        for choice, explanation in item["choice_explanations"].items():
+            if not is_japanese_semantic(explanation):
+                problems.append(
+                    f"short_news[{i}] choice explanation must be Japanese: {choice}"
+                )
+        for j, chunk in enumerate(item["breakdown"]):
+            if not is_katakana_reading(chunk["reading"]):
+                problems.append(
+                    f"short_news[{i}].breakdown[{j}].reading must be katakana"
+                )
+            if not is_japanese_semantic(chunk["japanese"]):
+                problems.append(
+                    f"short_news[{i}].breakdown[{j}].japanese must be Japanese meaning"
+                )
+
         if item["japanese"] not in item["choices"]:
             problems.append(
                 f"short_news[{i}] correct answer missing from choices"
@@ -429,7 +500,34 @@ def validate_structured_data(data, source_urls):
             problems.append(
                 f"passage[{i}] has {len(passage['annotations'])} difficult words; max 5"
             )
+        for j, annotation in enumerate(passage["annotations"]):
+            if not is_katakana_reading(annotation["reading"]):
+                problems.append(
+                    f"passage[{i}].annotations[{j}].reading must be katakana"
+                )
+            if not is_japanese_semantic(annotation["japanese"]):
+                problems.append(
+                    f"passage[{i}].annotations[{j}].japanese must be Japanese meaning"
+                )
+
         for j, q in enumerate(passage["questions"]):
+            if not is_japanese_semantic(q["prompt"]):
+                problems.append(
+                    f"passage[{i}] question[{j}].prompt must be Japanese"
+                )
+            for k, choice in enumerate(q["choices"]):
+                if not is_japanese_semantic(choice):
+                    problems.append(
+                        f"passage[{i}] question[{j}].choices[{k}] must be Japanese"
+                    )
+            if not is_japanese_semantic(q["answer"]):
+                problems.append(
+                    f"passage[{i}] question[{j}].answer must be Japanese"
+                )
+            if not is_japanese_semantic(q["explanation"]):
+                problems.append(
+                    f"passage[{i}] question[{j}].explanation must be Japanese"
+                )
             if q["answer"] not in q["choices"]:
                 problems.append(
                     f"passage[{i}] question[{j}] answer missing from choices"
@@ -469,10 +567,18 @@ def generate(client, articles, vocab, retry_note=""):
 
 IMPORTANT:
 - The JSON structure is enforced by a strict schema.
+- ALL learner-facing meaning/explanation fields MUST be Japanese. Never write Thai explanations.
+- `japanese` and every item in `choices` mean SEMANTIC JAPANESE TRANSLATIONS. They are NOT pronunciation choices.
+  GOOD: "先生を助けます。" / "米の価格が上がります。"
+  BAD: "シュウワイ クルー" / "プライサー エン".
+- `reading` and every breakdown/token `reading` MUST be Japanese KATAKANA pronunciation, never romaji.
 - For short_news, thai_tokens ARE the Thai sentence.
-- Every short-news token comes from ALLOWED VOCABULARY. Arrange them in natural Thai order.
+- Every short-news token comes from ALLOWED VOCABULARY. Arrange them into a NATURAL COMPLETE THAI SENTENCE of at least 4 tokens.
+- The sentence MUST communicate a concrete fact from its source article. Do not create a generic or unrelated phrase merely because the words are allowed.
+  INVALID examples: "อร่อยที่นั่น" for a flood article, "ราคาเงิน" as a non-sentence.
+- If one article cannot be faithfully expressed with allowed vocabulary, choose ANOTHER supplied article. Never invent a connection.
 - japanese MUST be exactly one of the 4 choices.
-- choice_explanations must use exactly the same 4 choice strings.
+- choice_explanations must use exactly the same 4 Japanese choice strings.
 - Use at least 3 different source URLs across 5 short_news items when possible.
 - Use no more than 2 short_news items from one source.
 
@@ -488,7 +594,10 @@ LONG READING:
 TEACHING:
 - Every short_news needs explanation, breakdown, grammar_note, reading_tip,
   and explanations for all 4 choices.
+- explanation, grammar_note, reading_tip, choice explanations, Japanese meanings,
+  comprehension questions, answers, and annotations MUST all be written in JAPANESE.
 - Readings are Japanese katakana approximations.
+- breakdown.japanese is the Japanese MEANING of that Thai word/chunk, never the Thai word repeated.
 
 ALLOWED VOCABULARY:
 {compact_vocab}
