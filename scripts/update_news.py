@@ -192,207 +192,252 @@ def segmentable(text, lexicon):
 
 
 
-def validate(data, allowed, source_urls):
-    """Validate AI JSON without crashing on malformed field types.
 
-    Any dict/list that appears where a string is expected becomes a validation
-    message that is fed back to the next AI retry instead of causing
-    `TypeError: unhashable type: 'dict'`.
-    """
+def build_output_schema(allowed, source_urls):
+    string = {"type": "string"}
+    allowed_enum = {"type": "string", "enum": sorted(set(allowed))}
+    source_enum = {"type": "string", "enum": source_urls}
+
+    breakdown_item = {
+        "type": "object",
+        "properties": {"thai": string, "reading": string, "japanese": string},
+        "required": ["thai", "reading", "japanese"],
+        "additionalProperties": False,
+    }
+    choice_explanation_item = {
+        "type": "object",
+        "properties": {"choice": string, "explanation": string},
+        "required": ["choice", "explanation"],
+        "additionalProperties": False,
+    }
+    short_item = {
+        "type": "object",
+        "properties": {
+            "id": string,
+            "level": {"type": "integer", "enum": [LEVEL]},
+            "title": string,
+            "thai_tokens": {
+                "type": "array", "minItems": 2, "maxItems": 14,
+                "items": allowed_enum,
+            },
+            "japanese": string,
+            "reading": string,
+            "choices": {
+                "type": "array", "minItems": 4, "maxItems": 4,
+                "items": string,
+            },
+            "explanation": string,
+            "breakdown": {
+                "type": "array", "minItems": 2, "maxItems": 8,
+                "items": breakdown_item,
+            },
+            "grammar_note": string,
+            "reading_tip": string,
+            "choice_explanations": {
+                "type": "array", "minItems": 4, "maxItems": 4,
+                "items": choice_explanation_item,
+            },
+            "source_type": {"type": "string", "enum": ["news"]},
+            "source_name": {"type": "string", "enum": ["Thai PBS"]},
+            "source_title": string,
+            "source_url": source_enum,
+            "published_at": string,
+            "ai_simplified": {"type": "boolean", "enum": [True]},
+        },
+        "required": [
+            "id", "level", "title", "thai_tokens", "japanese", "reading",
+            "choices", "explanation", "breakdown", "grammar_note",
+            "reading_tip", "choice_explanations", "source_type",
+            "source_name", "source_title", "source_url", "published_at",
+            "ai_simplified",
+        ],
+        "additionalProperties": False,
+    }
+
+    passage_token = {
+        "type": "object",
+        "properties": {
+            "thai": string,
+            "reading": string,
+            "japanese": string,
+            "kind": {"type": "string", "enum": ["known", "note"]},
+        },
+        "required": ["thai", "reading", "japanese", "kind"],
+        "additionalProperties": False,
+    }
+    passage_line = {
+        "type": "object",
+        "properties": {
+            "tokens": {
+                "type": "array", "minItems": 2, "maxItems": 24,
+                "items": passage_token,
+            }
+        },
+        "required": ["tokens"],
+        "additionalProperties": False,
+    }
+    question_item = {
+        "type": "object",
+        "properties": {
+            "prompt": string,
+            "choices": {
+                "type": "array", "minItems": 4, "maxItems": 4,
+                "items": string,
+            },
+            "answer": string,
+            "explanation": string,
+        },
+        "required": ["prompt", "choices", "answer", "explanation"],
+        "additionalProperties": False,
+    }
+    passage_item = {
+        "type": "object",
+        "properties": {
+            "id": string,
+            "level": {"type": "integer", "enum": [LEVEL]},
+            "title": string,
+            "lines": {
+                "type": "array", "minItems": 3, "maxItems": 5,
+                "items": passage_line,
+            },
+            "questions": {
+                "type": "array", "minItems": 3, "maxItems": 3,
+                "items": question_item,
+            },
+            "source_type": {"type": "string", "enum": ["news"]},
+            "source_name": {"type": "string", "enum": ["Thai PBS"]},
+            "source_title": string,
+            "source_url": source_enum,
+            "published_at": string,
+            "ai_simplified": {"type": "boolean", "enum": [True]},
+        },
+        "required": [
+            "id", "level", "title", "lines", "questions", "source_type",
+            "source_name", "source_title", "source_url", "published_at",
+            "ai_simplified",
+        ],
+        "additionalProperties": False,
+    }
+
+    return {
+        "type": "object",
+        "properties": {
+            "schema_version": {"type": "integer", "enum": [1]},
+            "target_level": {"type": "integer", "enum": [LEVEL]},
+            "short_news": {
+                "type": "array", "minItems": 5, "maxItems": 5,
+                "items": short_item,
+            },
+            "reading_passages": {
+                "type": "array", "minItems": 2, "maxItems": 2,
+                "items": passage_item,
+            },
+        },
+        "required": [
+            "schema_version", "target_level", "short_news",
+            "reading_passages",
+        ],
+        "additionalProperties": False,
+    }
+
+
+def normalize_structured_draft(draft, allowed):
+    allowed = set(allowed)
+    data = {
+        "schema_version": 1,
+        "target_level": LEVEL,
+        "short_news": [],
+        "reading_passages": [],
+    }
+
+    for item in draft["short_news"]:
+        obj = dict(item)
+        tokens = obj.pop("thai_tokens")
+        obj["thai"] = "".join(tokens)
+        pairs = obj.get("choice_explanations", [])
+        obj["choice_explanations"] = {
+            pair["choice"]: pair["explanation"] for pair in pairs
+        }
+        data["short_news"].append(obj)
+
+    for passage in draft["reading_passages"]:
+        obj = dict(passage)
+        lines = obj.pop("lines")
+        line_texts = []
+        annotations = {}
+        known_violations = []
+        for line in lines:
+            parts = []
+            for token in line["tokens"]:
+                thai = token["thai"]
+                parts.append(thai)
+                if token["kind"] == "known":
+                    if thai not in allowed:
+                        known_violations.append(thai)
+                else:
+                    annotations.setdefault(
+                        thai,
+                        {
+                            "thai": thai,
+                            "japanese": token["japanese"],
+                            "reading": token["reading"],
+                        },
+                    )
+            line_texts.append("".join(parts))
+        obj["body_thai"] = "\n".join(line_texts)
+        obj["annotations"] = list(annotations.values())
+        obj["_known_violations"] = known_violations
+        data["reading_passages"].append(obj)
+
+    return data
+
+
+def validate_structured_data(data, source_urls):
     problems = []
-
-    if not isinstance(data, dict):
-        return False, ["top-level JSON must be an object"]
-
-    shorts = data.get("short_news")
-    passages = data.get("reading_passages")
-    if not isinstance(shorts, list):
-        problems.append("short_news must be an array")
-        shorts = []
-    if not isinstance(passages, list):
-        problems.append("reading_passages must be an array")
-        passages = []
-
-    source_urls = {u for u in source_urls if isinstance(u, str)}
-
-    if len(shorts) < 3:
-        problems.append("need >=3 short_news")
-    if len(passages) != 2:
-        problems.append("need exactly 2 reading_passages")
-
+    source_urls = set(source_urls)
     used_short_sources = set()
 
-    for i, item in enumerate(shorts):
-        if not isinstance(item, dict):
-            problems.append(f"short_news[{i}] must be an object")
-            continue
-
-        thai = item.get("thai")
-        japanese = item.get("japanese")
-        choices = item.get("choices")
-        source_url = item.get("source_url")
-
-        if not isinstance(thai, str):
-            problems.append(f"short_news[{i}].thai must be a string")
-        elif not segmentable(thai, allowed):
-            problems.append(f"short_news[{i}] contains out-of-level Thai")
-
-        if not isinstance(japanese, str):
-            problems.append(f"short_news[{i}].japanese must be a string")
-
-        if not isinstance(choices, list):
-            problems.append(f"short_news[{i}].choices must be an array")
-            choices = []
-        elif not all(isinstance(choice, str) for choice in choices):
-            problems.append(f"short_news[{i}].choices must contain strings only")
-            choices = [choice for choice in choices if isinstance(choice, str)]
-
-        if len(choices) != 4:
-            problems.append(f"short_news[{i}] needs exactly 4 choices")
-        if isinstance(japanese, str) and japanese not in choices:
-            problems.append(f"short_news[{i}] correct answer missing")
-
-        if not isinstance(item.get("explanation"), str) or not item.get("explanation"):
-            problems.append(f"short_news[{i}] needs explanation")
-
-        breakdown = item.get("breakdown")
-        if not isinstance(breakdown, list) or len(breakdown) < 2:
-            problems.append(f"short_news[{i}] needs word breakdown")
+    for i, item in enumerate(data["short_news"]):
+        if item["japanese"] not in item["choices"]:
+            problems.append(
+                f"short_news[{i}] correct answer missing from choices"
+            )
+        if set(item["choice_explanations"]) != set(item["choices"]):
+            problems.append(
+                f"short_news[{i}] choice explanations must match all 4 choices exactly"
+            )
+        if item["source_url"] not in source_urls:
+            problems.append(f"short_news[{i}] source_url is not supplied")
         else:
-            for j, chunk in enumerate(breakdown):
-                if not isinstance(chunk, dict):
-                    problems.append(f"short_news[{i}].breakdown[{j}] must be an object")
-                    continue
-                for key in ("thai", "reading", "japanese"):
-                    if not isinstance(chunk.get(key), str):
-                        problems.append(
-                            f"short_news[{i}].breakdown[{j}].{key} must be a string"
-                        )
+            used_short_sources.add(item["source_url"])
 
-        if not isinstance(item.get("grammar_note"), str) or not item.get("grammar_note"):
-            problems.append(f"short_news[{i}] needs grammar_note")
-        if not isinstance(item.get("reading_tip"), str) or not item.get("reading_tip"):
-            problems.append(f"short_news[{i}] needs reading_tip")
-
-        hints = item.get("choice_explanations")
-        if not isinstance(hints, dict):
-            problems.append(f"short_news[{i}].choice_explanations must be an object")
-            hints = {}
-        for choice in choices:
-            if choice not in hints or not isinstance(hints.get(choice), str):
-                problems.append(
-                    f"short_news[{i}] missing string choice explanation: {choice}"
-                )
-
-        if not isinstance(source_url, str):
-            problems.append(f"short_news[{i}].source_url must be a string")
-        elif source_url not in source_urls:
-            problems.append(f"short_news[{i}] has unknown source_url")
-        else:
-            used_short_sources.add(source_url)
-
-    required_diversity = min(3, len(source_urls), len(shorts))
+    required_diversity = min(3, len(source_urls), len(data["short_news"]))
     if len(used_short_sources) < required_diversity:
         problems.append(
             f"short_news needs at least {required_diversity} distinct sources"
         )
 
     passage_sources = []
-    for i, passage in enumerate(passages):
-        if not isinstance(passage, dict):
-            problems.append(f"passage[{i}] must be an object")
-            continue
-
-        body_thai = passage.get("body_thai")
-        if not isinstance(body_thai, str):
-            problems.append(f"passage[{i}].body_thai must be a string")
-            body_thai = ""
-
-        raw_annotations = passage.get("annotations")
-        if not isinstance(raw_annotations, list):
-            problems.append(f"passage[{i}].annotations must be an array")
-            raw_annotations = []
-
-        annotations = set()
-        for j, ann in enumerate(raw_annotations):
-            if not isinstance(ann, dict):
-                problems.append(f"passage[{i}].annotations[{j}] must be an object")
-                continue
-            thai = ann.get("thai")
-            if not isinstance(thai, str):
+    for i, passage in enumerate(data["reading_passages"]):
+        violations = passage.pop("_known_violations", [])
+        if violations:
+            problems.append(
+                f"passage[{i}] marks non-vocabulary words as known: "
+                + ", ".join(sorted(set(violations))[:12])
+            )
+        if len(passage["annotations"]) > 5:
+            problems.append(
+                f"passage[{i}] has {len(passage['annotations'])} difficult words; max 5"
+            )
+        for j, q in enumerate(passage["questions"]):
+            if q["answer"] not in q["choices"]:
                 problems.append(
-                    f"passage[{i}].annotations[{j}].thai must be a string"
+                    f"passage[{i}] question[{j}] answer missing from choices"
                 )
-            elif thai:
-                annotations.add(thai)
-            for key in ("japanese", "reading"):
-                if not isinstance(ann.get(key), str):
-                    problems.append(
-                        f"passage[{i}].annotations[{j}].{key} must be a string"
-                    )
-
-        if len(annotations) > 5:
-            problems.append(f"passage[{i}] has >5 difficult words")
-
-        if body_thai and not segmentable(body_thai, set(allowed) | annotations):
-            problems.append(f"passage[{i}] has unannotated difficult Thai")
-
-        questions = passage.get("questions")
-        if not isinstance(questions, list):
-            problems.append(f"passage[{i}].questions must be an array")
-            questions = []
-        if len(questions) != 3:
-            problems.append(f"passage[{i}] needs exactly 3 questions")
-
-        for j, q in enumerate(questions):
-            if not isinstance(q, dict):
-                problems.append(f"passage[{i}] question[{j}] must be an object")
-                continue
-            q_choices = q.get("choices")
-            if not isinstance(q_choices, list):
-                problems.append(
-                    f"passage[{i}] question[{j}].choices must be an array"
-                )
-                q_choices = []
-            elif not all(isinstance(choice, str) for choice in q_choices):
-                problems.append(
-                    f"passage[{i}] question[{j}].choices must contain strings only"
-                )
-                q_choices = [
-                    choice for choice in q_choices if isinstance(choice, str)
-                ]
-
-            if len(q_choices) != 4:
-                problems.append(
-                    f"passage[{i}] question[{j}] needs exactly 4 choices"
-                )
-
-            answer = q.get("answer")
-            if not isinstance(answer, str):
-                problems.append(
-                    f"passage[{i}] question[{j}].answer must be a string"
-                )
-            elif answer not in q_choices:
-                problems.append(
-                    f"passage[{i}] question[{j}] answer missing"
-                )
-
-            if not isinstance(q.get("prompt"), str):
-                problems.append(
-                    f"passage[{i}] question[{j}].prompt must be a string"
-                )
-            if not isinstance(q.get("explanation"), str) or not q.get("explanation"):
-                problems.append(
-                    f"passage[{i}] question[{j}] explanation missing"
-                )
-
-        source_url = passage.get("source_url")
-        if not isinstance(source_url, str):
-            problems.append(f"passage[{i}].source_url must be a string")
-        elif source_url not in source_urls:
-            problems.append(f"passage[{i}] has unknown source_url")
+        if passage["source_url"] not in source_urls:
+            problems.append(f"passage[{i}] source_url is not supplied")
         else:
-            passage_sources.append(source_url)
+            passage_sources.append(passage["source_url"])
 
     if len(source_urls) >= 2 and len(set(passage_sources)) < 2:
         problems.append("the 2 passages must use different news sources")
@@ -400,41 +445,50 @@ def validate(data, allowed, source_urls):
     return not problems, problems
 
 
-
 def generate(client, articles, vocab, retry_note=""):
-    allowed = [x["thai"] for x in vocab if int(x.get("level") or 99) <= LEVEL]
-    compact_vocab = "\n".join(f"{x['thai']} = {x.get('japanese', '')}" for x in vocab if int(x.get("level") or 99) <= LEVEL)
+    allowed = [
+        x["thai"] for x in vocab
+        if int(x.get("level") or 99) <= LEVEL
+    ]
+    compact_vocab = "\n".join(
+        f"{x['thai']} = {x.get('japanese', '')}"
+        for x in vocab
+        if int(x.get("level") or 99) <= LEVEL
+    )
     sources = "\n\n".join(
-        f"SOURCE {i+1}\nURL: {a['source_url']}\nTITLE: {a['source_title']}\nDATE: {a['published_at']}\nCATEGORY: {a['category']}\nTEXT: {a['text']}"
+        f"SOURCE {i+1}\n"
+        f"URL: {a['source_url']}\n"
+        f"TITLE: {a['source_title']}\n"
+        f"DATE: {a['published_at']}\n"
+        f"CATEGORY: {a['category']}\n"
+        f"TEXT: {a['text']}"
         for i, a in enumerate(articles)
     )
 
-    prompt = f'''Create Thai reading exercises for a Japanese learner, Level {LEVEL}.
+    prompt = f'''Create Thai news-based exercises for a Japanese learner at Level {LEVEL}.
 
-SOURCE DIVERSITY:
-- Use multiple supplied news sources.
-- For 5 short_news items, use at least 3 different source URLs if at least 3 sources are available.
+IMPORTANT:
+- The JSON structure is enforced by a strict schema.
+- For short_news, thai_tokens ARE the Thai sentence.
+- Every short-news token comes from ALLOWED VOCABULARY. Arrange them in natural Thai order.
+- japanese MUST be exactly one of the 4 choices.
+- choice_explanations must use exactly the same 4 choice strings.
+- Use at least 3 different source URLs across 5 short_news items when possible.
 - Use no more than 2 short_news items from one source.
-- The 2 long reading passages MUST use different source URLs and different themes.
-- Avoid making both passages about airports/aviation unless no other usable topic exists.
-- source_url must exactly match one supplied URL.
 
-RULE FOR short_news:
-- Create 5 items.
-- Thai sentence must be segmentable using ONLY words in ALLOWED VOCABULARY below. Do not add any other Thai word, including particles or proper nouns.
-- Keep the factual meaning traceable to one supplied news source.
-- Each has exactly 4 Japanese choices, one equals japanese. Every choice MUST be a plain JSON string, never an object.
-- Include a Japanese katakana reading approximation.
-- EVERY item must teach after answering: explanation, breakdown (2-8 chunks with Thai/katakana/Japanese), grammar_note, reading_tip, and choice_explanations for ALL 4 choices.
+LONG READING:
+- Each passage has 3-5 lines represented as token objects.
+- kind="known": thai MUST be exactly one entry from ALLOWED VOCABULARY.
+- kind="note": use only for a useful difficult source word; max 5 distinct note words per passage.
+- The 2 passages MUST use different source URLs and different themes.
+- Avoid making both passages about airports/aviation.
+- Each question answer MUST exactly match one of its 4 choices.
+- Preserve source facts. Do not invent facts.
 
-RULE FOR reading_passages:
-- Create exactly 2 passages, each 3-5 short Thai lines.
-- Mostly use ALLOWED VOCABULARY.
-- Up to 5 difficult Thai words per passage may be used, but EVERY such word must appear in annotations. Every annotation must be an object with plain-string fields thai, japanese, reading.
-- Each passage has exactly 3 Japanese comprehension questions, each with exactly 4 choices, one answer, and an explanation.
-- Preserve supplied news facts. Do not invent facts.
-
-Return JSON only. Follow the requested field types exactly: text fields are plain strings, choices are arrays of strings, and annotation/breakdown entries are objects with string fields. Return keys schema_version, generated_at, target_level, short_news, reading_passages. Each short_news item must include id, level, title, thai, japanese, reading, choices, explanation, breakdown, grammar_note, reading_tip, choice_explanations, source_type, source_name, source_title, source_url, published_at, ai_simplified. Each passage must include id, level, title, body_thai, annotations, questions, source_type, source_name, source_title, source_url, published_at, ai_simplified.
+TEACHING:
+- Every short_news needs explanation, breakdown, grammar_note, reading_tip,
+  and explanations for all 4 choices.
+- Readings are Japanese katakana approximations.
 
 ALLOWED VOCABULARY:
 {compact_vocab}
@@ -443,10 +497,27 @@ NEWS SOURCES:
 {sources}
 
 {retry_note}'''
-    response = client.responses.create(model=MODEL, input=prompt)
-    raw = response.output_text.strip()
-    raw = re.sub(r"^```json\s*|\s*```$", "", raw, flags=re.S)
-    return json.loads(raw), set(allowed)
+
+    schema = build_output_schema(
+        allowed,
+        [a["source_url"] for a in articles],
+    )
+    response = client.responses.create(
+        model=MODEL,
+        input=prompt,
+        text={
+            "format": {
+                "type": "json_schema",
+                "name": "thai_news_learning_v623",
+                "strict": True,
+                "schema": schema,
+            }
+        },
+    )
+    draft = json.loads(response.output_text)
+    data = normalize_structured_draft(draft, allowed)
+    return data, set(allowed)
+
 
 
 def main():
@@ -483,7 +554,7 @@ def main():
         for attempt in range(1, 4):
             print(f"AI generation attempt {attempt}/3 using {MODEL}")
             data, allowed = generate(client, articles, vocab, retry_note)
-            ok, problems = validate(data, allowed, source_urls)
+            ok, problems = validate_structured_data(data, source_urls)
             if ok:
                 data["generated_at"] = datetime.now(JST).isoformat(timespec="seconds")
                 data["generation_method"] = f"Thai PBS multi-page recent-news discovery + {MODEL}; Level {LEVEL} vocabulary constraint."
