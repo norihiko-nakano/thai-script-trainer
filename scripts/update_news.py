@@ -232,12 +232,12 @@ def build_output_schema(allowed, source_urls):
                 "type": "array", "minItems": 4, "maxItems": 14,
                 "items": allowed_enum,
             },
-            "japanese": jp_meaning,
             "reading": katakana_reading,
             "choices": {
                 "type": "array", "minItems": 4, "maxItems": 4,
                 "items": jp_meaning,
             },
+            "correct_index": {"type": "integer", "enum": [0, 1, 2, 3]},
             "explanation": jp_explanation,
             "breakdown": {
                 "type": "array", "minItems": 2, "maxItems": 8,
@@ -247,7 +247,7 @@ def build_output_schema(allowed, source_urls):
             "reading_tip": jp_explanation,
             "choice_explanations": {
                 "type": "array", "minItems": 4, "maxItems": 4,
-                "items": choice_explanation_item,
+                "items": jp_explanation,
             },
             "source_type": {"type": "string", "enum": ["news"]},
             "source_name": {"type": "string", "enum": ["Thai PBS"]},
@@ -257,8 +257,8 @@ def build_output_schema(allowed, source_urls):
             "ai_simplified": {"type": "boolean", "enum": [True]},
         },
         "required": [
-            "id", "level", "title", "thai_tokens", "japanese", "reading",
-            "choices", "explanation", "breakdown", "grammar_note",
+            "id", "level", "title", "thai_tokens", "reading",
+            "choices", "correct_index", "explanation", "breakdown", "grammar_note",
             "reading_tip", "choice_explanations", "source_type",
             "source_name", "source_title", "source_url", "published_at",
             "ai_simplified",
@@ -296,10 +296,10 @@ def build_output_schema(allowed, source_urls):
                 "type": "array", "minItems": 4, "maxItems": 4,
                 "items": jp_meaning,
             },
-            "answer": jp_meaning,
+            "answer_index": {"type": "integer", "enum": [0, 1, 2, 3]},
             "explanation": jp_explanation,
         },
-        "required": ["prompt", "choices", "answer", "explanation"],
+        "required": ["prompt", "choices", "answer_index", "explanation"],
         "additionalProperties": False,
     }
     passage_item = {
@@ -366,9 +366,12 @@ def normalize_structured_draft(draft, allowed):
         obj = dict(item)
         tokens = obj.pop("thai_tokens")
         obj["thai"] = "".join(tokens)
-        pairs = obj.get("choice_explanations", [])
+        choices = obj["choices"]
+        correct_index = obj.pop("correct_index")
+        obj["japanese"] = choices[correct_index]
+        explanations = obj.get("choice_explanations", [])
         obj["choice_explanations"] = {
-            pair["choice"]: pair["explanation"] for pair in pairs
+            choice: explanations[i] for i, choice in enumerate(choices)
         }
         data["short_news"].append(obj)
 
@@ -399,6 +402,13 @@ def normalize_structured_draft(draft, allowed):
         obj["body_thai"] = "\n".join(line_texts)
         obj["annotations"] = list(annotations.values())
         obj["_known_violations"] = known_violations
+        normalized_questions = []
+        for q in obj["questions"]:
+            q = dict(q)
+            answer_index = q.pop("answer_index")
+            q["answer"] = q["choices"][answer_index]
+            normalized_questions.append(q)
+        obj["questions"] = normalized_questions
         data["reading_passages"].append(obj)
 
     return data
@@ -469,14 +479,6 @@ def validate_structured_data(data, source_urls):
                     f"short_news[{i}].breakdown[{j}].japanese must be Japanese meaning"
                 )
 
-        if item["japanese"] not in item["choices"]:
-            problems.append(
-                f"short_news[{i}] correct answer missing from choices"
-            )
-        if set(item["choice_explanations"]) != set(item["choices"]):
-            problems.append(
-                f"short_news[{i}] choice explanations must match all 4 choices exactly"
-            )
         if item["source_url"] not in source_urls:
             problems.append(f"short_news[{i}] source_url is not supplied")
         else:
@@ -528,10 +530,6 @@ def validate_structured_data(data, source_urls):
                 problems.append(
                     f"passage[{i}] question[{j}].explanation must be Japanese"
                 )
-            if q["answer"] not in q["choices"]:
-                problems.append(
-                    f"passage[{i}] question[{j}] answer missing from choices"
-                )
         if passage["source_url"] not in source_urls:
             problems.append(f"passage[{i}] source_url is not supplied")
         else:
@@ -568,17 +566,18 @@ def generate(client, articles, vocab, retry_note=""):
 IMPORTANT:
 - The JSON structure is enforced by a strict schema.
 - ALL learner-facing meaning/explanation fields MUST be Japanese. Never write Thai explanations.
-- `japanese` and every item in `choices` mean SEMANTIC JAPANESE TRANSLATIONS. They are NOT pronunciation choices.
+- Every item in `choices` is a SEMANTIC JAPANESE TRANSLATION. It is NOT a pronunciation choice.
   GOOD: "先生を助けます。" / "米の価格が上がります。"
   BAD: "シュウワイ クルー" / "プライサー エン".
+- `correct_index` is the 0-based index of the correct Japanese meaning in choices.
 - `reading` and every breakdown/token `reading` MUST be Japanese KATAKANA pronunciation, never romaji.
 - For short_news, thai_tokens ARE the Thai sentence.
 - Every short-news token comes from ALLOWED VOCABULARY. Arrange them into a NATURAL COMPLETE THAI SENTENCE of at least 4 tokens.
 - The sentence MUST communicate a concrete fact from its source article. Do not create a generic or unrelated phrase merely because the words are allowed.
   INVALID examples: "อร่อยที่นั่น" for a flood article, "ราคาเงิน" as a non-sentence.
 - If one article cannot be faithfully expressed with allowed vocabulary, choose ANOTHER supplied article. Never invent a connection.
-- japanese MUST be exactly one of the 4 choices.
-- choice_explanations must use exactly the same 4 Japanese choice strings.
+- `choice_explanations` contains 4 JAPANESE reasons in the SAME ORDER as choices.
+- Do not repeat the choice strings inside choice_explanations.
 - Use at least 3 different source URLs across 5 short_news items when possible.
 - Use no more than 2 short_news items from one source.
 
@@ -588,7 +587,7 @@ LONG READING:
 - kind="note": use only for a useful difficult source word; max 5 distinct note words per passage.
 - The 2 passages MUST use different source URLs and different themes.
 - Avoid making both passages about airports/aviation.
-- Each question answer MUST exactly match one of its 4 choices.
+- Each question uses answer_index (0-3) to identify the correct choice.
 - Preserve source facts. Do not invent facts.
 
 TEACHING:
@@ -613,6 +612,14 @@ NEWS SOURCES:
     )
     response = client.responses.create(
         model=MODEL,
+        instructions="""あなたは日本人向けタイ語教材の編集者です。
+最優先ルール:
+- 意味、設問、選択肢、解説、文法説明、誤答理由、注釈の意味は必ず自然な日本語で書く。
+- reading欄は必ずカタカナで書く。ローマ字やタイ文字は禁止。
+- タイ語はthai_tokens、token.thai、source_title/titleなどタイ語が必要な欄だけに書く。
+- 4択は発音ではなく意味を問う日本語にする。
+- 許可語彙でニュース内容を自然に表現できない記事は使わず、別の記事を選ぶ。
+""",
         input=prompt,
         text={
             "format": {
@@ -660,8 +667,8 @@ def main():
         client = OpenAI()
         retry_note = ""
         source_urls = [a["source_url"] for a in articles]
-        for attempt in range(1, 4):
-            print(f"AI generation attempt {attempt}/3 using {MODEL}")
+        for attempt in range(1, 5):
+            print(f"AI generation attempt {attempt}/4 using {MODEL}")
             data, allowed = generate(client, articles, vocab, retry_note)
             ok, problems = validate_structured_data(data, source_urls)
             if ok:
@@ -676,7 +683,7 @@ def main():
             print(retry_note)
             time.sleep(1)
 
-        raise RuntimeError("Validation failed after 3 AI attempts")
+        raise RuntimeError("Validation failed after 4 AI attempts")
 
     except Exception as exc:
         print(f"NEWS UPDATE FAILED: {exc}", file=sys.stderr)
