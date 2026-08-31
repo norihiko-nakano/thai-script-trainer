@@ -45,8 +45,9 @@ jobs:
             git push
           fi
 
-      # Stage 2 reads ONLY data/news_raw.json as its news source.
-      - name: 2. Generate Thai learning candidates from raw snapshot
+      # Ver6.4 Stage 2 reads ONLY data/news_raw.json and generates short news only.
+      # Long-reading generation is frozen until Level 3+.
+      - name: 2. Generate 5 Thai short-news candidates from raw snapshot
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_NEWS_MODEL: gpt-5.4-mini
@@ -63,9 +64,9 @@ jobs:
             git push
           fi
 
-      # Stage 3 reads the candidate snapshot and raw snapshot, then creates the
-      # Japanese learner-facing content used by index.html.
-      - name: 3. Build Japanese learning content
+      # Ver6.4 Stage 3 creates learner-facing short news only.
+      # news_content.json intentionally stores reading_passages as [].
+      - name: 3. Build 5 Japanese short-news questions
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_NEWS_MODEL: gpt-5.4-mini
