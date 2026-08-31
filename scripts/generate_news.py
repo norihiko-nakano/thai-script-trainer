@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
-"""Stage 2: read data/news_raw.json and create Thai-only learning candidates."""
+"""Stage 2 Ver6.3.1: build short candidates first, then long passages independently.
+
+Key change from Ver6.3:
+- Short-news candidate generation is completed and validated first.
+- Each long passage is generated from ONE source article at a time.
+- If a passage uses >7 note words, it is regenerated with explicit feedback.
+- If the same article still cannot fit the learner level after retries, skip it
+  and try another article instead of throwing away the already-good short items.
+"""
 from __future__ import annotations
 
-import json
 import os
 import sys
 import time
@@ -23,14 +30,15 @@ SHORT_POOL_SIZE = 8
 SHORT_FINAL_SIZE = 5
 PASSAGE_COUNT = 2
 MAX_NOTES_PER_PASSAGE = 7
+SHORT_ATTEMPTS = 3
+PASSAGE_ATTEMPTS_PER_ARTICLE = 3
 
 
-def candidate_schema(allowed, source_urls):
+def short_schema(allowed, source_urls):
     string = {"type": "string"}
     source_enum = {"type": "string", "enum": source_urls}
     allowed_enum = {"type": "string", "enum": sorted(set(allowed))}
-
-    short_item = {
+    item = {
         "type": "object",
         "properties": {
             "source_url": source_enum,
@@ -45,8 +53,24 @@ def candidate_schema(allowed, source_urls):
         "required": ["source_url", "source_fact_th", "thai_tokens"],
         "additionalProperties": False,
     }
+    return {
+        "type": "object",
+        "properties": {
+            "short_pool": {
+                "type": "array",
+                "minItems": SHORT_POOL_SIZE,
+                "maxItems": SHORT_POOL_SIZE,
+                "items": item,
+            }
+        },
+        "required": ["short_pool"],
+        "additionalProperties": False,
+    }
 
-    passage_token = {
+
+def passage_schema(source_url):
+    string = {"type": "string"}
+    token = {
         "type": "object",
         "properties": {
             "thai": string,
@@ -55,52 +79,38 @@ def candidate_schema(allowed, source_urls):
         "required": ["thai", "kind"],
         "additionalProperties": False,
     }
-    passage_line = {
+    line = {
         "type": "object",
         "properties": {
             "tokens": {
                 "type": "array",
                 "minItems": 3,
                 "maxItems": 24,
-                "items": passage_token,
+                "items": token,
             }
         },
         "required": ["tokens"],
         "additionalProperties": False,
     }
-    passage_item = {
+    passage = {
         "type": "object",
         "properties": {
-            "source_url": source_enum,
+            "source_url": {"type": "string", "enum": [source_url]},
             "source_fact_th": string,
             "lines": {
                 "type": "array",
                 "minItems": 3,
                 "maxItems": 5,
-                "items": passage_line,
+                "items": line,
             },
         },
         "required": ["source_url", "source_fact_th", "lines"],
         "additionalProperties": False,
     }
-
     return {
         "type": "object",
-        "properties": {
-            "short_pool": {
-                "type": "array",
-                "minItems": SHORT_POOL_SIZE,
-                "maxItems": SHORT_POOL_SIZE,
-                "items": short_item,
-            },
-            "reading_passages": {
-                "type": "array",
-                "minItems": PASSAGE_COUNT,
-                "maxItems": PASSAGE_COUNT,
-                "items": passage_item,
-            },
-        },
-        "required": ["short_pool", "reading_passages"],
+        "properties": {"passage": passage},
+        "required": ["passage"],
         "additionalProperties": False,
     }
 
@@ -117,12 +127,10 @@ def select_short_candidates(pool):
     selected = []
     counts = {}
 
-    # First take one from three distinct sources.
     for source_url in list(by_source)[:3]:
         selected.append(by_source[source_url][0])
         counts[source_url] = 1
 
-    # Then fill from original model order, max 2/source.
     for item in pool:
         if len(selected) >= SHORT_FINAL_SIZE:
             break
@@ -137,18 +145,13 @@ def select_short_candidates(pool):
     return selected if len(selected) == SHORT_FINAL_SIZE else None
 
 
-def validate_draft(draft, allowed, source_urls):
+def validate_short_pool(pool, allowed, source_urls):
     problems = []
     allowed = set(allowed)
     source_urls = set(source_urls)
 
-    pool = draft.get("short_pool") or []
-    passages = draft.get("reading_passages") or []
-
     if len(pool) != SHORT_POOL_SIZE:
         problems.append(f"need exactly {SHORT_POOL_SIZE} short candidates")
-    if len(passages) != PASSAGE_COUNT:
-        problems.append(f"need exactly {PASSAGE_COUNT} reading passages")
 
     for i, item in enumerate(pool):
         if item.get("source_url") not in source_urls:
@@ -164,43 +167,52 @@ def validate_draft(draft, allowed, source_urls):
 
     selected = select_short_candidates(pool)
     if selected is None:
-        problems.append("short candidates cannot satisfy 3-source diversity / max 2 per source")
-
-    passage_sources = []
-    for i, passage in enumerate(passages):
-        source_url = passage.get("source_url")
-        if source_url not in source_urls:
-            problems.append(f"passage[{i}] source_url is not in raw news")
-        else:
-            passage_sources.append(source_url)
-
-        notes = []
-        known_violations = []
-        for line in passage.get("lines") or []:
-            for token in line.get("tokens") or []:
-                thai = token.get("thai") or ""
-                kind = token.get("kind")
-                if kind == "known" and thai not in allowed:
-                    known_violations.append(thai)
-                if kind == "note" and thai and thai not in notes:
-                    notes.append(thai)
-
-        if known_violations:
-            problems.append(
-                f"passage[{i}] labels unknown words as known: "
-                + ", ".join(known_violations[:10])
-            )
-        if not notes:
-            problems.append(f"passage[{i}] should contain at least 1 annotated difficult word")
-        if len(notes) > MAX_NOTES_PER_PASSAGE:
-            problems.append(
-                f"passage[{i}] has {len(notes)} note words; max {MAX_NOTES_PER_PASSAGE}"
-            )
-
-    if len(set(passage_sources)) < PASSAGE_COUNT:
-        problems.append("the two long passages must use different source articles")
+        problems.append(
+            "short candidates cannot satisfy 3-source diversity / max 2 per source"
+        )
 
     return not problems, problems, selected
+
+
+def passage_stats(passage, allowed):
+    allowed = set(allowed)
+    notes = []
+    known_violations = []
+
+    for line in passage.get("lines") or []:
+        for token in line.get("tokens") or []:
+            thai = token.get("thai") or ""
+            kind = token.get("kind")
+            if kind == "known" and thai not in allowed:
+                known_violations.append(thai)
+            if kind == "note" and thai and thai not in notes:
+                notes.append(thai)
+
+    return notes, known_violations
+
+
+def validate_passage(passage, allowed):
+    problems = []
+    lines = passage.get("lines") or []
+    if not 3 <= len(lines) <= 5:
+        problems.append("passage must have 3-5 lines")
+
+    notes, known_violations = passage_stats(passage, allowed)
+
+    if known_violations:
+        problems.append(
+            "labels unknown words as known: "
+            + ", ".join(known_violations[:10])
+        )
+    if not notes:
+        problems.append("must contain at least 1 note word")
+    if len(notes) > MAX_NOTES_PER_PASSAGE:
+        problems.append(
+            f"has {len(notes)} note words; max {MAX_NOTES_PER_PASSAGE}. "
+            "Rewrite much more simply with known vocabulary."
+        )
+
+    return not problems, problems, notes
 
 
 def enrich_short(item, source_map, index):
@@ -253,6 +265,208 @@ def enrich_passage(item, source_map, index):
     }
 
 
+def news_snapshot_text(articles):
+    return "\n\n".join(
+        f"SOURCE {i+1}\n"
+        f"URL: {article['source_url']}\n"
+        f"TITLE: {article['source_title']}\n"
+        f"DATE: {article['published_at']}\n"
+        f"CATEGORY: {article.get('category', '')}\n"
+        f"BODY: {article['body']}"
+        for i, article in enumerate(articles)
+    )
+
+
+def generate_shorts(client, articles, allowed, allowed_text):
+    source_urls = [a["source_url"] for a in articles]
+    schema = short_schema(allowed, source_urls)
+    retry_note = ""
+    news_text = news_snapshot_text(articles)
+
+    for attempt in range(1, SHORT_ATTEMPTS + 1):
+        print(f"SHORTS: AI attempt {attempt}/{SHORT_ATTEMPTS} using {MODEL}")
+        prompt = f'''Create Thai-learning SHORT NEWS candidates from the supplied Thai PBS snapshot.
+
+Return exactly {SHORT_POOL_SIZE} short candidates. This call creates NO long passages.
+
+RULES:
+- thai_tokens may use ONLY entries from ALLOWED VOCABULARY.
+- Use 4-14 tokens and make a natural complete Thai sentence.
+- Every sentence must express a concrete fact genuinely supported by its source article.
+- If one article cannot be expressed naturally with the allowed vocabulary, skip it and use another article.
+- Create candidates from several sources. We later need 5 final items from at least 3 sources, max 2 per source.
+- Do not create Japanese, readings, explanations, or four-choice answers here.
+- source_fact_th briefly states the factual connection to the source.
+
+ALLOWED VOCABULARY (Level 1-{LEVEL}):
+{allowed_text}
+
+RAW NEWS SNAPSHOT:
+{news_text}
+
+{retry_note}'''
+        draft = structured_response(
+            client,
+            name="thai_news_short_candidates_v631",
+            schema=schema,
+            instructions=(
+                "Select real-news facts that can be expressed naturally with the "
+                "learner's known Thai vocabulary. Skip unsuitable articles rather "
+                "than inventing a weak connection."
+            ),
+            prompt=prompt,
+        )
+        pool = draft["short_pool"]
+        ok, problems, selected = validate_short_pool(pool, allowed, source_urls)
+        if ok:
+            print(f"SHORTS DONE: {len(selected)} final short candidates accepted")
+            return selected
+
+        print("SHORTS validation failed:\n- " + "\n- ".join(problems))
+        retry_note = (
+            "Previous short draft failed validation. Fix ALL:\n- "
+            + "\n- ".join(problems)
+        )
+        time.sleep(1)
+
+    raise RuntimeError(
+        f"Short candidate generation failed after {SHORT_ATTEMPTS} attempts"
+    )
+
+
+def article_passage_prompt(article, allowed_text, retry_note):
+    return f'''Create ONE simplified Thai long-reading candidate from this ONE Thai PBS article.
+
+SOURCE:
+URL: {article['source_url']}
+TITLE: {article['source_title']}
+DATE: {article['published_at']}
+CATEGORY: {article.get('category', '')}
+BODY: {article['body']}
+
+TARGET:
+- 3-5 SHORT lines.
+- Preserve one coherent factual story from the article.
+- Rewrite aggressively into easy Thai for a Level {LEVEL} learner.
+- Prefer words from ALLOWED VOCABULARY.
+- Every token must be marked:
+  kind="known" ONLY if thai exactly equals one allowed-vocabulary entry.
+  kind="note" ONLY when the word/phrase is genuinely necessary.
+- HARD TARGET: 1-{MAX_NOTES_PER_PASSAGE} DISTINCT note words total.
+- If the source contains difficult names, exact official titles, technical terms,
+  detailed numbers, or other material that would require too many notes, OMIT
+  those details and keep only an easier supported fact.
+- Do not preserve difficult wording merely because it appears in the source.
+  Simplify the wording while keeping the meaning true.
+- source_fact_th briefly states the source fact represented by the passage.
+- Do not write Japanese content.
+
+ALLOWED VOCABULARY:
+{allowed_text}
+
+{retry_note}'''
+
+
+def generate_one_passage(client, article, allowed, allowed_text):
+    schema = passage_schema(article["source_url"])
+    retry_note = ""
+
+    for attempt in range(1, PASSAGE_ATTEMPTS_PER_ARTICLE + 1):
+        print(
+            "PASSAGE: "
+            f"{article['source_title'][:55]} | "
+            f"attempt {attempt}/{PASSAGE_ATTEMPTS_PER_ARTICLE}"
+        )
+        draft = structured_response(
+            client,
+            name="thai_news_one_passage_v631",
+            schema=schema,
+            instructions=(
+                "Simplify the article heavily for a beginner/intermediate Thai "
+                "learner. The seven-note ceiling is a hard usability constraint. "
+                "Use known vocabulary wherever possible, and omit source details "
+                "that are not essential to the simplified factual story."
+            ),
+            prompt=article_passage_prompt(article, allowed_text, retry_note),
+        )
+        passage = draft["passage"]
+        ok, problems, notes = validate_passage(passage, allowed)
+
+        if ok:
+            print(
+                f"PASSAGE ACCEPTED: {len(notes)} note word(s) | "
+                f"{article['source_url']}"
+            )
+            return passage
+
+        print("PASSAGE rejected:\n- " + "\n- ".join(problems))
+        retry_note = (
+            "YOUR PREVIOUS VERSION WAS REJECTED.\n"
+            "Rewrite the SAME factual story in MUCH EASIER Thai.\n"
+            "Do not merely relabel difficult words as known.\n"
+            "Problems:\n- " + "\n- ".join(problems)
+        )
+        time.sleep(1)
+
+    print(
+        "PASSAGE SKIP ARTICLE: could not reach <= "
+        f"{MAX_NOTES_PER_PASSAGE} note words after "
+        f"{PASSAGE_ATTEMPTS_PER_ARTICLE} attempts"
+    )
+    return None
+
+
+def article_priority(articles, avoid_urls):
+    """Try diverse, everyday categories first and skip already-used sources."""
+    preferred = []
+    other = []
+    preferred_terms = (
+        "สังคม", "เศรษฐกิจ", "สิ่งแวดล้อม", "สุขภาพ", "การศึกษา",
+        "ต่างประเทศ", "กีฬา", "วัฒนธรรม",
+    )
+    for article in articles:
+        if article["source_url"] in avoid_urls:
+            continue
+        category = article.get("category", "")
+        if any(term in category for term in preferred_terms):
+            preferred.append(article)
+        else:
+            other.append(article)
+    return preferred + other
+
+
+def generate_passages(client, articles, allowed, allowed_text, short_sources):
+    """Find two acceptable passages, switching articles when simplification fails."""
+    accepted = []
+    used_urls = set()
+    short_source_set = set(short_sources)
+    candidates = article_priority(articles, avoid_urls=set())
+
+    ordered = (
+        [a for a in candidates if a["source_url"] not in short_source_set]
+        + [a for a in candidates if a["source_url"] in short_source_set]
+    )
+
+    for article in ordered:
+        if article["source_url"] in used_urls:
+            continue
+        passage = generate_one_passage(client, article, allowed, allowed_text)
+        if passage is None:
+            continue
+
+        accepted.append(passage)
+        used_urls.add(article["source_url"])
+        if len(accepted) == PASSAGE_COUNT:
+            print("PASSAGES DONE: 2 passages accepted from different articles")
+            return accepted
+
+    raise RuntimeError(
+        "Could not find 2 long passages with <= "
+        f"{MAX_NOTES_PER_PASSAGE} note words. "
+        "Short candidates were already generated successfully."
+    )
+
+
 def main():
     try:
         if not os.getenv("OPENAI_API_KEY"):
@@ -266,105 +480,48 @@ def main():
             raise RuntimeError("data/news_raw.json has fewer than 5 articles")
 
         source_map = {article["source_url"]: article for article in articles}
-        source_urls = list(source_map)
         vocab = load_vocab()
         allowed = [row["thai"] for row in vocab]
         allowed_text = "\n".join(
-            f"{row['thai']} = {row.get('japanese', '')}"
-            for row in vocab
-        )
-        news_text = "\n\n".join(
-            f"SOURCE {i+1}\n"
-            f"URL: {article['source_url']}\n"
-            f"TITLE: {article['source_title']}\n"
-            f"DATE: {article['published_at']}\n"
-            f"CATEGORY: {article.get('category', '')}\n"
-            f"BODY: {article['body']}"
-            for i, article in enumerate(articles)
+            f"{row['thai']} = {row.get('japanese', '')}" for row in vocab
         )
 
         from openai import OpenAI
 
         client = OpenAI()
-        schema = candidate_schema(allowed, source_urls)
-        retry_note = ""
 
-        for attempt in range(1, 4):
-            print(f"CANDIDATES: AI attempt {attempt}/3 using {MODEL}")
-            prompt = f'''Create Thai-learning CONTENT CANDIDATES from the supplied Thai PBS raw news snapshot.
+        selected_shorts = generate_shorts(
+            client, articles, allowed, allowed_text
+        )
 
-This stage creates THAI CONTENT ONLY. Do not create Japanese questions, Japanese explanations, readings, or four-choice answers here.
+        short_sources = [item["source_url"] for item in selected_shorts]
+        passages = generate_passages(
+            client, articles, allowed, allowed_text, short_sources
+        )
 
-SHORT CANDIDATES:
-- Return exactly {SHORT_POOL_SIZE} candidates so the program can select the best {SHORT_FINAL_SIZE}.
-- thai_tokens may use ONLY entries from ALLOWED VOCABULARY and must form a natural complete Thai sentence of 4-14 tokens.
-- The sentence must communicate a concrete fact that is genuinely supported by its selected source article.
-- If an article cannot be represented naturally with allowed vocabulary, skip that article. Never make an unrelated generic sentence.
-- Across the pool, use several different source URLs. Do not focus on airports/aviation.
-- source_fact_th is a concise Thai description of the source fact that the candidate represents.
-
-LONG READING CANDIDATES:
-- Return exactly {PASSAGE_COUNT} passages from DIFFERENT source articles and preferably different categories/themes.
-- Each passage has 3-5 short lines.
-- Break every line into token objects.
-- kind="known" only when thai exactly equals one ALLOWED VOCABULARY entry.
-- kind="note" for useful difficult words/phrases outside the learner vocabulary.
-- Use 1-{MAX_NOTES_PER_PASSAGE} distinct note words per passage.
-- Keep the passage faithful to the source. Do not invent facts.
-
-ALLOWED VOCABULARY (Level 1-{LEVEL}):
-{allowed_text}
-
-RAW NEWS SNAPSHOT (read only this material):
-{news_text}
-
-{retry_note}'''
-
-            draft = structured_response(
-                client,
-                name="thai_news_candidates_v63",
-                schema=schema,
-                instructions=(
-                    "You are selecting and simplifying real Thai news for a Thai-language learner. "
-                    "Faithfulness to the supplied articles is more important than forcing every article into the exercise set."
-                ),
-                prompt=prompt,
-            )
-            ok, problems, selected = validate_draft(
-                draft, allowed, source_urls
-            )
-            if ok:
-                final = {
-                    "schema_version": 1,
-                    "generated_at": now_jst(),
-                    "target_level": LEVEL,
-                    "raw_source_file": "data/news_raw.json",
-                    "raw_fetched_at": raw.get("fetched_at"),
-                    "short_candidates": [
-                        enrich_short(item, source_map, i + 1)
-                        for i, item in enumerate(selected)
-                    ],
-                    "reading_passages": [
-                        enrich_passage(item, source_map, i + 1)
-                        for i, item in enumerate(draft["reading_passages"])
-                    ],
-                }
-                write_json_atomic(CANDIDATES_FILE, final)
-                print(
-                    "CANDIDATES DONE: wrote "
-                    f"{len(final['short_candidates'])} short + "
-                    f"{len(final['reading_passages'])} passages to {CANDIDATES_FILE}"
-                )
-                return 0
-
-            retry_note = (
-                "Previous candidate draft failed program validation. Fix these problems:\n- "
-                + "\n- ".join(problems)
-            )
-            print("CANDIDATES validation failed:\n- " + "\n- ".join(problems))
-            time.sleep(1)
-
-        raise RuntimeError("Candidate generation failed after 3 attempts")
+        final = {
+            "schema_version": 1,
+            "generated_at": now_jst(),
+            "target_level": LEVEL,
+            "generator_version": "6.3.1",
+            "raw_source_file": "data/news_raw.json",
+            "raw_fetched_at": raw.get("fetched_at"),
+            "short_candidates": [
+                enrich_short(item, source_map, i + 1)
+                for i, item in enumerate(selected_shorts)
+            ],
+            "reading_passages": [
+                enrich_passage(item, source_map, i + 1)
+                for i, item in enumerate(passages)
+            ],
+        }
+        write_json_atomic(CANDIDATES_FILE, final)
+        print(
+            "CANDIDATES DONE: wrote "
+            f"{len(final['short_candidates'])} short + "
+            f"{len(final['reading_passages'])} passages to {CANDIDATES_FILE}"
+        )
+        return 0
 
     except Exception as exc:
         print(f"CANDIDATES FAILED: {exc}", file=sys.stderr)
