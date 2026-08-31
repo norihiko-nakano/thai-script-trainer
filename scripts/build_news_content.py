@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 3: turn Thai-only candidates into Japanese learner-facing news_content.json."""
+"""Ver6.4 Stage 3: build five short-news questions; long reading is frozen."""
 from __future__ import annotations
 
 import json
@@ -395,33 +395,44 @@ def main():
 
         candidates = load_json(CANDIDATES_FILE)
         raw = load_json(RAW_FILE)
+
         if candidates.get("raw_fetched_at") != raw.get("fetched_at"):
             raise RuntimeError(
                 "Candidate snapshot does not match current raw snapshot. "
                 "Run generate_news.py again."
             )
+
         if int(candidates.get("target_level") or -1) != LEVEL:
             raise RuntimeError(
-                f"Candidate target level {candidates.get('target_level')} does not match THAI_NEWS_LEVEL={LEVEL}"
+                f"Candidate target level {candidates.get('target_level')} "
+                f"does not match THAI_NEWS_LEVEL={LEVEL}"
             )
+
         source_map = {
             article["source_url"]: article
             for article in raw.get("articles") or []
         }
+
         vocab = load_vocab()
         vocab_by_thai = vocab_map(vocab)
 
         short_candidates = candidates.get("short_candidates") or []
         passage_candidates = candidates.get("reading_passages") or []
-        if len(short_candidates) != 5 or len(passage_candidates) != 2:
+
+        if len(short_candidates) != 5:
             raise RuntimeError(
-                "news_candidates.json must contain exactly 5 short and 2 long candidates"
+                "news_candidates.json must contain exactly 5 short candidates"
+            )
+        if passage_candidates:
+            raise RuntimeError(
+                "Ver6.4 long reading is frozen, but reading_passages is not empty"
             )
 
         from openai import OpenAI
 
         client = OpenAI()
         short_news = []
+
         for candidate in short_candidates:
             article = source_map.get(candidate["source_url"])
             if not article:
@@ -435,35 +446,28 @@ def main():
                 build_short(candidate, localized, vocab_by_thai)
             )
 
-        reading_passages = []
-        for candidate in passage_candidates:
-            article = source_map.get(candidate["source_url"])
-            if not article:
-                raise RuntimeError(
-                    f"Raw source missing for {candidate['source_url']}"
-                )
-            localized = localize_passage(client, candidate, article)
-            reading_passages.append(build_passage(candidate, localized))
-
         final = {
             "schema_version": 1,
             "generated_at": now_jst(),
             "target_level": LEVEL,
             "generation_method": (
-                f"Ver6.3 staged pipeline: raw Thai PBS snapshot -> Thai candidates -> "
-                f"Japanese learning content with {MODEL}."
+                f"Ver6.4 staged pipeline: raw Thai PBS snapshot -> "
+                f"5 Thai short candidates -> Japanese short-news content "
+                f"with {MODEL}. Long reading frozen until Level 3+."
             ),
             "raw_source_file": "data/news_raw.json",
             "candidate_source_file": "data/news_candidates.json",
+            "long_reading_status": "frozen_until_level_3",
             "short_news": short_news,
-            "reading_passages": reading_passages,
+            "reading_passages": [],
         }
+
         write_json_atomic(CONTENT_FILE, final)
         print(
-            "BUILD DONE: wrote "
-            f"{len(short_news)} short + {len(reading_passages)} passages "
-            f"to {CONTENT_FILE}"
+            f"BUILD DONE: wrote {len(short_news)} short-news questions "
+            f"+ 0 long passages to {CONTENT_FILE}"
         )
+        print("LONG READING: FROZEN in Ver6.4")
         return 0
 
     except Exception as exc:

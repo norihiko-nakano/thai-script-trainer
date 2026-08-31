@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 2 Ver6.3.1: build short candidates first, then long passages independently.
+"""Stage 2 Ver6.4: build five short-news candidates; long reading is frozen.
 
 Key change from Ver6.3:
 - Short-news candidate generation is completed and validated first.
@@ -494,16 +494,15 @@ def main():
             client, articles, allowed, allowed_text
         )
 
-        short_sources = [item["source_url"] for item in selected_shorts]
-        passages = generate_passages(
-            client, articles, allowed, allowed_text, short_sources
-        )
+        # Ver6.4: long-reading generation is intentionally frozen.
+        passages = []
+        print("LONG READING: FROZEN in Ver6.4 (planned for Level 3+)")
 
         final = {
             "schema_version": 1,
             "generated_at": now_jst(),
             "target_level": LEVEL,
-            "generator_version": "6.3.1",
+            "generator_version": "6.4",
             "raw_source_file": "data/news_raw.json",
             "raw_fetched_at": raw.get("fetched_at"),
             "short_candidates": [
@@ -518,8 +517,7 @@ def main():
         write_json_atomic(CANDIDATES_FILE, final)
         print(
             "CANDIDATES DONE: wrote "
-            f"{len(final['short_candidates'])} short + "
-            f"{len(final['reading_passages'])} passages to {CANDIDATES_FILE}"
+            f"{len(final['short_candidates'])} short + 0 passages to {CANDIDATES_FILE}"
         )
         return 0
 
