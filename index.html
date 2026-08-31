@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver6.2</title>
+  <title>Thai Vocabulary Trainer Ver6.4</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -83,6 +83,14 @@
       box-shadow: 0 6px 18px rgba(76, 50, 30, 0.09);
       cursor: pointer;
       transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+    }
+
+    .mode-button:disabled,
+    .mode-button-frozen {
+      opacity: 0.58;
+      cursor: not-allowed;
+      transform: none;
+      filter: grayscale(0.15);
     }
 
     .mode-button:hover, .mode-button:focus-visible {
@@ -1185,10 +1193,10 @@
             <span class="mode-description">単語・ニュース短文を読んで、日本語の意味を選ぶ</span>
           </button>
 
-          <button class="mode-button" type="button" data-mode="longreading">
-            <span class="mode-icon" aria-hidden="true">📰</span>
-            <span class="mode-title">長文読解📰🐘</span>
-            <span class="mode-description">実際のタイニュースをAIで学習用に調整。難語は※日本語注釈つき</span>
+          <button class="mode-button mode-button-frozen" type="button" data-mode="longreading" disabled aria-disabled="true" title="Level 3以降で解放予定">
+            <span class="mode-icon" aria-hidden="true">🧊🐘</span>
+            <span class="mode-title">長文読解🧊🐘</span>
+            <span class="mode-description">Ver6.4ではフリーズ中。Level 3以降で解放予定です。</span>
           </button>
         </div>
 
@@ -1560,7 +1568,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=6.2"></script>
+    <script src="supabase-config.js?v=6.3"></script>
   <script>
     "use strict";
 
@@ -2943,7 +2951,7 @@ function updateDataSummary() {
   const updatedLabel = updated && !Number.isNaN(updated.getTime())
     ? updated.toLocaleString("ja-JP")
     : "未更新";
-  elements.newsDataSummary.textContent = `毎週日曜日に更新するニュース教材。現在：${state.allNewsQuestions.length}短文 + ${state.readingPassages.length}長文 ／ 最終生成 ${updatedLabel}`;
+  elements.newsDataSummary.textContent = `毎週日曜日に更新するニュース短文。現在：${state.allNewsQuestions.length}短文 ／ 長文は🧊フリーズ中（Lv3以降） ／ 最終生成 ${updatedLabel}`;
   refreshDifficultyButtons();
 }
 

@@ -1,211 +1,210 @@
-# Thai Vocabulary Trainer Ver5.0
+# Thai Vocabulary Trainer Ver6.3
 
 ## English
 
-### Overview
+Ver6.3 reorganizes the AI news feature into a staged, inspectable pipeline.
+The key design rule is: **fetch news first, save the raw articles to a file, then let AI read that saved file to create learning candidates.**
 
-Ver5.0 adds a personal review notebook on top of the progressive 10-level learning system.
-
-The application now treats vocabulary and sentence difficulty separately:
-
-- Word questions use vocabulary from the selected level.
-- A Level X sentence may contain vocabulary from Level 1 through Level X.
-- The level of a sentence is determined by the highest-level word used in that sentence.
-- Sentence choices continue to use the Ver3.1 candidate/choice-group system so that incorrect choices remain similar to the correct answer.
-
-### Ver5.0 changes
-
-- Added **復習帳φ(`･ω･´ )🍣 (Personal Review Notebook)** below the local learning-history panel.
-- Incorrect **word** questions are automatically added to the review notebook. Sentence questions are not auto-added.
-- Each review item shows the Thai word, Japanese meaning, reading, level, and number of wrong answers.
-- Each word has a freely editable mnemonic text box.
-- Mnemonic notes are auto-saved while typing.
-- Review notebook data is stored only in the browser using `localStorage`.
-- Review notes are not sent to Supabase or GitHub.
-- Added search, individual deletion, and full-clear controls for the review notebook.
-- No database migration is required from Ver4.0 to Ver5.0.
-
-### Ver4.0 changes
-
-- Expanded the UI from Level 1-3 to Level 1-10.
-- Unlocked Level 2 with 100 vocabulary items.
-- Added 10 Level 2 sentence questions.
-- Level 2 sentences use only Level 1-2 vocabulary.
-- Added a database rule that rejects a sentence-word link when the word level is higher than the sentence level.
-- Word questions are now loaded from the Supabase `words` table through the REST API.
-- `questions.json` remains as a fallback when the Supabase word request is unavailable.
-- Sentence replacement candidates are cumulative. For a Level X sentence, replacement words may come from the same `choice_group_id` at Levels 1-X.
-- Levels 3-10 are already shown in the UI and automatically become available when enough words are assigned to those levels.
-
-### Setup
-
-1. Run `setup_v4_0.sql` in the Supabase SQL Editor.
-2. Replace the GitHub Pages `index.html` with the Ver4.0 `index.html`.
-3. Keep the existing `supabase-config.js`. Do not replace it.
-4. Wait for GitHub Pages deployment to finish.
-5. Reload the app with a hard refresh.
-
-After setup, the difficulty screen should show approximately:
-
-- Level 1: existing Level 1 words and sentences
-- Level 2: 100 words + 10 sentences
-- Level 3-10: Preparing
-
-### Level rule
+### Pipeline
 
 ```text
-Level 1 sentence -> Level 1 words only
-Level 2 sentence -> Level 1-2 words
-Level 3 sentence -> Level 1-3 words
-...
-Level X sentence -> Level 1-X words
+Thai PBS
+  ↓
+scripts/fetch_news.py
+  ↓
+data/news_raw.json          ← raw news warehouse
+  ↓
+scripts/generate_news.py    ← AI reads this saved snapshot
+  ↓
+data/news_candidates.json   ← Thai-only candidate snapshot
+  ↓
+scripts/build_news_content.py
+  ↓
+news_content.json           ← learner-facing Japanese material
+  ↓
+index.html
 ```
 
-Example:
+### Stage 1: Raw news snapshot
+
+`scripts/fetch_news.py` scans Thai PBS `/news`, archive pages, and embedded Next.js/JSON article links. It stores article title, URL, publication date, category, and article body in `data/news_raw.json`.
+
+This stage does **not** call OpenAI.
+
+The GitHub workflow commits `news_raw.json` immediately. Therefore, even if a later AI step fails, the fetched news remains available for inspection and another generation attempt.
+
+### Stage 2: Thai learning candidates
+
+`scripts/generate_news.py` reads `data/news_raw.json` as its news source. It does not fetch the web again.
+
+It also loads Level 1–2 vocabulary from Supabase (repository fallback available) and creates:
+
+- 5 final short-news candidates using only known vocabulary
+- 2 long-reading candidates from different source articles
+- 1–7 difficult words in each long passage, marked for later annotation
+
+The intermediate result is stored in `data/news_candidates.json` and committed separately.
+
+### Stage 3: Japanese learner material
+
+`scripts/build_news_content.py` reads the saved candidates and raw snapshot. It handles each short question and long passage separately, which keeps the Japanese-generation task small and easier to validate.
+
+For short news it creates:
+
+- Japanese meaning choices
+- correct-answer index (converted to the actual answer by Python)
+- katakana readings
+- word breakdown
+- Japanese meaning explanation
+- grammar note
+- reading tip
+- explanation for each of the four choices
+
+For long reading it creates Japanese difficult-word annotations and three comprehension questions.
+
+Only after this stage succeeds is `news_content.json` updated.
+
+### GitHub Actions
+
+The existing weekly schedule remains Sunday 08:10 JST. Manual `Run workflow` also remains available.
+
+The workflow now commits three checkpoints independently:
+
+1. `data/news_raw.json`
+2. `data/news_candidates.json`
+3. `news_content.json`
+
+This makes failures easy to locate.
+
+### Repository update
+
+Replace/add these files:
 
 ```text
-L1 + L1 + L2 + L1 -> Sentence Level 2
+scripts/news_common.py
+scripts/fetch_news.py
+scripts/generate_news.py
+scripts/build_news_content.py
+scripts/update_news.py
+.github/workflows/update_thai_news.yml
+requirements-news.txt
 ```
 
-### Version history
+`index.html` only changes the displayed version to Ver6.3. It is optional for the news pipeline itself.
 
-#### Ver0.x - Thai Script Trainer
-- Practiced converting Japanese sounds into Thai script.
-- Example: 🦛 `kaba` -> Thai-script input.
+Keep the existing `supabase-config.js`, `questions.json`, Supabase database, learning history, review notebook, weak-word logic, and other Ver6.2 app data unchanged.
 
-#### Ver1.x - Thai Vocabulary Quiz
-- Moved to actual Thai vocabulary.
-- Added Thai -> Japanese four-choice questions.
-
-#### Ver2.x - Difficulty and Learning History
-- Added vocabulary difficulty levels.
-- Defined the first 100 basic words as Level 1.
-- Added Thai typing, learning history, CSV export, and Roman-letter reading attempts.
-
-#### Ver3.0 - Sentence Questions and Supabase
-- Added sentence questions.
-- Introduced Supabase `sentences` and `sentence_words`.
-- Enabled mixed word + sentence quizzes.
-
-#### Ver3.1 - Similar Sentence Choices
-- Added `candidate1_word_id` and `candidate2_word_id`.
-- Added `choice_group` and `words.choice_group_id`.
-- Generated similar four-choice answers by replacing selected words.
-
-#### Ver3.1.x - REST Connection Stabilization
-- Added connection diagnostics.
-- Moved sentence retrieval to direct Supabase REST access.
-
-#### Ver4.0 - 10-Level Progressive Learning
-- Expanded levels to 1-10.
-- Unlocked Level 2.
-- Added cumulative sentence vocabulary rules.
-- Made vocabulary content database-driven.
-
-#### Ver5.0 - Personal Review Notebook
-- Added a browser-local review notebook for incorrect vocabulary.
-- Added freely editable mnemonic notes with automatic local saving.
+No Supabase SQL change is required.
 
 ---
 
 ## 日本語
 
-### 概要
+Ver6.3では、ニュースAI機能を一度整理して、**ニュース取得とAI教材生成を完全に分離**しました。
 
-Ver4.0では、難易度をLevel 1〜10まで拡張し、段階的に学習できる仕組みを導入しました。
+一番大事なルールは、
 
-単語問題と文章問題では、Levelの扱いを次のように分けます。
+> **先にニュースを取得してファイルへ保存し、AIはその保存済みファイルを読んで教材を作る**
 
-- 単語問題は、選択したLevelの単語を出題します。
-- Level Xの文章では、Level 1〜Xの単語を使用できます。
-- 文章のLevelは、その文章で使われている最も高いLevelの単語によって決まります。
-- 文章の4択はVer3.1のcandidate / choice_group方式を引き継ぎ、正解と似た選択肢を生成します。
+ことです。
 
-### Ver5.0の変更点
-
-- 「📊 この端末の学習履歴」の下に **復習帳φ(`･ω･´ )🍣** を追加。
-- 不正解になった**単語問題**を復習帳へ自動登録。文章問題は自動登録しない。
-- タイ語、意味、読み、Level、不正解回数を一覧表示。
-- 各単語に自由編集できる「覚え方メモ」テキストボックスを追加。
-- 覚え方メモは入力中に自動保存。
-- 復習帳と個人メモはブラウザの `localStorage` のみに保存。
-- SupabaseやGitHubには個人メモを送信しない。
-- 復習帳の検索、個別削除、全消去に対応。
-- Ver4.0からVer5.0へのDB変更・SQL実行は不要。
-
-### Ver4.0の変更点
-
-- 難易度画面をLevel 1〜10へ拡張。
-- Level 2を100語で正式解禁。
-- Level 2文章を10文追加。
-- Level 2文章はLevel 1〜2の単語だけで構成。
-- sentence_words登録時に、文章Levelより高い単語を登録できないDBルールを追加。
-- 単語問題もSupabaseの`words`テーブルからREST API経由で取得。
-- Supabaseから単語を取得できない場合は`questions.json`をフォールバックとして利用。
-- Level X文章のcandidate差し替え語は、同じ`choice_group_id`のLevel 1〜Xから選択可能。
-- Level 3〜10も画面に表示し、DBに十分な単語を登録すると自動的に解禁される構造に変更。
-
-### 導入手順
-
-1. SupabaseのSQL Editorで`setup_v4_0.sql`を実行します。
-2. GitHub Pagesの`index.html`をVer4.0版へ交換します。
-3. 現在使用している`supabase-config.js`はそのまま残します。
-4. GitHub Pagesのdeploy完了を待ちます。
-5. アプリを強制再読み込みします。
-
-導入後の難易度画面は、おおむね次の状態になります。
-
-- Level 1：現在のLevel 1単語・文章
-- Level 2：100語 + 10文
-- Level 3〜10：準備中
-
-### Levelルール
+### 全体構成
 
 ```text
-Level 1文章 -> Level 1単語のみ
-Level 2文章 -> Level 1〜2単語
-Level 3文章 -> Level 1〜3単語
-...
-Level X文章 -> Level 1〜X単語
+Thai PBS
+  ↓
+① fetch_news.py
+  ↓
+data/news_raw.json          ← ニュース倉庫 📰📦
+  ↓
+② generate_news.py          ← AIはこのファイルを読む
+  ↓
+data/news_candidates.json   ← タイ語教材候補
+  ↓
+③ build_news_content.py
+  ↓
+news_content.json           ← アプリで使う完成教材
+  ↓
+index.html
 ```
 
-例：
+### ① ニュース取得
+
+`scripts/fetch_news.py` がThai PBSから記事を取得します。
+
+- `/news`
+- `/news/archive`
+- アーカイブpage 1
+- 最近3日程度のアーカイブ候補
+- HTML/Next.js内に埋め込まれた記事URL
+
+を探し、記事タイトル、URL、公開日、カテゴリ、本文を `data/news_raw.json` に保存します。
+
+**この工程ではOpenAI APIを使いません。**
+
+さらにGitHub Actionsでは、このrawファイルを取得直後にCommitします。後のAI処理が失敗しても、その日に取得したニュース本文はGitHubに残ります。
+
+### ② AI教材候補
+
+`scripts/generate_news.py` はインターネットを見に行かず、**`data/news_raw.json`だけをニュース材料として読み込みます。**
+
+SupabaseのLevel 1〜2語彙と照合しながら、
+
+- ニュース短文候補5本
+- 長文読解候補2本
+- 長文の難語1〜7語
+
+を作り、`data/news_candidates.json` に保存します。
+
+短文は既知語彙だけを使用します。長文2本は別の記事を使います。
+
+### ③ 日本人向け教材化
+
+`scripts/build_news_content.py` が候補ファイルを読みます。
+
+短文は1問ずつ、長文も1本ずつAIへ渡すため、以前のように一度のAI呼び出しへ大量の仕事を詰め込みません。
+
+短文では、
+
+- 日本語4択
+- 正解
+- カタカナ読み
+- 単語分解
+- 意味解説
+- 文型
+- 読みポイント
+- 4択それぞれの理由
+
+を作ります。
+
+長文では難語の日本語注釈と3問の読解問題を作ります。
+
+全部成功した場合だけ `news_content.json` を更新します。
+
+### GitHub Actions
+
+日曜08:10 JSTの自動更新はそのままです。`Run workflow`による手動更新も使えます。
+
+今回は途中ファイルもCommitするため、失敗場所が明確になります。
 
 ```text
-L1 + L1 + L2 + L1 -> 文章Level 2
+news_raw.json が変       → ニュース取得の問題
+news_raw は正常、候補が変 → AI候補生成の問題
+候補は正常、完成版が変    → 日本語教材化の問題
 ```
 
-### バージョン履歴
+### GitHubへ入れるファイル
 
-#### Ver0.x - Thai Script Trainer
-- 日本語の音をタイ文字で入力する練習。
-- 例：🦛 `kaba` -> タイ文字入力。
+```text
+scripts/news_common.py
+scripts/fetch_news.py
+scripts/generate_news.py
+scripts/build_news_content.py
+scripts/update_news.py
+.github/workflows/update_thai_news.yml
+requirements-news.txt
+```
 
-#### Ver1.x - タイ語語彙クイズ
-- 実際のタイ語単語を使う学習へ移行。
-- タイ語 -> 日本語4択を追加。
+`index.html`は表示をVer6.3にするだけなので、ニュース処理だけ試す場合は後回しでも構いません。
 
-#### Ver2.x - 難易度と学習履歴
-- 単語に難易度を設定。
-- 最初の基礎100語をLevel 1に設定。
-- タイ語入力、学習履歴、CSV出力、ローマ字での読み入力を追加。
-
-#### Ver3.0 - 文章問題とSupabase
-- 文章問題を追加。
-- Supabaseの`sentences`と`sentence_words`を導入。
-- 単語 + 文章の混合出題に対応。
-
-#### Ver3.1 - 類似した文章4択
-- `candidate1_word_id` / `candidate2_word_id`を追加。
-- `choice_group`と`words.choice_group_id`を追加。
-- candidate単語を差し替えて、似た4択を自動生成。
-
-#### Ver3.1.x - REST接続の安定化
-- Supabase接続診断を追加。
-- 文章取得をSupabase REST API直接接続へ変更。
-
-#### Ver4.0 - Level 1〜10段階学習
-- 難易度を1〜10へ拡張。
-- Level 2を解禁。
-- Level X文章 = Level 1〜X単語という累積ルールを導入。
-- 単語データもDB駆動型へ移行。
+Supabase SQL変更はありません。既存の`supabase-config.js`、`questions.json`、復習帳、🐙苦手単語、学習履歴などもそのままです。
