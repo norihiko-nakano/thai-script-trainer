@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thai PBS -> AI Thai learning content. Ver6.2.1."""
+"""Thai PBS -> AI Thai learning content. Ver6.2.6."""
 from __future__ import annotations
 
 import html
@@ -498,9 +498,9 @@ def validate_structured_data(data, source_urls):
                 f"passage[{i}] marks non-vocabulary words as known: "
                 + ", ".join(sorted(set(violations))[:12])
             )
-        if len(passage["annotations"]) > 5:
+        if len(passage["annotations"]) > 7:
             problems.append(
-                f"passage[{i}] has {len(passage['annotations'])} difficult words; max 5"
+                f"passage[{i}] has {len(passage['annotations'])} difficult words; max 7"
             )
         for j, annotation in enumerate(passage["annotations"]):
             if not is_katakana_reading(annotation["reading"]):
@@ -539,6 +539,291 @@ def validate_structured_data(data, source_urls):
         problems.append("the 2 passages must use different news sources")
 
     return not problems, problems
+
+
+
+def validate_content_before_localization(data, source_urls):
+    """Validate facts/shape/source diversity before Japanese localization.
+
+    The first AI pass is allowed to return Thai explanations. Japanese language
+    quality is checked only after a dedicated second localization pass.
+    """
+    problems = []
+    source_urls = set(source_urls)
+    used_short_sources = set()
+
+    for i, item in enumerate(data["short_news"]):
+        if item["source_url"] not in source_urls:
+            problems.append(f"short_news[{i}] source_url is not supplied")
+        else:
+            used_short_sources.add(item["source_url"])
+
+        if len(item.get("choices", [])) != 4:
+            problems.append(f"short_news[{i}] needs 4 choices")
+        if len(item.get("choice_explanations", {})) != 4:
+            problems.append(f"short_news[{i}] needs 4 choice explanations")
+        if len(item.get("breakdown", [])) < 2:
+            problems.append(f"short_news[{i}] needs breakdown")
+
+    required_diversity = min(3, len(source_urls), len(data["short_news"]))
+    if len(used_short_sources) < required_diversity:
+        problems.append(
+            f"short_news needs at least {required_diversity} distinct sources"
+        )
+
+    passage_sources = []
+    for i, passage in enumerate(data["reading_passages"]):
+        violations = passage.get("_known_violations", [])
+        if violations:
+            problems.append(
+                f"passage[{i}] marks non-vocabulary words as known: "
+                + ", ".join(sorted(set(violations))[:12])
+            )
+        if len(passage.get("annotations", [])) > 7:
+            problems.append(
+                f"passage[{i}] has {len(passage['annotations'])} difficult words; max 7"
+            )
+        if len(passage.get("questions", [])) != 3:
+            problems.append(f"passage[{i}] needs 3 questions")
+        if passage["source_url"] not in source_urls:
+            problems.append(f"passage[{i}] source_url is not supplied")
+        else:
+            passage_sources.append(passage["source_url"])
+
+    if len(source_urls) >= 2 and len(set(passage_sources)) < 2:
+        problems.append("the 2 passages must use different news sources")
+
+    return not problems, problems
+
+
+def build_localization_tasks(data):
+    """Flatten all learner-facing text into small translation/pronunciation tasks."""
+    tasks = []
+
+    def add(key, kind, source_text, context=""):
+        tasks.append({
+            "key": key,
+            "kind": kind,
+            "source_text": str(source_text or ""),
+            "context": str(context or ""),
+        })
+
+    for i, item in enumerate(data["short_news"]):
+        thai = item["thai"]
+        add(f"s.{i}.reading", "katakana", thai, "タイ語短文全体の読み")
+        for j, choice in enumerate(item["choices"]):
+            add(
+                f"s.{i}.choice.{j}", "japanese",
+                choice,
+                f"タイ語本文: {thai}。これは4択の意味選択肢。発音ではなく意味にする。",
+            )
+        add(
+            f"s.{i}.explanation", "japanese", item["explanation"],
+            f"タイ語本文: {thai}。日本人学習者向けの意味解説。",
+        )
+        add(
+            f"s.{i}.grammar", "japanese", item["grammar_note"],
+            f"タイ語本文: {thai}。日本人学習者向けの文型説明。",
+        )
+        add(
+            f"s.{i}.reading_tip", "japanese", item["reading_tip"],
+            f"タイ語本文: {thai}。日本人向け読み方のコツ。",
+        )
+        explanations = list(item["choice_explanations"].values())
+        for j, explanation in enumerate(explanations):
+            add(
+                f"s.{i}.choice_exp.{j}", "japanese", explanation,
+                f"本文: {thai}。選択肢: {item['choices'][j]}。なぜ正しい/誤りかを日本語で説明。",
+            )
+        for j, chunk in enumerate(item["breakdown"]):
+            add(
+                f"s.{i}.break.{j}.reading", "katakana", chunk["thai"],
+                "このタイ語語句の読みをカタカナで。",
+            )
+            add(
+                f"s.{i}.break.{j}.meaning", "japanese", chunk["japanese"],
+                f"タイ語語句: {chunk['thai']}。日本語の意味。",
+            )
+
+    for i, passage in enumerate(data["reading_passages"]):
+        body = passage["body_thai"]
+        for j, ann in enumerate(passage["annotations"]):
+            add(
+                f"p.{i}.ann.{j}.reading", "katakana", ann["thai"],
+                "長文中の難語の読みをカタカナで。",
+            )
+            add(
+                f"p.{i}.ann.{j}.meaning", "japanese", ann["japanese"],
+                f"難語: {ann['thai']}。日本語の意味。",
+            )
+        for j, q in enumerate(passage["questions"]):
+            add(
+                f"p.{i}.q.{j}.prompt", "japanese", q["prompt"],
+                f"タイ語長文: {body}。内容理解を問う日本語の設問。",
+            )
+            for k, choice in enumerate(q["choices"]):
+                add(
+                    f"p.{i}.q.{j}.choice.{k}", "japanese", choice,
+                    f"設問: {q['prompt']}。日本語の意味選択肢。",
+                )
+            add(
+                f"p.{i}.q.{j}.explanation", "japanese", q["explanation"],
+                f"長文: {body}。設問: {q['prompt']}。正解理由を日本語で。",
+            )
+
+    return tasks
+
+
+def localize_to_japanese(client, data):
+    """Second AI pass dedicated only to Japanese localization.
+
+    This prevents the content-generation model's Thai explanations from leaking
+    into the Japanese learner UI.
+    """
+    tasks = build_localization_tasks(data)
+    valid_keys = [task["key"] for task in tasks]
+
+    schema = {
+        "type": "object",
+        "properties": {
+            "items": {
+                "type": "array",
+                "minItems": len(tasks),
+                "maxItems": len(tasks),
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "key": {"type": "string", "enum": valid_keys},
+                        "text": {"type": "string"},
+                    },
+                    "required": ["key", "text"],
+                    "additionalProperties": False,
+                },
+            }
+        },
+        "required": ["items"],
+        "additionalProperties": False,
+    }
+
+    compact = json.dumps(tasks, ensure_ascii=False)
+    last_problems = []
+
+    for attempt in range(1, 4):
+        print(f"Japanese localization attempt {attempt}/3")
+        retry = ""
+        if last_problems:
+            retry = "\n前回の問題:\n- " + "\n- ".join(last_problems)
+
+        prompt = f"""以下の教材テキストを、日本人学習者向けにローカライズしてください。
+
+絶対ルール:
+- kind=japanese は自然な日本語にする。タイ語の説明文を残さない。
+- kind=katakana は source_text のタイ語発音をカタカナで書く。
+- 4択の意味は発音表記ではなく、日本語の意味にする。
+- 意味や解説を勝手に別内容へ変えない。
+- keyは変更しない。
+- 全タスクを1件も省略しない。
+
+TASKS:
+{compact}
+{retry}
+"""
+
+        response = client.responses.create(
+            model=MODEL,
+            instructions="""日本語ローカライズ専用工程です。
+kind=japanese の出力は日本語、kind=katakana の出力はカタカナ以外を認めません。
+タイ語で説明してはいけません。""",
+            input=prompt,
+            text={
+                "format": {
+                    "type": "json_schema",
+                    "name": "thai_news_japanese_localization_v626",
+                    "strict": True,
+                    "schema": schema,
+                }
+            },
+        )
+        result = json.loads(response.output_text)
+        by_key = {}
+        duplicates = set()
+        for row in result["items"]:
+            if row["key"] in by_key:
+                duplicates.add(row["key"])
+            by_key[row["key"]] = row["text"]
+
+        problems = []
+        if duplicates:
+            problems.append("duplicate keys: " + ", ".join(sorted(duplicates)[:10]))
+        missing = set(valid_keys) - set(by_key)
+        extra = set(by_key) - set(valid_keys)
+        if missing:
+            problems.append("missing keys: " + ", ".join(sorted(missing)[:10]))
+        if extra:
+            problems.append("unexpected keys: " + ", ".join(sorted(extra)[:10]))
+
+        task_map = {task["key"]: task for task in tasks}
+        for key in valid_keys:
+            if key not in by_key:
+                continue
+            value = by_key[key]
+            kind = task_map[key]["kind"]
+            if kind == "japanese" and not is_japanese_semantic(value):
+                problems.append(f"{key} is not Japanese: {value}")
+            if kind == "katakana" and not is_katakana_reading(value):
+                problems.append(f"{key} is not katakana: {value}")
+
+        if problems:
+            last_problems = problems
+            print("Localization validation failed:\n- " + "\n- ".join(problems[:30]))
+            time.sleep(1)
+            continue
+
+        # Preserve answer indexes before overwriting the choice text.
+        short_correct_indexes = [
+            item["choices"].index(item["japanese"])
+            for item in data["short_news"]
+        ]
+        passage_answer_indexes = [
+            [q["choices"].index(q["answer"]) for q in passage["questions"]]
+            for passage in data["reading_passages"]
+        ]
+
+        for i, item in enumerate(data["short_news"]):
+            item["reading"] = by_key[f"s.{i}.reading"]
+            item["choices"] = [
+                by_key[f"s.{i}.choice.{j}"] for j in range(4)
+            ]
+            item["japanese"] = item["choices"][short_correct_indexes[i]]
+            item["explanation"] = by_key[f"s.{i}.explanation"]
+            item["grammar_note"] = by_key[f"s.{i}.grammar"]
+            item["reading_tip"] = by_key[f"s.{i}.reading_tip"]
+            item["choice_explanations"] = {
+                item["choices"][j]: by_key[f"s.{i}.choice_exp.{j}"]
+                for j in range(4)
+            }
+            for j, chunk in enumerate(item["breakdown"]):
+                chunk["reading"] = by_key[f"s.{i}.break.{j}.reading"]
+                chunk["japanese"] = by_key[f"s.{i}.break.{j}.meaning"]
+
+        for i, passage in enumerate(data["reading_passages"]):
+            for j, ann in enumerate(passage["annotations"]):
+                ann["reading"] = by_key[f"p.{i}.ann.{j}.reading"]
+                ann["japanese"] = by_key[f"p.{i}.ann.{j}.meaning"]
+            for j, q in enumerate(passage["questions"]):
+                q["prompt"] = by_key[f"p.{i}.q.{j}.prompt"]
+                q["choices"] = [
+                    by_key[f"p.{i}.q.{j}.choice.{k}"] for k in range(4)
+                ]
+                q["answer"] = q["choices"][passage_answer_indexes[i][j]]
+                q["explanation"] = by_key[f"p.{i}.q.{j}.explanation"]
+
+        return data
+
+    raise RuntimeError(
+        "Japanese localization failed after 3 attempts: "
+        + "; ".join(last_problems[:10])
+    )
 
 
 def generate(client, articles, vocab, retry_note=""):
@@ -584,7 +869,7 @@ IMPORTANT:
 LONG READING:
 - Each passage has 3-5 lines represented as token objects.
 - kind="known": thai MUST be exactly one entry from ALLOWED VOCABULARY.
-- kind="note": use only for a useful difficult source word; max 5 distinct note words per passage.
+- kind="note": use only for a useful difficult source word; max 7 distinct note words per passage.
 - The 2 passages MUST use different source URLs and different themes.
 - Avoid making both passages about airports/aviation.
 - Each question uses answer_index (0-3) to identify the correct choice.
@@ -667,23 +952,59 @@ def main():
         client = OpenAI()
         retry_note = ""
         source_urls = [a["source_url"] for a in articles]
-        for attempt in range(1, 5):
-            print(f"AI generation attempt {attempt}/4 using {MODEL}")
-            data, allowed = generate(client, articles, vocab, retry_note)
-            ok, problems = validate_structured_data(data, source_urls)
-            if ok:
-                data["generated_at"] = datetime.now(JST).isoformat(timespec="seconds")
-                data["generation_method"] = f"Thai PBS multi-page recent-news discovery + {MODEL}; Level {LEVEL} vocabulary constraint."
-                data["source_article_count"] = len(articles)
-                OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-                print(f"Updated news_content.json: {len(data['short_news'])} short + {len(data['reading_passages'])} passages")
-                return 0
+        data = None
 
-            retry_note = "Previous output failed validation. Fix ALL of these:\n- " + "\n- ".join(problems)
+        for attempt in range(1, 4):
+            print(f"AI content generation attempt {attempt}/3 using {MODEL}")
+            candidate, allowed = generate(client, articles, vocab, retry_note)
+            ok, problems = validate_content_before_localization(
+                candidate, source_urls
+            )
+            if ok:
+                data = candidate
+                break
+
+            retry_note = (
+                "Previous content draft failed validation. Fix ALL:\n- "
+                + "\n- ".join(problems)
+            )
             print(retry_note)
             time.sleep(1)
 
-        raise RuntimeError("Validation failed after 4 AI attempts")
+        if data is None:
+            raise RuntimeError("Content generation failed after 3 attempts")
+
+        # Translate/explain in a separate, much simpler AI pass.
+        data = localize_to_japanese(client, data)
+
+        # Final strict learner-facing validation.
+        ok, problems = validate_structured_data(data, source_urls)
+        if not ok:
+            raise RuntimeError(
+                "Final localized data failed validation: "
+                + "; ".join(problems[:20])
+            )
+
+        # Internal helper data must never leak into news_content.json.
+        for passage in data["reading_passages"]:
+            passage.pop("_known_violations", None)
+
+        data["generated_at"] = datetime.now(JST).isoformat(timespec="seconds")
+        data["generation_method"] = (
+            f"Thai PBS discovery + {MODEL}; Level {LEVEL} constraint; "
+            "dedicated Japanese localization pass."
+        )
+        data["source_article_count"] = len(articles)
+        OUT.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        print(
+            f"Updated news_content.json: "
+            f"{len(data['short_news'])} short + "
+            f"{len(data['reading_passages'])} passages"
+        )
+        return 0
 
     except Exception as exc:
         print(f"NEWS UPDATE FAILED: {exc}", file=sys.stderr)
