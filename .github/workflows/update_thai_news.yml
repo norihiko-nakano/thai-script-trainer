@@ -9,6 +9,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: thai-news-update
+  cancel-in-progress: false
+
 jobs:
   update-news:
     runs-on: ubuntu-latest
@@ -45,13 +49,12 @@ jobs:
             git push
           fi
 
-      # Ver6.4 Stage 2 reads ONLY data/news_raw.json and generates short news only.
-      # Long-reading generation is frozen until Level 3+.
-      - name: 2. Generate 5 Thai short-news candidates from raw snapshot
+      # Ver7.0: L2 review + L3 news; independent source review.
+      - name: 2. Generate 5 Thai short-news candidates and 2 passages
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_NEWS_MODEL: gpt-5.4-mini
-          THAI_NEWS_LEVEL: "2"
+          THAI_NEWS_LEVEL: "3"
         run: python scripts/generate_news.py
 
       - name: Commit AI candidate snapshot
@@ -64,13 +67,12 @@ jobs:
             git push
           fi
 
-      # Ver6.4 Stage 3 creates learner-facing short news only.
-      # news_content.json intentionally stores reading_passages as [].
-      - name: 3. Build 5 Japanese short-news questions
+      # Readings come exclusively from the dictionary. Publish only after all checks.
+      - name: 3. Build and verify Japanese learning content
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_NEWS_MODEL: gpt-5.4-mini
-          THAI_NEWS_LEVEL: "2"
+          THAI_NEWS_LEVEL: "3"
         run: python scripts/build_news_content.py
 
       - name: Commit final learning content
