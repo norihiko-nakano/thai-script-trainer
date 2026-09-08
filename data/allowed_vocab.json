@@ -1,0 +1,3202 @@
+[
+  {
+    "id": 1,
+    "thai": "กลับ",
+    "japanese": "戻る,帰る",
+    "reading": "クラップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 2,
+    "thai": "ติดต่อ",
+    "japanese": "連絡する",
+    "reading": "ティット・トー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 3,
+    "thai": "โรงพยาบาล",
+    "japanese": "病院",
+    "reading": "ローンパヤバーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 4,
+    "thai": "สถานี",
+    "japanese": "駅",
+    "reading": "サターニー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 5,
+    "thai": "สนามบิน",
+    "japanese": "空港",
+    "reading": "サナービン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 6,
+    "thai": "เหนื่อย",
+    "japanese": "疲れた",
+    "reading": "ヌアイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 7,
+    "thai": "อายุ",
+    "japanese": "年齢",
+    "reading": "アーユー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 13,
+    "thai": "ก็",
+    "japanese": "そうしたら",
+    "reading": "ゴー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 14,
+    "thai": "ก็ได้",
+    "japanese": "いいですよ・OK",
+    "reading": "ゴ ダイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 15,
+    "thai": "กระดาษ",
+    "japanese": "紙",
+    "reading": "クラダート",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 16,
+    "thai": "กระเป๋า",
+    "japanese": "かばん",
+    "reading": "クラパオ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 17,
+    "thai": "กลัว",
+    "japanese": "怖い・恐れている",
+    "reading": "クルア",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 18,
+    "thai": "กลางคืน",
+    "japanese": "夜",
+    "reading": "クラーン・クーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 20,
+    "thai": "กว่า",
+    "japanese": "～より",
+    "reading": "クワー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 21,
+    "thai": "ก่อน",
+    "japanese": "～の前",
+    "reading": "コーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 22,
+    "thai": "กัน",
+    "japanese": "一緒に",
+    "reading": "カン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 23,
+    "thai": "กับ",
+    "japanese": "〜と・〜と一緒に",
+    "reading": "カップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 24,
+    "thai": "กางเกง",
+    "japanese": "ズボン",
+    "reading": "カーンケーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 25,
+    "thai": "กาแฟ",
+    "japanese": "コーヒー",
+    "reading": "カフェ",
+    "level": 1,
+    "choice_group_id": 5
+  },
+  {
+    "id": 26,
+    "thai": "การแข่งขัน",
+    "japanese": "競争",
+    "reading": "カーン・ケーンカン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 27,
+    "thai": "การบ้าน",
+    "japanese": "宿題",
+    "reading": "ガーン・バーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 28,
+    "thai": "การพัฒนา",
+    "japanese": "発展・発達",
+    "reading": "カーン・パッタナー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 29,
+    "thai": "กำลัง",
+    "japanese": "～している",
+    "reading": "カムラン～ユー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 30,
+    "thai": "กิน",
+    "japanese": "食",
+    "reading": "キン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 31,
+    "thai": "กี่โมง",
+    "japanese": "何時？",
+    "reading": "キーモーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 32,
+    "thai": "กุญแจ",
+    "japanese": "鍵",
+    "reading": "グンジェー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 33,
+    "thai": "เก่ง",
+    "japanese": "上手・得意",
+    "reading": "ケン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 34,
+    "thai": "เก็บ",
+    "japanese": "貯金する、片づける",
+    "reading": "ゲップ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 35,
+    "thai": "เกลือ",
+    "japanese": "塩",
+    "reading": "クルア",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 36,
+    "thai": "เก้าอี้",
+    "japanese": "椅子",
+    "reading": "カオイー",
+    "level": 1,
+    "choice_group_id": 8
+  },
+  {
+    "id": 37,
+    "thai": "เกาะ",
+    "japanese": "島",
+    "reading": "コ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 38,
+    "thai": "เกินไป",
+    "japanese": "～すぎる",
+    "reading": "～グーンパイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 40,
+    "thai": "เกือบ",
+    "japanese": "ほとんど / もう少しで",
+    "reading": "クアップ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 41,
+    "thai": "แก้ว",
+    "japanese": "コップ・グラス",
+    "reading": "ケーオ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 42,
+    "thai": "โกรธ",
+    "japanese": "怒っている",
+    "reading": "クローット",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 43,
+    "thai": "ใกล้",
+    "japanese": "近い",
+    "reading": "クライ",
+    "level": 1,
+    "choice_group_id": 14
+  },
+  {
+    "id": 44,
+    "thai": "ไก่",
+    "japanese": "鶏肉",
+    "reading": "カイ",
+    "level": 1,
+    "choice_group_id": 11
+  },
+  {
+    "id": 45,
+    "thai": "ไกล",
+    "japanese": "遠い",
+    "reading": "クライ",
+    "level": 1,
+    "choice_group_id": 14
+  },
+  {
+    "id": 46,
+    "thai": "ขนม",
+    "japanese": "菓子",
+    "reading": "カノム",
+    "level": 1,
+    "choice_group_id": 4
+  },
+  {
+    "id": 47,
+    "thai": "ขวา",
+    "japanese": "右",
+    "reading": "クワー",
+    "level": 1,
+    "choice_group_id": 13
+  },
+  {
+    "id": 48,
+    "thai": "ขอ",
+    "japanese": "〜させてください",
+    "reading": "コー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 49,
+    "thai": "ข้อความ",
+    "japanese": "メッセージ / 文面",
+    "reading": "コー・クワーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 50,
+    "thai": "ของ",
+    "japanese": "物、～の",
+    "reading": "コーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 51,
+    "thai": "ของขวัญ",
+    "japanese": "プレゼント",
+    "reading": "コン クワン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 52,
+    "thai": "ขอบคุณ",
+    "japanese": "ありがとう",
+    "reading": "コープクン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 53,
+    "thai": "ข้อสอบ",
+    "japanese": "試験問題",
+    "reading": "コーソープ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 54,
+    "thai": "ขอให้",
+    "japanese": "～してください",
+    "reading": "コーハイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 55,
+    "thai": "ขับ",
+    "japanese": "運転する",
+    "reading": "カップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 56,
+    "thai": "ข้าง ๆ",
+    "japanese": "横",
+    "reading": "カーンカーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 57,
+    "thai": "ข้างหน้า",
+    "japanese": "前方",
+    "reading": "カーン・ナー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 58,
+    "thai": "ข้างหลัง",
+    "japanese": "後ろ",
+    "reading": "カーン・ラン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 59,
+    "thai": "ข้าม",
+    "japanese": "渡る・越える",
+    "reading": "カーム",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 60,
+    "thai": "ขาย",
+    "japanese": "売",
+    "reading": "カーイ",
+    "level": 1,
+    "choice_group_id": 20
+  },
+  {
+    "id": 61,
+    "thai": "ขาว",
+    "japanese": "白",
+    "reading": "カーオ",
+    "level": 2,
+    "choice_group_id": 23
+  },
+  {
+    "id": 62,
+    "thai": "ข่าว",
+    "japanese": "ニュース",
+    "reading": "カーオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 63,
+    "thai": "ข้าว",
+    "japanese": "ご飯",
+    "reading": "カオ",
+    "level": 1,
+    "choice_group_id": 4
+  },
+  {
+    "id": 65,
+    "thai": "ข้าวเย็น",
+    "japanese": "夕飯",
+    "reading": "カオイェーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 67,
+    "thai": "ขึ้น",
+    "japanese": "乗る",
+    "reading": "クン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 68,
+    "thai": "เขา",
+    "japanese": "彼、彼女",
+    "reading": "カオ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 69,
+    "thai": "เขียน",
+    "japanese": "書",
+    "reading": "キアン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 70,
+    "thai": "ไข่",
+    "japanese": "卵",
+    "reading": "カイ",
+    "level": 1,
+    "choice_group_id": 11
+  },
+  {
+    "id": 71,
+    "thai": "คง",
+    "japanese": "きっと～だろう",
+    "reading": "コン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 72,
+    "thai": "คน",
+    "japanese": "人",
+    "reading": "コン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 73,
+    "thai": "ครอบครัว",
+    "japanese": "家族",
+    "reading": "クローブ・クルア",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 74,
+    "thai": "ครึ่ง",
+    "japanese": "半分 / 30分",
+    "reading": "クルン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 75,
+    "thai": "ครู",
+    "japanese": "先生",
+    "reading": "クルー",
+    "level": 1,
+    "choice_group_id": 2
+  },
+  {
+    "id": 76,
+    "thai": "ควร",
+    "japanese": "〜すべきだ",
+    "reading": "クアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 77,
+    "thai": "ความคิดเห็น",
+    "japanese": "意見",
+    "reading": "クワームキットヘン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 78,
+    "thai": "ความรับผิดชอบ",
+    "japanese": "責任",
+    "reading": "クワーム・ラップピットチョープ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 79,
+    "thai": "ความรู้",
+    "japanese": "知識",
+    "reading": "クワームルー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 80,
+    "thai": "ความล้มเหลว",
+    "japanese": "失敗",
+    "reading": "クワーム・ロムレオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 82,
+    "thai": "ความหมาย",
+    "japanese": "意味",
+    "reading": "クワームマーイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 85,
+    "thai": "ค่าใช้จ่าย",
+    "japanese": "費用 / 経費",
+    "reading": "カー・チャイ・ジャーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 86,
+    "thai": "คำศัพท์",
+    "japanese": "単語",
+    "reading": "カム サップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 87,
+    "thai": "คิด",
+    "japanese": "思う",
+    "reading": "キット",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 88,
+    "thai": "คิดถึง",
+    "japanese": "会いたい・恋しい",
+    "reading": "キット・トゥン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 89,
+    "thai": "คือ",
+    "japanese": "Is",
+    "reading": "クー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 90,
+    "thai": "คู่",
+    "japanese": "ペア・組・足",
+    "reading": "クー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 91,
+    "thai": "เคย",
+    "japanese": "したことある",
+    "reading": "クーイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 92,
+    "thai": "เครื่องบิน",
+    "japanese": "飛行機",
+    "reading": "クルアンビン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 93,
+    "thai": "ใคร",
+    "japanese": "誰が?",
+    "reading": "クライ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 94,
+    "thai": "ง่วง",
+    "japanese": "眠い",
+    "reading": "ンアン",
+    "level": 1,
+    "choice_group_id": 18
+  },
+  {
+    "id": 96,
+    "thai": "ง่าย",
+    "japanese": "簡単な",
+    "reading": "ンガーイ",
+    "level": 1,
+    "choice_group_id": 15
+  },
+  {
+    "id": 97,
+    "thai": "เงิน",
+    "japanese": "お金",
+    "reading": "グン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 98,
+    "thai": "เงียบ",
+    "japanese": "静かな",
+    "reading": "ンギアップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 99,
+    "thai": "จดหมาย",
+    "japanese": "手紙",
+    "reading": "ジョットマーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 100,
+    "thai": "จมูก",
+    "japanese": "鼻",
+    "reading": "チャムーク",
+    "level": 1,
+    "choice_group_id": 10
+  },
+  {
+    "id": 101,
+    "thai": "จอด",
+    "japanese": "止まる・駐車する",
+    "reading": "ジョート",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 102,
+    "thai": "จะ",
+    "japanese": "will",
+    "reading": "ジャ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 105,
+    "thai": "จาก",
+    "japanese": "from（場所）、～から",
+    "reading": "ジャーク",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 106,
+    "thai": "จาน",
+    "japanese": "～皿",
+    "reading": "ジャーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 107,
+    "thai": "จ่าย",
+    "japanese": "支払う",
+    "reading": "ジャーイ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 108,
+    "thai": "จำ",
+    "japanese": "覚える",
+    "reading": "ジャム",
+    "level": 1,
+    "choice_group_id": 21
+  },
+  {
+    "id": 109,
+    "thai": "จำนวน",
+    "japanese": "数、数量",
+    "reading": "ジャムヌアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 110,
+    "thai": "จำเป็น",
+    "japanese": "必要な",
+    "reading": "ジャンペン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 112,
+    "thai": "เจ็บ",
+    "japanese": "痛い",
+    "reading": "ジェップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 113,
+    "thai": "ช่วงนี้",
+    "japanese": "最近",
+    "reading": "チュアンニー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 114,
+    "thai": "ช่วย",
+    "japanese": "～してください",
+    "reading": "チュアイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 115,
+    "thai": "ช่วยเหลือ",
+    "japanese": "助ける",
+    "reading": "チュアイ ルア",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 116,
+    "thai": "ช้อน",
+    "japanese": "スプーン",
+    "reading": "チョーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 117,
+    "thai": "ชอบ",
+    "japanese": "～が好き",
+    "reading": "チョープ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 118,
+    "thai": "ชั้น",
+    "japanese": "階",
+    "reading": "チャン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 119,
+    "thai": "ชั่วโมง",
+    "japanese": "時間、〜時間",
+    "reading": "チュア・モーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 120,
+    "thai": "ชื่อ",
+    "japanese": "名前",
+    "reading": "チュー",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 121,
+    "thai": "เช้า",
+    "japanese": "朝",
+    "reading": "チャオ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 123,
+    "thai": "ใช้",
+    "japanese": "使う",
+    "reading": "チャイ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 124,
+    "thai": "ใช้เวลา",
+    "japanese": "時間がかかる",
+    "reading": "チャイ・ウェーラー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 125,
+    "thai": "ซ่อม",
+    "japanese": "修理する",
+    "reading": "ソム",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 126,
+    "thai": "ซ้าย",
+    "japanese": "左",
+    "reading": "サーイ",
+    "level": 1,
+    "choice_group_id": 13
+  },
+  {
+    "id": 127,
+    "thai": "ซื้อ",
+    "japanese": "買",
+    "reading": "スー",
+    "level": 1,
+    "choice_group_id": 20
+  },
+  {
+    "id": 128,
+    "thai": "ซื้อของ",
+    "japanese": "買い物",
+    "reading": "スーコン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 129,
+    "thai": "ด่วน",
+    "japanese": "急ぎの・緊急の",
+    "reading": "ドゥアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 130,
+    "thai": "ด้วย",
+    "japanese": "一緒に、by(交通以外）",
+    "reading": "トゥワイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 131,
+    "thai": "ดอกไม้",
+    "japanese": "花",
+    "reading": "ドークマーイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 137,
+    "thai": "ดำ",
+    "japanese": "黒",
+    "reading": "ダム",
+    "level": 2,
+    "choice_group_id": 23
+  },
+  {
+    "id": 138,
+    "thai": "ดิฉัน",
+    "japanese": "私",
+    "reading": "ディチャン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 139,
+    "thai": "ดินสอ",
+    "japanese": "鉛筆",
+    "reading": "ディンソー",
+    "level": 1,
+    "choice_group_id": 9
+  },
+  {
+    "id": 140,
+    "thai": "ดีกว่า",
+    "japanese": "～の方が良い",
+    "reading": "ディークワー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 141,
+    "thai": "ดีใจ",
+    "japanese": "嬉しい",
+    "reading": "ディー・ジャイ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 142,
+    "thai": "ดึก",
+    "japanese": "夜遅く・深夜",
+    "reading": "ドゥック",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 143,
+    "thai": "ดื่ม",
+    "japanese": "飲む",
+    "reading": "ドゥーム",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 144,
+    "thai": "ดู",
+    "japanese": "見",
+    "reading": "ドゥー",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 145,
+    "thai": "เดิน",
+    "japanese": "歩く",
+    "reading": "ドゥーン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 146,
+    "thai": "เดิน เล่น",
+    "japanese": "散歩する",
+    "reading": "ドゥーン レン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 147,
+    "thai": "เดินตรงไป",
+    "japanese": "まっすぐ歩いて行く",
+    "reading": "ドゥーン・トロン・パイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 148,
+    "thai": "เดินทาง",
+    "japanese": "旅行、歩く＋道",
+    "reading": "ドゥーンターン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 149,
+    "thai": "แดง",
+    "japanese": "赤",
+    "reading": "デーング",
+    "level": 2,
+    "choice_group_id": 23
+  },
+  {
+    "id": 150,
+    "thai": "โดย",
+    "japanese": "〜で・〜によって・by",
+    "reading": "ドーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 151,
+    "thai": "โดยเฉพาะ",
+    "japanese": "特に",
+    "reading": "ドーイチャポ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 152,
+    "thai": "ได้",
+    "japanese": "もらう・得る",
+    "reading": "ダイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 154,
+    "thai": "ตก",
+    "japanese": "落ちる、降る",
+    "reading": "トック",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 155,
+    "thai": "ต้นไม้",
+    "japanese": "木",
+    "reading": "トンマーイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 156,
+    "thai": "ตรงข้าม",
+    "japanese": "向かい / 反対側",
+    "reading": "トロンカーム",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 157,
+    "thai": "ตลาด",
+    "japanese": "市場",
+    "reading": "タラート",
+    "level": 1,
+    "choice_group_id": 6
+  },
+  {
+    "id": 158,
+    "thai": "ต้อง",
+    "japanese": "should",
+    "reading": "トン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 159,
+    "thai": "ต้องการ",
+    "japanese": "必要とする、したい",
+    "reading": "トンガーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 160,
+    "thai": "ตอน",
+    "japanese": "～の時",
+    "reading": "トーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 161,
+    "thai": "ตอบ",
+    "japanese": "答える",
+    "reading": "トープ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 162,
+    "thai": "ตะเกียบ",
+    "japanese": "箸",
+    "reading": "タキヤ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 164,
+    "thai": "ตั้งใจ",
+    "japanese": "一生懸命に",
+    "reading": "タンジャイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 165,
+    "thai": "ตั้งแต่",
+    "japanese": "〜から・since",
+    "reading": "タンテー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 167,
+    "thai": "ตัดสินใจ",
+    "japanese": "決める",
+    "reading": "タットシンジャイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 168,
+    "thai": "ตำรวจ",
+    "japanese": "警察 / 警察官",
+    "reading": "タムルワット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 170,
+    "thai": "ตื่นนอน",
+    "japanese": "起きる・目覚める",
+    "reading": "トゥーンノーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 171,
+    "thai": "เตรียม",
+    "japanese": "トリアム",
+    "reading": "用意する・準備する",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 172,
+    "thai": "เตียง",
+    "japanese": "ベッド",
+    "reading": "ティアン",
+    "level": 1,
+    "choice_group_id": 8
+  },
+  {
+    "id": 173,
+    "thai": "แต่งงาน",
+    "japanese": "結婚する",
+    "reading": "テンガーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 174,
+    "thai": "แตงโม",
+    "japanese": "スイカ",
+    "reading": "テングモー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 175,
+    "thai": "โต๊ะ",
+    "japanese": "机",
+    "reading": "ト",
+    "level": 1,
+    "choice_group_id": 8
+  },
+  {
+    "id": 176,
+    "thai": "ใต้",
+    "japanese": "下",
+    "reading": "タイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 177,
+    "thai": "ใต้ดิน",
+    "japanese": "地下",
+    "reading": "タイ・ディン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 178,
+    "thai": "ถนน",
+    "japanese": "道・通り",
+    "reading": "タノン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 181,
+    "thai": "ถัดไป",
+    "japanese": "次",
+    "reading": "タットパイ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 182,
+    "thai": "ถ้า",
+    "japanese": "もし",
+    "reading": "ター",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 183,
+    "thai": "ถาม",
+    "japanese": "質問する",
+    "reading": "ターム",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 185,
+    "thai": "ถามว่า",
+    "japanese": "〜と聞く・〜かどうか聞く",
+    "reading": "ターム・ワー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 186,
+    "thai": "ถึง",
+    "japanese": "着く",
+    "reading": "トゥン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 187,
+    "thai": "ถึงแล้ว",
+    "japanese": "着いた！",
+    "reading": "トゥン・レーオ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 188,
+    "thai": "ถุง",
+    "japanese": "袋",
+    "reading": "トゥン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 189,
+    "thai": "ถูก",
+    "japanese": "安価",
+    "reading": "トゥーク",
+    "level": 1,
+    "choice_group_id": 16
+  },
+  {
+    "id": 192,
+    "thai": "แถวนี้",
+    "japanese": "この辺り",
+    "reading": "テーオ・ニー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 193,
+    "thai": "ทหาร",
+    "japanese": "軍人",
+    "reading": "タハーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 194,
+    "thai": "ทอน",
+    "japanese": "お釣り",
+    "reading": "トーン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 195,
+    "thai": "ทะเล",
+    "japanese": "海",
+    "reading": "タレー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 196,
+    "thai": "ทาง",
+    "japanese": "道",
+    "reading": "ターン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 200,
+    "thai": "ทำ",
+    "japanese": "作",
+    "reading": "ダム",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 202,
+    "thai": "ทำงาน",
+    "japanese": "仕事する",
+    "reading": "タム・ガーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 203,
+    "thai": "ทำไม",
+    "japanese": "なぜ？",
+    "reading": "タムマイ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 205,
+    "thai": "ที่",
+    "japanese": "at、関係詞のthat",
+    "reading": "ティー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 206,
+    "thai": "ที่นั่น",
+    "japanese": "そこ",
+    "reading": "ティー・ナン",
+    "level": 1,
+    "choice_group_id": 12
+  },
+  {
+    "id": 207,
+    "thai": "ที่นี่",
+    "japanese": "ここ",
+    "reading": "ティー・ニー",
+    "level": 1,
+    "choice_group_id": 12
+  },
+  {
+    "id": 208,
+    "thai": "ที่โน่น",
+    "japanese": "あそこ",
+    "reading": "ティー・ノーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 209,
+    "thai": "ที่สุด",
+    "japanese": "一番",
+    "reading": "ティースット",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 210,
+    "thai": "ทุก",
+    "japanese": "毎〜・全ての",
+    "reading": "トゥック",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 211,
+    "thai": "ทุกคืน",
+    "japanese": "毎晩",
+    "reading": "トゥック・クーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 212,
+    "thai": "ทุกเช้า",
+    "japanese": "毎朝",
+    "reading": "トゥック・チャオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 213,
+    "thai": "ทุกเดือน",
+    "japanese": "毎月",
+    "reading": "トゥック・ドゥアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 214,
+    "thai": "ทุกอาทิตย์",
+    "japanese": "毎週",
+    "reading": "トゥック・アーティット！",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 216,
+    "thai": "เท้า",
+    "japanese": "足",
+    "reading": "ターオ",
+    "level": 1,
+    "choice_group_id": 10
+  },
+  {
+    "id": 217,
+    "thai": "เท่าไหร่",
+    "japanese": "いくら / どれくらい",
+    "reading": "タオライ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 218,
+    "thai": "เที่ยว",
+    "japanese": "旅行する、遊ぶ(その場所を離れて何かをする場合)",
+    "reading": "ティアオ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 219,
+    "thai": "โทร",
+    "japanese": "電話する",
+    "reading": "トー",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 221,
+    "thai": "โทรศัพท์",
+    "japanese": "スマホ",
+    "reading": "トーラサップ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 222,
+    "thai": "โทรหา",
+    "japanese": "電話をかける",
+    "reading": "トーハー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 224,
+    "thai": "ธนาคาร",
+    "japanese": "銀行",
+    "reading": "タナカーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 225,
+    "thai": "เธอ",
+    "japanese": "君",
+    "reading": "トゥー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 226,
+    "thai": "นก",
+    "japanese": "鳥",
+    "reading": "ノック",
+    "level": 1,
+    "choice_group_id": 7
+  },
+  {
+    "id": 228,
+    "thai": "นม",
+    "japanese": "牛乳",
+    "reading": "ノム",
+    "level": 1,
+    "choice_group_id": 5
+  },
+  {
+    "id": 229,
+    "thai": "นอน",
+    "japanese": "寝",
+    "reading": "ノーン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 230,
+    "thai": "นักท่องเที่ยว",
+    "japanese": "旅行者・観光客",
+    "reading": "ナックトンティアオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 231,
+    "thai": "นักเรียน",
+    "japanese": "生徒",
+    "reading": "ナックリアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 233,
+    "thai": "นั่ง",
+    "japanese": "座る",
+    "reading": "ナン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 234,
+    "thai": "นัด",
+    "japanese": "約束、予約",
+    "reading": "ナット",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 235,
+    "thai": "น่าจะ",
+    "japanese": "きっと〜はず（推量）",
+    "reading": "ナージャ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 236,
+    "thai": "นาที",
+    "japanese": "分",
+    "reading": "ナーティー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 237,
+    "thai": "นาน",
+    "japanese": "長い間,久しい",
+    "reading": "ナーン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 238,
+    "thai": "นาฬิกา",
+    "japanese": "時計",
+    "reading": "ナリカー",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 239,
+    "thai": "น้ำ",
+    "japanese": "水",
+    "reading": "ナーム",
+    "level": 1,
+    "choice_group_id": 5
+  },
+  {
+    "id": 241,
+    "thai": "น้ำแข็ง",
+    "japanese": "氷",
+    "reading": "ナームケン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 242,
+    "thai": "น้ำอัดลม",
+    "japanese": "炭酸飲料",
+    "reading": "ナームアットロム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 243,
+    "thai": "นิดหน่อย",
+    "japanese": "少し / ちょっと",
+    "reading": "ニットノイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 244,
+    "thai": "เนื่องจาก",
+    "japanese": "〜なので / 〜のため",
+    "reading": "ヌアンジャーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 245,
+    "thai": "ใน",
+    "japanese": "〜の中に",
+    "reading": "ナイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 247,
+    "thai": "บน",
+    "japanese": "～の上",
+    "reading": "ボン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 248,
+    "thai": "บริการ",
+    "japanese": "サービス",
+    "reading": "ボリカーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 249,
+    "thai": "บริษัท",
+    "japanese": "会社",
+    "reading": "ボーリサット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 250,
+    "thai": "บอก",
+    "japanese": "言う、伝える",
+    "reading": "ボーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 251,
+    "thai": "บ่อยๆ",
+    "japanese": "よく・頻繁に",
+    "reading": "ボイボイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 252,
+    "thai": "บัตร",
+    "japanese": "カード / チケット",
+    "reading": "バット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 253,
+    "thai": "บันได",
+    "japanese": "階段",
+    "reading": "バンダイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 254,
+    "thai": "บางครั้ง",
+    "japanese": "時々,たまに",
+    "reading": "バーンクラン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 255,
+    "thai": "บ้าน",
+    "japanese": "家",
+    "reading": "パーン",
+    "level": 1,
+    "choice_group_id": 6
+  },
+  {
+    "id": 256,
+    "thai": "เบอร์โทร",
+    "japanese": "電話番号",
+    "reading": "ブー・トー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 258,
+    "thai": "ใบเสร็จ",
+    "japanese": "レシート",
+    "reading": "バイ セット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 259,
+    "thai": "ปกติ",
+    "japanese": "普段",
+    "reading": "ポガティ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 260,
+    "thai": "ประชุม",
+    "japanese": "会議",
+    "reading": "プラチュム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 261,
+    "thai": "ประตู",
+    "japanese": "扉",
+    "reading": "プラトゥー",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 264,
+    "thai": "ประมาณ",
+    "japanese": "約",
+    "reading": "プラマーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 265,
+    "thai": "ประโยค",
+    "japanese": "文 / 文章",
+    "reading": "プラヨーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 266,
+    "thai": "ประสบการณ์",
+    "japanese": "経験",
+    "reading": "プラソップカーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 269,
+    "thai": "ปลอดภัย",
+    "japanese": "安全",
+    "reading": "プロートパイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 270,
+    "thai": "ปลา",
+    "japanese": "魚",
+    "reading": "プラー",
+    "level": 1,
+    "choice_group_id": 11
+  },
+  {
+    "id": 272,
+    "thai": "ป่วย",
+    "japanese": "病気である",
+    "reading": "プアイ",
+    "level": 1,
+    "choice_group_id": 18
+  },
+  {
+    "id": 273,
+    "thai": "ปัญหา",
+    "japanese": "問題",
+    "reading": "パンハー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 274,
+    "thai": "ปาก",
+    "japanese": "口",
+    "reading": "パーク",
+    "level": 1,
+    "choice_group_id": 10
+  },
+  {
+    "id": 275,
+    "thai": "ปากกา",
+    "japanese": "ペン",
+    "reading": "パーカー",
+    "level": 1,
+    "choice_group_id": 9
+  },
+  {
+    "id": 276,
+    "thai": "ป้าย",
+    "japanese": "標識 / 看板",
+    "reading": "パーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 277,
+    "thai": "ป้ายรถเมล์",
+    "japanese": "バス停",
+    "reading": "パーイ・ロットメー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 278,
+    "thai": "ปิด",
+    "japanese": "閉める",
+    "reading": "ピット",
+    "level": 1,
+    "choice_group_id": 19
+  },
+  {
+    "id": 280,
+    "thai": "เปลี่ยน",
+    "japanese": "取り替える",
+    "reading": "プリアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 281,
+    "thai": "เปิด",
+    "japanese": "開ける",
+    "reading": "プート",
+    "level": 1,
+    "choice_group_id": 19
+  },
+  {
+    "id": 282,
+    "thai": "แปล",
+    "japanese": "翻訳する",
+    "reading": "プレー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 283,
+    "thai": "ไป",
+    "japanese": "行（動作の完結を示す）",
+    "reading": "パイ",
+    "level": 1,
+    "choice_group_id": 22
+  },
+  {
+    "id": 284,
+    "thai": "ไปรษณีย์",
+    "japanese": "郵便局",
+    "reading": "プライ・サ・ニー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 285,
+    "thai": "ผม",
+    "japanese": "私",
+    "reading": "ポン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 286,
+    "thai": "ผลไม้",
+    "japanese": "果物",
+    "reading": "ポンラマーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 290,
+    "thai": "เผ็ด",
+    "japanese": "辛",
+    "reading": "ペット",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 291,
+    "thai": "แผนที่",
+    "japanese": "地図",
+    "reading": "ペーンティー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 292,
+    "thai": "ฝน",
+    "japanese": "雨",
+    "reading": "フォン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 293,
+    "thai": "พนักงาน",
+    "japanese": "社員",
+    "reading": "パナックンガーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 294,
+    "thai": "พบ",
+    "japanese": "会う・出会う",
+    "reading": "ポップ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 295,
+    "thai": "พยายาม",
+    "japanese": "努力する / がんばる",
+    "reading": "パヤヤーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 296,
+    "thai": "พรุ่งนี้",
+    "japanese": "明日",
+    "reading": "プルンニー",
+    "level": 1,
+    "choice_group_id": 1
+  },
+  {
+    "id": 297,
+    "thai": "พ่อ",
+    "japanese": "父",
+    "reading": "ポー",
+    "level": 1,
+    "choice_group_id": 2
+  },
+  {
+    "id": 299,
+    "thai": "พัก",
+    "japanese": "泊まる・休む",
+    "reading": "パック",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 300,
+    "thai": "พา",
+    "japanese": "連れる",
+    "reading": "パー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 301,
+    "thai": "พูด",
+    "japanese": "話す",
+    "reading": "プート",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 303,
+    "thai": "เพิ่ง",
+    "japanese": "〜したばかり",
+    "reading": "プーング",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 305,
+    "thai": "เพื่อน",
+    "japanese": "友人",
+    "reading": "プーアン",
+    "level": 1,
+    "choice_group_id": 2
+  },
+  {
+    "id": 306,
+    "thai": "แพง",
+    "japanese": "高い[値段が]",
+    "reading": "ペーン",
+    "level": 1,
+    "choice_group_id": 16
+  },
+  {
+    "id": 307,
+    "thai": "ฟัง",
+    "japanese": "聞",
+    "reading": "ファン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 309,
+    "thai": "ไฟ",
+    "japanese": "火",
+    "reading": "ファイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 310,
+    "thai": "ภรรยา",
+    "japanese": "妻",
+    "reading": "パンラヤー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 313,
+    "thai": "ภาษา",
+    "japanese": "言語",
+    "reading": "パーサー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 316,
+    "thai": "ภูเขา",
+    "japanese": "山",
+    "reading": "プーカオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 317,
+    "thai": "มา",
+    "japanese": "来、〜してきた",
+    "reading": "マー",
+    "level": 1,
+    "choice_group_id": 22
+  },
+  {
+    "id": 322,
+    "thai": "มาสาย",
+    "japanese": "遅れてくる",
+    "reading": "マーサーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 326,
+    "thai": "มือถือ",
+    "japanese": "携帯電話",
+    "reading": "ムートゥー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 327,
+    "thai": "เมื่อกี้",
+    "japanese": "さっき",
+    "reading": "ムア ギー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 329,
+    "thai": "เมื่อวาน",
+    "japanese": "昨日",
+    "reading": "ムアワーン",
+    "level": 2,
+    "choice_group_id": 1
+  },
+  {
+    "id": 331,
+    "thai": "แม่น้ำ",
+    "japanese": "川",
+    "reading": "メーナーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 332,
+    "thai": "แมว",
+    "japanese": "猫",
+    "reading": "メーオ",
+    "level": 1,
+    "choice_group_id": 7
+  },
+  {
+    "id": 333,
+    "thai": "โมง",
+    "japanese": "〜時",
+    "reading": "モーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 334,
+    "thai": "ไม่ค่อย",
+    "japanese": "あまり～ではない",
+    "reading": "マイコイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 335,
+    "thai": "ไม่เป็นไร",
+    "japanese": "大丈夫です",
+    "reading": "マイペンライ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 336,
+    "thai": "ยาก",
+    "japanese": "難しい",
+    "reading": "ヤーク",
+    "level": 1,
+    "choice_group_id": 15
+  },
+  {
+    "id": 338,
+    "thai": "ย้าย",
+    "japanese": "移動する",
+    "reading": "ヤーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 339,
+    "thai": "ยินดีด้วย",
+    "japanese": "おめでとう",
+    "reading": "インディー ドゥアイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 340,
+    "thai": "ยินดีที่ได้รู้จัก",
+    "japanese": "はじめまして",
+    "reading": "インン・ディー・ティー・ダイ・ルージャック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 341,
+    "thai": "ยืม",
+    "japanese": "借りる",
+    "reading": "ユーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 342,
+    "thai": "ยุ่ง",
+    "japanese": "忙しい",
+    "reading": "ユン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 343,
+    "thai": "เย็น",
+    "japanese": "涼しい・冷たい",
+    "reading": "イェン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 344,
+    "thai": "เยอะ",
+    "japanese": "多",
+    "reading": "ユッ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 345,
+    "thai": "เยี่ยม",
+    "japanese": "訪ねる",
+    "reading": "ヤーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 346,
+    "thai": "รถแท็กซี่",
+    "japanese": "タクシー",
+    "reading": "ロット・テクシー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 348,
+    "thai": "รถไฟ",
+    "japanese": "電車",
+    "reading": "ロットファイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 351,
+    "thai": "ร่ม",
+    "japanese": "傘",
+    "reading": "ロム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 352,
+    "thai": "รอ",
+    "japanese": "待って",
+    "reading": "ロー",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 353,
+    "thai": "รองเท้า",
+    "japanese": "靴",
+    "reading": "ローンタオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 354,
+    "thai": "ร้อน",
+    "japanese": "暑",
+    "reading": "ローン",
+    "level": 1,
+    "choice_group_id": 17
+  },
+  {
+    "id": 355,
+    "thai": "ระวัง",
+    "japanese": "気をつける",
+    "reading": "ラワン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 357,
+    "thai": "ระหว่าง",
+    "japanese": "〜の間",
+    "reading": "ラワーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 359,
+    "thai": "รับ",
+    "japanese": "受け取る・迎える",
+    "reading": "ラップ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 360,
+    "thai": "รับสาย",
+    "japanese": "電話に出る",
+    "reading": "ラップ・サーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 362,
+    "thai": "ราคา",
+    "japanese": "値段",
+    "reading": "ラーカー",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 363,
+    "thai": "ร้าน",
+    "japanese": "店",
+    "reading": "ラーン",
+    "level": 1,
+    "choice_group_id": 6
+  },
+  {
+    "id": 364,
+    "thai": "ร้านยา",
+    "japanese": "薬局",
+    "reading": "ローンヤー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 365,
+    "thai": "ร้านสะดวกซื้อ",
+    "japanese": "コンビニ",
+    "reading": "ラーンサドゥアックスー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 366,
+    "thai": "ร้านอาหาร",
+    "japanese": "レストラン",
+    "reading": "ラーンアーハーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 367,
+    "thai": "รายละเอียด",
+    "japanese": "詳細",
+    "reading": "ラーイ・ライアット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 369,
+    "thai": "รีบ",
+    "japanese": "急ぐ",
+    "reading": "リープ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 370,
+    "thai": "รู้จัก",
+    "japanese": "知る",
+    "reading": "ルージャック",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 371,
+    "thai": "รูป",
+    "japanese": "写真",
+    "reading": "ループ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 372,
+    "thai": "เร็ว",
+    "japanese": "早、速",
+    "reading": "レオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 373,
+    "thai": "เริ่ม",
+    "japanese": "始まる・始める",
+    "reading": "ルーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 374,
+    "thai": "เรียน",
+    "japanese": "勉強する",
+    "reading": "リアン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 377,
+    "thai": "โรงเรียน",
+    "japanese": "学校",
+    "reading": "ローンリアン",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 378,
+    "thai": "โรงแรม",
+    "japanese": "ホテル",
+    "reading": "ローンレーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 379,
+    "thai": "ลง",
+    "japanese": "降りる",
+    "reading": "ロン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 382,
+    "thai": "ลิฟต์",
+    "japanese": "エレベーター",
+    "reading": "リフト",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 383,
+    "thai": "ลืม",
+    "japanese": "忘れる",
+    "reading": "ルーム",
+    "level": 1,
+    "choice_group_id": 21
+  },
+  {
+    "id": 384,
+    "thai": "เล่น",
+    "japanese": "遊ぶ",
+    "reading": "レン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 387,
+    "thai": "เลิก",
+    "japanese": "終わる・やめる",
+    "reading": "ルーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 388,
+    "thai": "เลี้ยว",
+    "japanese": "曲がる",
+    "reading": "リアオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 389,
+    "thai": "เลือก",
+    "japanese": "選ぶ",
+    "reading": "ルアック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 390,
+    "thai": "แล้ว",
+    "japanese": "〜してから",
+    "reading": "レーオ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 391,
+    "thai": "แล้วก็",
+    "japanese": "そして・それから",
+    "reading": "レーオコー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 392,
+    "thai": "และ",
+    "japanese": "～と",
+    "reading": "レ",
+    "level": 2,
+    "choice_group_id": null
+  },
+  {
+    "id": 394,
+    "thai": "วัน อาทิตย์",
+    "japanese": "日曜日",
+    "reading": "ワン アーティット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 395,
+    "thai": "วันก่อน",
+    "japanese": "先日",
+    "reading": "ワンゴーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 396,
+    "thai": "วันจันทร์",
+    "japanese": "月曜日",
+    "reading": "ワン・チャン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 397,
+    "thai": "วันนี้",
+    "japanese": "今日",
+    "reading": "ワンニー",
+    "level": 1,
+    "choice_group_id": 1
+  },
+  {
+    "id": 398,
+    "thai": "วันพฤหัสบดี",
+    "japanese": "木曜日",
+    "reading": "ワン・パルハットサボーディー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 399,
+    "thai": "วันพุธ",
+    "japanese": "水曜日",
+    "reading": "ワン・プット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 400,
+    "thai": "วันศุกร์",
+    "japanese": "金曜日",
+    "reading": "ワン・スック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 401,
+    "thai": "วันเสาร์",
+    "japanese": "土曜日",
+    "reading": "ワン・サオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 402,
+    "thai": "วันหยุด",
+    "japanese": "休日",
+    "reading": "ワンユット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 403,
+    "thai": "วันอังคาร",
+    "japanese": "火曜日",
+    "reading": "ワン・アンカーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 405,
+    "thai": "วาง",
+    "japanese": "置く",
+    "reading": "ワーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 406,
+    "thai": "วางสาย",
+    "japanese": "電話を切る",
+    "reading": "ワーン・サーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 409,
+    "thai": "วิธี",
+    "japanese": "方法",
+    "reading": "ウィティー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 411,
+    "thai": "เวลา",
+    "japanese": "～の時 / 時間",
+    "reading": "ウェラー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 412,
+    "thai": "แว่นตา",
+    "japanese": "眼鏡",
+    "reading": "ウェンター",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 413,
+    "thai": "แวะ",
+    "japanese": "立ち寄る",
+    "reading": "ウェ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 414,
+    "thai": "ส่ง",
+    "japanese": "送る",
+    "reading": "ソン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 415,
+    "thai": "สนใจ",
+    "japanese": "興味がある",
+    "reading": "ソンジャイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 416,
+    "thai": "สนุก",
+    "japanese": "楽しい・面白い",
+    "reading": "サヌック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 418,
+    "thai": "สมัคร",
+    "japanese": "応募する / 申し込む",
+    "reading": "サマック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 421,
+    "thai": "สมุด",
+    "japanese": "ノート",
+    "reading": "サムット",
+    "level": 1,
+    "choice_group_id": 9
+  },
+  {
+    "id": 422,
+    "thai": "สวย",
+    "japanese": "きれい・美しい",
+    "reading": "スアイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 424,
+    "thai": "สว่าง",
+    "japanese": "明るい",
+    "reading": "サワーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 425,
+    "thai": "สอน",
+    "japanese": "教える",
+    "reading": "ソン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 426,
+    "thai": "สอบ",
+    "japanese": "試験",
+    "reading": "ソープ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 427,
+    "thai": "ส้อม",
+    "japanese": "フォーク",
+    "reading": "ソーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 428,
+    "thai": "สะดวก",
+    "japanese": "便利・快適",
+    "reading": "サドゥアック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 429,
+    "thai": "สะพาน",
+    "japanese": "橋",
+    "reading": "サパーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 430,
+    "thai": "สะอาด",
+    "japanese": "清潔な、きれいな",
+    "reading": "サアート",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 431,
+    "thai": "สักครู่",
+    "japanese": "少しの間",
+    "reading": "サッククルー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 432,
+    "thai": "สั่ง",
+    "japanese": "注文する",
+    "reading": "サン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 433,
+    "thai": "สังคม",
+    "japanese": "社会",
+    "reading": "サンコム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 434,
+    "thai": "สัมภาษณ์",
+    "japanese": "面接 / インタビュー",
+    "reading": "サムパート",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 436,
+    "thai": "สาม",
+    "japanese": "3",
+    "reading": "サン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 437,
+    "thai": "สำคัญ",
+    "japanese": "重要な",
+    "reading": "サムカン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 439,
+    "thai": "สิ่งแวดล้อม",
+    "japanese": "環境",
+    "reading": "シンウェートローム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 440,
+    "thai": "สี",
+    "japanese": "色",
+    "reading": "スィー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 441,
+    "thai": "สี่แยก",
+    "japanese": "交差点",
+    "reading": "シー・イェーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 442,
+    "thai": "สุขภาพ",
+    "japanese": "健康",
+    "reading": "スッカパープ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 443,
+    "thai": "เสร็จ",
+    "japanese": "終わる・完了する",
+    "reading": "セット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 444,
+    "thai": "เสีย",
+    "japanese": "壊れる",
+    "reading": "シィア",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 445,
+    "thai": "เสียง",
+    "japanese": "音・声",
+    "reading": "シアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 446,
+    "thai": "เสียใจ",
+    "japanese": "悲しい",
+    "reading": "シア・ジャイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 447,
+    "thai": "เสื้อ",
+    "japanese": "服",
+    "reading": "スア",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 448,
+    "thai": "ใส่",
+    "japanese": "着る",
+    "reading": "サイ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 449,
+    "thai": "หน่อย",
+    "japanese": "ちょっと / 〜してくださいね",
+    "reading": "ノイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 450,
+    "thai": "หนัก",
+    "japanese": "重い・ひどい・激しい",
+    "reading": "ナック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 451,
+    "thai": "หนัง",
+    "japanese": "映画",
+    "reading": "ナン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 452,
+    "thai": "หนังสือ",
+    "japanese": "本",
+    "reading": "ナンスー",
+    "level": 1,
+    "choice_group_id": 9
+  },
+  {
+    "id": 453,
+    "thai": "หน้าต่าง",
+    "japanese": "窓",
+    "reading": "ナー ターン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 454,
+    "thai": "หนาว",
+    "japanese": "寒い",
+    "reading": "ナーオ",
+    "level": 1,
+    "choice_group_id": 17
+  },
+  {
+    "id": 455,
+    "thai": "หนึ่ง",
+    "japanese": "1",
+    "reading": "ヌン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 456,
+    "thai": "หมวก",
+    "japanese": "帽子",
+    "reading": "ムアック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 457,
+    "thai": "หมอ",
+    "japanese": "医者",
+    "reading": "モー",
+    "level": 1,
+    "choice_group_id": 2
+  },
+  {
+    "id": 458,
+    "thai": "หมา",
+    "japanese": "犬",
+    "reading": "マー",
+    "level": 1,
+    "choice_group_id": 7
+  },
+  {
+    "id": 459,
+    "thai": "หมู",
+    "japanese": "豚肉",
+    "reading": "ムー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 460,
+    "thai": "หยิบ",
+    "japanese": "手に取る",
+    "reading": "イップ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 462,
+    "thai": "หรือเปล่า",
+    "japanese": "〜ですか？",
+    "reading": "ループラオ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 464,
+    "thai": "หรือยัง",
+    "japanese": "しましたか？",
+    "reading": "ルーヤン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 465,
+    "thai": "หลังจาก",
+    "japanese": "〜してから",
+    "reading": "ランジャーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 466,
+    "thai": "หลาย",
+    "japanese": "たくさん・多い",
+    "reading": "ラーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 467,
+    "thai": "หวาน",
+    "japanese": "甘い",
+    "reading": "ワーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 468,
+    "thai": "ห้อง",
+    "japanese": "部屋",
+    "reading": "ホン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 469,
+    "thai": "ห้องครัว",
+    "japanese": "台所",
+    "reading": "ホン・クルア",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 470,
+    "thai": "ห้องน้ำ",
+    "japanese": "トイレ",
+    "reading": "ホンナーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 471,
+    "thai": "ห้องเรียน",
+    "japanese": "教室",
+    "reading": "ホン　リアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 472,
+    "thai": "ห้าม",
+    "japanese": "禁止する / してはいけない",
+    "reading": "ハーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 473,
+    "thai": "หิว",
+    "japanese": "お腹が空いた",
+    "reading": "ヒウ",
+    "level": 1,
+    "choice_group_id": 18
+  },
+  {
+    "id": 474,
+    "thai": "หู",
+    "japanese": "耳",
+    "reading": "フー",
+    "level": 1,
+    "choice_group_id": 10
+  },
+  {
+    "id": 475,
+    "thai": "เหตุผล",
+    "japanese": "理由",
+    "reading": "ヘートポン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 476,
+    "thai": "เห็น",
+    "japanese": "見える",
+    "reading": "ヘン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 477,
+    "thai": "เหมือน",
+    "japanese": "似ている",
+    "reading": "ムアン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 480,
+    "thai": "ไหม",
+    "japanese": "〜か？",
+    "reading": "マイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 482,
+    "thai": "อนาคต",
+    "japanese": "将来",
+    "reading": "アナーコット",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 483,
+    "thai": "อนุญาต",
+    "japanese": "許可する",
+    "reading": "アヌヤート",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 484,
+    "thai": "อย่า",
+    "japanese": "～するな",
+    "reading": "ヤー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 485,
+    "thai": "อยาก",
+    "japanese": "～したい",
+    "reading": "ヤーク",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 486,
+    "thai": "อย่างไร",
+    "japanese": "どうやって",
+    "reading": "ヤンライ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 491,
+    "thai": "อร่อย",
+    "japanese": "おいしい",
+    "reading": "アロイ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 494,
+    "thai": "อะไร",
+    "japanese": "何",
+    "reading": "アライ",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 495,
+    "thai": "อันตราย",
+    "japanese": "危険な / 危険",
+    "reading": "アンタラーイ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 496,
+    "thai": "อากาศ",
+    "japanese": "天気",
+    "reading": "アーカート",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 497,
+    "thai": "อาจจะ",
+    "japanese": "〜かもしれない",
+    "reading": "アー・ジャ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 499,
+    "thai": "อาชีพ",
+    "japanese": "職業",
+    "reading": "アーチープ",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 500,
+    "thai": "อาทิตย์หน้า",
+    "japanese": "来週",
+    "reading": "アーティット ナー",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 501,
+    "thai": "อ่าน",
+    "japanese": "読",
+    "reading": "アン",
+    "level": 1,
+    "choice_group_id": null
+  },
+  {
+    "id": 502,
+    "thai": "อาบน้ำ",
+    "japanese": "シャワーを浴びる",
+    "reading": "アープ ナーム",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 504,
+    "thai": "อีก",
+    "japanese": "また／再び",
+    "reading": "イーク",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 505,
+    "thai": "อุบัติเหตุ",
+    "japanese": "事故",
+    "reading": "ウバットティヘート",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 507,
+    "thai": "เอง",
+    "japanese": "自分で",
+    "reading": "エーン",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 512,
+    "thai": "ผัก",
+    "japanese": "野菜",
+    "reading": "パック",
+    "level": 3,
+    "choice_group_id": null
+  },
+  {
+    "id": 513,
+    "thai": "ขนมปัง",
+    "japanese": "パン",
+    "reading": "カノム パン",
+    "level": 1,
+    "choice_group_id": 4
+  }
+]
