@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver6.4</title>
+  <title>Thai Vocabulary Trainer Ver7.0</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1159,7 +1159,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver6.4</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver7.0</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1193,10 +1193,10 @@
             <span class="mode-description">単語・ニュース短文を読んで、日本語の意味を選ぶ</span>
           </button>
 
-          <button class="mode-button mode-button-frozen" type="button" data-mode="longreading" disabled aria-disabled="true" title="Level 3以降で解放予定">
-            <span class="mode-icon" aria-hidden="true">🧊🐘</span>
-            <span class="mode-title">長文読解🧊🐘</span>
-            <span class="mode-description">Ver6.4ではフリーズ中。Level 3以降で解放予定です。</span>
+          <button class="mode-button" type="button" data-mode="longreading" title="Level 3で長文読解">
+            <span class="mode-icon" aria-hidden="true">📰🐘</span>
+            <span class="mode-title">長文読解📰🐘</span>
+            <span class="mode-description">Level 3から。記事を読んで3問に挑戦します。</span>
           </button>
         </div>
 
@@ -1246,7 +1246,7 @@
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
 
-        <p class="muted center">Level 1〜10の段階学習。単語は選択Level、ニュース短文はLevel 1〜選択Levelの既知語彙に制約します。</p>
+        <p class="muted center">Level 1・2は各100語、Level 3〜8は各200語を目標に段階学習。単語は選択Level、ニュース短文はLevel 1〜選択Levelの既知語彙に制約します。</p>
         <div id="selectedModeCard" class="selected-mode-card"></div>
 
         <section id="compositionSettings" class="composition-settings" aria-labelledby="compositionHeading">
@@ -1359,24 +1359,6 @@
               <span class="difficulty-description">Level 8単語 + Level 1〜8語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="8">準備中</span>
-          </button>
-
-          <button class="difficulty-button" type="button" data-difficulty="9">
-            <span class="difficulty-icon" aria-hidden="true">🐉</span>
-            <span>
-              <span class="difficulty-title">Level 9</span>
-              <span class="difficulty-description">Level 9単語 + Level 1〜9語彙で読めるニュース短文</span>
-            </span>
-            <span class="difficulty-count" data-level-count="9">準備中</span>
-          </button>
-
-          <button class="difficulty-button" type="button" data-difficulty="10">
-            <span class="difficulty-icon" aria-hidden="true">👑</span>
-            <span>
-              <span class="difficulty-title">Level 10　最難関</span>
-              <span class="difficulty-description">Level 10単語 + Level 1〜10語彙で読めるニュース短文</span>
-            </span>
-            <span class="difficulty-count" data-level-count="10">準備中</span>
           </button>
         </div>
       </div>
@@ -1568,7 +1550,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=6.3"></script>
+    <script src="supabase-config.js?v=7.0"></script>
   <script>
     "use strict";
 
@@ -2562,6 +2544,7 @@
       const endpoint = `${baseUrl}/rest/v1/${table}?${params.toString()}`;
       const response = await fetch(endpoint, {
         method: "GET",
+        signal: AbortSignal.timeout(8000),
         headers: {
           apikey: publishableKey,
           Accept: "application/json"
@@ -2617,58 +2600,44 @@
     }
 
     async function loadWordQuestions() {
-      state.allQuestions = [];
-      state.wordSource = "none";
-
-      const { configured } = getSupabaseRestConfig();
-
-      if (configured) {
+      // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
+      const response = await fetch("questions.json?v=7.0", { cache: "no-store" });
+      if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
+      const data = await response.json();
+      const local = Array.isArray(data) ? data : data.questions;
+      if (!Array.isArray(local)) throw new Error("単語データの形式が正しくありません。");
+      state.meta = data.meta || {};
+      const words = new Map(local.filter(isUsableQuestion).map(q => [String(q.id), {...q}]));
+      state.wordSource = "同梱辞書";
+      if (getSupabaseRestConfig().configured) {
         try {
-          const wordParams = new URLSearchParams();
-          wordParams.set("select", "id,thai,japanese,reading,level,choice_group_id");
-          wordParams.set("level", "not.is.null");
-          wordParams.set("order", "level.asc,id.asc");
-
-          const wordData = await restGet("words", wordParams);
-          const dbQuestions = (Array.isArray(wordData) ? wordData : [])
-            .filter(isUsableDbWord)
-            .map(normalizeDbWordQuestion);
-
-          if (dbQuestions.length >= 4) {
-            state.allQuestions = dbQuestions;
-            state.wordSource = `Supabase REST（Level設定済み ${dbQuestions.length}語）`;
-            return;
+          const rows = [];
+          for (let offset = 0; ; offset += 500) {
+            const params = new URLSearchParams({select: "id,thai,japanese,reading,level,choice_group_id", order: "id.asc", limit: "500", offset: String(offset)});
+            const page = await restGet("words", params);
+            if (!Array.isArray(page)) throw new Error("words取得形式エラー");
+            rows.push(...page);
+            if (page.length < 500) break;
           }
-
-          console.warn("Supabase words のLevel設定済み単語が4件未満のため、questions.jsonへフォールバックします。");
+          for (const row of rows) {
+            if (!isUsableQuestion(row)) continue;
+            const previous = words.get(String(row.id));
+            const sameWord = previous && previous.thai === row.thai;
+            // A null live level may use the reviewed bundled assignment.
+            // A live non-null level always wins; never overwrite live readings.
+            const level = row.level == null && sameWord ? previous.difficulty : row.level;
+            words.set(String(row.id), normalizeDbWordQuestion({...row, level}));
+          }
+          state.wordSource = "Supabase辞書＋同梱Level割当";
         } catch (error) {
-          console.warn("Supabase words の取得に失敗。questions.jsonへフォールバックします。", error);
-          state.wordSource = `Supabase RESTエラー → questions.json`;
+          console.warn("Supabaseに接続できないため同梱辞書を使用します。", error);
+          state.wordSource = "同梱辞書（オフライン）";
         }
       }
-
-      const response = await fetch("questions.json", { cache: "no-store" });
-      if (!response.ok) {
-        throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
-      }
-
-      const data = await response.json();
-      const questions = Array.isArray(data) ? data : data.questions;
-      state.meta = Array.isArray(data) ? {} : (data.meta || {});
-
-      if (!Array.isArray(questions) || questions.length < 4) {
-        throw new Error("questions.jsonには4件以上の単語が必要です。");
-      }
-
-      state.allQuestions = questions
-        .filter(isUsableQuestion)
-        .filter(question => {
-          const level = Number(question.difficulty);
-          return Number.isInteger(level) && level >= 1 && level <= 10;
-        })
-        .map(question => ({ ...question, questionType: "word" }));
-
-      state.wordSource = `${state.wordSource === "none" ? "" : state.wordSource + " ／ "}questions.json（${state.allQuestions.length}語）`;
+      state.dictionaryWords = [...words.values()];
+      state.allQuestions = state.dictionaryWords
+        .filter(q => Number.isInteger(Number(q.difficulty)) && Number(q.difficulty) >= 1 && Number(q.difficulty) <= 8)
+        .map(q => ({...q, questionType: "word"}));
     }
 
     function isUsableDbWord(word) {
@@ -2679,7 +2648,7 @@
         && typeof word.thai === "string" && word.thai.trim()
         && Number.isInteger(level)
         && level >= 1
-        && level <= 10;
+        && level <= 8;
     }
 
     function normalizeDbWordQuestion(word) {
@@ -2796,7 +2765,9 @@
 
         state.newsGeneratedAt = data.generated_at || null;
         state.allNewsQuestions = (Array.isArray(data.short_news) ? data.short_news : [])
-          .filter(item => item && item.thai && item.japanese && Array.isArray(item.choices) && item.choices.length >= 4)
+          .filter(item => item && item.source_verified === true && item.thai && item.japanese && Array.isArray(item.choices) && new Set(item.choices).size === 4 && item.choices.includes(item.japanese))
+          .map(hydrateNewsReadings)
+          .filter(Boolean)
           .map(item => ({
             ...item,
             id: item.id || `news-${Math.random().toString(36).slice(2)}`,
@@ -2807,13 +2778,64 @@
           }));
 
         state.readingPassages = (Array.isArray(data.reading_passages) ? data.reading_passages : [])
-          .filter(item => item && item.body_thai && Array.isArray(item.questions) && item.questions.length);
+          .filter(item => item && item.source_verified === true && Number(item.level) >= 3 && item.body_thai && Array.isArray(item.questions) && item.questions.length)
+          .map(hydratePassageReadings);
 
         state.newsSource = `news_content.json（短文 ${state.allNewsQuestions.length}問・長文 ${state.readingPassages.length}本）`;
       } catch (error) {
         console.warn("Ver6.0ニュース教材を読み込めませんでした。通常学習は継続できます。", error);
         state.newsSource = `ニュース教材なし: ${error instanceof Error ? error.message : String(error)}`;
       }
+    }
+
+    function dictionaryMap() {
+      const result = new Map();
+      // Prefer assigned entries when the source dictionary has duplicate Thai strings.
+      [...(state.dictionaryWords || state.allQuestions)].sort((a,b) => (Number(b.difficulty)>0)-(Number(a.difficulty)>0)).forEach(row => {
+        if (!result.has(row.thai)) result.set(row.thai, row);
+      });
+      return result;
+    }
+
+    function hydrateNewsReadings(item) {
+      const dictionary = dictionaryMap();
+      const tokens = item.thai_tokens || (item.breakdown || []).map(row => row.thai);
+      if (!tokens.length || tokens.join("") !== item.thai) return null;
+      const breakdown = tokens.map(thai => {
+        const row = dictionary.get(thai);
+        if (!row || !row.reading || Number(row.difficulty) < 1 || Number(row.difficulty) > Number(item.level)) return null;
+        return {thai, reading: row.reading, japanese: row.japanese};
+      });
+      if (breakdown.some(row => !row)) return null;
+      return {...item, breakdown, reading: breakdown.map(row => row.reading).join(" ")};
+    }
+
+    function hydratePassageReadings(item) {
+      const dictionary = dictionaryMap();
+      return {...item, annotations: (item.annotations || []).map(note => {
+        const row = dictionary.get(note.thai);
+        return {...note, japanese: row?.japanese || note.japanese, reading: row?.reading || ""};
+      })};
+    }
+
+    function selectNewsWithReview(pool, count, level) {
+      const pick = (rows, n, review=false) => {
+        const weak = new Set(activeWeakWordStats().map(row => row.thai));
+        const historyFor = q => state.history.filter(h => h.questionType === "news" && h.thai === q.thai && h.sourceUrl === q.source_url);
+        return shuffle([...rows]).sort((a,b) => {
+          const ha = historyFor(a), hb = historyFor(b);
+          const aWeak = (a.breakdown || []).some(w => weak.has(w.thai));
+          const bWeak = (b.breakdown || []).some(w => weak.has(w.thai));
+          const la = ha.at(-1), lb = hb.at(-1);
+          return Number(bWeak)-Number(aWeak) || Number(lb?.isCorrect === false)-Number(la?.isCorrect === false) || (Date.parse(la?.answeredAt)||0)-(Date.parse(lb?.answeredAt)||0);
+        }).slice(0,n).map(q => ({...q, reviewQuestion: review}));
+      };
+      const current = pool.filter(q => Number(q.difficulty) === level);
+      const previous = pool.filter(q => Number(q.difficulty) === level-1);
+      const reviewCount = level >= 2 && count >= 2 ? Math.min(previous.length, Math.max(1, Math.round(count*0.4))) : 0;
+      const selected = [...pick(current, count-reviewCount), ...pick(previous, reviewCount, true)];
+      const used = new Set(selected.map(q => q.id));
+      return [...selected, ...pick(pool.filter(q => !used.has(q.id)), count-selected.length)].slice(0,count);
     }
 
     function buildLongReadingQuestions(passage) {
@@ -2917,7 +2939,7 @@
 function updateDataSummary() {
   const summaries = [];
 
-  for (let level = 1; level <= 10; level += 1) {
+  for (let level = 1; level <= 8; level += 1) {
     const wordCount = state.allQuestions.filter(question => Number(question.difficulty) === level).length;
     const sentenceCount = 0; // Ver6.0.2: 旧通常文章は廃止
     const newsCount = state.allNewsQuestions.filter(question => Number(question.difficulty) === level).length;
@@ -2951,7 +2973,7 @@ function updateDataSummary() {
   const updatedLabel = updated && !Number.isNaN(updated.getTime())
     ? updated.toLocaleString("ja-JP")
     : "未更新";
-  elements.newsDataSummary.textContent = `毎週日曜日に更新するニュース短文。現在：${state.allNewsQuestions.length}短文 ／ 長文は🧊フリーズ中（Lv3以降） ／ 最終生成 ${updatedLabel}`;
+  elements.newsDataSummary.textContent = `毎週日曜日に更新予定。記事の日付は各問題で確認できます。現在：${state.allNewsQuestions.length}短文 ／ 長文 ${state.readingPassages.length}本（Lv3から） ／ 最終生成 ${updatedLabel}`;
   refreshDifficultyButtons();
 }
 
@@ -2976,7 +2998,7 @@ function updateCompositionSummary() {
   } else {
     elements.newsQuestionCount.disabled = state.allNewsQuestions.length === 0;
     if (!state.allNewsQuestions.length) elements.newsQuestionCount.value = "0";
-    elements.compositionNote.textContent = "読む📕🐨：単語 + 実ニュース由来のAI簡易化短文を出題します。単語は🐙 苦手単語を優先します。";
+    elements.compositionNote.textContent = "読む📕🐨：単語 + 実ニュース由来のAI簡易化短文を出題します。単語は🐙 苦手単語を優先。ニュース5問なら新Level 3問＋前Levelの復習2問が目安です（在庫が少ないLevelは、ある分だけ出題します）。";
   }
 
   const wordCount = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
@@ -3020,7 +3042,7 @@ function openDifficultyScreen(mode) {
   if (mode === "choice") {
     elements.wordQuestionCount.value = "2";
     elements.sentenceQuestionCount.value = "0";
-    elements.newsQuestionCount.value = state.allNewsQuestions.length ? "2" : "0";
+    elements.newsQuestionCount.value = state.allNewsQuestions.length >= 5 ? "5" : (state.allNewsQuestions.length ? "2" : "0");
   } else if (mode === "writing") {
     elements.wordQuestionCount.value = "5";
     elements.sentenceQuestionCount.value = "0";
@@ -3673,7 +3695,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
 
   const wordPool = uniqueByPromptPair(state.allQuestions.filter(q => Number(q.difficulty) === state.difficulty));
   const sentencePool = uniqueByPromptPair(state.allSentences.filter(q => Number(q.difficulty) === state.difficulty));
-  const newsPool = uniqueByPromptPair(state.allNewsQuestions.filter(q => Number(q.difficulty) === state.difficulty));
+  const newsPool = uniqueByPromptPair(state.allNewsQuestions.filter(q => Number(q.difficulty) === state.difficulty || (state.mode === "choice" && Number(q.difficulty) === state.difficulty - 1)));
   const passagePool = state.readingPassages.filter(p => Number(p.level) === state.difficulty);
 
   state.activeQuestionPool = wordPool;
@@ -3714,7 +3736,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
 
     const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
     const requestedSentences = 0; // Ver6.1: サザエさん予告型の旧通常文章は廃止
-    const requestedNews = state.mode === "choice" ? (Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
+    const requestedNews = state.mode === "choice" ? Math.min(newsPool.length, Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
 
     if (requestedWords + requestedNews < 1) {
       window.alert("単語・ニュース短文のどちらかを1問以上にしてください。");
@@ -3733,7 +3755,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
 
     const wordQuestions = selectWordQuestionsWithWeakPriority(wordPool, requestedWords);
     const sentenceQuestions = [];
-    const newsQuestions = shuffle([...newsPool]).slice(0, requestedNews);
+    const newsQuestions = selectNewsWithReview(newsPool, requestedNews, state.difficulty);
     state.quizQuestions = shuffle([...wordQuestions, ...newsQuestions]);
   }
 
@@ -3769,7 +3791,7 @@ function showQuestion() {
 
   const number = state.currentIndex + 1;
   const total = state.quizQuestions.length;
-  elements.progressText.textContent = `問題 ${number} / ${total}`;
+  elements.progressText.textContent = `問題 ${number} / ${total} ／ L${question.difficulty}${question.reviewQuestion ? " 復習🐙" : ""}`;
   elements.progressFill.style.width = `${(state.currentIndex / total) * 100}%`;
   elements.feedback.className = "feedback hidden";
   elements.feedback.replaceChildren();

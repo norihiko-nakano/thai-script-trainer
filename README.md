@@ -1,3 +1,7 @@
+# Ver7.0 更新版
+
+Level 3（200語）、L2復習、辞書の読み、長文読解を追加しました。導入方法は [README_V7.0.md](README_V7.0.md) を参照してください。以下は過去バージョンの説明です。
+
 # Thai Vocabulary Trainer Ver6.3
 
 ## English

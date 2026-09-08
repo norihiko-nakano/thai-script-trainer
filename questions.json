@@ -1,27 +1,18 @@
 {
   "meta": {
-    "title": "Thai Vocabulary Trainer Ver2.3.2",
-    "sourceFile": "Thai language.ods",
-    "sourceSheet": "Thai",
-    "generatedAt": "2026-08-02T12:15:06+00:00",
+    "title": "Thai Vocabulary Trainer Ver7.0",
+    "source": "Supabase words snapshot; existing readings preserved",
     "questionCount": 513,
-    "columns": {
-      "A": "id",
-      "B": "japanese",
-      "C": "thai",
-      "D": "reading",
-      "F": "usageNote",
-      "G": "wordOrderNote",
-      "E": "ignoredPrivateNote"
-    },
     "difficultyCounts": {
-      "1": 100,
-      "unassigned": 413
+      "2": 100,
+      "0": 113,
+      "3": 200,
+      "1": 100
     }
   },
   "questions": [
     {
-      "id": 2,
+      "id": 1,
       "japanese": "戻る,帰る",
       "thai": "กลับ",
       "reading": "クラップ",
@@ -33,10 +24,11 @@
       "acceptedJapanese": [
         "戻る,帰る"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 3,
+      "id": 2,
       "japanese": "連絡する",
       "thai": "ติดต่อ",
       "reading": "ティット・トー",
@@ -48,10 +40,11 @@
       "acceptedJapanese": [
         "連絡する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 4,
+      "id": 3,
       "japanese": "病院",
       "thai": "โรงพยาบาล",
       "reading": "ローンパヤバーン",
@@ -63,10 +56,11 @@
       "acceptedJapanese": [
         "病院"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 5,
+      "id": 4,
       "japanese": "駅",
       "thai": "สถานี",
       "reading": "サターニー",
@@ -78,10 +72,11 @@
       "acceptedJapanese": [
         "駅"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 6,
+      "id": 5,
       "japanese": "空港",
       "thai": "สนามบิน",
       "reading": "サナービン",
@@ -93,10 +88,11 @@
       "acceptedJapanese": [
         "空港"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 7,
+      "id": 6,
       "japanese": "疲れた",
       "thai": "เหนื่อย",
       "reading": "ヌアイ",
@@ -108,10 +104,11 @@
       "acceptedJapanese": [
         "疲れた"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 8,
+      "id": 7,
       "japanese": "年齢",
       "thai": "อายุ",
       "reading": "アーユー",
@@ -123,10 +120,11 @@
       "acceptedJapanese": [
         "年齢"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 9,
+      "id": 8,
       "japanese": "１",
       "thai": "๑",
       "reading": "",
@@ -138,10 +136,11 @@
       "acceptedJapanese": [
         "１"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 10,
+      "id": 9,
       "japanese": "２",
       "thai": "๒",
       "reading": "",
@@ -153,10 +152,11 @@
       "acceptedJapanese": [
         "２"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 11,
+      "id": 10,
       "japanese": "３",
       "thai": "๓",
       "reading": "",
@@ -168,10 +168,11 @@
       "acceptedJapanese": [
         "３"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 12,
+      "id": 11,
       "japanese": "４",
       "thai": "๔",
       "reading": "",
@@ -183,10 +184,11 @@
       "acceptedJapanese": [
         "４"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 13,
+      "id": 12,
       "japanese": "５",
       "thai": "๕",
       "reading": "",
@@ -198,10 +200,11 @@
       "acceptedJapanese": [
         "５"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 14,
+      "id": 13,
       "japanese": "そうしたら",
       "thai": "ก็",
       "reading": "ゴー",
@@ -213,10 +216,11 @@
       "acceptedJapanese": [
         "そうしたら"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 15,
+      "id": 14,
       "japanese": "いいですよ・OK",
       "thai": "ก็ได้",
       "reading": "ゴ ダイ",
@@ -228,10 +232,11 @@
       "acceptedJapanese": [
         "いいですよ・OK"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 16,
+      "id": 15,
       "japanese": "紙",
       "thai": "กระดาษ",
       "reading": "クラダート",
@@ -243,10 +248,11 @@
       "acceptedJapanese": [
         "紙"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 18,
+      "id": 16,
       "japanese": "かばん",
       "thai": "กระเป๋า",
       "reading": "クラパオ",
@@ -258,10 +264,11 @@
       "acceptedJapanese": [
         "かばん"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 19,
+      "id": 17,
       "japanese": "怖い・恐れている",
       "thai": "กลัว",
       "reading": "クルア",
@@ -275,10 +282,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 20,
+      "id": 18,
       "japanese": "夜",
       "thai": "กลางคืน",
       "reading": "クラーン・クーン",
@@ -290,10 +298,11 @@
       "acceptedJapanese": [
         "夜"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 21,
+      "id": 19,
       "japanese": "hense",
       "thai": "ก็เลย",
       "reading": "ゴールーイ",
@@ -305,10 +314,11 @@
       "acceptedJapanese": [
         "hense"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 22,
+      "id": 20,
       "japanese": "～より",
       "thai": "กว่า",
       "reading": "クワー",
@@ -320,10 +330,11 @@
       "acceptedJapanese": [
         "～より"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 23,
+      "id": 21,
       "japanese": "～の前",
       "thai": "ก่อน",
       "reading": "コーン",
@@ -335,10 +346,11 @@
       "acceptedJapanese": [
         "～の前"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 24,
+      "id": 22,
       "japanese": "一緒に",
       "thai": "กัน",
       "reading": "カン",
@@ -350,10 +362,11 @@
       "acceptedJapanese": [
         "一緒に"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 25,
+      "id": 23,
       "japanese": "〜と・〜と一緒に",
       "thai": "กับ",
       "reading": "カップ",
@@ -365,10 +378,11 @@
       "acceptedJapanese": [
         "〜と・〜と一緒に"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 26,
+      "id": 24,
       "japanese": "ズボン",
       "thai": "กางเกง",
       "reading": "カーンケーン",
@@ -380,10 +394,11 @@
       "acceptedJapanese": [
         "ズボン"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 28,
+      "id": 25,
       "japanese": "コーヒー",
       "thai": "กาแฟ",
       "reading": "カフェ",
@@ -397,10 +412,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 5
     },
     {
-      "id": 29,
+      "id": 26,
       "japanese": "競争",
       "thai": "การแข่งขัน",
       "reading": "カーン・ケーンカン",
@@ -412,10 +428,11 @@
       "acceptedJapanese": [
         "競争"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 30,
+      "id": 27,
       "japanese": "宿題",
       "thai": "การบ้าน",
       "reading": "ガーン・バーン",
@@ -427,10 +444,11 @@
       "acceptedJapanese": [
         "宿題"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 31,
+      "id": 28,
       "japanese": "発展・発達",
       "thai": "การพัฒนา",
       "reading": "カーン・パッタナー",
@@ -442,10 +460,11 @@
       "acceptedJapanese": [
         "発展・発達"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 32,
+      "id": 29,
       "japanese": "～している",
       "thai": "กำลัง",
       "reading": "カムラン～ユー",
@@ -457,10 +476,11 @@
       "acceptedJapanese": [
         "～している"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 33,
+      "id": 30,
       "japanese": "食",
       "thai": "กิน",
       "reading": "キン",
@@ -474,10 +494,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 34,
+      "id": 31,
       "japanese": "何時？",
       "thai": "กี่โมง",
       "reading": "キーモーン",
@@ -489,10 +510,11 @@
       "acceptedJapanese": [
         "何時？"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 35,
+      "id": 32,
       "japanese": "鍵",
       "thai": "กุญแจ",
       "reading": "グンジェー",
@@ -504,10 +526,11 @@
       "acceptedJapanese": [
         "鍵"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 36,
+      "id": 33,
       "japanese": "上手・得意",
       "thai": "เก่ง",
       "reading": "ケン",
@@ -519,10 +542,11 @@
       "acceptedJapanese": [
         "上手・得意"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 37,
+      "id": 34,
       "japanese": "貯金する、片づける",
       "thai": "เก็บ",
       "reading": "ゲップ",
@@ -534,10 +558,11 @@
       "acceptedJapanese": [
         "貯金する、片づける"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 38,
+      "id": 35,
       "japanese": "塩",
       "thai": "เกลือ",
       "reading": "クルア",
@@ -551,10 +576,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 39,
+      "id": 36,
       "japanese": "椅子",
       "thai": "เก้าอี้",
       "reading": "カオイー",
@@ -568,10 +594,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 8
     },
     {
-      "id": 40,
+      "id": 37,
       "japanese": "島",
       "thai": "เกาะ",
       "reading": "コ",
@@ -583,10 +610,11 @@
       "acceptedJapanese": [
         "島"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 41,
+      "id": 38,
       "japanese": "～すぎる",
       "thai": "เกินไป",
       "reading": "～グーンパイ",
@@ -598,10 +626,11 @@
       "acceptedJapanese": [
         "～すぎる"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 42,
+      "id": 39,
       "japanese": "about",
       "thai": "เกี่ยวกับ",
       "reading": "キアオ カップ",
@@ -613,10 +642,11 @@
       "acceptedJapanese": [
         "about"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 43,
+      "id": 40,
       "japanese": "ほとんど / もう少しで",
       "thai": "เกือบ",
       "reading": "クアップ",
@@ -628,10 +658,11 @@
       "acceptedJapanese": [
         "ほとんど / もう少しで"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 44,
+      "id": 41,
       "japanese": "コップ・グラス",
       "thai": "แก้ว",
       "reading": "ケーオ",
@@ -643,10 +674,11 @@
       "acceptedJapanese": [
         "コップ・グラス"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 45,
+      "id": 42,
       "japanese": "怒っている",
       "thai": "โกรธ",
       "reading": "クローット",
@@ -658,10 +690,11 @@
       "acceptedJapanese": [
         "怒っている"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 46,
+      "id": 43,
       "japanese": "近い",
       "thai": "ใกล้",
       "reading": "クライ",
@@ -675,10 +708,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 14
     },
     {
-      "id": 47,
+      "id": 44,
       "japanese": "鶏肉",
       "thai": "ไก่",
       "reading": "カイ",
@@ -692,10 +726,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 11
     },
     {
-      "id": 48,
+      "id": 45,
       "japanese": "遠い",
       "thai": "ไกล",
       "reading": "クライ",
@@ -709,10 +744,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 14
     },
     {
-      "id": 49,
+      "id": 46,
       "japanese": "菓子",
       "thai": "ขนม",
       "reading": "カノム",
@@ -726,10 +762,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 4
     },
     {
-      "id": 50,
+      "id": 47,
       "japanese": "右",
       "thai": "ขวา",
       "reading": "クワー",
@@ -743,10 +780,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 13
     },
     {
-      "id": 51,
+      "id": 48,
       "japanese": "〜させてください",
       "thai": "ขอ",
       "reading": "コー",
@@ -758,10 +796,11 @@
       "acceptedJapanese": [
         "〜させてください"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 52,
+      "id": 49,
       "japanese": "メッセージ / 文面",
       "thai": "ข้อความ",
       "reading": "コー・クワーム",
@@ -773,10 +812,11 @@
       "acceptedJapanese": [
         "メッセージ / 文面"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 53,
+      "id": 50,
       "japanese": "物、～の",
       "thai": "ของ",
       "reading": "コーン",
@@ -788,10 +828,11 @@
       "acceptedJapanese": [
         "物、～の"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 54,
+      "id": 51,
       "japanese": "プレゼント",
       "thai": "ของขวัญ",
       "reading": "コン クワン",
@@ -803,10 +844,11 @@
       "acceptedJapanese": [
         "プレゼント"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 55,
+      "id": 52,
       "japanese": "ありがとう",
       "thai": "ขอบคุณ",
       "reading": "コープクン",
@@ -818,10 +860,11 @@
       "acceptedJapanese": [
         "ありがとう"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 56,
+      "id": 53,
       "japanese": "試験問題",
       "thai": "ข้อสอบ",
       "reading": "コーソープ",
@@ -833,26 +876,27 @@
       "acceptedJapanese": [
         "試験問題"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 57,
+      "id": 54,
       "japanese": "～してください",
       "thai": "ขอให้",
       "reading": "コーハイ",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ขอให้",
-        "ช่วย"
+        "ขอให้"
       ],
       "acceptedJapanese": [
         "～してください"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 58,
+      "id": 55,
       "japanese": "運転する",
       "thai": "ขับ",
       "reading": "カップ",
@@ -864,10 +908,11 @@
       "acceptedJapanese": [
         "運転する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 59,
+      "id": 56,
       "japanese": "横",
       "thai": "ข้าง ๆ",
       "reading": "カーンカーン",
@@ -879,10 +924,11 @@
       "acceptedJapanese": [
         "横"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 60,
+      "id": 57,
       "japanese": "前方",
       "thai": "ข้างหน้า",
       "reading": "カーン・ナー",
@@ -894,10 +940,11 @@
       "acceptedJapanese": [
         "前方"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 61,
+      "id": 58,
       "japanese": "後ろ",
       "thai": "ข้างหลัง",
       "reading": "カーン・ラン",
@@ -909,10 +956,11 @@
       "acceptedJapanese": [
         "後ろ"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 62,
+      "id": 59,
       "japanese": "渡る・越える",
       "thai": "ข้าม",
       "reading": "カーム",
@@ -924,10 +972,11 @@
       "acceptedJapanese": [
         "渡る・越える"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 63,
+      "id": 60,
       "japanese": "売",
       "thai": "ขาย",
       "reading": "カーイ",
@@ -941,10 +990,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 20
     },
     {
-      "id": 64,
+      "id": 61,
       "japanese": "白",
       "thai": "ขาว",
       "reading": "カーオ",
@@ -956,10 +1006,11 @@
       "acceptedJapanese": [
         "白"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": 23
     },
     {
-      "id": 65,
+      "id": 62,
       "japanese": "ニュース",
       "thai": "ข่าว",
       "reading": "カーオ",
@@ -971,10 +1022,11 @@
       "acceptedJapanese": [
         "ニュース"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 66,
+      "id": 63,
       "japanese": "ご飯",
       "thai": "ข้าว",
       "reading": "カオ",
@@ -984,15 +1036,15 @@
         "ข้าว"
       ],
       "acceptedJapanese": [
-        "ご飯",
-        "米（ご飯・生米）"
+        "ご飯"
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 4
     },
     {
-      "id": 67,
+      "id": 64,
       "japanese": "米（ご飯・生米）",
       "thai": "ข้าว",
       "reading": "カオ",
@@ -1002,13 +1054,13 @@
         "ข้าว"
       ],
       "acceptedJapanese": [
-        "ご飯",
         "米（ご飯・生米）"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 68,
+      "id": 65,
       "japanese": "夕飯",
       "thai": "ข้าวเย็น",
       "reading": "カオイェーン",
@@ -1020,10 +1072,11 @@
       "acceptedJapanese": [
         "夕飯"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 69,
+      "id": 66,
       "japanese": "出発する・離陸する",
       "thai": "ขึ้น",
       "reading": "クン",
@@ -1033,13 +1086,13 @@
         "ขึ้น"
       ],
       "acceptedJapanese": [
-        "出発する・離陸する",
-        "乗る"
+        "出発する・離陸する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 70,
+      "id": 67,
       "japanese": "乗る",
       "thai": "ขึ้น",
       "reading": "クン",
@@ -1049,13 +1102,13 @@
         "ขึ้น"
       ],
       "acceptedJapanese": [
-        "出発する・離陸する",
         "乗る"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 71,
+      "id": 68,
       "japanese": "彼、彼女",
       "thai": "เขา",
       "reading": "カオ",
@@ -1067,10 +1120,11 @@
       "acceptedJapanese": [
         "彼、彼女"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 72,
+      "id": 69,
       "japanese": "書",
       "thai": "เขียน",
       "reading": "キアン",
@@ -1084,10 +1138,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 73,
+      "id": 70,
       "japanese": "卵",
       "thai": "ไข่",
       "reading": "カイ",
@@ -1101,10 +1156,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 11
     },
     {
-      "id": 74,
+      "id": 71,
       "japanese": "きっと～だろう",
       "thai": "คง",
       "reading": "コン",
@@ -1116,10 +1172,11 @@
       "acceptedJapanese": [
         "きっと～だろう"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 75,
+      "id": 72,
       "japanese": "人",
       "thai": "คน",
       "reading": "コン",
@@ -1133,10 +1190,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 76,
+      "id": 73,
       "japanese": "家族",
       "thai": "ครอบครัว",
       "reading": "クローブ・クルア",
@@ -1148,10 +1206,11 @@
       "acceptedJapanese": [
         "家族"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 77,
+      "id": 74,
       "japanese": "半分 / 30分",
       "thai": "ครึ่ง",
       "reading": "クルン",
@@ -1163,28 +1222,29 @@
       "acceptedJapanese": [
         "半分 / 30分"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 78,
+      "id": 75,
       "japanese": "先生",
       "thai": "ครู",
       "reading": "クルー",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ครู",
-        "อาจารย์"
+        "ครู"
       ],
       "acceptedJapanese": [
         "先生"
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 2
     },
     {
-      "id": 79,
+      "id": 76,
       "japanese": "〜すべきだ",
       "thai": "ควร",
       "reading": "クアン",
@@ -1196,10 +1256,11 @@
       "acceptedJapanese": [
         "〜すべきだ"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 80,
+      "id": 77,
       "japanese": "意見",
       "thai": "ความคิดเห็น",
       "reading": "クワームキットヘン",
@@ -1211,10 +1272,11 @@
       "acceptedJapanese": [
         "意見"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 81,
+      "id": 78,
       "japanese": "責任",
       "thai": "ความรับผิดชอบ",
       "reading": "クワーム・ラップピットチョープ",
@@ -1226,10 +1288,11 @@
       "acceptedJapanese": [
         "責任"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 82,
+      "id": 79,
       "japanese": "知識",
       "thai": "ความรู้",
       "reading": "クワームルー",
@@ -1241,10 +1304,11 @@
       "acceptedJapanese": [
         "知識"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 83,
+      "id": 80,
       "japanese": "失敗",
       "thai": "ความล้มเหลว",
       "reading": "クワーム・ロムレオ",
@@ -1256,10 +1320,11 @@
       "acceptedJapanese": [
         "失敗"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 84,
+      "id": 81,
       "japanese": "成功",
       "thai": "ความสำเร็จ",
       "reading": "クワーム・サムレット",
@@ -1271,10 +1336,11 @@
       "acceptedJapanese": [
         "成功"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 85,
+      "id": 82,
       "japanese": "意味",
       "thai": "ความหมาย",
       "reading": "クワームマーイ",
@@ -1286,26 +1352,27 @@
       "acceptedJapanese": [
         "意味"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 86,
+      "id": 83,
       "japanese": "とても・すごく",
       "thai": "ค่อนข้าง",
       "reading": "コーンカーン",
       "usageNote": "形容詞の前に置く、ค่อนข้าง ร้อน=マジ暑い",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ค่อนข้าง",
-        "จัง"
+        "ค่อนข้าง"
       ],
       "acceptedJapanese": [
         "とても・すごく"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 87,
+      "id": 84,
       "japanese": "コンピューター",
       "thai": "คอมพิวเตอร์",
       "reading": "",
@@ -1317,10 +1384,11 @@
       "acceptedJapanese": [
         "コンピューター"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 88,
+      "id": 85,
       "japanese": "費用 / 経費",
       "thai": "ค่าใช้จ่าย",
       "reading": "カー・チャイ・ジャーイ",
@@ -1332,10 +1400,11 @@
       "acceptedJapanese": [
         "費用 / 経費"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 89,
+      "id": 86,
       "japanese": "単語",
       "thai": "คำศัพท์",
       "reading": "カム サップ",
@@ -1347,10 +1416,11 @@
       "acceptedJapanese": [
         "単語"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 90,
+      "id": 87,
       "japanese": "思う",
       "thai": "คิด",
       "reading": "キット",
@@ -1364,10 +1434,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 91,
+      "id": 88,
       "japanese": "会いたい・恋しい",
       "thai": "คิดถึง",
       "reading": "キット・トゥン",
@@ -1379,26 +1450,27 @@
       "acceptedJapanese": [
         "会いたい・恋しい"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 92,
+      "id": 89,
       "japanese": "Is",
       "thai": "คือ",
       "reading": "クー",
       "usageNote": "A=B&B=Aならクン",
       "wordOrderNote": "",
       "acceptedThai": [
-        "คือ",
-        "เป็น"
+        "คือ"
       ],
       "acceptedJapanese": [
         "Is"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 93,
+      "id": 90,
       "japanese": "ペア・組・足",
       "thai": "คู่",
       "reading": "クー",
@@ -1410,10 +1482,11 @@
       "acceptedJapanese": [
         "ペア・組・足"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 94,
+      "id": 91,
       "japanese": "したことある",
       "thai": "เคย",
       "reading": "クーイ",
@@ -1425,10 +1498,11 @@
       "acceptedJapanese": [
         "したことある"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 95,
+      "id": 92,
       "japanese": "飛行機",
       "thai": "เครื่องบิน",
       "reading": "クルアンビン",
@@ -1440,10 +1514,11 @@
       "acceptedJapanese": [
         "飛行機"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 96,
+      "id": 93,
       "japanese": "誰が?",
       "thai": "ใคร",
       "reading": "クライ",
@@ -1457,10 +1532,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 97,
+      "id": 94,
       "japanese": "眠い",
       "thai": "ง่วง",
       "reading": "ンアン",
@@ -1474,10 +1550,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 18
     },
     {
-      "id": 98,
+      "id": 95,
       "japanese": "催し物・行事",
       "thai": "งาน",
       "reading": "ンガーン",
@@ -1489,10 +1566,11 @@
       "acceptedJapanese": [
         "催し物・行事"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 99,
+      "id": 96,
       "japanese": "簡単な",
       "thai": "ง่าย",
       "reading": "ンガーイ",
@@ -1506,10 +1584,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 15
     },
     {
-      "id": 100,
+      "id": 97,
       "japanese": "お金",
       "thai": "เงิน",
       "reading": "グン",
@@ -1523,10 +1602,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 101,
+      "id": 98,
       "japanese": "静かな",
       "thai": "เงียบ",
       "reading": "ンギアップ",
@@ -1538,10 +1618,11 @@
       "acceptedJapanese": [
         "静かな"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 102,
+      "id": 99,
       "japanese": "手紙",
       "thai": "จดหมาย",
       "reading": "ジョットマーイ",
@@ -1553,10 +1634,11 @@
       "acceptedJapanese": [
         "手紙"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 103,
+      "id": 100,
       "japanese": "鼻",
       "thai": "จมูก",
       "reading": "チャムーク",
@@ -1570,10 +1652,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 10
     },
     {
-      "id": 104,
+      "id": 101,
       "japanese": "止まる・駐車する",
       "thai": "จอด",
       "reading": "ジョート",
@@ -1585,10 +1668,11 @@
       "acceptedJapanese": [
         "止まる・駐車する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 105,
+      "id": 102,
       "japanese": "will",
       "thai": "จะ",
       "reading": "ジャ",
@@ -1600,26 +1684,27 @@
       "acceptedJapanese": [
         "will"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 106,
+      "id": 103,
       "japanese": "とても・すごく",
       "thai": "จัง",
       "reading": "ジャン",
       "usageNote": "形容詞の後ろに置く、ร้อน จัง=マジ暑い",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ค่อนข้าง",
         "จัง"
       ],
       "acceptedJapanese": [
         "とても・すごく"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 107,
+      "id": 104,
       "japanese": "タイの郡",
       "thai": "จังหวัด",
       "reading": "ジャンワット",
@@ -1631,10 +1716,11 @@
       "acceptedJapanese": [
         "タイの郡"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 108,
+      "id": 105,
       "japanese": "from（場所）、～から",
       "thai": "จาก",
       "reading": "ジャーク",
@@ -1646,10 +1732,11 @@
       "acceptedJapanese": [
         "from（場所）、～から"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 109,
+      "id": 106,
       "japanese": "～皿",
       "thai": "จาน",
       "reading": "ジャーン",
@@ -1661,10 +1748,11 @@
       "acceptedJapanese": [
         "～皿"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 110,
+      "id": 107,
       "japanese": "支払う",
       "thai": "จ่าย",
       "reading": "ジャーイ",
@@ -1678,10 +1766,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 111,
+      "id": 108,
       "japanese": "覚える",
       "thai": "จำ",
       "reading": "ジャム",
@@ -1695,10 +1784,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 21
     },
     {
-      "id": 112,
+      "id": 109,
       "japanese": "数、数量",
       "thai": "จำนวน",
       "reading": "ジャムヌアン",
@@ -1710,10 +1800,11 @@
       "acceptedJapanese": [
         "数、数量"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 113,
+      "id": 110,
       "japanese": "必要な",
       "thai": "จำเป็น",
       "reading": "ジャンペン",
@@ -1725,10 +1816,11 @@
       "acceptedJapanese": [
         "必要な"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 115,
+      "id": 111,
       "japanese": "それゆえに",
       "thai": "จึง",
       "reading": "ジュンガ",
@@ -1740,10 +1832,11 @@
       "acceptedJapanese": [
         "それゆえに"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 116,
+      "id": 112,
       "japanese": "痛い",
       "thai": "เจ็บ",
       "reading": "ジェップ",
@@ -1755,10 +1848,11 @@
       "acceptedJapanese": [
         "痛い"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 117,
+      "id": 113,
       "japanese": "最近",
       "thai": "ช่วงนี้",
       "reading": "チュアンニー",
@@ -1770,26 +1864,27 @@
       "acceptedJapanese": [
         "最近"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 118,
+      "id": 114,
       "japanese": "～してください",
       "thai": "ช่วย",
       "reading": "チュアイ",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ขอให้",
         "ช่วย"
       ],
       "acceptedJapanese": [
         "～してください"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 119,
+      "id": 115,
       "japanese": "助ける",
       "thai": "ช่วยเหลือ",
       "reading": "チュアイ ルア",
@@ -1801,10 +1896,11 @@
       "acceptedJapanese": [
         "助ける"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 120,
+      "id": 116,
       "japanese": "スプーン",
       "thai": "ช้อน",
       "reading": "チョーン",
@@ -1816,10 +1912,11 @@
       "acceptedJapanese": [
         "スプーン"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 121,
+      "id": 117,
       "japanese": "～が好き",
       "thai": "ชอบ",
       "reading": "チョープ",
@@ -1831,10 +1928,11 @@
       "acceptedJapanese": [
         "～が好き"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 122,
+      "id": 118,
       "japanese": "階",
       "thai": "ชั้น",
       "reading": "チャン",
@@ -1846,10 +1944,11 @@
       "acceptedJapanese": [
         "階"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 123,
+      "id": 119,
       "japanese": "時間、〜時間",
       "thai": "ชั่วโมง",
       "reading": "チュア・モーン",
@@ -1861,10 +1960,11 @@
       "acceptedJapanese": [
         "時間、〜時間"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 124,
+      "id": 120,
       "japanese": "名前",
       "thai": "ชื่อ",
       "reading": "チュー",
@@ -1878,10 +1978,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 125,
+      "id": 121,
       "japanese": "朝",
       "thai": "เช้า",
       "reading": "チャオ",
@@ -1895,10 +1996,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 126,
+      "id": 122,
       "japanese": "血統,家系",
       "thai": "เชื้อสาย",
       "reading": "チュア サーイ",
@@ -1910,10 +2012,11 @@
       "acceptedJapanese": [
         "血統,家系"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 127,
+      "id": 123,
       "japanese": "使う",
       "thai": "ใช้",
       "reading": "チャイ",
@@ -1927,10 +2030,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 128,
+      "id": 124,
       "japanese": "時間がかかる",
       "thai": "ใช้เวลา",
       "reading": "チャイ・ウェーラー",
@@ -1942,10 +2046,11 @@
       "acceptedJapanese": [
         "時間がかかる"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 129,
+      "id": 125,
       "japanese": "修理する",
       "thai": "ซ่อม",
       "reading": "ソム",
@@ -1957,10 +2062,11 @@
       "acceptedJapanese": [
         "修理する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 130,
+      "id": 126,
       "japanese": "左",
       "thai": "ซ้าย",
       "reading": "サーイ",
@@ -1974,10 +2080,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 13
     },
     {
-      "id": 131,
+      "id": 127,
       "japanese": "買",
       "thai": "ซื้อ",
       "reading": "スー",
@@ -1991,10 +2098,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 20
     },
     {
-      "id": 132,
+      "id": 128,
       "japanese": "買い物",
       "thai": "ซื้อของ",
       "reading": "スーコン",
@@ -2006,10 +2114,11 @@
       "acceptedJapanese": [
         "買い物"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 133,
+      "id": 129,
       "japanese": "急ぎの・緊急の",
       "thai": "ด่วน",
       "reading": "ドゥアン",
@@ -2021,10 +2130,11 @@
       "acceptedJapanese": [
         "急ぎの・緊急の"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 134,
+      "id": 130,
       "japanese": "一緒に、by(交通以外）",
       "thai": "ด้วย",
       "reading": "トゥワイ",
@@ -2036,10 +2146,11 @@
       "acceptedJapanese": [
         "一緒に、by(交通以外）"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 135,
+      "id": 131,
       "japanese": "花",
       "thai": "ดอกไม้",
       "reading": "ドークマーイ",
@@ -2051,10 +2162,11 @@
       "acceptedJapanese": [
         "花"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 136,
+      "id": 132,
       "japanese": "側",
       "thai": "ด้าน",
       "reading": "ダーン",
@@ -2066,10 +2178,11 @@
       "acceptedJapanese": [
         "側"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 137,
+      "id": 133,
       "japanese": "右側",
       "thai": "ด้าน ขวา",
       "reading": "ダーンクワー",
@@ -2081,10 +2194,11 @@
       "acceptedJapanese": [
         "右側"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 138,
+      "id": 134,
       "japanese": "左側",
       "thai": "ด้าน ซ้าย",
       "reading": "ダーンサーイ",
@@ -2096,10 +2210,11 @@
       "acceptedJapanese": [
         "左側"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 139,
+      "id": 135,
       "japanese": "〜本[ペン]",
       "thai": "ด้าม",
       "reading": "ダーム",
@@ -2111,10 +2226,11 @@
       "acceptedJapanese": [
         "〜本[ペン]"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 140,
+      "id": 136,
       "japanese": "星",
       "thai": "ดาว",
       "reading": "ダーオ",
@@ -2126,10 +2242,11 @@
       "acceptedJapanese": [
         "星"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 141,
+      "id": 137,
       "japanese": "黒",
       "thai": "ดำ",
       "reading": "ダム",
@@ -2141,26 +2258,27 @@
       "acceptedJapanese": [
         "黒"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": 23
     },
     {
-      "id": 142,
+      "id": 138,
       "japanese": "私",
       "thai": "ดิฉัน",
       "reading": "ディチャン",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ดิฉัน",
-        "ผม"
+        "ดิฉัน"
       ],
       "acceptedJapanese": [
         "私"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 143,
+      "id": 139,
       "japanese": "鉛筆",
       "thai": "ดินสอ",
       "reading": "ディンソー",
@@ -2174,10 +2292,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 9
     },
     {
-      "id": 144,
+      "id": 140,
       "japanese": "～の方が良い",
       "thai": "ดีกว่า",
       "reading": "ディークワー",
@@ -2189,10 +2308,11 @@
       "acceptedJapanese": [
         "～の方が良い"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 145,
+      "id": 141,
       "japanese": "嬉しい",
       "thai": "ดีใจ",
       "reading": "ディー・ジャイ",
@@ -2206,10 +2326,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 146,
+      "id": 142,
       "japanese": "夜遅く・深夜",
       "thai": "ดึก",
       "reading": "ドゥック",
@@ -2221,10 +2342,11 @@
       "acceptedJapanese": [
         "夜遅く・深夜"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 147,
+      "id": 143,
       "japanese": "飲む",
       "thai": "ดื่ม",
       "reading": "ドゥーム",
@@ -2238,10 +2360,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 148,
+      "id": 144,
       "japanese": "見",
       "thai": "ดู",
       "reading": "ドゥー",
@@ -2255,10 +2378,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 149,
+      "id": 145,
       "japanese": "歩く",
       "thai": "เดิน",
       "reading": "ドゥーン",
@@ -2272,10 +2396,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 150,
+      "id": 146,
       "japanese": "散歩する",
       "thai": "เดิน เล่น",
       "reading": "ドゥーン レン",
@@ -2287,10 +2412,11 @@
       "acceptedJapanese": [
         "散歩する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 151,
+      "id": 147,
       "japanese": "まっすぐ歩いて行く",
       "thai": "เดินตรงไป",
       "reading": "ドゥーン・トロン・パイ",
@@ -2302,10 +2428,11 @@
       "acceptedJapanese": [
         "まっすぐ歩いて行く"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 152,
+      "id": 148,
       "japanese": "旅行、歩く＋道",
       "thai": "เดินทาง",
       "reading": "ドゥーンターン",
@@ -2317,10 +2444,11 @@
       "acceptedJapanese": [
         "旅行、歩く＋道"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 153,
+      "id": 149,
       "japanese": "赤",
       "thai": "แดง",
       "reading": "デーング",
@@ -2332,10 +2460,11 @@
       "acceptedJapanese": [
         "赤"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": 23
     },
     {
-      "id": 154,
+      "id": 150,
       "japanese": "〜で・〜によって・by",
       "thai": "โดย",
       "reading": "ドーイ",
@@ -2347,10 +2476,11 @@
       "acceptedJapanese": [
         "〜で・〜によって・by"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 155,
+      "id": 151,
       "japanese": "特に",
       "thai": "โดยเฉพาะ",
       "reading": "ドーイチャポ",
@@ -2362,10 +2492,11 @@
       "acceptedJapanese": [
         "特に"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 156,
+      "id": 152,
       "japanese": "もらう・得る",
       "thai": "ได้",
       "reading": "ダイ",
@@ -2377,10 +2508,11 @@
       "acceptedJapanese": [
         "もらう・得る"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 157,
+      "id": 153,
       "japanese": "～らしい",
       "thai": "ได้ยินว่า",
       "reading": "ダイインワー",
@@ -2392,10 +2524,11 @@
       "acceptedJapanese": [
         "～らしい"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 158,
+      "id": 154,
       "japanese": "落ちる、降る",
       "thai": "ตก",
       "reading": "トック",
@@ -2407,10 +2540,11 @@
       "acceptedJapanese": [
         "落ちる、降る"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 159,
+      "id": 155,
       "japanese": "木",
       "thai": "ต้นไม้",
       "reading": "トンマーイ",
@@ -2422,10 +2556,11 @@
       "acceptedJapanese": [
         "木"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 161,
+      "id": 156,
       "japanese": "向かい / 反対側",
       "thai": "ตรงข้าม",
       "reading": "トロンカーム",
@@ -2437,10 +2572,11 @@
       "acceptedJapanese": [
         "向かい / 反対側"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 162,
+      "id": 157,
       "japanese": "市場",
       "thai": "ตลาด",
       "reading": "タラート",
@@ -2454,10 +2590,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 6
     },
     {
-      "id": 163,
+      "id": 158,
       "japanese": "should",
       "thai": "ต้อง",
       "reading": "トン",
@@ -2469,10 +2606,11 @@
       "acceptedJapanese": [
         "should"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 164,
+      "id": 159,
       "japanese": "必要とする、したい",
       "thai": "ต้องการ",
       "reading": "トンガーン",
@@ -2484,10 +2622,11 @@
       "acceptedJapanese": [
         "必要とする、したい"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 165,
+      "id": 160,
       "japanese": "～の時",
       "thai": "ตอน",
       "reading": "トーン",
@@ -2499,10 +2638,11 @@
       "acceptedJapanese": [
         "～の時"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 166,
+      "id": 161,
       "japanese": "答える",
       "thai": "ตอบ",
       "reading": "トープ",
@@ -2516,10 +2656,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 167,
+      "id": 162,
       "japanese": "箸",
       "thai": "ตะเกียบ",
       "reading": "タキヤ",
@@ -2531,10 +2672,11 @@
       "acceptedJapanese": [
         "箸"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 168,
+      "id": 163,
       "japanese": "位置する・設置する",
       "thai": "ตั้ง",
       "reading": "タン",
@@ -2546,10 +2688,11 @@
       "acceptedJapanese": [
         "位置する・設置する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 169,
+      "id": 164,
       "japanese": "一生懸命に",
       "thai": "ตั้งใจ",
       "reading": "タンジャイ",
@@ -2561,10 +2704,11 @@
       "acceptedJapanese": [
         "一生懸命に"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 170,
+      "id": 165,
       "japanese": "〜から・since",
       "thai": "ตั้งแต่",
       "reading": "タンテー",
@@ -2576,10 +2720,11 @@
       "acceptedJapanese": [
         "〜から・since"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 171,
+      "id": 166,
       "japanese": "位置する",
       "thai": "ตั้งอยู่",
       "reading": "タンユー",
@@ -2591,10 +2736,11 @@
       "acceptedJapanese": [
         "位置する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 172,
+      "id": 167,
       "japanese": "決める",
       "thai": "ตัดสินใจ",
       "reading": "タットシンジャイ",
@@ -2606,10 +2752,11 @@
       "acceptedJapanese": [
         "決める"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 173,
+      "id": 168,
       "japanese": "警察 / 警察官",
       "thai": "ตำรวจ",
       "reading": "タムルワット",
@@ -2621,10 +2768,11 @@
       "acceptedJapanese": [
         "警察 / 警察官"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 174,
+      "id": 169,
       "japanese": "渋滞している",
       "thai": "ติดรถ",
       "reading": "ティット・ロット",
@@ -2636,10 +2784,11 @@
       "acceptedJapanese": [
         "渋滞している"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 175,
+      "id": 170,
       "japanese": "起きる・目覚める",
       "thai": "ตื่นนอน",
       "reading": "トゥーンノーン",
@@ -2651,10 +2800,11 @@
       "acceptedJapanese": [
         "起きる・目覚める"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 176,
+      "id": 171,
       "japanese": "トリアム",
       "thai": "เตรียม",
       "reading": "用意する・準備する",
@@ -2666,10 +2816,11 @@
       "acceptedJapanese": [
         "トリアム"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 177,
+      "id": 172,
       "japanese": "ベッド",
       "thai": "เตียง",
       "reading": "ティアン",
@@ -2683,10 +2834,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 8
     },
     {
-      "id": 178,
+      "id": 173,
       "japanese": "結婚する",
       "thai": "แต่งงาน",
       "reading": "テンガーン",
@@ -2698,10 +2850,11 @@
       "acceptedJapanese": [
         "結婚する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 179,
+      "id": 174,
       "japanese": "スイカ",
       "thai": "แตงโม",
       "reading": "テングモー",
@@ -2713,10 +2866,11 @@
       "acceptedJapanese": [
         "スイカ"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 180,
+      "id": 175,
       "japanese": "机",
       "thai": "โต๊ะ",
       "reading": "ト",
@@ -2730,10 +2884,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 8
     },
     {
-      "id": 181,
+      "id": 176,
       "japanese": "下",
       "thai": "ใต้",
       "reading": "タイ",
@@ -2745,10 +2900,11 @@
       "acceptedJapanese": [
         "下"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 182,
+      "id": 177,
       "japanese": "地下",
       "thai": "ใต้ดิน",
       "reading": "タイ・ディン",
@@ -2760,10 +2916,11 @@
       "acceptedJapanese": [
         "地下"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 183,
+      "id": 178,
       "japanese": "道・通り",
       "thai": "ถนน",
       "reading": "タノン",
@@ -2773,32 +2930,31 @@
         "ถนน"
       ],
       "acceptedJapanese": [
-        "道・通り",
-        "道"
+        "道・通り"
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 184,
+      "id": 179,
       "japanese": "道",
       "thai": "ถนน",
       "reading": "タノン",
       "usageNote": "ถนนยาว（道は長い。）",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ถนน",
-        "ทาง"
+        "ถนน"
       ],
       "acceptedJapanese": [
-        "道・通り",
         "道"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 185,
+      "id": 180,
       "japanese": "道が渋滞している",
       "thai": "ถนนติด",
       "reading": "タノン・ティット",
@@ -2810,10 +2966,11 @@
       "acceptedJapanese": [
         "道が渋滞している"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 186,
+      "id": 181,
       "japanese": "次",
       "thai": "ถัดไป",
       "reading": "タットパイ",
@@ -2825,10 +2982,11 @@
       "acceptedJapanese": [
         "次"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 187,
+      "id": 182,
       "japanese": "もし",
       "thai": "ถ้า",
       "reading": "ター",
@@ -2840,10 +2998,11 @@
       "acceptedJapanese": [
         "もし"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 188,
+      "id": 183,
       "japanese": "質問する",
       "thai": "ถาม",
       "reading": "ターム",
@@ -2857,10 +3016,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 189,
+      "id": 184,
       "japanese": "自問する",
       "thai": "ถามใจ",
       "reading": "ターム・ジャイ",
@@ -2872,10 +3032,11 @@
       "acceptedJapanese": [
         "自問する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 190,
+      "id": 185,
       "japanese": "〜と聞く・〜かどうか聞く",
       "thai": "ถามว่า",
       "reading": "ターム・ワー",
@@ -2887,10 +3048,11 @@
       "acceptedJapanese": [
         "〜と聞く・〜かどうか聞く"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 191,
+      "id": 186,
       "japanese": "着く",
       "thai": "ถึง",
       "reading": "トゥン",
@@ -2902,10 +3064,11 @@
       "acceptedJapanese": [
         "着く"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 192,
+      "id": 187,
       "japanese": "着いた！",
       "thai": "ถึงแล้ว",
       "reading": "トゥン・レーオ",
@@ -2917,10 +3080,11 @@
       "acceptedJapanese": [
         "着いた！"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 193,
+      "id": 188,
       "japanese": "袋",
       "thai": "ถุง",
       "reading": "トゥン",
@@ -2934,10 +3098,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 194,
+      "id": 189,
       "japanese": "安価",
       "thai": "ถูก",
       "reading": "トゥーク",
@@ -2947,15 +3112,15 @@
         "ถูก"
       ],
       "acceptedJapanese": [
-        "安価",
-        "〜された！"
+        "安価"
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 16
     },
     {
-      "id": 195,
+      "id": 190,
       "japanese": "〜された！",
       "thai": "ถูก",
       "reading": "トゥーク",
@@ -2965,13 +3130,13 @@
         "ถูก"
       ],
       "acceptedJapanese": [
-        "安価",
         "〜された！"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 196,
+      "id": 191,
       "japanese": "気に入った・好き",
       "thai": "ถูกใจ",
       "reading": "トゥークジャイ",
@@ -2983,10 +3148,11 @@
       "acceptedJapanese": [
         "気に入った・好き"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 197,
+      "id": 192,
       "japanese": "この辺り",
       "thai": "แถวนี้",
       "reading": "テーオ・ニー",
@@ -2998,10 +3164,11 @@
       "acceptedJapanese": [
         "この辺り"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 198,
+      "id": 193,
       "japanese": "軍人",
       "thai": "ทหาร",
       "reading": "タハーン",
@@ -3013,10 +3180,11 @@
       "acceptedJapanese": [
         "軍人"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 199,
+      "id": 194,
       "japanese": "お釣り",
       "thai": "ทอน",
       "reading": "トーン",
@@ -3030,10 +3198,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 200,
+      "id": 195,
       "japanese": "海",
       "thai": "ทะเล",
       "reading": "タレー",
@@ -3045,26 +3214,27 @@
       "acceptedJapanese": [
         "海"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 201,
+      "id": 196,
       "japanese": "道",
       "thai": "ทาง",
       "reading": "ターン",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ถนน",
         "ทาง"
       ],
       "acceptedJapanese": [
         "道"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 202,
+      "id": 197,
       "japanese": "右側 / 右の道",
       "thai": "ทางขวา",
       "reading": "ターン・クワー",
@@ -3076,10 +3246,11 @@
       "acceptedJapanese": [
         "右側 / 右の道"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 203,
+      "id": 198,
       "japanese": "左側 / 左の道",
       "thai": "ทางซ้าย",
       "reading": "ターン・サーイ",
@@ -3091,10 +3262,11 @@
       "acceptedJapanese": [
         "左側 / 左の道"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 204,
+      "id": 199,
       "japanese": "〜らしい",
       "thai": "ท่าทาง",
       "reading": "ターターン",
@@ -3106,10 +3278,11 @@
       "acceptedJapanese": [
         "〜らしい"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 205,
+      "id": 200,
       "japanese": "作",
       "thai": "ทำ",
       "reading": "ダム",
@@ -3119,15 +3292,15 @@
         "ทำ"
       ],
       "acceptedJapanese": [
-        "作",
-        "～する"
+        "作"
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 206,
+      "id": 201,
       "japanese": "～する",
       "thai": "ทำ",
       "reading": "タム",
@@ -3137,13 +3310,13 @@
         "ทำ"
       ],
       "acceptedJapanese": [
-        "作",
         "～する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 207,
+      "id": 202,
       "japanese": "仕事する",
       "thai": "ทำงาน",
       "reading": "タム・ガーン",
@@ -3155,10 +3328,11 @@
       "acceptedJapanese": [
         "仕事する"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 208,
+      "id": 203,
       "japanese": "なぜ？",
       "thai": "ทำไม",
       "reading": "タムマイ",
@@ -3172,10 +3346,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 209,
+      "id": 204,
       "japanese": "〜になる原因となる",
       "thai": "ทำให้เป็น",
       "reading": "タム・ハイ・ペン",
@@ -3187,10 +3362,11 @@
       "acceptedJapanese": [
         "〜になる原因となる"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 210,
+      "id": 205,
       "japanese": "at、関係詞のthat",
       "thai": "ที่",
       "reading": "ティー",
@@ -3202,10 +3378,11 @@
       "acceptedJapanese": [
         "at、関係詞のthat"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 211,
+      "id": 206,
       "japanese": "そこ",
       "thai": "ที่นั่น",
       "reading": "ティー・ナン",
@@ -3219,10 +3396,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 12
     },
     {
-      "id": 212,
+      "id": 207,
       "japanese": "ここ",
       "thai": "ที่นี่",
       "reading": "ティー・ニー",
@@ -3236,10 +3414,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 12
     },
     {
-      "id": 213,
+      "id": 208,
       "japanese": "あそこ",
       "thai": "ที่โน่น",
       "reading": "ティー・ノーン",
@@ -3251,10 +3430,11 @@
       "acceptedJapanese": [
         "あそこ"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 214,
+      "id": 209,
       "japanese": "一番",
       "thai": "ที่สุด",
       "reading": "ティースット",
@@ -3266,10 +3446,11 @@
       "acceptedJapanese": [
         "一番"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 215,
+      "id": 210,
       "japanese": "毎〜・全ての",
       "thai": "ทุก",
       "reading": "トゥック",
@@ -3281,10 +3462,11 @@
       "acceptedJapanese": [
         "毎〜・全ての"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 216,
+      "id": 211,
       "japanese": "毎晩",
       "thai": "ทุกคืน",
       "reading": "トゥック・クーン",
@@ -3296,10 +3478,11 @@
       "acceptedJapanese": [
         "毎晩"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 217,
+      "id": 212,
       "japanese": "毎朝",
       "thai": "ทุกเช้า",
       "reading": "トゥック・チャオ",
@@ -3311,10 +3494,11 @@
       "acceptedJapanese": [
         "毎朝"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 218,
+      "id": 213,
       "japanese": "毎月",
       "thai": "ทุกเดือน",
       "reading": "トゥック・ドゥアン",
@@ -3326,10 +3510,11 @@
       "acceptedJapanese": [
         "毎月"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 219,
+      "id": 214,
       "japanese": "毎週",
       "thai": "ทุกอาทิตย์",
       "reading": "トゥック・アーティット！",
@@ -3341,10 +3526,11 @@
       "acceptedJapanese": [
         "毎週"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 220,
+      "id": 215,
       "japanese": "技術",
       "thai": "เทคโนโลยี",
       "reading": "テークノーローイー",
@@ -3356,10 +3542,11 @@
       "acceptedJapanese": [
         "技術"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 221,
+      "id": 216,
       "japanese": "足",
       "thai": "เท้า",
       "reading": "ターオ",
@@ -3373,10 +3560,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 10
     },
     {
-      "id": 223,
+      "id": 217,
       "japanese": "いくら / どれくらい",
       "thai": "เท่าไหร่",
       "reading": "タオライ",
@@ -3388,10 +3576,11 @@
       "acceptedJapanese": [
         "いくら / どれくらい"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 224,
+      "id": 218,
       "japanese": "旅行する、遊ぶ(その場所を離れて何かをする場合)",
       "thai": "เที่ยว",
       "reading": "ティアオ",
@@ -3403,28 +3592,29 @@
       "acceptedJapanese": [
         "旅行する、遊ぶ(その場所を離れて何かをする場合)"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 225,
+      "id": 219,
       "japanese": "電話する",
       "thai": "โทร",
       "reading": "トー",
       "usageNote": "トーパイハー+人、でも良い",
       "wordOrderNote": "",
       "acceptedThai": [
-        "โทร",
-        "โทรหา"
+        "โทร"
       ],
       "acceptedJapanese": [
         "電話する"
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 226,
+      "id": 220,
       "japanese": "折り返し電話する",
       "thai": "โทร ＋ กลับ",
       "reading": "トー・クラップ",
@@ -3436,10 +3626,11 @@
       "acceptedJapanese": [
         "折り返し電話する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 227,
+      "id": 221,
       "japanese": "スマホ",
       "thai": "โทรศัพท์",
       "reading": "トーラサップ",
@@ -3451,10 +3642,11 @@
       "acceptedJapanese": [
         "スマホ"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 228,
+      "id": 222,
       "japanese": "電話をかける",
       "thai": "โทรหา",
       "reading": "トーハー",
@@ -3464,30 +3656,29 @@
         "โทรหา"
       ],
       "acceptedJapanese": [
-        "電話をかける",
-        "電話する"
+        "電話をかける"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 229,
+      "id": 223,
       "japanese": "電話する",
       "thai": "โทรหา",
       "reading": "トーハー",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "โทร",
         "โทรหา"
       ],
       "acceptedJapanese": [
-        "電話をかける",
         "電話する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 230,
+      "id": 224,
       "japanese": "銀行",
       "thai": "ธนาคาร",
       "reading": "タナカーン",
@@ -3499,10 +3690,11 @@
       "acceptedJapanese": [
         "銀行"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 231,
+      "id": 225,
       "japanese": "君",
       "thai": "เธอ",
       "reading": "トゥー",
@@ -3514,10 +3706,11 @@
       "acceptedJapanese": [
         "君"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 232,
+      "id": 226,
       "japanese": "鳥",
       "thai": "นก",
       "reading": "ノック",
@@ -3531,10 +3724,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 7
     },
     {
-      "id": 233,
+      "id": 227,
       "japanese": "あの",
       "thai": "นนั้น",
       "reading": "ナン",
@@ -3546,10 +3740,11 @@
       "acceptedJapanese": [
         "あの"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 234,
+      "id": 228,
       "japanese": "牛乳",
       "thai": "นม",
       "reading": "ノム",
@@ -3563,10 +3758,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 5
     },
     {
-      "id": 235,
+      "id": 229,
       "japanese": "寝",
       "thai": "นอน",
       "reading": "ノーン",
@@ -3580,10 +3776,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 236,
+      "id": 230,
       "japanese": "旅行者・観光客",
       "thai": "นักท่องเที่ยว",
       "reading": "ナックトンティアオ",
@@ -3595,10 +3792,11 @@
       "acceptedJapanese": [
         "旅行者・観光客"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 237,
+      "id": 231,
       "japanese": "生徒",
       "thai": "นักเรียน",
       "reading": "ナックリアン",
@@ -3610,10 +3808,11 @@
       "acceptedJapanese": [
         "生徒"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 238,
+      "id": 232,
       "japanese": "電車に乗る",
       "thai": "นั่ง",
       "reading": "ナン",
@@ -3623,13 +3822,13 @@
         "นั่ง"
       ],
       "acceptedJapanese": [
-        "電車に乗る",
-        "座る"
+        "電車に乗る"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 239,
+      "id": 233,
       "japanese": "座る",
       "thai": "นั่ง",
       "reading": "ナン",
@@ -3639,15 +3838,15 @@
         "นั่ง"
       ],
       "acceptedJapanese": [
-        "電車に乗る",
         "座る"
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 240,
+      "id": 234,
       "japanese": "約束、予約",
       "thai": "นัด",
       "reading": "ナット",
@@ -3659,10 +3858,11 @@
       "acceptedJapanese": [
         "約束、予約"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 241,
+      "id": 235,
       "japanese": "きっと〜はず（推量）",
       "thai": "น่าจะ",
       "reading": "ナージャ",
@@ -3674,10 +3874,11 @@
       "acceptedJapanese": [
         "きっと〜はず（推量）"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 242,
+      "id": 236,
       "japanese": "分",
       "thai": "นาที",
       "reading": "ナーティー",
@@ -3689,10 +3890,11 @@
       "acceptedJapanese": [
         "分"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 243,
+      "id": 237,
       "japanese": "長い間,久しい",
       "thai": "นาน",
       "reading": "ナーン",
@@ -3704,10 +3906,11 @@
       "acceptedJapanese": [
         "長い間,久しい"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 244,
+      "id": 238,
       "japanese": "時計",
       "thai": "นาฬิกา",
       "reading": "ナリカー",
@@ -3719,44 +3922,45 @@
       "acceptedJapanese": [
         "時計"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 246,
+      "id": 239,
       "japanese": "水",
       "thai": "น้ำ",
       "reading": "ナーム",
       "usageNote": "ดื่มน้ำ（水を飲む。）",
       "wordOrderNote": "",
       "acceptedThai": [
-        "น้ำ",
-        "น้ำ ชา"
+        "น้ำ"
       ],
       "acceptedJapanese": [
         "水"
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 5
     },
     {
-      "id": 247,
+      "id": 240,
       "japanese": "水",
       "thai": "น้ำ ชา",
       "reading": "ナンパオ",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "น้ำ",
         "น้ำ ชา"
       ],
       "acceptedJapanese": [
         "水"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 248,
+      "id": 241,
       "japanese": "氷",
       "thai": "น้ำแข็ง",
       "reading": "ナームケン",
@@ -3768,10 +3972,11 @@
       "acceptedJapanese": [
         "氷"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 249,
+      "id": 242,
       "japanese": "炭酸飲料",
       "thai": "น้ำอัดลม",
       "reading": "ナームアットロム",
@@ -3783,10 +3988,11 @@
       "acceptedJapanese": [
         "炭酸飲料"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 250,
+      "id": 243,
       "japanese": "少し / ちょっと",
       "thai": "นิดหน่อย",
       "reading": "ニットノイ",
@@ -3798,10 +4004,11 @@
       "acceptedJapanese": [
         "少し / ちょっと"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 251,
+      "id": 244,
       "japanese": "〜なので / 〜のため",
       "thai": "เนื่องจาก",
       "reading": "ヌアンジャーク",
@@ -3813,10 +4020,11 @@
       "acceptedJapanese": [
         "〜なので / 〜のため"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 252,
+      "id": 245,
       "japanese": "〜の中に",
       "thai": "ใน",
       "reading": "ナイ",
@@ -3828,10 +4036,11 @@
       "acceptedJapanese": [
         "〜の中に"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 253,
+      "id": 246,
       "japanese": "将来・未来",
       "thai": "ในอนาคต",
       "reading": "ナイ・アナーコット",
@@ -3843,10 +4052,11 @@
       "acceptedJapanese": [
         "将来・未来"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 254,
+      "id": 247,
       "japanese": "～の上",
       "thai": "บน",
       "reading": "ボン",
@@ -3858,10 +4068,11 @@
       "acceptedJapanese": [
         "～の上"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 255,
+      "id": 248,
       "japanese": "サービス",
       "thai": "บริการ",
       "reading": "ボリカーン",
@@ -3873,10 +4084,11 @@
       "acceptedJapanese": [
         "サービス"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 256,
+      "id": 249,
       "japanese": "会社",
       "thai": "บริษัท",
       "reading": "ボーリサット",
@@ -3888,10 +4100,11 @@
       "acceptedJapanese": [
         "会社"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 257,
+      "id": 250,
       "japanese": "言う、伝える",
       "thai": "บอก",
       "reading": "ボーク",
@@ -3903,10 +4116,11 @@
       "acceptedJapanese": [
         "言う、伝える"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 258,
+      "id": 251,
       "japanese": "よく・頻繁に",
       "thai": "บ่อยๆ",
       "reading": "ボイボイ",
@@ -3918,10 +4132,11 @@
       "acceptedJapanese": [
         "よく・頻繁に"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 259,
+      "id": 252,
       "japanese": "カード / チケット",
       "thai": "บัตร",
       "reading": "バット",
@@ -3933,10 +4148,11 @@
       "acceptedJapanese": [
         "カード / チケット"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 260,
+      "id": 253,
       "japanese": "階段",
       "thai": "บันได",
       "reading": "バンダイ",
@@ -3948,10 +4164,11 @@
       "acceptedJapanese": [
         "階段"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 261,
+      "id": 254,
       "japanese": "時々,たまに",
       "thai": "บางครั้ง",
       "reading": "バーンクラン",
@@ -3963,10 +4180,11 @@
       "acceptedJapanese": [
         "時々,たまに"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 262,
+      "id": 255,
       "japanese": "家",
       "thai": "บ้าน",
       "reading": "パーン",
@@ -3980,10 +4198,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 6
     },
     {
-      "id": 263,
+      "id": 256,
       "japanese": "電話番号",
       "thai": "เบอร์โทร",
       "reading": "ブー・トー",
@@ -3995,10 +4214,11 @@
       "acceptedJapanese": [
         "電話番号"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 264,
+      "id": 257,
       "japanese": "ビール",
       "thai": "เบียร์",
       "reading": "ビア",
@@ -4010,10 +4230,11 @@
       "acceptedJapanese": [
         "ビール"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 265,
+      "id": 258,
       "japanese": "レシート",
       "thai": "ใบเสร็จ",
       "reading": "バイ セット",
@@ -4025,10 +4246,11 @@
       "acceptedJapanese": [
         "レシート"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 266,
+      "id": 259,
       "japanese": "普段",
       "thai": "ปกติ",
       "reading": "ポガティ",
@@ -4040,10 +4262,11 @@
       "acceptedJapanese": [
         "普段"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 267,
+      "id": 260,
       "japanese": "会議",
       "thai": "ประชุม",
       "reading": "プラチュム",
@@ -4055,10 +4278,11 @@
       "acceptedJapanese": [
         "会議"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 268,
+      "id": 261,
       "japanese": "扉",
       "thai": "ประตู",
       "reading": "プラトゥー",
@@ -4068,15 +4292,15 @@
         "ประตู"
       ],
       "acceptedJapanese": [
-        "扉",
-        "ドア"
+        "扉"
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 269,
+      "id": 262,
       "japanese": "ドア",
       "thai": "ประตู",
       "reading": "プラトゥー",
@@ -4086,13 +4310,13 @@
         "ประตู"
       ],
       "acceptedJapanese": [
-        "扉",
         "ドア"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 270,
+      "id": 263,
       "japanese": "隣国",
       "thai": "ประเทศเพื่อนบ้าน",
       "reading": "プアンバーン",
@@ -4104,10 +4328,11 @@
       "acceptedJapanese": [
         "隣国"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 271,
+      "id": 264,
       "japanese": "約",
       "thai": "ประมาณ",
       "reading": "プラマーン",
@@ -4119,10 +4344,11 @@
       "acceptedJapanese": [
         "約"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 272,
+      "id": 265,
       "japanese": "文 / 文章",
       "thai": "ประโยค",
       "reading": "プラヨーク",
@@ -4134,10 +4360,11 @@
       "acceptedJapanese": [
         "文 / 文章"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 273,
+      "id": 266,
       "japanese": "経験",
       "thai": "ประสบการณ์",
       "reading": "プラソップカーン",
@@ -4149,10 +4376,11 @@
       "acceptedJapanese": [
         "経験"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 275,
+      "id": 267,
       "japanese": "成功する",
       "thai": "ประสบความสำเร็จ",
       "reading": "プラソップ・クワームサムレット",
@@ -4164,42 +4392,43 @@
       "acceptedJapanese": [
         "成功する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 276,
+      "id": 268,
       "japanese": "安全",
       "thai": "ปลอด",
       "reading": "プロート",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ปลอด",
-        "ปลอดภัย"
+        "ปลอด"
       ],
       "acceptedJapanese": [
         "安全"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 277,
+      "id": 269,
       "japanese": "安全",
       "thai": "ปลอดภัย",
       "reading": "プロートパイ",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ปลอด",
         "ปลอดภัย"
       ],
       "acceptedJapanese": [
         "安全"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 278,
+      "id": 270,
       "japanese": "魚",
       "thai": "ปลา",
       "reading": "プラー",
@@ -4213,10 +4442,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 11
     },
     {
-      "id": 279,
+      "id": 271,
       "japanese": "植物",
       "thai": "ปลูก",
       "reading": "プルーク",
@@ -4228,10 +4458,11 @@
       "acceptedJapanese": [
         "植物"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 280,
+      "id": 272,
       "japanese": "病気である",
       "thai": "ป่วย",
       "reading": "プアイ",
@@ -4245,10 +4476,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 18
     },
     {
-      "id": 281,
+      "id": 273,
       "japanese": "問題",
       "thai": "ปัญหา",
       "reading": "パンハー",
@@ -4260,10 +4492,11 @@
       "acceptedJapanese": [
         "問題"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 282,
+      "id": 274,
       "japanese": "口",
       "thai": "ปาก",
       "reading": "パーク",
@@ -4277,10 +4510,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 10
     },
     {
-      "id": 283,
+      "id": 275,
       "japanese": "ペン",
       "thai": "ปากกา",
       "reading": "パーカー",
@@ -4294,10 +4528,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "少し長いが日常基礎語"
+      "selectionReason": "少し長いが日常基礎語",
+      "choice_group_id": 9
     },
     {
-      "id": 284,
+      "id": 276,
       "japanese": "標識 / 看板",
       "thai": "ป้าย",
       "reading": "パーイ",
@@ -4309,10 +4544,11 @@
       "acceptedJapanese": [
         "標識 / 看板"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 285,
+      "id": 277,
       "japanese": "バス停",
       "thai": "ป้ายรถเมล์",
       "reading": "パーイ・ロットメー",
@@ -4324,10 +4560,11 @@
       "acceptedJapanese": [
         "バス停"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 286,
+      "id": 278,
       "japanese": "閉める",
       "thai": "ปิด",
       "reading": "ピット",
@@ -4341,26 +4578,27 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 19
     },
     {
-      "id": 287,
+      "id": 279,
       "japanese": "Is",
       "thai": "เป็น",
       "reading": "ペン",
       "usageNote": "A=B&B≒Aならペン",
       "wordOrderNote": "",
       "acceptedThai": [
-        "คือ",
         "เป็น"
       ],
       "acceptedJapanese": [
         "Is"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 288,
+      "id": 280,
       "japanese": "取り替える",
       "thai": "เปลี่ยน",
       "reading": "プリアン",
@@ -4372,10 +4610,11 @@
       "acceptedJapanese": [
         "取り替える"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 289,
+      "id": 281,
       "japanese": "開ける",
       "thai": "เปิด",
       "reading": "プート",
@@ -4389,10 +4628,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 19
     },
     {
-      "id": 290,
+      "id": 282,
       "japanese": "翻訳する",
       "thai": "แปล",
       "reading": "プレー",
@@ -4404,10 +4644,11 @@
       "acceptedJapanese": [
         "翻訳する"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 291,
+      "id": 283,
       "japanese": "行（動作の完結を示す）",
       "thai": "ไป",
       "reading": "パイ",
@@ -4421,10 +4662,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 22
     },
     {
-      "id": 292,
+      "id": 284,
       "japanese": "郵便局",
       "thai": "ไปรษณีย์",
       "reading": "プライ・サ・ニー",
@@ -4436,26 +4678,27 @@
       "acceptedJapanese": [
         "郵便局"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 293,
+      "id": 285,
       "japanese": "私",
       "thai": "ผม",
       "reading": "ポン",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ดิฉัน",
         "ผม"
       ],
       "acceptedJapanese": [
         "私"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 294,
+      "id": 286,
       "japanese": "果物",
       "thai": "ผลไม้",
       "reading": "ポンラマーイ",
@@ -4467,10 +4710,11 @@
       "acceptedJapanese": [
         "果物"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 295,
+      "id": 287,
       "japanese": "結果",
       "thai": "ผลลัพธ์",
       "reading": "ポンラップ",
@@ -4482,10 +4726,11 @@
       "acceptedJapanese": [
         "結果"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 296,
+      "id": 288,
       "japanese": "合格する",
       "thai": "ผ่าน",
       "reading": "パーン",
@@ -4497,10 +4742,11 @@
       "acceptedJapanese": [
         "合格する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 297,
+      "id": 289,
       "japanese": "間違い・誤り",
       "thai": "ผิด　พลาด",
       "reading": "ピット・プラート",
@@ -4512,10 +4758,11 @@
       "acceptedJapanese": [
         "間違い・誤り"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 298,
+      "id": 290,
       "japanese": "辛",
       "thai": "เผ็ด",
       "reading": "ペット",
@@ -4529,10 +4776,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 299,
+      "id": 291,
       "japanese": "地図",
       "thai": "แผนที่",
       "reading": "ペーンティー",
@@ -4544,10 +4792,11 @@
       "acceptedJapanese": [
         "地図"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 300,
+      "id": 292,
       "japanese": "雨",
       "thai": "ฝน",
       "reading": "フォン",
@@ -4559,10 +4808,11 @@
       "acceptedJapanese": [
         "雨"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 301,
+      "id": 293,
       "japanese": "社員",
       "thai": "พนักงาน",
       "reading": "パナックンガーン",
@@ -4574,10 +4824,11 @@
       "acceptedJapanese": [
         "社員"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 302,
+      "id": 294,
       "japanese": "会う・出会う",
       "thai": "พบ",
       "reading": "ポップ",
@@ -4591,10 +4842,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 303,
+      "id": 295,
       "japanese": "努力する / がんばる",
       "thai": "พยายาม",
       "reading": "パヤヤーム",
@@ -4606,10 +4858,11 @@
       "acceptedJapanese": [
         "努力する / がんばる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 304,
+      "id": 296,
       "japanese": "明日",
       "thai": "พรุ่งนี้",
       "reading": "プルンニー",
@@ -4623,10 +4876,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 1
     },
     {
-      "id": 305,
+      "id": 297,
       "japanese": "父",
       "thai": "พ่อ",
       "reading": "ポー",
@@ -4640,10 +4894,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 2
     },
     {
-      "id": 306,
+      "id": 298,
       "japanese": "ちょうど",
       "thai": "พอดี",
       "reading": "ポーディー",
@@ -4655,10 +4910,11 @@
       "acceptedJapanese": [
         "ちょうど"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 307,
+      "id": 299,
       "japanese": "泊まる・休む",
       "thai": "พัก",
       "reading": "パック",
@@ -4672,10 +4928,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 308,
+      "id": 300,
       "japanese": "連れる",
       "thai": "พา",
       "reading": "パー",
@@ -4687,10 +4944,11 @@
       "acceptedJapanese": [
         "連れる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 309,
+      "id": 301,
       "japanese": "話す",
       "thai": "พูด",
       "reading": "プート",
@@ -4704,10 +4962,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 310,
+      "id": 302,
       "japanese": "例えば、なぜなら",
       "thai": "เพราะว่า",
       "reading": "プロワー",
@@ -4719,10 +4978,11 @@
       "acceptedJapanese": [
         "例えば、なぜなら"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 311,
+      "id": 303,
       "japanese": "〜したばかり",
       "thai": "เพิ่ง",
       "reading": "プーング",
@@ -4734,10 +4994,11 @@
       "acceptedJapanese": [
         "〜したばかり"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 312,
+      "id": 304,
       "japanese": "for",
       "thai": "เพื่อ",
       "reading": "プッア",
@@ -4749,10 +5010,11 @@
       "acceptedJapanese": [
         "for"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 313,
+      "id": 305,
       "japanese": "友人",
       "thai": "เพื่อน",
       "reading": "プーアン",
@@ -4766,10 +5028,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 2
     },
     {
-      "id": 314,
+      "id": 306,
       "japanese": "高い[値段が]",
       "thai": "แพง",
       "reading": "ペーン",
@@ -4783,10 +5046,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 16
     },
     {
-      "id": 315,
+      "id": 307,
       "japanese": "聞",
       "thai": "ฟัง",
       "reading": "ファン",
@@ -4800,10 +5064,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 316,
+      "id": 308,
       "japanese": "水色",
       "thai": "ฟ้า",
       "reading": "",
@@ -4815,10 +5080,11 @@
       "acceptedJapanese": [
         "水色"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 317,
+      "id": 309,
       "japanese": "火",
       "thai": "ไฟ",
       "reading": "ファイ",
@@ -4830,10 +5096,11 @@
       "acceptedJapanese": [
         "火"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 318,
+      "id": 310,
       "japanese": "妻",
       "thai": "ภรรยา",
       "reading": "パンラヤー",
@@ -4845,10 +5112,11 @@
       "acceptedJapanese": [
         "妻"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 319,
+      "id": 311,
       "japanese": "危険",
       "thai": "ภัย",
       "reading": "パイ",
@@ -4860,10 +5128,11 @@
       "acceptedJapanese": [
         "危険"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 320,
+      "id": 312,
       "japanese": "絵",
       "thai": "ภาพ",
       "reading": "パープ",
@@ -4875,10 +5144,11 @@
       "acceptedJapanese": [
         "絵"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 321,
+      "id": 313,
       "japanese": "言語",
       "thai": "ภาษา",
       "reading": "パーサー",
@@ -4890,10 +5160,11 @@
       "acceptedJapanese": [
         "言語"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 322,
+      "id": 314,
       "japanese": "タイ語",
       "thai": "ภาษา ไทย",
       "reading": "パーサー　タイ",
@@ -4905,10 +5176,11 @@
       "acceptedJapanese": [
         "タイ語"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 323,
+      "id": 315,
       "japanese": "日本語",
       "thai": "ภาษาญี่ปุ่น",
       "reading": "パサーイープン",
@@ -4920,10 +5192,11 @@
       "acceptedJapanese": [
         "日本語"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 324,
+      "id": 316,
       "japanese": "山",
       "thai": "ภูเขา",
       "reading": "プーカオ",
@@ -4935,10 +5208,11 @@
       "acceptedJapanese": [
         "山"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 325,
+      "id": 317,
       "japanese": "来、〜してきた",
       "thai": "มา",
       "reading": "マー",
@@ -4952,10 +5226,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 22
     },
     {
-      "id": 326,
+      "id": 318,
       "japanese": "どれくらい〜し続けてきましたか？",
       "thai": "มา ＋ นาน ＋ เท่าไหร่ ＋ แล้ว",
       "reading": "マー・ナーン・タオライ・レーオ",
@@ -4967,10 +5242,11 @@
       "acceptedJapanese": [
         "どれくらい〜し続けてきましたか？"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 327,
+      "id": 319,
       "japanese": "とても、～より",
       "thai": "มาก",
       "reading": "マーク",
@@ -4982,42 +5258,43 @@
       "acceptedJapanese": [
         "とても、～より"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 328,
+      "id": 320,
       "japanese": "集まる",
       "thai": "มารวม",
       "reading": "マー・ルアム",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "มารวม",
-        "มารวมกัน"
+        "มารวม"
       ],
       "acceptedJapanese": [
         "集まる"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 329,
+      "id": 321,
       "japanese": "集まる",
       "thai": "มารวมกัน",
       "reading": "マー・ルアム・カン",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "มารวม",
         "มารวมกัน"
       ],
       "acceptedJapanese": [
         "集まる"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 330,
+      "id": 322,
       "japanese": "遅れてくる",
       "thai": "มาสาย",
       "reading": "マーサーイ",
@@ -5029,10 +5306,11 @@
       "acceptedJapanese": [
         "遅れてくる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 331,
+      "id": 323,
       "japanese": "ーに～がいる",
       "thai": "มี〜อยู่ー",
       "reading": "ミー〜ユー",
@@ -5044,10 +5322,11 @@
       "acceptedJapanese": [
         "ーに～がいる"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 332,
+      "id": 324,
       "japanese": "有益だ",
       "thai": "มีประโยชน์",
       "reading": "ミー・プラヨート",
@@ -5059,10 +5338,11 @@
       "acceptedJapanese": [
         "有益だ"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 333,
+      "id": 325,
       "japanese": "～側",
       "thai": "มือ",
       "reading": "ムー",
@@ -5074,10 +5354,11 @@
       "acceptedJapanese": [
         "～側"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 334,
+      "id": 326,
       "japanese": "携帯電話",
       "thai": "มือถือ",
       "reading": "ムートゥー",
@@ -5089,10 +5370,11 @@
       "acceptedJapanese": [
         "携帯電話"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 335,
+      "id": 327,
       "japanese": "さっき",
       "thai": "เมื่อกี้",
       "reading": "ムア ギー",
@@ -5104,10 +5386,11 @@
       "acceptedJapanese": [
         "さっき"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 336,
+      "id": 328,
       "japanese": "タイ国",
       "thai": "เมือง ไทย",
       "reading": "ムアン　タイ",
@@ -5119,10 +5402,11 @@
       "acceptedJapanese": [
         "タイ国"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 337,
+      "id": 329,
       "japanese": "昨日",
       "thai": "เมื่อวาน",
       "reading": "ムアワーン",
@@ -5134,10 +5418,11 @@
       "acceptedJapanese": [
         "昨日"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": 1
     },
     {
-      "id": 338,
+      "id": 330,
       "japanese": "いつ？",
       "thai": "เมื่อไหร่",
       "reading": "ムアライ",
@@ -5149,10 +5434,11 @@
       "acceptedJapanese": [
         "いつ？"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 339,
+      "id": 331,
       "japanese": "川",
       "thai": "แม่น้ำ",
       "reading": "メーナーム",
@@ -5164,10 +5450,11 @@
       "acceptedJapanese": [
         "川"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 340,
+      "id": 332,
       "japanese": "猫",
       "thai": "แมว",
       "reading": "メーオ",
@@ -5181,10 +5468,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 7
     },
     {
-      "id": 341,
+      "id": 333,
       "japanese": "〜時",
       "thai": "โมง",
       "reading": "モーン",
@@ -5196,10 +5484,11 @@
       "acceptedJapanese": [
         "〜時"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 342,
+      "id": 334,
       "japanese": "あまり～ではない",
       "thai": "ไม่ค่อย",
       "reading": "マイコイ",
@@ -5211,10 +5500,11 @@
       "acceptedJapanese": [
         "あまり～ではない"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 343,
+      "id": 335,
       "japanese": "大丈夫です",
       "thai": "ไม่เป็นไร",
       "reading": "マイペンライ",
@@ -5226,10 +5516,11 @@
       "acceptedJapanese": [
         "大丈夫です"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 344,
+      "id": 336,
       "japanese": "難しい",
       "thai": "ยาก",
       "reading": "ヤーク",
@@ -5243,10 +5534,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 15
     },
     {
-      "id": 345,
+      "id": 337,
       "japanese": "地区",
       "thai": "ย่าน",
       "reading": "ヤーン",
@@ -5258,10 +5550,11 @@
       "acceptedJapanese": [
         "地区"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 346,
+      "id": 338,
       "japanese": "移動する",
       "thai": "ย้าย",
       "reading": "ヤーイ",
@@ -5273,10 +5566,11 @@
       "acceptedJapanese": [
         "移動する"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 347,
+      "id": 339,
       "japanese": "おめでとう",
       "thai": "ยินดีด้วย",
       "reading": "インディー ドゥアイ",
@@ -5288,10 +5582,11 @@
       "acceptedJapanese": [
         "おめでとう"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 348,
+      "id": 340,
       "japanese": "はじめまして",
       "thai": "ยินดีที่ได้รู้จัก",
       "reading": "インン・ディー・ティー・ダイ・ルージャック",
@@ -5303,10 +5598,11 @@
       "acceptedJapanese": [
         "はじめまして"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 349,
+      "id": 341,
       "japanese": "借りる",
       "thai": "ยืม",
       "reading": "ユーム",
@@ -5318,10 +5614,11 @@
       "acceptedJapanese": [
         "借りる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 350,
+      "id": 342,
       "japanese": "忙しい",
       "thai": "ยุ่ง",
       "reading": "ユン",
@@ -5333,10 +5630,11 @@
       "acceptedJapanese": [
         "忙しい"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 351,
+      "id": 343,
       "japanese": "涼しい・冷たい",
       "thai": "เย็น",
       "reading": "イェン",
@@ -5348,10 +5646,11 @@
       "acceptedJapanese": [
         "涼しい・冷たい"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 352,
+      "id": 344,
       "japanese": "多",
       "thai": "เยอะ",
       "reading": "ユッ",
@@ -5363,10 +5662,11 @@
       "acceptedJapanese": [
         "多"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 353,
+      "id": 345,
       "japanese": "訪ねる",
       "thai": "เยี่ยม",
       "reading": "ヤーム",
@@ -5378,10 +5678,11 @@
       "acceptedJapanese": [
         "訪ねる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 354,
+      "id": 346,
       "japanese": "タクシー",
       "thai": "รถแท็กซี่",
       "reading": "ロット・テクシー",
@@ -5393,26 +5694,27 @@
       "acceptedJapanese": [
         "タクシー"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 355,
+      "id": 347,
       "japanese": "バス",
       "thai": "รถบัส",
       "reading": "ロットバット",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "รถบัส",
-        "รถเมล์"
+        "รถบัส"
       ],
       "acceptedJapanese": [
         "バス"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 356,
+      "id": 348,
       "japanese": "電車",
       "thai": "รถไฟ",
       "reading": "ロットファイ",
@@ -5424,10 +5726,11 @@
       "acceptedJapanese": [
         "電車"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 357,
+      "id": 349,
       "japanese": "電車（BTS・MRT）",
       "thai": "รถไฟฟ้า",
       "reading": "ロット・ファイ・ファー",
@@ -5439,26 +5742,27 @@
       "acceptedJapanese": [
         "電車（BTS・MRT）"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 358,
+      "id": 350,
       "japanese": "バス",
       "thai": "รถเมล์",
       "reading": "ロットメー",
       "usageNote": "ขึ้นรถเมล์（バスに乗ります。）",
       "wordOrderNote": "",
       "acceptedThai": [
-        "รถบัส",
         "รถเมล์"
       ],
       "acceptedJapanese": [
         "バス"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 359,
+      "id": 351,
       "japanese": "傘",
       "thai": "ร่ม",
       "reading": "ロム",
@@ -5470,10 +5774,11 @@
       "acceptedJapanese": [
         "傘"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 360,
+      "id": 352,
       "japanese": "待って",
       "thai": "รอ",
       "reading": "ロー",
@@ -5487,10 +5792,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 361,
+      "id": 353,
       "japanese": "靴",
       "thai": "รองเท้า",
       "reading": "ローンタオ",
@@ -5502,10 +5808,11 @@
       "acceptedJapanese": [
         "靴"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 363,
+      "id": 354,
       "japanese": "暑",
       "thai": "ร้อน",
       "reading": "ローン",
@@ -5519,10 +5826,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 17
     },
     {
-      "id": 364,
+      "id": 355,
       "japanese": "気をつける",
       "thai": "ระวัง",
       "reading": "ラワン",
@@ -5532,13 +5840,13 @@
         "ระวัง"
       ],
       "acceptedJapanese": [
-        "気をつける",
-        "注意する"
+        "気をつける"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 365,
+      "id": 356,
       "japanese": "注意する",
       "thai": "ระวัง",
       "reading": "ラワン",
@@ -5548,13 +5856,13 @@
         "ระวัง"
       ],
       "acceptedJapanese": [
-        "気をつける",
         "注意する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 366,
+      "id": 357,
       "japanese": "〜の間",
       "thai": "ระหว่าง",
       "reading": "ラワーン",
@@ -5566,10 +5874,11 @@
       "acceptedJapanese": [
         "〜の間"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 367,
+      "id": 358,
       "japanese": "愛",
       "thai": "รัก",
       "reading": "ラック",
@@ -5581,10 +5890,11 @@
       "acceptedJapanese": [
         "愛"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 368,
+      "id": 359,
       "japanese": "受け取る・迎える",
       "thai": "รับ",
       "reading": "ラップ",
@@ -5598,10 +5908,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 369,
+      "id": 360,
       "japanese": "電話に出る",
       "thai": "รับสาย",
       "reading": "ラップ・サーイ",
@@ -5613,26 +5924,27 @@
       "acceptedJapanese": [
         "電話に出る"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 370,
+      "id": 361,
       "japanese": "店",
       "thai": "ร้า",
       "reading": "ローン",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ร้า",
-        "ร้าน"
+        "ร้า"
       ],
       "acceptedJapanese": [
         "店"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 371,
+      "id": 362,
       "japanese": "値段",
       "thai": "ราคา",
       "reading": "ラーカー",
@@ -5646,17 +5958,17 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 372,
+      "id": 363,
       "japanese": "店",
       "thai": "ร้าน",
       "reading": "ラーン",
       "usageNote": "ร้านนี้อร่อยมาก (この店はとてもおいしい)",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ร้า",
         "ร้าน"
       ],
       "acceptedJapanese": [
@@ -5664,10 +5976,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 6
     },
     {
-      "id": 373,
+      "id": 364,
       "japanese": "薬局",
       "thai": "ร้านยา",
       "reading": "ローンヤー",
@@ -5679,10 +5992,11 @@
       "acceptedJapanese": [
         "薬局"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 374,
+      "id": 365,
       "japanese": "コンビニ",
       "thai": "ร้านสะดวกซื้อ",
       "reading": "ラーンサドゥアックスー",
@@ -5694,10 +6008,11 @@
       "acceptedJapanese": [
         "コンビニ"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 375,
+      "id": 366,
       "japanese": "レストラン",
       "thai": "ร้านอาหาร",
       "reading": "ラーンアーハーン",
@@ -5709,10 +6024,11 @@
       "acceptedJapanese": [
         "レストラン"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 376,
+      "id": 367,
       "japanese": "詳細",
       "thai": "รายละเอียด",
       "reading": "ラーイ・ライアット",
@@ -5724,10 +6040,11 @@
       "acceptedJapanese": [
         "詳細"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 377,
+      "id": 368,
       "japanese": "〜頃・〜くらい・約",
       "thai": "ราว ๆ",
       "reading": "ラーオラーオ",
@@ -5739,10 +6056,11 @@
       "acceptedJapanese": [
         "〜頃・〜くらい・約"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 378,
+      "id": 369,
       "japanese": "急ぐ",
       "thai": "รีบ",
       "reading": "リープ",
@@ -5754,10 +6072,11 @@
       "acceptedJapanese": [
         "急ぐ"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 379,
+      "id": 370,
       "japanese": "知る",
       "thai": "รู้จัก",
       "reading": "ルージャック",
@@ -5771,10 +6090,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 380,
+      "id": 371,
       "japanese": "写真",
       "thai": "รูป",
       "reading": "ループ",
@@ -5786,10 +6106,11 @@
       "acceptedJapanese": [
         "写真"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 381,
+      "id": 372,
       "japanese": "早、速",
       "thai": "เร็ว",
       "reading": "レオ",
@@ -5801,10 +6122,11 @@
       "acceptedJapanese": [
         "早、速"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 382,
+      "id": 373,
       "japanese": "始まる・始める",
       "thai": "เริ่ม",
       "reading": "ルーム",
@@ -5816,10 +6138,11 @@
       "acceptedJapanese": [
         "始まる・始める"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 383,
+      "id": 374,
       "japanese": "勉強する",
       "thai": "เรียน",
       "reading": "リアン",
@@ -5833,10 +6156,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 384,
+      "id": 375,
       "japanese": "きちんと終わった / 完了した",
       "thai": "เรียบร้อย",
       "reading": "リアップローイ",
@@ -5848,10 +6172,11 @@
       "acceptedJapanese": [
         "きちんと終わった / 完了した"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 385,
+      "id": 376,
       "japanese": "～話",
       "thai": "เรื่อง",
       "reading": "ルアン",
@@ -5863,10 +6188,11 @@
       "acceptedJapanese": [
         "～話"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 386,
+      "id": 377,
       "japanese": "学校",
       "thai": "โรงเรียน",
       "reading": "ローンリアン",
@@ -5878,10 +6204,11 @@
       "acceptedJapanese": [
         "学校"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 387,
+      "id": 378,
       "japanese": "ホテル",
       "thai": "โรงแรม",
       "reading": "ローンレーム",
@@ -5893,10 +6220,11 @@
       "acceptedJapanese": [
         "ホテル"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 389,
+      "id": 379,
       "japanese": "降りる",
       "thai": "ลง",
       "reading": "ロン",
@@ -5908,10 +6236,11 @@
       "acceptedJapanese": [
         "降りる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 390,
+      "id": 380,
       "japanese": "割引する",
       "thai": "ลด",
       "reading": "ロット",
@@ -5923,10 +6252,11 @@
       "acceptedJapanese": [
         "割引する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 391,
+      "id": 381,
       "japanese": "失敗する",
       "thai": "ล้มเหลว",
       "reading": "ロムレーオ",
@@ -5938,10 +6268,11 @@
       "acceptedJapanese": [
         "失敗する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 392,
+      "id": 382,
       "japanese": "エレベーター",
       "thai": "ลิฟต์",
       "reading": "リフト",
@@ -5953,10 +6284,11 @@
       "acceptedJapanese": [
         "エレベーター"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 393,
+      "id": 383,
       "japanese": "忘れる",
       "thai": "ลืม",
       "reading": "ルーム",
@@ -5970,10 +6302,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 21
     },
     {
-      "id": 394,
+      "id": 384,
       "japanese": "遊ぶ",
       "thai": "เล่น",
       "reading": "レン",
@@ -5987,10 +6320,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 395,
+      "id": 385,
       "japanese": "〜冊[本]",
       "thai": "เล่ม",
       "reading": "レム",
@@ -6002,10 +6336,11 @@
       "acceptedJapanese": [
         "〜冊[本]"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 396,
+      "id": 386,
       "japanese": "本当に、それから",
       "thai": "เลย",
       "reading": "ルーイ",
@@ -6017,10 +6352,11 @@
       "acceptedJapanese": [
         "本当に、それから"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 397,
+      "id": 387,
       "japanese": "終わる・やめる",
       "thai": "เลิก",
       "reading": "ルーク",
@@ -6032,10 +6368,11 @@
       "acceptedJapanese": [
         "終わる・やめる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 398,
+      "id": 388,
       "japanese": "曲がる",
       "thai": "เลี้ยว",
       "reading": "リアオ",
@@ -6047,10 +6384,11 @@
       "acceptedJapanese": [
         "曲がる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 399,
+      "id": 389,
       "japanese": "選ぶ",
       "thai": "เลือก",
       "reading": "ルアック",
@@ -6062,26 +6400,27 @@
       "acceptedJapanese": [
         "選ぶ"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 400,
+      "id": 390,
       "japanese": "〜してから",
       "thai": "แล้ว",
       "reading": "レーオ",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "แล้ว",
-        "หลังจาก"
+        "แล้ว"
       ],
       "acceptedJapanese": [
         "〜してから"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 401,
+      "id": 391,
       "japanese": "そして・それから",
       "thai": "แล้วก็",
       "reading": "レーオコー",
@@ -6093,10 +6432,11 @@
       "acceptedJapanese": [
         "そして・それから"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 402,
+      "id": 392,
       "japanese": "～と",
       "thai": "และ",
       "reading": "レ",
@@ -6108,10 +6448,11 @@
       "acceptedJapanese": [
         "～と"
       ],
-      "difficulty": 0
+      "difficulty": 2,
+      "choice_group_id": null
     },
     {
-      "id": 403,
+      "id": 393,
       "japanese": "文化",
       "thai": "วัฒนธรรม",
       "reading": "ワッタナタム",
@@ -6123,10 +6464,11 @@
       "acceptedJapanese": [
         "文化"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 404,
+      "id": 394,
       "japanese": "日曜日",
       "thai": "วัน อาทิตย์",
       "reading": "ワン アーティット",
@@ -6138,10 +6480,11 @@
       "acceptedJapanese": [
         "日曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 405,
+      "id": 395,
       "japanese": "先日",
       "thai": "วันก่อน",
       "reading": "ワンゴーン",
@@ -6153,10 +6496,11 @@
       "acceptedJapanese": [
         "先日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 406,
+      "id": 396,
       "japanese": "月曜日",
       "thai": "วันจันทร์",
       "reading": "ワン・チャン",
@@ -6168,10 +6512,11 @@
       "acceptedJapanese": [
         "月曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 407,
+      "id": 397,
       "japanese": "今日",
       "thai": "วันนี้",
       "reading": "ワンニー",
@@ -6185,10 +6530,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 1
     },
     {
-      "id": 408,
+      "id": 398,
       "japanese": "木曜日",
       "thai": "วันพฤหัสบดี",
       "reading": "ワン・パルハットサボーディー",
@@ -6200,10 +6546,11 @@
       "acceptedJapanese": [
         "木曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 409,
+      "id": 399,
       "japanese": "水曜日",
       "thai": "วันพุธ",
       "reading": "ワン・プット",
@@ -6215,10 +6562,11 @@
       "acceptedJapanese": [
         "水曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 410,
+      "id": 400,
       "japanese": "金曜日",
       "thai": "วันศุกร์",
       "reading": "ワン・スック",
@@ -6230,10 +6578,11 @@
       "acceptedJapanese": [
         "金曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 411,
+      "id": 401,
       "japanese": "土曜日",
       "thai": "วันเสาร์",
       "reading": "ワン・サオ",
@@ -6245,10 +6594,11 @@
       "acceptedJapanese": [
         "土曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 412,
+      "id": 402,
       "japanese": "休日",
       "thai": "วันหยุด",
       "reading": "ワンユット",
@@ -6260,10 +6610,11 @@
       "acceptedJapanese": [
         "休日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 413,
+      "id": 403,
       "japanese": "火曜日",
       "thai": "วันอังคาร",
       "reading": "ワン・アンカーン",
@@ -6275,10 +6626,11 @@
       "acceptedJapanese": [
         "火曜日"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 414,
+      "id": 404,
       "japanese": "that～",
       "thai": "ว่า",
       "reading": "ワー",
@@ -6290,10 +6642,11 @@
       "acceptedJapanese": [
         "that～"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 415,
+      "id": 405,
       "japanese": "置く",
       "thai": "วาง",
       "reading": "ワーン",
@@ -6305,10 +6658,11 @@
       "acceptedJapanese": [
         "置く"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 416,
+      "id": 406,
       "japanese": "電話を切る",
       "thai": "วางสาย",
       "reading": "ワーン・サーイ",
@@ -6320,10 +6674,11 @@
       "acceptedJapanese": [
         "電話を切る"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 417,
+      "id": 407,
       "japanese": "描く",
       "thai": "วาด",
       "reading": "ワート",
@@ -6335,10 +6690,11 @@
       "acceptedJapanese": [
         "描く"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 418,
+      "id": 408,
       "japanese": "泳ぐ",
       "thai": "ว่าย",
       "reading": "ワーイ",
@@ -6350,42 +6706,43 @@
       "acceptedJapanese": [
         "泳ぐ"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 419,
+      "id": 409,
       "japanese": "方法",
       "thai": "วิธี",
       "reading": "ウィティー",
       "usageNote": "นี่เป็นวิธีที่ดี",
       "wordOrderNote": "",
       "acceptedThai": [
-        "วิธี",
-        "วิธีการ"
+        "วิธี"
       ],
       "acceptedJapanese": [
         "方法"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 420,
+      "id": 410,
       "japanese": "方法",
       "thai": "วิธีการ",
       "reading": "ウィティーカーン",
       "usageNote": "เราต้องหาวิธีการใหม่",
       "wordOrderNote": "",
       "acceptedThai": [
-        "วิธี",
         "วิธีการ"
       ],
       "acceptedJapanese": [
         "方法"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 421,
+      "id": 411,
       "japanese": "～の時 / 時間",
       "thai": "เวลา",
       "reading": "ウェラー",
@@ -6397,10 +6754,11 @@
       "acceptedJapanese": [
         "～の時 / 時間"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 422,
+      "id": 412,
       "japanese": "眼鏡",
       "thai": "แว่นตา",
       "reading": "ウェンター",
@@ -6412,10 +6770,11 @@
       "acceptedJapanese": [
         "眼鏡"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 423,
+      "id": 413,
       "japanese": "立ち寄る",
       "thai": "แวะ",
       "reading": "ウェ",
@@ -6427,10 +6786,11 @@
       "acceptedJapanese": [
         "立ち寄る"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 424,
+      "id": 414,
       "japanese": "送る",
       "thai": "ส่ง",
       "reading": "ソン",
@@ -6442,10 +6802,11 @@
       "acceptedJapanese": [
         "送る"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 425,
+      "id": 415,
       "japanese": "興味がある",
       "thai": "สนใจ",
       "reading": "ソンジャイ",
@@ -6457,10 +6818,11 @@
       "acceptedJapanese": [
         "興味がある"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 426,
+      "id": 416,
       "japanese": "楽しい・面白い",
       "thai": "สนุก",
       "reading": "サヌック",
@@ -6472,10 +6834,11 @@
       "acceptedJapanese": [
         "楽しい・面白い"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 427,
+      "id": 417,
       "japanese": "元気・快適",
       "thai": "สบาย ดี",
       "reading": "サバーイ・ディー",
@@ -6487,10 +6850,11 @@
       "acceptedJapanese": [
         "元気・快適"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 428,
+      "id": 418,
       "japanese": "応募する / 申し込む",
       "thai": "สมัคร",
       "reading": "サマック",
@@ -6500,13 +6864,13 @@
         "สมัคร"
       ],
       "acceptedJapanese": [
-        "応募する / 申し込む",
-        "応募する"
+        "応募する / 申し込む"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 429,
+      "id": 419,
       "japanese": "応募する",
       "thai": "สมัคร",
       "reading": "サマック",
@@ -6516,13 +6880,13 @@
         "สมัคร"
       ],
       "acceptedJapanese": [
-        "応募する / 申し込む",
         "応募する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 430,
+      "id": 420,
       "japanese": "会員、メンバー",
       "thai": "สมาชิก",
       "reading": "サマーチック",
@@ -6534,10 +6898,11 @@
       "acceptedJapanese": [
         "会員、メンバー"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 431,
+      "id": 421,
       "japanese": "ノート",
       "thai": "สมุด",
       "reading": "サムット",
@@ -6551,10 +6916,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 9
     },
     {
-      "id": 432,
+      "id": 422,
       "japanese": "きれい・美しい",
       "thai": "สวย",
       "reading": "スアイ",
@@ -6566,10 +6932,11 @@
       "acceptedJapanese": [
         "きれい・美しい"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 433,
+      "id": 423,
       "japanese": "暗い",
       "thai": "สว่าง",
       "reading": "ムート",
@@ -6579,13 +6946,13 @@
         "สว่าง"
       ],
       "acceptedJapanese": [
-        "暗い",
-        "明るい"
+        "暗い"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 434,
+      "id": 424,
       "japanese": "明るい",
       "thai": "สว่าง",
       "reading": "サワーン",
@@ -6595,13 +6962,13 @@
         "สว่าง"
       ],
       "acceptedJapanese": [
-        "暗い",
         "明るい"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 435,
+      "id": 425,
       "japanese": "教える",
       "thai": "สอน",
       "reading": "ソン",
@@ -6615,10 +6982,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 436,
+      "id": 426,
       "japanese": "試験",
       "thai": "สอบ",
       "reading": "ソープ",
@@ -6630,10 +6998,11 @@
       "acceptedJapanese": [
         "試験"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 437,
+      "id": 427,
       "japanese": "フォーク",
       "thai": "ส้อม",
       "reading": "ソーム",
@@ -6645,10 +7014,11 @@
       "acceptedJapanese": [
         "フォーク"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 438,
+      "id": 428,
       "japanese": "便利・快適",
       "thai": "สะดวก",
       "reading": "サドゥアック",
@@ -6660,10 +7030,11 @@
       "acceptedJapanese": [
         "便利・快適"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 439,
+      "id": 429,
       "japanese": "橋",
       "thai": "สะพาน",
       "reading": "サパーン",
@@ -6675,10 +7046,11 @@
       "acceptedJapanese": [
         "橋"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 440,
+      "id": 430,
       "japanese": "清潔な、きれいな",
       "thai": "สะอาด",
       "reading": "サアート",
@@ -6690,10 +7062,11 @@
       "acceptedJapanese": [
         "清潔な、きれいな"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 441,
+      "id": 431,
       "japanese": "少しの間",
       "thai": "สักครู่",
       "reading": "サッククルー",
@@ -6705,10 +7078,11 @@
       "acceptedJapanese": [
         "少しの間"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 442,
+      "id": 432,
       "japanese": "注文する",
       "thai": "สั่ง",
       "reading": "サン",
@@ -6720,10 +7094,11 @@
       "acceptedJapanese": [
         "注文する"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 443,
+      "id": 433,
       "japanese": "社会",
       "thai": "สังคม",
       "reading": "サンコム",
@@ -6735,10 +7110,11 @@
       "acceptedJapanese": [
         "社会"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 444,
+      "id": 434,
       "japanese": "面接 / インタビュー",
       "thai": "สัมภาษณ์",
       "reading": "サムパート",
@@ -6750,10 +7126,11 @@
       "acceptedJapanese": [
         "面接 / インタビュー"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 445,
+      "id": 435,
       "japanese": "水をかける・まく",
       "thai": "สาด",
       "reading": "サート",
@@ -6765,10 +7142,11 @@
       "acceptedJapanese": [
         "水をかける・まく"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 446,
+      "id": 436,
       "japanese": "3",
       "thai": "สาม",
       "reading": "サン",
@@ -6780,10 +7158,11 @@
       "acceptedJapanese": [
         "3"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 447,
+      "id": 437,
       "japanese": "重要な",
       "thai": "สำคัญ",
       "reading": "サムカン",
@@ -6795,10 +7174,11 @@
       "acceptedJapanese": [
         "重要な"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 450,
+      "id": 438,
       "japanese": "サムラップ",
       "thai": "สำหรับ",
       "reading": "〜のために",
@@ -6810,10 +7190,11 @@
       "acceptedJapanese": [
         "サムラップ"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 451,
+      "id": 439,
       "japanese": "環境",
       "thai": "สิ่งแวดล้อม",
       "reading": "シンウェートローム",
@@ -6825,10 +7206,11 @@
       "acceptedJapanese": [
         "環境"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 452,
+      "id": 440,
       "japanese": "色",
       "thai": "สี",
       "reading": "スィー",
@@ -6840,10 +7222,11 @@
       "acceptedJapanese": [
         "色"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 453,
+      "id": 441,
       "japanese": "交差点",
       "thai": "สี่แยก",
       "reading": "シー・イェーク",
@@ -6855,10 +7238,11 @@
       "acceptedJapanese": [
         "交差点"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 454,
+      "id": 442,
       "japanese": "健康",
       "thai": "สุขภาพ",
       "reading": "スッカパープ",
@@ -6870,10 +7254,11 @@
       "acceptedJapanese": [
         "健康"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 455,
+      "id": 443,
       "japanese": "終わる・完了する",
       "thai": "เสร็จ",
       "reading": "セット",
@@ -6885,10 +7270,11 @@
       "acceptedJapanese": [
         "終わる・完了する"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 456,
+      "id": 444,
       "japanese": "壊れる",
       "thai": "เสีย",
       "reading": "シィア",
@@ -6900,10 +7286,11 @@
       "acceptedJapanese": [
         "壊れる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 457,
+      "id": 445,
       "japanese": "音・声",
       "thai": "เสียง",
       "reading": "シアン",
@@ -6915,10 +7302,11 @@
       "acceptedJapanese": [
         "音・声"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 458,
+      "id": 446,
       "japanese": "悲しい",
       "thai": "เสียใจ",
       "reading": "シア・ジャイ",
@@ -6930,10 +7318,11 @@
       "acceptedJapanese": [
         "悲しい"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 459,
+      "id": 447,
       "japanese": "服",
       "thai": "เสื้อ",
       "reading": "スア",
@@ -6945,10 +7334,11 @@
       "acceptedJapanese": [
         "服"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 460,
+      "id": 448,
       "japanese": "着る",
       "thai": "ใส่",
       "reading": "サイ",
@@ -6962,10 +7352,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 461,
+      "id": 449,
       "japanese": "ちょっと / 〜してくださいね",
       "thai": "หน่อย",
       "reading": "ノイ",
@@ -6977,10 +7368,11 @@
       "acceptedJapanese": [
         "ちょっと / 〜してくださいね"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 462,
+      "id": 450,
       "japanese": "重い・ひどい・激しい",
       "thai": "หนัก",
       "reading": "ナック",
@@ -6992,10 +7384,11 @@
       "acceptedJapanese": [
         "重い・ひどい・激しい"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 463,
+      "id": 451,
       "japanese": "映画",
       "thai": "หนัง",
       "reading": "ナン",
@@ -7007,10 +7400,11 @@
       "acceptedJapanese": [
         "映画"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 464,
+      "id": 452,
       "japanese": "本",
       "thai": "หนังสือ",
       "reading": "ナンスー",
@@ -7024,10 +7418,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "少し長いが日常基礎語"
+      "selectionReason": "少し長いが日常基礎語",
+      "choice_group_id": 9
     },
     {
-      "id": 466,
+      "id": 453,
       "japanese": "窓",
       "thai": "หน้าต่าง",
       "reading": "ナー ターン",
@@ -7039,10 +7434,11 @@
       "acceptedJapanese": [
         "窓"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 468,
+      "id": 454,
       "japanese": "寒い",
       "thai": "หนาว",
       "reading": "ナーオ",
@@ -7056,10 +7452,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 17
     },
     {
-      "id": 469,
+      "id": 455,
       "japanese": "1",
       "thai": "หนึ่ง",
       "reading": "ヌン",
@@ -7071,10 +7468,11 @@
       "acceptedJapanese": [
         "1"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 470,
+      "id": 456,
       "japanese": "帽子",
       "thai": "หมวก",
       "reading": "ムアック",
@@ -7086,10 +7484,11 @@
       "acceptedJapanese": [
         "帽子"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 472,
+      "id": 457,
       "japanese": "医者",
       "thai": "หมอ",
       "reading": "モー",
@@ -7103,10 +7502,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 2
     },
     {
-      "id": 473,
+      "id": 458,
       "japanese": "犬",
       "thai": "หมา",
       "reading": "マー",
@@ -7120,10 +7520,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 7
     },
     {
-      "id": 474,
+      "id": 459,
       "japanese": "豚肉",
       "thai": "หมู",
       "reading": "ムー",
@@ -7135,10 +7536,11 @@
       "acceptedJapanese": [
         "豚肉"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 475,
+      "id": 460,
       "japanese": "手に取る",
       "thai": "หยิบ",
       "reading": "イップ",
@@ -7150,10 +7552,11 @@
       "acceptedJapanese": [
         "手に取る"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 476,
+      "id": 461,
       "japanese": "もう~した",
       "thai": "หรือ ยัง",
       "reading": "ルーヤン",
@@ -7165,10 +7568,11 @@
       "acceptedJapanese": [
         "もう~した"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 477,
+      "id": 462,
       "japanese": "〜ですか？",
       "thai": "หรือเปล่า",
       "reading": "ループラオ",
@@ -7180,10 +7584,11 @@
       "acceptedJapanese": [
         "〜ですか？"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 478,
+      "id": 463,
       "japanese": "whether",
       "thai": "หรือยัง",
       "reading": "グルプラーオ",
@@ -7193,13 +7598,13 @@
         "หรือยัง"
       ],
       "acceptedJapanese": [
-        "whether",
-        "しましたか？"
+        "whether"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 479,
+      "id": 464,
       "japanese": "しましたか？",
       "thai": "หรือยัง",
       "reading": "ルーヤン",
@@ -7209,29 +7614,29 @@
         "หรือยัง"
       ],
       "acceptedJapanese": [
-        "whether",
         "しましたか？"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 480,
+      "id": 465,
       "japanese": "〜してから",
       "thai": "หลังจาก",
       "reading": "ランジャーク",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "แล้ว",
         "หลังจาก"
       ],
       "acceptedJapanese": [
         "〜してから"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 481,
+      "id": 466,
       "japanese": "たくさん・多い",
       "thai": "หลาย",
       "reading": "ラーイ",
@@ -7243,10 +7648,11 @@
       "acceptedJapanese": [
         "たくさん・多い"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 482,
+      "id": 467,
       "japanese": "甘い",
       "thai": "หวาน",
       "reading": "ワーン",
@@ -7258,10 +7664,11 @@
       "acceptedJapanese": [
         "甘い"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 483,
+      "id": 468,
       "japanese": "部屋",
       "thai": "ห้อง",
       "reading": "ホン",
@@ -7275,10 +7682,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 484,
+      "id": 469,
       "japanese": "台所",
       "thai": "ห้องครัว",
       "reading": "ホン・クルア",
@@ -7290,10 +7698,11 @@
       "acceptedJapanese": [
         "台所"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 485,
+      "id": 470,
       "japanese": "トイレ",
       "thai": "ห้องน้ำ",
       "reading": "ホンナーン",
@@ -7305,10 +7714,11 @@
       "acceptedJapanese": [
         "トイレ"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 486,
+      "id": 471,
       "japanese": "教室",
       "thai": "ห้องเรียน",
       "reading": "ホン　リアン",
@@ -7320,10 +7730,11 @@
       "acceptedJapanese": [
         "教室"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 487,
+      "id": 472,
       "japanese": "禁止する / してはいけない",
       "thai": "ห้าม",
       "reading": "ハーム",
@@ -7335,10 +7746,11 @@
       "acceptedJapanese": [
         "禁止する / してはいけない"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 488,
+      "id": 473,
       "japanese": "お腹が空いた",
       "thai": "หิว",
       "reading": "ヒウ",
@@ -7352,10 +7764,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 18
     },
     {
-      "id": 489,
+      "id": 474,
       "japanese": "耳",
       "thai": "หู",
       "reading": "フー",
@@ -7369,10 +7782,11 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": 10
     },
     {
-      "id": 490,
+      "id": 475,
       "japanese": "理由",
       "thai": "เหตุผล",
       "reading": "ヘートポン",
@@ -7384,10 +7798,11 @@
       "acceptedJapanese": [
         "理由"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 493,
+      "id": 476,
       "japanese": "見える",
       "thai": "เห็น",
       "reading": "ヘン",
@@ -7399,10 +7814,11 @@
       "acceptedJapanese": [
         "見える"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 494,
+      "id": 477,
       "japanese": "似ている",
       "thai": "เหมือน",
       "reading": "ムアン",
@@ -7414,10 +7830,11 @@
       "acceptedJapanese": [
         "似ている"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 495,
+      "id": 478,
       "japanese": "〜のために",
       "thai": "ให้",
       "reading": "ハイ",
@@ -7429,10 +7846,11 @@
       "acceptedJapanese": [
         "〜のために"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 496,
+      "id": 479,
       "japanese": "〜してくれませんか？",
       "thai": "ให้〜หน่อยค่ะ",
       "reading": "ハイノイカ",
@@ -7444,10 +7862,11 @@
       "acceptedJapanese": [
         "〜してくれませんか？"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 497,
+      "id": 480,
       "japanese": "〜か？",
       "thai": "ไหม",
       "reading": "マイ",
@@ -7459,10 +7878,11 @@
       "acceptedJapanese": [
         "〜か？"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 498,
+      "id": 481,
       "japanese": "説明する",
       "thai": "อธิบาย",
       "reading": "",
@@ -7474,10 +7894,11 @@
       "acceptedJapanese": [
         "説明する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 500,
+      "id": 482,
       "japanese": "将来",
       "thai": "อนาคต",
       "reading": "アナーコット",
@@ -7489,10 +7910,11 @@
       "acceptedJapanese": [
         "将来"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 501,
+      "id": 483,
       "japanese": "許可する",
       "thai": "อนุญาต",
       "reading": "アヌヤート",
@@ -7504,10 +7926,11 @@
       "acceptedJapanese": [
         "許可する"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 502,
+      "id": 484,
       "japanese": "～するな",
       "thai": "อย่า",
       "reading": "ヤー",
@@ -7519,10 +7942,11 @@
       "acceptedJapanese": [
         "～するな"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 503,
+      "id": 485,
       "japanese": "～したい",
       "thai": "อยาก",
       "reading": "ヤーク",
@@ -7536,10 +7960,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 504,
+      "id": 486,
       "japanese": "どうやって",
       "thai": "อย่างไร",
       "reading": "ヤンライ",
@@ -7551,10 +7976,11 @@
       "acceptedJapanese": [
         "どうやって"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 505,
+      "id": 487,
       "japanese": "どんな感じですか？",
       "thai": "อย่างไรบ้าง",
       "reading": "ヤーンライ・バーン",
@@ -7566,10 +7992,11 @@
       "acceptedJapanese": [
         "どんな感じですか？"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 506,
+      "id": 488,
       "japanese": "住む",
       "thai": "อยู่",
       "reading": "ユー",
@@ -7579,14 +8006,13 @@
         "อยู่"
       ],
       "acceptedJapanese": [
-        "住む",
-        "どこにある？",
-        "ある・いる"
+        "住む"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 507,
+      "id": 489,
       "japanese": "どこにある？",
       "thai": "อยู่",
       "reading": "ユー",
@@ -7596,14 +8022,13 @@
         "อยู่"
       ],
       "acceptedJapanese": [
-        "住む",
-        "どこにある？",
-        "ある・いる"
+        "どこにある？"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 508,
+      "id": 490,
       "japanese": "ある・いる",
       "thai": "อยู่",
       "reading": "ユー",
@@ -7613,14 +8038,13 @@
         "อยู่"
       ],
       "acceptedJapanese": [
-        "住む",
-        "どこにある？",
         "ある・いる"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 509,
+      "id": 491,
       "japanese": "おいしい",
       "thai": "อร่อย",
       "reading": "アロイ",
@@ -7634,10 +8058,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 510,
+      "id": 492,
       "japanese": "おはよう",
       "thai": "อรุณสวัสดิ์",
       "reading": "アルンサワット",
@@ -7649,10 +8074,11 @@
       "acceptedJapanese": [
         "おはよう"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 511,
+      "id": 493,
       "japanese": "出る、～できる（文字のせい）",
       "thai": "ออก",
       "reading": "オーク",
@@ -7664,10 +8090,11 @@
       "acceptedJapanese": [
         "出る、～できる（文字のせい）"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 512,
+      "id": 494,
       "japanese": "何",
       "thai": "อะไร",
       "reading": "アライ",
@@ -7681,10 +8108,11 @@
       ],
       "difficulty": 1,
       "category": "基本形容詞・疑問語・時間",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 513,
+      "id": 495,
       "japanese": "危険な / 危険",
       "thai": "อันตราย",
       "reading": "アンタラーイ",
@@ -7696,10 +8124,11 @@
       "acceptedJapanese": [
         "危険な / 危険"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 514,
+      "id": 496,
       "japanese": "天気",
       "thai": "อากาศ",
       "reading": "アーカート",
@@ -7711,10 +8140,11 @@
       "acceptedJapanese": [
         "天気"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 515,
+      "id": 497,
       "japanese": "〜かもしれない",
       "thai": "อาจจะ",
       "reading": "アー・ジャ",
@@ -7726,26 +8156,27 @@
       "acceptedJapanese": [
         "〜かもしれない"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 516,
+      "id": 498,
       "japanese": "先生",
       "thai": "อาจารย์",
       "reading": "アーチャーン",
       "usageNote": "",
       "wordOrderNote": "",
       "acceptedThai": [
-        "ครู",
         "อาจารย์"
       ],
       "acceptedJapanese": [
         "先生"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 517,
+      "id": 499,
       "japanese": "職業",
       "thai": "อาชีพ",
       "reading": "アーチープ",
@@ -7757,10 +8188,11 @@
       "acceptedJapanese": [
         "職業"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 518,
+      "id": 500,
       "japanese": "来週",
       "thai": "อาทิตย์หน้า",
       "reading": "アーティット ナー",
@@ -7772,10 +8204,11 @@
       "acceptedJapanese": [
         "来週"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 520,
+      "id": 501,
       "japanese": "読",
       "thai": "อ่าน",
       "reading": "アン",
@@ -7789,10 +8222,11 @@
       ],
       "difficulty": 1,
       "category": "基本動詞",
-      "selectionReason": "短い＋日常基礎語"
+      "selectionReason": "短い＋日常基礎語",
+      "choice_group_id": null
     },
     {
-      "id": 521,
+      "id": 502,
       "japanese": "シャワーを浴びる",
       "thai": "อาบน้ำ",
       "reading": "アープ ナーム",
@@ -7804,10 +8238,11 @@
       "acceptedJapanese": [
         "シャワーを浴びる"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 522,
+      "id": 503,
       "japanese": "料理",
       "thai": "อาหาร",
       "reading": "",
@@ -7819,10 +8254,11 @@
       "acceptedJapanese": [
         "料理"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 523,
+      "id": 504,
       "japanese": "また／再び",
       "thai": "อีก",
       "reading": "イーク",
@@ -7834,10 +8270,11 @@
       "acceptedJapanese": [
         "また／再び"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 524,
+      "id": 505,
       "japanese": "事故",
       "thai": "อุบัติเหตุ",
       "reading": "ウバットティヘート",
@@ -7849,10 +8286,11 @@
       "acceptedJapanese": [
         "事故"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 525,
+      "id": 506,
       "japanese": "エーカサーン",
       "thai": "เอกสาร",
       "reading": "書類・文書",
@@ -7864,10 +8302,11 @@
       "acceptedJapanese": [
         "エーカサーン"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 526,
+      "id": 507,
       "japanese": "自分で",
       "thai": "เอง",
       "reading": "エーン",
@@ -7879,10 +8318,11 @@
       "acceptedJapanese": [
         "自分で"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 527,
+      "id": 508,
       "japanese": "要求する",
       "thai": "เอา",
       "reading": "アオ",
@@ -7894,10 +8334,11 @@
       "acceptedJapanese": [
         "要求する"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 528,
+      "id": 509,
       "japanese": "機会 / チャンス",
       "thai": "โอกาส",
       "reading": "オーカート",
@@ -7909,10 +8350,11 @@
       "acceptedJapanese": [
         "機会 / チャンス"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 529,
+      "id": 510,
       "japanese": "信じる",
       "thai": "เชื่อ",
       "reading": "チュア",
@@ -7924,10 +8366,11 @@
       "acceptedJapanese": [
         "信じる"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 530,
+      "id": 511,
       "japanese": "倒れる・転ぶ",
       "thai": "ล้ม",
       "reading": "クアップ",
@@ -7939,10 +8382,11 @@
       "acceptedJapanese": [
         "倒れる・転ぶ"
       ],
-      "difficulty": 0
+      "difficulty": 0,
+      "choice_group_id": null
     },
     {
-      "id": 531,
+      "id": 512,
       "japanese": "野菜",
       "thai": "ผัก",
       "reading": "パック",
@@ -7954,10 +8398,11 @@
       "acceptedJapanese": [
         "野菜"
       ],
-      "difficulty": 0
+      "difficulty": 3,
+      "choice_group_id": null
     },
     {
-      "id": 532,
+      "id": 513,
       "japanese": "パン",
       "thai": "ขนมปัง",
       "reading": "カノム パン",
@@ -7971,7 +8416,8 @@
       ],
       "difficulty": 1,
       "category": "基本名詞",
-      "selectionReason": "少し長いが日常基礎語"
+      "selectionReason": "少し長いが日常基礎語",
+      "choice_group_id": 4
     }
   ]
 }
