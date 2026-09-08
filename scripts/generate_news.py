@@ -1,13 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 2 Ver6.4: build five short-news candidates; long reading is frozen.
-
-Key change from Ver6.3:
-- Short-news candidate generation is completed and validated first.
-- Each long passage is generated from ONE source article at a time.
-- If a passage uses >7 note words, it is regenerated with explicit feedback.
-- If the same article still cannot fit the learner level after retries, skip it
-  and try another article instead of throwing away the already-good short items.
-"""
+"""Ver7.0: source-verified L2 review/L3 shorts and Level 3 passages."""
 from __future__ import annotations
 
 import os
@@ -24,6 +16,7 @@ from news_common import (
     now_jst,
     structured_response,
     write_json_atomic,
+    verify_source,
 )
 
 SHORT_POOL_SIZE = 8
@@ -204,8 +197,7 @@ def validate_passage(passage, allowed):
             "labels unknown words as known: "
             + ", ".join(known_violations[:10])
         )
-    if not notes:
-        problems.append("must contain at least 1 note word")
+
     if len(notes) > MAX_NOTES_PER_PASSAGE:
         problems.append(
             f"has {len(notes)} note words; max {MAX_NOTES_PER_PASSAGE}. "
@@ -218,8 +210,9 @@ def validate_passage(passage, allowed):
 def enrich_short(item, source_map, index):
     source = source_map[item["source_url"]]
     return {
-        "id": f"sn{index}",
-        "level": LEVEL,
+        "id": f"sn-l{item.get('level', LEVEL)}-{index}",
+        "source_review": item["source_review"],
+        "level": item.get("level", LEVEL),
         "source_fact_th": item["source_fact_th"],
         "thai_tokens": item["thai_tokens"],
         "thai": "".join(item["thai_tokens"]),
@@ -251,8 +244,9 @@ def enrich_passage(item, source_map, index):
         normalized_lines.append({"tokens": normalized_tokens})
 
     return {
-        "id": f"rp{index}",
-        "level": LEVEL,
+        "id": f"rp-l3-{index}",
+        "source_review": item["source_review"],
+        "level": item.get("level", LEVEL),
         "source_fact_th": item["source_fact_th"],
         "body_thai": "\n".join(body_lines),
         "lines": normalized_lines,
@@ -318,6 +312,17 @@ RAW NEWS SNAPSHOT:
         )
         pool = draft["short_pool"]
         ok, problems, selected = validate_short_pool(pool, allowed, source_urls)
+        if ok:
+            verified = []
+            source_map = {article["source_url"]: article for article in articles}
+            for item in pool:
+                try:
+                    item["source_review"] = verify_source(client, "".join(item["thai_tokens"]), source_map[item["source_url"]])
+                    verified.append(item)
+                except ValueError as exc:
+                    problems.append(str(exc))
+            selected = select_short_candidates(verified)
+            ok = selected is not None
         if ok:
             print(f"SHORTS DONE: {len(selected)} final short candidates accepted")
             return selected
@@ -392,6 +397,13 @@ def generate_one_passage(client, article, allowed, allowed_text):
         passage = draft["passage"]
         ok, problems, notes = validate_passage(passage, allowed)
 
+        if ok:
+            try:
+                passage["source_review"] = verify_source(client,
+                    "\n".join("".join(t["thai"] for t in line["tokens"]) for line in passage["lines"]), article)
+            except ValueError as exc:
+                ok = False
+                problems.append(str(exc))
         if ok:
             print(
                 f"PASSAGE ACCEPTED: {len(notes)} note word(s) | "
@@ -480,6 +492,8 @@ def main():
             raise RuntimeError("data/news_raw.json has fewer than 5 articles")
 
         source_map = {article["source_url"]: article for article in articles}
+        if LEVEL != 3:
+            raise ValueError("Ver7.0 weekly curriculum requires THAI_NEWS_LEVEL=3")
         vocab = load_vocab()
         allowed = [row["thai"] for row in vocab]
         allowed_text = "\n".join(
@@ -494,15 +508,22 @@ def main():
             client, articles, allowed, allowed_text
         )
 
-        # Ver6.4: long-reading generation is intentionally frozen.
-        passages = []
-        print("LONG READING: FROZEN in Ver6.4 (planned for Level 3+)")
+        # Keep two L2 review questions and three new L3 questions each week.
+        l2_vocab = [row for row in vocab if int(row["level"]) <= 2]
+        l2_selected = generate_shorts(client, articles, [row["thai"] for row in l2_vocab],
+            "\n".join(f"{row['thai']} = {row['japanese']}" for row in l2_vocab))[:2]
+        l2_urls = {item["source_url"] for item in l2_selected}
+        l3_selected = [item for item in selected_shorts if item["source_url"] not in l2_urls][:3]
+        if len(l3_selected) < 3:
+            l3_selected = generate_shorts(client, [a for a in articles if a["source_url"] not in l2_urls], allowed, allowed_text)[:3]
+        selected_shorts = [{**item, "level": 2} for item in l2_selected] + [{**item, "level": 3} for item in l3_selected]
+        passages = generate_passages(client, articles, allowed, allowed_text, [item["source_url"] for item in selected_shorts])
 
         final = {
             "schema_version": 1,
             "generated_at": now_jst(),
             "target_level": LEVEL,
-            "generator_version": "6.4",
+            "generator_version": "7.0",
             "raw_source_file": "data/news_raw.json",
             "raw_fetched_at": raw.get("fetched_at"),
             "short_candidates": [
@@ -517,7 +538,7 @@ def main():
         write_json_atomic(CANDIDATES_FILE, final)
         print(
             "CANDIDATES DONE: wrote "
-            f"{len(final['short_candidates'])} short + 0 passages to {CANDIDATES_FILE}"
+            f"{len(final['short_candidates'])} short + {len(passages)} passages to {CANDIDATES_FILE}"
         )
         return 0
 

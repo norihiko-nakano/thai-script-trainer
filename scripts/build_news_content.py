@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ver6.4 Stage 3: build five short-news questions; long reading is frozen."""
+"""Ver7.0: localize and independently review news, with dictionary-only readings."""
 from __future__ import annotations
 
 import json
@@ -21,6 +21,7 @@ from news_common import (
     structured_response,
     vocab_map,
     write_json_atomic,
+    verify_source,
 )
 
 
@@ -30,12 +31,6 @@ def short_schema(token_count: int):
         "type": "object",
         "properties": {
             "title_ja": string,
-            "token_readings": {
-                "type": "array",
-                "minItems": token_count,
-                "maxItems": token_count,
-                "items": string,
-            },
             "choices": {
                 "type": "array",
                 "minItems": 4,
@@ -55,7 +50,6 @@ def short_schema(token_count: int):
         },
         "required": [
             "title_ja",
-            "token_readings",
             "choices",
             "correct_index",
             "explanation",
@@ -71,8 +65,8 @@ def passage_schema(note_count: int):
     string = {"type": "string"}
     note_item = {
         "type": "object",
-        "properties": {"japanese": string, "reading": string},
-        "required": ["japanese", "reading"],
+        "properties": {"japanese": string},
+        "required": ["japanese"],
         "additionalProperties": False,
     }
     question = {
@@ -117,16 +111,13 @@ def validate_short_localization(result, token_count):
     problems = []
     if not looks_japanese(result.get("title_ja", "")):
         problems.append("title_ja is not Japanese")
-    readings = result.get("token_readings") or []
-    if len(readings) != token_count:
-        problems.append("token_readings length mismatch")
-    for i, reading in enumerate(readings):
-        if not looks_katakana(reading):
-            problems.append(f"token_readings[{i}] is not katakana: {reading}")
-
     choices = result.get("choices") or []
     if len(choices) != 4:
         problems.append("choices length is not 4")
+    if len(set(choices)) != 4:
+        problems.append("choices must be distinct")
+    if result.get("correct_index") not in range(4):
+        problems.append("correct_index out of range")
     for i, choice in enumerate(choices):
         if not looks_japanese(choice):
             problems.append(f"choices[{i}] is not semantic Japanese: {choice}")
@@ -156,8 +147,6 @@ def validate_passage_localization(result, note_count):
     for i, note in enumerate(notes):
         if not looks_japanese(note.get("japanese", "")):
             problems.append(f"note[{i}].japanese is not Japanese")
-        if not looks_katakana(note.get("reading", "")):
-            problems.append(f"note[{i}].reading is not katakana")
 
     questions = result.get("questions") or []
     if len(questions) != 3:
@@ -166,8 +155,10 @@ def validate_passage_localization(result, note_count):
         if not looks_japanese(question.get("prompt", "")):
             problems.append(f"question[{i}].prompt is not Japanese")
         choices = question.get("choices") or []
-        if len(choices) != 4:
-            problems.append(f"question[{i}].choices length is not 4")
+        if len(choices) != 4 or len(set(choices)) != 4:
+            problems.append(f"question[{i}].choices must contain four distinct values")
+        if question.get("answer_index") not in range(4):
+            problems.append(f"question[{i}].answer_index out of range")
         for j, choice in enumerate(choices):
             if not looks_japanese(choice):
                 problems.append(
@@ -215,7 +206,7 @@ SOURCE ARTICLE BODY:
 
 OUTPUT RULES:
 - title_ja: short natural Japanese news-style title.
-- token_readings: one KATAKANA pronunciation for each Thai token, in exactly the same order.
+- Do NOT generate pronunciations or katakana. Readings are taken verbatim from the user dictionary.
 - choices: four JAPANESE MEANING choices. They must not be pronunciation choices.
 - correct_index: index of the choice that accurately translates the fixed Thai sentence.
 - explanation: Japanese explanation of why the sentence has that meaning. Thai words may be quoted inside Japanese prose.
@@ -232,7 +223,7 @@ OUTPUT RULES:
             instructions=(
                 "あなたは日本人向けタイ語教材の編集者です。"
                 "意味・選択肢・解説・文法・読み方の説明は自然な日本語で書きます。"
-                "発音欄だけはカタカナで書きます。"
+                "読みや発音を生成しないでください。"
                 "タイ語を日本語解説内で引用することは許可されています。"
             ),
             prompt=prompt,
@@ -274,7 +265,7 @@ SOURCE ARTICLE BODY:
 
 OUTPUT RULES:
 - title_ja: concise Japanese title.
-- note_localizations: exactly one entry per difficult word, in the SAME ORDER. japanese is the Japanese meaning; reading is KATAKANA pronunciation.
+- note_localizations: exactly one entry per difficult word, in the SAME ORDER. japanese is the Japanese meaning. Do NOT generate readings; those are supplied by the dictionary, or omitted if unregistered.
 - questions: exactly three comprehension questions in Japanese.
 - Each question has four Japanese meaning choices, answer_index, and a Japanese explanation.
 - Questions must test understanding of the fixed Thai passage, not trivia outside it.
@@ -287,7 +278,7 @@ OUTPUT RULES:
             schema=passage_schema(len(note_words)),
             instructions=(
                 "あなたは日本人向けタイ語長文読解教材の編集者です。"
-                "設問・選択肢・解説・注釈の意味は自然な日本語、読みだけカタカナで書きます。"
+                "設問・選択肢・解説・注釈の意味は自然な日本語で書き、読みは生成しません。"
                 "タイ語を日本語の説明内で引用しても構いません。"
             ),
             prompt=prompt,
@@ -307,7 +298,12 @@ OUTPUT RULES:
 def build_short(candidate, localized, vocab_by_thai):
     choices = localized["choices"]
     correct_index = localized["correct_index"]
-    readings = localized["token_readings"]
+    readings = []
+    for token in candidate["thai_tokens"]:
+        row = vocab_by_thai.get(token, {})
+        if not row.get("reading") or not 1 <= int(row.get("level") or 0) <= int(candidate["level"]):
+            raise ValueError(f"Missing or out-of-level dictionary reading: {token}")
+        readings.append(row["reading"])
     breakdown = []
 
     for token, reading in zip(candidate["thai_tokens"], readings):
@@ -322,9 +318,12 @@ def build_short(candidate, localized, vocab_by_thai):
 
     return {
         "id": candidate["id"],
-        "level": LEVEL,
+        "level": candidate["level"],
+        "source_verified": True,
+        "source_review": candidate["source_review"],
         "title": localized["title_ja"],
         "thai": candidate["thai"],
+        "thai_tokens": candidate["thai_tokens"],
         "japanese": choices[correct_index],
         "reading": " ".join(readings),
         "choices": choices,
@@ -345,12 +344,12 @@ def build_short(candidate, localized, vocab_by_thai):
     }
 
 
-def build_passage(candidate, localized):
+def build_passage(candidate, localized, dictionary):
     annotations = [
         {
             "thai": thai,
-            "japanese": localized["note_localizations"][i]["japanese"],
-            "reading": localized["note_localizations"][i]["reading"],
+            "japanese": dictionary.get(thai, {}).get("japanese") or localized["note_localizations"][i]["japanese"],
+            "reading": dictionary.get(thai, {}).get("reading") or "",
         }
         for i, thai in enumerate(candidate["note_words"])
     ]
@@ -368,7 +367,9 @@ def build_passage(candidate, localized):
 
     return {
         "id": candidate["id"],
-        "level": LEVEL,
+        "level": candidate["level"],
+        "source_verified": True,
+        "source_review": candidate["source_review"],
         "title": localized["title_ja"],
         "body_thai": candidate["body_thai"],
         "annotations": annotations,
@@ -423,10 +424,8 @@ def main():
             raise RuntimeError(
                 "news_candidates.json must contain exactly 5 short candidates"
             )
-        if passage_candidates:
-            raise RuntimeError(
-                "Ver6.4 long reading is frozen, but reading_passages is not empty"
-            )
+        if len(passage_candidates) != 2:
+            raise RuntimeError("Ver7.0 requires two Level 3 passages")
 
         from openai import OpenAI
 
@@ -442,32 +441,39 @@ def main():
             localized = localize_short(
                 client, candidate, article, vocab_by_thai
             )
-            short_news.append(
-                build_short(candidate, localized, vocab_by_thai)
-            )
+            candidate["source_review"] = verify_source(client, candidate["thai"], article, localized)
+            short_news.append(build_short(candidate, localized, vocab_by_thai))
+
+        dictionary = vocab_map(load_vocab(include_unassigned=True))
+        passages = []
+        for candidate in passage_candidates:
+            article = source_map[candidate["source_url"]]
+            localized = localize_passage(client, candidate, article)
+            candidate["source_review"] = verify_source(client, candidate["body_thai"], article, localized)
+            passages.append(build_passage(candidate, localized, dictionary))
 
         final = {
-            "schema_version": 1,
+            "schema_version": 2,
             "generated_at": now_jst(),
             "target_level": LEVEL,
             "generation_method": (
-                f"Ver6.4 staged pipeline: raw Thai PBS snapshot -> "
+                f"Ver7.0 staged pipeline: raw Thai PBS snapshot -> "
                 f"5 Thai short candidates -> Japanese short-news content "
-                f"with {MODEL}. Long reading frozen until Level 3+."
+                f"with independent source review by {MODEL}; dictionary readings; Level 3 passages."
             ),
             "raw_source_file": "data/news_raw.json",
             "candidate_source_file": "data/news_candidates.json",
-            "long_reading_status": "frozen_until_level_3",
+            "long_reading_status": "available_from_level_3",
             "short_news": short_news,
-            "reading_passages": [],
+            "reading_passages": passages,
         }
 
         write_json_atomic(CONTENT_FILE, final)
         print(
             f"BUILD DONE: wrote {len(short_news)} short-news questions "
-            f"+ 0 long passages to {CONTENT_FILE}"
+            f"+ {len(passages)} long passages to {CONTENT_FILE}"
         )
-        print("LONG READING: FROZEN in Ver6.4")
+
         return 0
 
     except Exception as exc:
