@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver7.1</title>
+  <title>Thai Vocabulary Trainer Ver7.2</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1159,7 +1159,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver7.1</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver7.2</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1550,7 +1550,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=7.1"></script>
+    <script src="supabase-config.js?v=7.2"></script>
   <script>
     "use strict";
 
@@ -1567,6 +1567,42 @@
       ["ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", "."],
       ["(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"]
     ];
+
+
+    const COMPOSITION_STORAGE_KEY = "thaiVocabularyTrainerCompositionV1";
+    const compositionPreferences = loadCompositionPreferences();
+
+    function loadCompositionPreferences() {
+      try {
+        const value = JSON.parse(localStorage.getItem(COMPOSITION_STORAGE_KEY) || "{}");
+        return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+      } catch { return {}; }
+    }
+
+    function restoreCompositionPreferences(mode) {
+      const saved = compositionPreferences[mode];
+      if (!saved || typeof saved !== "object") return;
+      const valid = (select, value) => typeof value === "string" &&
+        Array.from(select.options).some(option => option.value === value);
+      if (!valid(elements.wordQuestionCount, saved.words) ||
+          !valid(elements.newsQuestionCount, saved.news) ||
+          Number(saved.words) + (mode === "writing" ? 0 : Number(saved.news)) < 1) return;
+      elements.wordQuestionCount.value = saved.words;
+      elements.newsQuestionCount.value = mode === "writing" ? "0" : saved.news;
+    }
+
+    function saveCompositionPreferences() {
+      if (!["choice", "writing"].includes(state.mode)) return;
+      compositionPreferences[state.mode] = {
+        words: elements.wordQuestionCount.value,
+        news: state.mode === "writing" ? "0" : elements.newsQuestionCount.value
+      };
+      try {
+        localStorage.setItem(COMPOSITION_STORAGE_KEY, JSON.stringify(compositionPreferences));
+      } catch {
+        // Keep the preference in memory if browser storage is unavailable.
+      }
+    }
 
     const HISTORY_STORAGE_KEY = "thaiVocabularyTrainerHistoryV1";
     const REVIEW_BOOK_STORAGE_KEY = "thaiVocabularyTrainerReviewBookV1";
@@ -2601,7 +2637,7 @@
 
     async function loadWordQuestions() {
       // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
-      const response = await fetch("questions.json?v=7.1", { cache: "no-store" });
+      const response = await fetch("questions.json?v=7.2", { cache: "no-store" });
       if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
       const data = await response.json();
       const local = Array.isArray(data) ? data : data.questions;
@@ -3048,6 +3084,7 @@ function openDifficultyScreen(mode) {
     elements.sentenceQuestionCount.value = "0";
     elements.newsQuestionCount.value = "0";
   }
+  restoreCompositionPreferences(mode);
   updateCompositionSummary();
   refreshDifficultyButtons();
   showScreen("difficulty");
@@ -3784,6 +3821,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
     ? `Level ${state.difficulty} ／ 長文読解 📰 ／ ${passageCount}設問`
     : `Level ${state.difficulty} ／ 単語${wordCount}${weakCount ? `（🐙${weakCount}）` : ""} + 📰News${newsCount}`;
 
+  if (!suppliedQuestions && state.quizQuestions.length) saveCompositionPreferences();
   renderKeyboard();
   showScreen("quiz");
   showQuestion();
