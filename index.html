@@ -1302,7 +1302,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐙</span>
             <span>
               <span class="difficulty-title">Level 2　基礎＋</span>
-              <span class="difficulty-description">Level 2単語 + Level 1〜2語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 2単語（約20％は下位Levelの復習） + Level 1〜2語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="2">読み込み中</span>
           </button>
@@ -1311,7 +1311,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦑</span>
             <span>
               <span class="difficulty-title">Level 3　初級</span>
-              <span class="difficulty-description">Level 3単語 + Level 1〜3語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 3単語（約20％は下位Levelの復習） + Level 1〜3語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="3">準備中</span>
           </button>
@@ -1320,7 +1320,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐟</span>
             <span>
               <span class="difficulty-title">Level 4</span>
-              <span class="difficulty-description">Level 4単語 + Level 1〜4語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 4単語（約20％は下位Levelの復習） + Level 1〜4語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="4">準備中</span>
           </button>
@@ -1329,7 +1329,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐢</span>
             <span>
               <span class="difficulty-title">Level 5</span>
-              <span class="difficulty-description">Level 5単語 + Level 1〜5語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 5単語（約20％は下位Levelの復習） + Level 1〜5語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="5">準備中</span>
           </button>
@@ -1338,7 +1338,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦜</span>
             <span>
               <span class="difficulty-title">Level 6</span>
-              <span class="difficulty-description">Level 6単語 + Level 1〜6語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 6単語（約20％は下位Levelの復習） + Level 1〜6語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="6">準備中</span>
           </button>
@@ -1347,7 +1347,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦊</span>
             <span>
               <span class="difficulty-title">Level 7</span>
-              <span class="difficulty-description">Level 7単語 + Level 1〜7語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 7単語（約20％は下位Levelの復習） + Level 1〜7語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="7">準備中</span>
           </button>
@@ -1356,7 +1356,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐯</span>
             <span>
               <span class="difficulty-title">Level 8</span>
-              <span class="difficulty-description">Level 8単語 + Level 1〜8語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 8単語（約20％は下位Levelの復習） + Level 1〜8語彙で読めるニュース短文</span>
             </span>
             <span class="difficulty-count" data-level-count="8">準備中</span>
           </button>
@@ -3513,8 +3513,8 @@ function addWrongWordToReviewBook(question) {
       return Boolean(stat && stat.active);
     }
 
-    function selectWordQuestionsWithWeakPriority(wordPool, requestedWords) {
-      const weakStats = activeWeakWordStats(state.history, state.difficulty);
+    function selectWordQuestionsWithWeakPriority(wordPool, requestedWords, difficulty = state.difficulty) {
+      const weakStats = activeWeakWordStats(state.history, difficulty);
       const weakByKey = new Map(weakStats.map(item => [item.key, item]));
       const weakCandidates = wordPool
         .map(question => ({ question, stat: weakByKey.get(wordIdentityKey(question)) }))
@@ -3534,6 +3534,18 @@ function addWrongWordToReviewBook(question) {
       const fillers = shuffle(wordPool.filter(question => !selectedKeys.has(wordIdentityKey(question))))
         .slice(0, Math.max(0, requestedWords - selectedWeak.length));
       return [...selectedWeak, ...fillers];
+    }
+
+
+    function selectWordQuestionsWithReview(wordPool, lowerPool, count) {
+      const reviewCount = count >= 2 && lowerPool.length
+        ? Math.min(lowerPool.length, Math.max(1, Math.round(count * 0.2)), count - 1) : 0;
+      const review = selectWordQuestionsWithWeakPriority(lowerPool, reviewCount, null)
+        .map(q => ({ ...q, reviewQuestion: true }));
+      return [
+        ...selectWordQuestionsWithWeakPriority(wordPool, count - review.length),
+        ...review
+      ];
     }
 
     function appendWeakWordStatusFeedback(container, question, isCorrect, wasWeakBeforeAnswer) {
@@ -3698,7 +3710,11 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
   const newsPool = uniqueByPromptPair(state.allNewsQuestions.filter(q => Number(q.difficulty) === state.difficulty || (state.mode === "choice" && Number(q.difficulty) === state.difficulty - 1)));
   const passagePool = state.readingPassages.filter(p => Number(p.level) === state.difficulty);
 
-  state.activeQuestionPool = wordPool;
+  const currentWordKeys = new Set(wordPool.map(q => normalizeThai(q.thai)));
+  const lowerWordPool = uniqueByPromptPair(state.allQuestions.filter(q =>
+    Number(q.difficulty) >= 1 && Number(q.difficulty) < state.difficulty &&
+    !currentWordKeys.has(normalizeThai(q.thai))));
+  state.activeQuestionPool = [...wordPool, ...lowerWordPool];
   state.activeSentencePool = sentencePool;
   state.activeNewsPool = newsPool;
   state.activePassagePool = passagePool;
@@ -3753,7 +3769,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
       return;
     }
 
-    const wordQuestions = selectWordQuestionsWithWeakPriority(wordPool, requestedWords);
+    const wordQuestions = selectWordQuestionsWithReview(wordPool, lowerWordPool, requestedWords);
     const sentenceQuestions = [];
     const newsQuestions = selectNewsWithReview(newsPool, requestedNews, state.difficulty);
     state.quizQuestions = shuffle([...wordQuestions, ...newsQuestions]);
