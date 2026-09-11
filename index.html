@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver7.2</title>
+  <title>Thai Vocabulary Trainer Ver7.3</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1159,7 +1159,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver7.2</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver7.3</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1214,7 +1214,7 @@
             <div class="history-stat"><strong id="historyToday">0</strong><span>今日の回答</span></div>
           </div>
           <p id="historyLastStudy" class="muted">まだ回答履歴はありません。</p>
-          <p class="history-note"><strong>🐙 苦手単語：<span id="weakWordCount">0語</span></strong>　直近で間違えた単語を、累計誤答回数が多い順に通常の単語問題へ優先出題します。正解すると卒業、再び間違えると復帰します。</p>
+          <p class="history-note"><strong>🐙 苦手単語：<span id="weakWordCount">0語</span></strong>　累計3回以上間違え、直近の回答も不正解の単語を、誤答回数が多い順に通常の単語問題へ優先出題します。正解すると卒業、再び間違えると復帰します。</p>
           <div class="history-actions">
             <button id="viewHistoryButton" class="small-button" type="button">履歴を見る</button>
             <button id="exportHistoryButton" class="small-button" type="button">履歴をCSV保存</button>
@@ -1414,7 +1414,7 @@
 
         <section class="history-section" aria-labelledby="weakWordsHeading">
           <h3 id="weakWordsHeading">🐙 苦手単語</h3>
-          <p class="history-note">「最後にその単語へ回答した結果が不正解」の語だけを表示します。誤答回数が多い語から優先出題し、正解すればこの一覧から卒業します。</p>
+          <p class="history-note">「累計3回以上間違え、最後の回答も不正解」の単語を表示します（3回連続でなくても対象です）。誤答回数が多い語から優先出題し、正解すればこの一覧から卒業します。</p>
           <div id="weakWordList" class="weak-word-list"></div>
         </section>
 
@@ -1550,7 +1550,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=7.2"></script>
+    <script src="supabase-config.js?v=7.3"></script>
   <script>
     "use strict";
 
@@ -2637,7 +2637,7 @@
 
     async function loadWordQuestions() {
       // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
-      const response = await fetch("questions.json?v=7.2", { cache: "no-store" });
+      const response = await fetch("questions.json?v=7.3", { cache: "no-store" });
       if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
       const data = await response.json();
       const local = Array.isArray(data) ? data : data.questions;
@@ -3521,7 +3521,7 @@ function addWrongWordToReviewBook(question) {
       return [...groups.values()]
         .map(item => ({
           ...item,
-          active: item.wrong > 0 && item.lastIsCorrect === false,
+          active: item.wrong >= 3 && item.lastIsCorrect === false,
           accuracy: item.total ? Math.round((item.correct / item.total) * 100) : 0
         }))
         .sort((a, b) => {
