@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver8.0</title>
+  <title>Thai Vocabulary Trainer Ver8.1</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1159,7 +1159,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver8.0</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver8.1</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1550,7 +1550,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=8.0"></script>
+    <script src="supabase-config.js?v=8.1"></script>
   <script>
     "use strict";
 
@@ -2637,7 +2637,7 @@
 
     async function loadWordQuestions() {
       // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
-      const response = await fetch("questions.json?v=8.0", { cache: "no-store" });
+      const response = await fetch("questions.json?v=8.1", { cache: "no-store" });
       if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
       const data = await response.json();
       const local = Array.isArray(data) ? data : data.questions;
@@ -4576,6 +4576,6 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
       return [...new Set(values.filter(value => typeof value === "string" && value.trim()))];
     }
   </script>
-  <script src="speaking-v8.js?v=8.0"></script>
+  <script src="speaking-v8.js?v=8.1"></script>
 </body>
 </html>
