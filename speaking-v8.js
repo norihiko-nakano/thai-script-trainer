@@ -12,7 +12,53 @@ const b=document.createElement("button");b.className="mode-button";b.type="butto
 q("quizScreen").insertAdjacentHTML("afterend",'<div id="speakingScreen" class="hidden"><div class="quiz-header"><button id="spQuit" class="icon-button">← 戻る</button><div class="progress-track"><div id="spFill" class="progress-fill"></div></div><div id="spProg" class="muted"></div></div><div class="speaking-card"><div class="prompt-label center">今日、口から出せるようにする単語</div><div id="spWord" class="speaking-word"></div><div id="spLevel" class="center muted"></div><section class="speaking-step"><h3>① 例文を聞いて音読 🦜</h3><div id="spExample" class="speaking-sentence"></div><div id="spHint" class="speaking-hint hidden"></div><div id="spHeardExample" class="speaking-hint" aria-live="polite"></div><div class="speaking-actions"><button id="spListen" class="small-button">🔊 お手本</button><button id="spReveal" class="small-button">📕 全文の読み・意味</button><button id="spMic" class="button primary">🎤 音読する</button><button id="spDone" class="small-button">音読できた</button></div><div id="spStatus" class="speaking-status"></div></section><section id="spChallengePanel" class="speaking-step hidden"><h3>② 一部を変えて話す 🧩</h3><div id="spChallenge" class="speaking-sentence"></div><div id="spMeaning" class="speaking-hint hidden"></div><div id="spHeardChallenge" class="speaking-hint" aria-live="polite"></div><div class="speaking-actions"><button id="spCListen" class="small-button">🔊 お手本</button><button id="spCReveal" class="small-button">📕 全文の読み・意味</button><button id="spCMic" class="button primary">🎤 言い換えて話す</button><button id="spGood" class="small-button">言えた (｀･∀･´)</button><button id="spRetry" class="small-button">難しかった 🐙</button></div></section><button id="spNext" class="button primary hidden">次の練習へ</button></div></div>');
 const hs=q("historyModeFilter"),op=document.createElement("option");op.value="speaking";op.textContent="話す🦜";hs.insertBefore(op,hs.querySelector('[value="longreading"]'));
 function avail(l){const m=new Map(state.allQuestions.map(x=>[x.thai,x]));return D.filter(x=>x[0]===+l&&m.has(x[1])).map(x=>({level:x[0],word:x[1],example:x[2],challenge:x[3],ja:x[4],required:x[5],wd:m.get(x[1])}));}
-function pick(l,n){let a=shuffle(avail(l)),lo=[];for(let x=1;x<l;x++)lo=lo.concat(avail(x).map(y=>({...y,review:true})));let r=l>1&&n>=5?Math.min(lo.length,Math.max(1,Math.round(n*.2))):0;return shuffle(a.slice(0,n-r).concat(shuffle(lo).slice(0,r))).slice(0,n);}
+
+// Today's reading words are independent of the cumulative weak-word threshold.
+function todayReadingWords(now=new Date()){
+const key=localDateKey(now),words=new Map();
+for(const h of state.history){
+if(h.mode!=="choice"||(h.questionType||"word")!=="word"||!h.thai)continue;
+const date=new Date(h.answeredAt);if(Number.isNaN(date.getTime())||localDateKey(date)!==key)continue;
+const word=h.thai.trim(),entry=words.get(word)||{word,wrong:0,last:0,item:h};
+entry.wrong+=h.isCorrect===false?1:0;
+if(date.getTime()>=entry.last){entry.last=date.getTime();entry.item=h;}words.set(word,entry);
+}
+return [...words.values()].sort((a,b)=>b.wrong-a.wrong||b.last-a.last);
+}
+function todayDrill(entry){
+const word=entry.word;
+const wd=state.allQuestions.find(x=>x.thai===word)||{thai:word,japanese:entry.item.japanese||"",reading:entry.item.correctReading||"",difficulty:entry.item.difficulty||1};
+const fixed=D.find(x=>x[1]===word&&x[2].includes(word)&&x[3].includes(word));
+let example,challenge,ja;
+if(fixed){example=fixed[2];challenge=fixed[3];ja=fixed[4];}
+else if(word==="เย็น"){
+example="วันนี้อากาศเย็น";challenge="ห้องนี้เย็นมาก";ja="この部屋はとても涼しいです。";
+FULL_READINGS[example]="ワンニー / アーカート / イェン";FULL_READINGS[challenge]="ホン / ニー / イェン / マーク";
+FULL_MEANINGS[example]="今日は涼しいです。";FULL_MEANINGS[challenge]=ja;
+}else if(word==="เยี่ยม"){
+example="วันนี้ผมไปเยี่ยมเพื่อน";challenge="พรุ่งนี้ผมไปเยี่ยมพ่อ";ja="明日、私は父を訪ねに行きます。";
+FULL_READINGS[example]="ワンニー / ポム / パイ / イアム / プアン";FULL_READINGS[challenge]="プルンニー / ポム / パイ / イアム / ポー";
+FULL_MEANINGS[example]="今日、私は友達を訪ねに行きます。";FULL_MEANINGS[challenge]=ja;
+}else{
+// Quoting the word keeps the practice grammatical regardless of its part of speech.
+example='คำนี้คือ「'+word+'」';challenge='ช่วยพูดคำว่า「'+word+'」อีกครั้ง';
+const reading=wd.reading||"（この単語の読みは未登録：お手本音声で確認）";
+FULL_READINGS[example]="カム / ニー / クー / "+reading;
+FULL_READINGS[challenge]="チュアイ / プート / カム / ワー / "+reading+" / イーク / クラン";
+FULL_MEANINGS[example]='この単語は「'+word+'」（'+wd.japanese+'）です。';
+ja='「'+word+'」（'+wd.japanese+'）ともう一度言ってください。';FULL_MEANINGS[challenge]=ja;
+}
+return {word,level:Number(wd.difficulty)||1,example,challenge,ja,required:[word],wd,today:true,todayWrong:entry.wrong,quoted:!fixed&&!["เย็น","เยี่ยม"].includes(word)};
+}
+
+function pick(l,n){
+const today=todayReadingWords();
+if(today.length)return today.slice(0,n).map(todayDrill);
+let a=shuffle(avail(l)),lo=[];for(let x=1;x<l;x++)lo=lo.concat(avail(x).map(y=>({...y,review:true})));
+let r=l>1&&n>=5?Math.min(lo.length,Math.max(1,Math.round(n*.2))):0;
+return shuffle(a.slice(0,n-r).concat(shuffle(lo).slice(0,r))).slice(0,n);
+}
+
 function st(t,g){let e=q("spStatus");e.className="speaking-status"+(g===true?" success":g===false?" retry":"");e.textContent=t;}
 function stop(){if(rec)try{rec.abort()}catch(_){}rec=null;listening=false;micLabels();}
 function micLabels(){q("spMic").textContent=listening?"■ 停止":"🎤 音読する";q("spCMic").textContent=listening?"■ 停止":"🎤 言い換えて話す";}
@@ -33,9 +79,9 @@ function listen(kind){let R=window.SpeechRecognition||window.webkitSpeechRecogni
 function challenge(){if(stage==="finished")return;stage="challenge";let d=Q[i];q("spChallenge").textContent=d.challenge;fullHint("spMeaning",d.challenge,d.ja);q("spChallengePanel").classList.remove("hidden");st("一部を変えた文を話してみましょう。");}
 function hq(d){return{id:"speaking-"+d.level+"-"+d.word,questionType:"speaking",difficulty:d.level,thai:d.challenge,japanese:d.ja,reading:d.wd.reading||""};}
 function finish(ok,label){if(stage==="finished")return;stop();stage="finished";let d=Q[i];if(ok)state.score++;else state.wrongQuestions.push({question:hq(d),userAnswer:label,readingAttempt:""});recordAnswer(hq(d),label,ok,"");["spMic","spDone","spCMic","spGood","spRetry"].forEach(x=>q(x).disabled=true);st(ok?"✅ "+label+"　口から出せましたぞ！":"🐙 "+label+"　次回また挑戦ですじゃ。",ok);q("spFill").style.width=(i+1)/Q.length*100+"%";q("spNext").textContent=i===Q.length-1?"結果を見る":"次の練習へ";q("spNext").classList.remove("hidden");}
-function render(){stop();resetPlayback();q("spHeardExample").textContent="";q("spHeardChallenge").textContent="";let d=Q[i];if(!d)return result();stage="example";state.questionStartedAt=Date.now();q("spProg").textContent=(i+1)+" / "+Q.length+" ／ L"+d.level+(d.review?" 復習":"");q("spFill").style.width=i/Q.length*100+"%";q("spWord").textContent=d.word;q("spLevel").textContent="Level "+d.level+(d.review?" ／ 下位Levelの復習":"");q("spExample").textContent=d.example;fullHint("spHint",d.example,FULL_MEANINGS[d.example]);q("spHint").classList.add("hidden");q("spChallengePanel").classList.add("hidden");q("spMeaning").classList.add("hidden");q("spNext").classList.add("hidden");["spMic","spDone","spCMic","spGood","spRetry"].forEach(x=>q(x).disabled=false);st("お手本を聞くか、そのまま声に出してみましょう。");}
+function render(){stop();resetPlayback();q("spHeardExample").textContent="";q("spHeardChallenge").textContent="";let d=Q[i];if(!d)return result();stage="example";state.questionStartedAt=Date.now();q("spProg").textContent=(i+1)+" / "+Q.length+" ／ L"+d.level+(d.review?" 復習":"");q("spFill").style.width=i/Q.length*100+"%";q("spWord").textContent=d.word;q("spLevel").textContent="Level "+d.level+(d.today?(d.todayWrong?" ／ 今日間違えた単語（"+d.todayWrong+"回）":" ／ 今日読んだ単語"):(d.review?" ／ 下位Levelの復習":""))+(d.quoted?" ／ 単語を引用する発話練習":"");q("spExample").textContent=d.example;fullHint("spHint",d.example,FULL_MEANINGS[d.example]);q("spHint").classList.add("hidden");q("spChallengePanel").classList.add("hidden");q("spMeaning").classList.add("hidden");q("spNext").classList.add("hidden");["spMic","spDone","spCMic","spGood","spRetry"].forEach(x=>q(x).disabled=false);st("お手本を聞くか、そのまま声に出してみましょう。");}
 function start(l){state.mode="speaking";state.difficulty=+l||1;state.score=0;state.wrongQuestions=[];i=0;Q=pick(state.difficulty,+elements.wordQuestionCount.value||5);if(!Q.length){alert("このLevelは準備中です。");return openDifficultyScreen("speaking")}compositionPreferences.speaking={words:elements.wordQuestionCount.value,news:"0"};try{localStorage.setItem(COMPOSITION_STORAGE_KEY,JSON.stringify(compositionPreferences))}catch(_){}showScreen("speaking");render();}
 function result(){showScreen("result");let n=Q.length,p=n?Math.round(state.score/n*100):0;elements.scoreRing.textContent="";elements.scoreRing.dataset.score=state.score+"/"+n;elements.scoreRing.style.setProperty("--score-percent",p);elements.scoreMessage.textContent="言えた文は "+state.score+"/"+n+"。声に出した分だけ育ちますぞ🦜";elements.wrongList.replaceChildren();elements.retryWrongButton.classList.add("hidden");}
-showScreen=n=>{oldShow(n);q("speakingScreen").classList.toggle("hidden",n!=="speaking")};modeDisplayLabel=m=>m==="speaking"?"話す🦜":oldLabel(m);startQuiz=(m,s,d)=>m==="speaking"?start(d||state.difficulty):oldStart(m,s,d);updateCompositionSummary=()=>{q("wordQuestionCount").closest(".composition-control").querySelector("label").textContent=state.mode==="speaking"?"発話練習":"単語問題";if(state.mode!=="speaking")return oldSummary();elements.compositionSettings.classList.remove("hidden");elements.newsQuestionCount.value="0";elements.newsQuestionCount.disabled=true;elements.compositionTotal.textContent="合計："+(+elements.wordQuestionCount.value||0)+"問";elements.compositionNote.textContent="音読後に一部を変えて話します。下位Levelを約20％混ぜます。"};openDifficultyScreen=m=>{if(m!=="speaking")return oldOpen(m);state.mode=m;elements.selectedModeCard.innerHTML="<strong>🦜 話す🦜</strong><br><span class=muted>短文を音読し、一部を変えて話す</span>";elements.wordQuestionCount.value=compositionPreferences.speaking?.words||"5";elements.newsQuestionCount.value="0";updateCompositionSummary();refreshDifficultyButtons();showScreen("difficulty")};refreshDifficultyButtons=()=>{oldRefresh();if(state.mode==="speaking")document.querySelectorAll(".difficulty-button").forEach(x=>{let n=avail(+x.dataset.difficulty).length;x.disabled=!n;x.querySelector(".difficulty-count").textContent=n?n+"文":"準備中"})};
+showScreen=n=>{oldShow(n);q("speakingScreen").classList.toggle("hidden",n!=="speaking")};modeDisplayLabel=m=>m==="speaking"?"話す🦜":oldLabel(m);startQuiz=(m,s,d)=>m==="speaking"?start(d||state.difficulty):oldStart(m,s,d);updateCompositionSummary=()=>{q("wordQuestionCount").closest(".composition-control").querySelector("label").textContent=state.mode==="speaking"?"発話練習":"単語問題";if(state.mode!=="speaking")return oldSummary();elements.compositionSettings.classList.remove("hidden");elements.newsQuestionCount.value="0";elements.newsQuestionCount.disabled=true;elements.compositionTotal.textContent="合計："+(+elements.wordQuestionCount.value||0)+"問";elements.compositionNote.textContent="今日「読む」で学んだ単語をLevelに関係なく出題し、1回でも間違えた語を優先します。同じ語は1回ずつ、指定問数まで。今日の履歴がなければ選択Levelの例文で練習します。"};openDifficultyScreen=m=>{if(m!=="speaking")return oldOpen(m);state.mode=m;elements.selectedModeCard.innerHTML="<strong>🦜 話す🦜</strong><br><span class=muted>短文を音読し、一部を変えて話す</span>";elements.wordQuestionCount.value=compositionPreferences.speaking?.words||"5";elements.newsQuestionCount.value="0";updateCompositionSummary();refreshDifficultyButtons();showScreen("difficulty")};refreshDifficultyButtons=()=>{oldRefresh();if(state.mode==="speaking")document.querySelectorAll(".difficulty-button").forEach(x=>{let today=todayReadingWords().length,n=avail(+x.dataset.difficulty).length;x.disabled=!(today||n);x.querySelector(".difficulty-count").textContent=today?"今日の"+today+"語":n?n+"文":"準備中"})};
 document.addEventListener("DOMContentLoaded",()=>{q("spQuit").onclick=()=>openDifficultyScreen("speaking");q("spListen").onclick=()=>speak(Q[i]?.example,"example");q("spReveal").onclick=()=>q("spHint").classList.toggle("hidden");q("spMic").onclick=()=>listen("e");q("spDone").onclick=challenge;q("spCListen").onclick=()=>speak(Q[i]?.challenge,"challenge");q("spCReveal").onclick=()=>q("spMeaning").classList.toggle("hidden");q("spCMic").onclick=()=>listen("c");q("spGood").onclick=()=>finish(true,"自己評価：言えた");q("spRetry").onclick=()=>finish(false,"自己評価：難しかった");q("spNext").onclick=()=>{if(stage!=="finished")return;if(++i>=Q.length)result();else render()};});
 })();
