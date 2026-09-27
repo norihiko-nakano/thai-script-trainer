@@ -96,12 +96,27 @@ class PipelineTests(unittest.TestCase):
         self.assertIn('unknown', result[1]['thai_tokens'])
         self.assertEqual({q['source_url'] for q in result}, {'0', '1'})
 
+    def test_alignment_restores_only_whitespace(self):
+        for text, tokens in [
+            ('ถนน 31 เส้นทาง', ['ถนน', '31', 'เส้นทาง']),
+            ('  กทม. เตือน\nประชาชน  ', ['กทม.', 'เตือน', 'ประชาชน']),
+            ('ฝนตกหนัก', ['ฝน ', 'ตก', 'หนัก']),
+            ('เขา เขา', ['เขา', 'เขา']),
+        ]:
+            aligned = gen.align_tokens_to_sentence(text, tokens)
+            self.assertEqual(''.join(aligned), text)
+            self.assertEqual(len(aligned), len(tokens))
+        for text, tokens in [('31', ['32']), ('ไม่ไป', ['ไป']), ('เขา', [' ']), ('เขา', [None])]:
+            with self.assertRaises(ValueError):
+                gen.align_tokens_to_sentence(text, tokens)
+
     def test_short_spacing_survives_generation(self):
         article = self.article
         sentence = 'ถนน 31 เส้นทาง มีน้ำท่วม'
         good = {'source_url':article['source_url'], 'thai':sentence,
                 'thai_tokens':['ถนน ', '31 ', 'เส้นทาง ', 'มีน้ำท่วม'], 'source_fact_th':'fact'}
-        bad = {**good, 'thai_tokens':[word.strip() for word in good['thai_tokens']]}
+        bad = {**good, 'thai_tokens':['ถนน', '32', 'เส้นทาง', 'มีน้ำท่วม']}
+        good = {**good, 'thai_tokens':[word.strip() for word in good['thai_tokens']]}
         with patch.object(gen, 'structured_response', side_effect=[{'short_pool':[bad]}, {'short_pool':[good]}]), \
              patch.object(gen, 'verify_source', return_value={'method':'mock'}) as review, \
              patch.object(gen.time, 'sleep'):
