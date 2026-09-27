@@ -30,6 +30,10 @@ def short_schema(token_count: int):
     return {
         "type": "object",
         "properties": {
+            "token_meanings": {
+                "type": "array", "minItems": token_count, "maxItems": token_count,
+                "items": string,
+            },
             "title_ja": string,
             "choices": {
                 "type": "array",
@@ -49,6 +53,7 @@ def short_schema(token_count: int):
             },
         },
         "required": [
+            "token_meanings",
             "title_ja",
             "choices",
             "correct_index",
@@ -109,6 +114,9 @@ def passage_schema(note_count: int):
 
 def validate_short_localization(result, token_count):
     problems = []
+    meanings = result.get("token_meanings") or []
+    if len(meanings) != token_count or any(not looks_japanese(m) for m in meanings):
+        problems.append("token_meanings must give one contextual Japanese meaning per token")
     if not looks_japanese(result.get("title_ja", "")):
         problems.append("title_ja is not Japanese")
     choices = result.get("choices") or []
@@ -206,6 +214,7 @@ SOURCE ARTICLE BODY:
 
 OUTPUT RULES:
 - title_ja: short natural Japanese news-style title.
+- token_meanings: one Japanese meaning for EVERY token, in EXACT token order, using this sentence context. Dictionary meanings are hints, not a substitute for contextual meaning.
 - Do NOT generate pronunciations or katakana. Readings are taken verbatim from the user dictionary.
 - choices: four JAPANESE MEANING choices. They must not be pronunciation choices.
 - correct_index: index of the choice that accurately translates the fixed Thai sentence.
@@ -298,23 +307,15 @@ OUTPUT RULES:
 def build_short(candidate, localized, vocab_by_thai):
     choices = localized["choices"]
     correct_index = localized["correct_index"]
-    readings = []
-    for token in candidate["thai_tokens"]:
-        row = vocab_by_thai.get(token, {})
-        if not row.get("reading") or not 1 <= int(row.get("level") or 0) <= int(candidate["level"]):
-            raise ValueError(f"Missing or out-of-level dictionary reading: {token}")
-        readings.append(row["reading"])
-    breakdown = []
-
-    for token, reading in zip(candidate["thai_tokens"], readings):
-        row = vocab_by_thai.get(token, {})
-        breakdown.append(
-            {
-                "thai": token,
-                "reading": reading,
-                "japanese": row.get("japanese", ""),
-            }
-        )
+    meanings = localized["token_meanings"]
+    if len(meanings) != len(candidate["thai_tokens"]):
+        raise ValueError("Token meaning count mismatch")
+    breakdown = [
+        {"thai": token, "reading": vocab_by_thai.get(token, {}).get("reading") or "",
+         "japanese": meanings[i]}
+        for i, token in enumerate(candidate["thai_tokens"])
+    ]
+    readings = [row["reading"] or f"〔{row['thai']}：読み未登録〕" for row in breakdown]
 
     return {
         "id": candidate["id"],
@@ -348,7 +349,7 @@ def build_passage(candidate, localized, dictionary):
     annotations = [
         {
             "thai": thai,
-            "japanese": dictionary.get(thai, {}).get("japanese") or localized["note_localizations"][i]["japanese"],
+            "japanese": localized["note_localizations"][i]["japanese"],
             "reading": dictionary.get(thai, {}).get("reading") or "",
         }
         for i, thai in enumerate(candidate["note_words"])
@@ -414,7 +415,7 @@ def main():
             for article in raw.get("articles") or []
         }
 
-        vocab = load_vocab()
+        vocab = load_vocab(include_unassigned=True)
         vocab_by_thai = vocab_map(vocab)
 
         short_candidates = candidates.get("short_candidates") or []
@@ -453,11 +454,11 @@ def main():
             passages.append(build_passage(candidate, localized, dictionary))
 
         final = {
-            "schema_version": 2,
+            "schema_version": 3,
             "generated_at": now_jst(),
             "target_level": LEVEL,
             "generation_method": (
-                f"Ver7.0 staged pipeline: raw Thai PBS snapshot -> "
+                f"Ver8.4 unrestricted vocabulary: raw Thai PBS snapshot -> "
                 f"5 Thai short candidates -> Japanese short-news content "
                 f"with independent source review by {MODEL}; dictionary readings; Level 3 passages."
             ),
