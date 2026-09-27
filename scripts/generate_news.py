@@ -260,6 +260,28 @@ def news_snapshot_text(articles):
     )
 
 
+def align_tokens_to_sentence(sentence, tokens):
+    """Restore source whitespace deterministically without changing any text."""
+    if not isinstance(sentence, str) or not sentence.strip() or not isinstance(tokens, list):
+        raise ValueError("Missing sentence or token list")
+    if any(not isinstance(token, str) for token in tokens):
+        raise ValueError("Tokens must be strings")
+    compact = lambda text: "".join(char for char in text if not char.isspace())
+    pieces = [compact(token) for token in tokens]
+    if not pieces or any(not piece for piece in pieces):
+        raise ValueError("Empty token")
+    if "".join(pieces) != compact(sentence):
+        raise ValueError("Token characters differ from sentence (not just whitespace)")
+    positions = [i for i, char in enumerate(sentence) if not char.isspace()]
+    aligned, start, consumed = [], 0, 0
+    for piece in pieces:
+        consumed += len(piece)
+        end = positions[consumed] if consumed < len(positions) else len(sentence)
+        aligned.append(sentence[start:end])
+        start = end
+    return aligned
+
+
 def generate_shorts(client, articles, allowed, allowed_text, count=5, min_sources=3):
     source_urls = [a["source_url"] for a in articles]
     schema = short_schema(allowed, source_urls)
@@ -278,7 +300,7 @@ Return exactly {SHORT_POOL_SIZE} short candidates. This call creates NO long pas
 RULES:
 - Vocabulary is unrestricted. Prefer simple natural Thai, but retain necessary news terms.
 - Write thai as a complete naturally spaced sentence FIRST, including spaces around numbers and abbreviations where appropriate.
-- Split thai_tokens into meaningful words or short lexical phrases, preserving spaces at token edges. Concatenating tokens MUST reproduce thai EXACTLY. Do not emit standalone whitespace tokens.
+- Split thai_tokens into meaningful words or short lexical phrases, in the SAME order as thai, without omitting or changing any non-whitespace character. Spaces may be omitted from tokens; code restores them from thai. Do not emit standalone whitespace tokens.
 - Use 4-14 tokens and make a natural complete Thai sentence.
 - Every sentence must express a concrete fact genuinely supported by its source article.
 - Choose facts that can be stated clearly in one sentence. Do not distort facts to simplify words.
@@ -313,9 +335,12 @@ RAW NEWS SNAPSHOT:
         for item in pool:
             tokens = item.get("thai_tokens") or []
             thai = item.get("thai", "")
-            if not thai or "".join(tokens) != thai:
-                problems.append("thai_tokens must preserve the complete thai sentence including spaces")
+            try:
+                tokens = align_tokens_to_sentence(thai, tokens)
+            except ValueError as exc:
+                problems.append(f"Token alignment failed: {exc}")
                 continue
+            item["thai_tokens"] = tokens
             if item.get("source_url") not in source_map or not 4 <= len(tokens) <= 14:
                 problems.append(f"Invalid source or token count: {thai}")
                 continue
