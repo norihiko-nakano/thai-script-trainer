@@ -46,16 +46,31 @@ class PipelineTests(unittest.TestCase):
                 self.assertIn(q['answer'],q['choices'])
 
     def test_review_fails_closed(self):
-        ok={'supported':True,'natural_thai':True,'answer_valid':True,'evidence':'โดยเครื่องบินของกองทัพบก','reason':'supported'}
+        ok={'supported':True,'natural_thai':True,'answer_valid':True,'evidence_ids':[0],'reason':'supported'}
         with patch.object(common,'structured_response',return_value=ok):
             self.assertEqual(common.verify_source(None,'เขาเดินทางด้วยเครื่องบิน',self.article)['method'],'independent_model_review')
-        for bad in [{**ok,'supported':False},{**ok,'natural_thai':False},{**ok,'answer_valid':False},{**ok,'evidence':'invented excerpt'}]:
+        for bad in [{**ok,'supported':False},{**ok,'natural_thai':False},{**ok,'answer_valid':False},{**ok,'evidence_ids':[999999]}]:
             with patch.object(common,'structured_response',return_value=bad),self.assertRaises(ValueError):
                 common.verify_source(None,'candidate',self.article, {'choices': []})
 
+    def test_evidence_is_copied_from_source_and_failures_are_explicit(self):
+        article = {'source_title': 'title', 'body': 'Original  text\nwith spacing and “quotes”.'}
+        result = dict(supported=True, natural_thai=True, answer_valid=True,
+                      evidence_ids=[0], reason='supported and natural')
+        with patch.object(common, 'structured_response', return_value=result):
+            review = common.verify_source(None, 'candidate', article)
+            self.assertEqual(review['evidence'], article['body'])
+        for ids in [[], [-1], [1000], ['0'], [True]]:
+            with patch.object(common, 'structured_response', return_value={**result, 'evidence_ids':ids}):
+                with self.assertRaisesRegex(ValueError, 'invalid evidence_ids'):
+                    common.verify_source(None, 'candidate', article)
+        with patch.object(common, 'structured_response', return_value={**result, 'supported':False}):
+            with self.assertRaisesRegex(ValueError, 'supported=False'):
+                common.verify_source(None, 'candidate', article)
+
     def test_candidate_review_does_not_require_nonexistent_answers(self):
         review = dict(supported=True, natural_thai=True, answer_valid=False,
-                      evidence=self.article['body'][:30], reason='no answers yet')
+                      evidence_ids=[0], reason='no answers yet')
         with patch.object(common, 'structured_response', return_value=review):
             common.verify_source(None, 'candidate', self.article)
             with self.assertRaises(ValueError):
@@ -68,7 +83,7 @@ class PipelineTests(unittest.TestCase):
     def test_shorts_accept_unknown_words_after_source_review(self):
         articles = [{'source_url': str(i)} for i in range(3)]
         def item(source, word):
-            return {'source_url': str(source), 'thai_tokens': [word] * 4}
+            return {'source_url': str(source), 'thai':word*4, 'thai_tokens': [word] * 4}
         drafts = [{'short_pool': [item(0, 'a'), item(1, 'unknown')]},
                   {'short_pool': [item(0, 'a'), item(1, 'b')]}]
         with patch.object(gen, 'news_snapshot_text', return_value='snapshot'), \
@@ -80,6 +95,20 @@ class PipelineTests(unittest.TestCase):
         self.assertEqual(review.call_count, 2)
         self.assertIn('unknown', result[1]['thai_tokens'])
         self.assertEqual({q['source_url'] for q in result}, {'0', '1'})
+
+    def test_short_spacing_survives_generation(self):
+        article = self.article
+        sentence = 'ถนน 31 เส้นทาง มีน้ำท่วม'
+        good = {'source_url':article['source_url'], 'thai':sentence,
+                'thai_tokens':['ถนน ', '31 ', 'เส้นทาง ', 'มีน้ำท่วม'], 'source_fact_th':'fact'}
+        bad = {**good, 'thai_tokens':[word.strip() for word in good['thai_tokens']]}
+        with patch.object(gen, 'structured_response', side_effect=[{'short_pool':[bad]}, {'short_pool':[good]}]), \
+             patch.object(gen, 'verify_source', return_value={'method':'mock'}) as review, \
+             patch.object(gen.time, 'sleep'):
+            selected = gen.generate_shorts(None, [article], [], '', count=1, min_sources=1)
+        self.assertEqual(review.call_count, 1)
+        enriched = gen.enrich_short(selected[0], {article['source_url']:article}, 1)
+        self.assertEqual(enriched['thai'], sentence)
 
     def test_ai_readings_cannot_override_dictionary(self):
         q=self.seed['short_news'][0]
