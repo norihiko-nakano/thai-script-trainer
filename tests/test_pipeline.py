@@ -51,7 +51,34 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(common.verify_source(None,'เขาเดินทางด้วยเครื่องบิน',self.article)['method'],'independent_model_review')
         for bad in [{**ok,'supported':False},{**ok,'natural_thai':False},{**ok,'answer_valid':False},{**ok,'evidence':'invented excerpt'}]:
             with patch.object(common,'structured_response',return_value=bad),self.assertRaises(ValueError):
-                common.verify_source(None,'candidate',self.article)
+                common.verify_source(None,'candidate',self.article, {'choices': []})
+
+    def test_candidate_review_does_not_require_nonexistent_answers(self):
+        review = dict(supported=True, natural_thai=True, answer_valid=False,
+                      evidence=self.article['body'][:30], reason='no answers yet')
+        with patch.object(common, 'structured_response', return_value=review):
+            common.verify_source(None, 'candidate', self.article)
+            with self.assertRaises(ValueError):
+                common.verify_source(None, 'candidate', self.article, {'choices': []})
+        for key in ['supported', 'natural_thai']:
+            with patch.object(common, 'structured_response', return_value={**review, key: False}):
+                with self.assertRaises(ValueError):
+                    common.verify_source(None, 'candidate', self.article)
+
+    def test_shorts_accumulate_valid_candidates_and_reject_unknown_words(self):
+        articles = [{'source_url': str(i)} for i in range(3)]
+        def item(source, word):
+            return {'source_url': str(source), 'thai_tokens': [word] * 4}
+        drafts = [{'short_pool': [item(0, 'a'), item(1, 'unknown')]},
+                  {'short_pool': [item(0, 'a'), item(1, 'b')]}]
+        with patch.object(gen, 'news_snapshot_text', return_value='snapshot'), \
+             patch.object(gen, 'structured_response', side_effect=drafts), \
+             patch.object(gen, 'verify_source', return_value={'method': 'mock'}) as review, \
+             patch.object(gen.time, 'sleep'):
+            result = gen.generate_shorts(None, articles, ['a', 'b'], 'vocab', count=2, min_sources=2)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(review.call_count, 2)
+        self.assertEqual({q['source_url'] for q in result}, {'0', '1'})
 
     def test_ai_readings_cannot_override_dictionary(self):
         q=self.seed['short_news'][0]
@@ -81,9 +108,9 @@ class PipelineTests(unittest.TestCase):
 
     def test_generation_stage_smoke(self):
         # Exercises production main/enrichment and mixed-level output without paid API calls.
-        def fake_shorts(client,articles,allowed,text):
+        def fake_shorts(client,articles,allowed,text,count=5,min_sources=3):
             return [{'source_url':a['source_url'],'thai_tokens':['เขา','เดินทาง','ด้วย','เครื่องบิน'],
-                     'source_fact_th':'fact','source_review':{'method':'mock'}} for a in articles[:5]]
+                     'source_fact_th':'fact','source_review':{'method':'mock'}} for a in articles[:count]]
         def fake_passages(client,articles,allowed,text,short_sources):
             return [{'source_url':a['source_url'],'source_fact_th':'fact','source_review':{'method':'mock'},
                      'lines':[{'tokens':[{'thai':t,'kind':'known'} for t in ['เขา','จะ','ไป','ประชุม']]}]*3} for a in articles[:2]]
@@ -127,3 +154,4 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(target.read_text(),'existing published content')
 
 if __name__=='__main__':unittest.main()
+
