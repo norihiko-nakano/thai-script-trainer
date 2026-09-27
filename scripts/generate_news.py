@@ -36,6 +36,7 @@ def short_schema(allowed, source_urls):
         "properties": {
             "source_url": source_enum,
             "source_fact_th": string,
+            "thai": string,
             "thai_tokens": {
                 "type": "array",
                 "minItems": 4,
@@ -43,7 +44,7 @@ def short_schema(allowed, source_urls):
                 "items": allowed_enum,
             },
         },
-        "required": ["source_url", "source_fact_th", "thai_tokens"],
+        "required": ["source_url", "source_fact_th", "thai", "thai_tokens"],
         "additionalProperties": False,
     }
     return {
@@ -276,7 +277,8 @@ Return exactly {SHORT_POOL_SIZE} short candidates. This call creates NO long pas
 
 RULES:
 - Vocabulary is unrestricted. Prefer simple natural Thai, but retain necessary news terms.
-- Split thai_tokens into meaningful words or short lexical phrases for clickable translations.
+- Write thai as a complete naturally spaced sentence FIRST, including spaces around numbers and abbreviations where appropriate.
+- Split thai_tokens into meaningful words or short lexical phrases, preserving spaces at token edges. Concatenating tokens MUST reproduce thai EXACTLY. Do not emit standalone whitespace tokens.
 - Use 4-14 tokens and make a natural complete Thai sentence.
 - Every sentence must express a concrete fact genuinely supported by its source article.
 - Choose facts that can be stated clearly in one sentence. Do not distort facts to simplify words.
@@ -310,7 +312,10 @@ RAW NEWS SNAPSHOT:
         problems = []
         for item in pool:
             tokens = item.get("thai_tokens") or []
-            thai = "".join(tokens)
+            thai = item.get("thai", "")
+            if not thai or "".join(tokens) != thai:
+                problems.append("thai_tokens must preserve the complete thai sentence including spaces")
+                continue
             if item.get("source_url") not in source_map or not 4 <= len(tokens) <= 14:
                 problems.append(f"Invalid source or token count: {thai}")
                 continue
@@ -356,7 +361,7 @@ CATEGORY: {article.get('category', '')}
 BODY: {article['body']}
 
 TARGET:
-- 3-5 SHORT lines.
+- 3-5 SHORT lines. Preserve natural spacing around numbers and abbreviations inside or at the edges of tokens; never remove spaces when segmenting. No standalone whitespace tokens.
 - Preserve one coherent factual story from the article.
 - Write clear Thai for learners without forcing a vocabulary level.
 - Use natural Thai with no vocabulary or difficulty ceiling. Prefer clear short sentences.
