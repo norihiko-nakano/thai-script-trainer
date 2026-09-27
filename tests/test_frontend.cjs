@@ -48,5 +48,30 @@ const run = code => vm.runInContext(code, context);
   await run('loadNewsContent()');assert.equal(run('state.allNewsQuestions.length'),0);
   assert.match(html,/data-mode="longreading" title=/);
   assert.doesNotMatch(html,/data-difficulty="(?:9|10)"/);
+  // News words outside all levels remain usable; context meanings win, readings are dictionary-only.
+  run('state.dictionaryWords = [{thai:"เขา",reading:"カオ",japanese:"山",difficulty:1}];');
+  context.custom = {thai:'เขาเลือกตั้ง',level:3,thai_tokens:['เขา','เลือกตั้ง'],
+    breakdown:[{thai:'เขา',japanese:'彼',reading:'invented'},{thai:'เลือกตั้ง',japanese:'選挙をする',reading:'invented'}]};
+  const hydrated = run('hydrateNewsReadings(custom)');
+  assert.equal(hydrated.breakdown[0].japanese,'彼');
+  assert.equal(hydrated.breakdown[0].reading,'カオ');
+  assert.equal(hydrated.breakdown[1].reading,'');
+  function element(tag){
+    return {tag,children:[],style:{},textContent:'',attrs:{},handlers:{},
+      replaceChildren(){this.children=[]},append(...nodes){this.children.push(...nodes)},
+      appendChild(node){this.children.push(node)},setAttribute(k,v){this.attrs[k]=v},
+      addEventListener(k,fn){this.handlers[k]=fn}};
+  }
+  context.document.createElement=element;
+  context.document.createTextNode=text=>({textContent:text});
+  context.box=element('div');context.entries=hydrated.breakdown;
+  run('renderNewsWords(box, custom.thai, entries)');
+  const buttons=context.box.children[0].children;
+  assert.equal(buttons.map(x=>x.textContent).join(''),'เขาเลือกตั้ง');
+  buttons[1].handlers.click();
+  assert.match(context.box.children[1].textContent,/選挙をする/);
+  assert.match(context.box.children[1].textContent,/読み未登録/);
+  buttons[0].handlers.click();assert.match(context.box.children[1].textContent,/彼.*カオ/);
   console.log('PASS: 100/100/200 words, 3+2 review selection, 6 passage questions, dictionary precedence, offline fallback, history preservation, fail-closed news.');
 })().catch(e=>{console.error(e);process.exit(1)});
+
