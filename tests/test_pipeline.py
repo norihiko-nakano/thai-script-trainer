@@ -107,8 +107,10 @@ class PipelineTests(unittest.TestCase):
         self.assertFalse(build.validate_short_localization(result,4)[0])
 
     def test_generation_stage_smoke(self):
-        # Exercises production main/enrichment and mixed-level output without paid API calls.
+        # Exercises production main/enrichment and the all-Level-3 news curriculum offline.
+        calls = []
         def fake_shorts(client,articles,allowed,text,count=5,min_sources=3):
+            calls.append((set(allowed), count, min_sources))
             return [{'source_url':a['source_url'],'thai_tokens':['เขา','เดินทาง','ด้วย','เครื่องบิน'],
                      'source_fact_th':'fact','source_review':{'method':'mock'}} for a in articles[:count]]
         def fake_passages(client,articles,allowed,text,short_sources):
@@ -119,7 +121,8 @@ class PipelineTests(unittest.TestCase):
             with patch.dict('os.environ',{'OPENAI_API_KEY':'test'}),patch.object(gen,'load_vocab',return_value=self.vocab),patch('openai.OpenAI'),patch.object(gen,'generate_shorts',side_effect=fake_shorts),patch.object(gen,'generate_passages',side_effect=fake_passages),patch.object(gen,'CANDIDATES_FILE',target):
                 self.assertEqual(gen.main(),0)
             data=json.loads(target.read_text())
-            self.assertEqual([q['level'] for q in data['short_candidates']],[2,2,3,3,3])
+            self.assertEqual([q['level'] for q in data['short_candidates']],[3,3,3,3,3])
+            self.assertEqual(calls, [(set(row['thai'] for row in self.vocab), 5, 3)])
             self.assertEqual(len(data['reading_passages']),2)
             self.assertTrue(all(q['level']==3 for q in data['reading_passages']))
 
