@@ -30,7 +30,8 @@ PASSAGE_ATTEMPTS_PER_ARTICLE = 3
 def short_schema(allowed, source_urls):
     string = {"type": "string"}
     source_enum = {"type": "string", "enum": source_urls}
-    allowed_enum = {"type": "string", "enum": sorted(set(allowed))}
+    # Validate vocabulary in Python so constrained decoding does not force nonsense.
+    allowed_enum = {"type": "string"}
     item = {
         "type": "object",
         "properties": {
@@ -108,24 +109,24 @@ def passage_schema(source_url):
     }
 
 
-def select_short_candidates(pool):
+def select_short_candidates(pool, count=SHORT_FINAL_SIZE, min_sources=3):
     """Select 5 while forcing at least 3 sources and at most 2 per source."""
     by_source = {}
     for item in pool:
         by_source.setdefault(item["source_url"], []).append(item)
 
-    if len(by_source) < 3:
+    if len(by_source) < min_sources:
         return None
 
     selected = []
     counts = {}
 
-    for source_url in list(by_source)[:3]:
+    for source_url in list(by_source)[:min_sources]:
         selected.append(by_source[source_url][0])
         counts[source_url] = 1
 
     for item in pool:
-        if len(selected) >= SHORT_FINAL_SIZE:
+        if len(selected) >= count:
             break
         if any(item is chosen for chosen in selected):
             continue
@@ -135,7 +136,7 @@ def select_short_candidates(pool):
         selected.append(item)
         counts[source_url] = counts.get(source_url, 0) + 1
 
-    return selected if len(selected) == SHORT_FINAL_SIZE else None
+    return selected if len(selected) == count else None
 
 
 def validate_short_pool(pool, allowed, source_urls):
@@ -271,11 +272,14 @@ def news_snapshot_text(articles):
     )
 
 
-def generate_shorts(client, articles, allowed, allowed_text):
+def generate_shorts(client, articles, allowed, allowed_text, count=5, min_sources=3):
     source_urls = [a["source_url"] for a in articles]
     schema = short_schema(allowed, source_urls)
     retry_note = ""
     news_text = news_snapshot_text(articles)
+    verified = []
+    seen = set()
+    source_map = {article["source_url"]: article for article in articles}
 
     for attempt in range(1, SHORT_ATTEMPTS + 1):
         print(f"SHORTS: AI attempt {attempt}/{SHORT_ATTEMPTS} using {MODEL}")
@@ -288,7 +292,11 @@ RULES:
 - Use 4-14 tokens and make a natural complete Thai sentence.
 - Every sentence must express a concrete fact genuinely supported by its source article.
 - If one article cannot be expressed naturally with the allowed vocabulary, skip it and use another article.
-- Create candidates from several sources. We later need 5 final items from at least 3 sources, max 2 per source.
+- Create candidates from several sources. We need {count} final items from at least {min_sources} sources, max 2 per source.
+- Start with a source-supported natural sentence, then split into exact vocabulary entries.
+- Never substitute a similar-looking but unrelated word to fit the vocabulary.
+- Do not add "today" unless the source explicitly supports that time reference.
+- Avoid already accepted sentences: {list(seen)}
 - Do not create Japanese, readings, explanations, or four-choice answers here.
 - source_fact_th briefly states the factual connection to the source.
 
@@ -311,18 +319,29 @@ RAW NEWS SNAPSHOT:
             prompt=prompt,
         )
         pool = draft["short_pool"]
-        ok, problems, selected = validate_short_pool(pool, allowed, source_urls)
-        if ok:
-            verified = []
-            source_map = {article["source_url"]: article for article in articles}
-            for item in pool:
-                try:
-                    item["source_review"] = verify_source(client, "".join(item["thai_tokens"]), source_map[item["source_url"]])
-                    verified.append(item)
-                except ValueError as exc:
-                    problems.append(str(exc))
-            selected = select_short_candidates(verified)
-            ok = selected is not None
+        problems = []
+        for item in pool:
+            tokens = item.get("thai_tokens") or []
+            thai = "".join(tokens)
+            if item.get("source_url") not in source_map or not 4 <= len(tokens) <= 14:
+                problems.append(f"Invalid source or token count: {thai}")
+                continue
+            bad = [token for token in tokens if token not in allowed]
+            if bad:
+                problems.append(f"{thai}: words outside vocabulary: {bad}")
+                continue
+            if thai in seen:
+                continue
+            try:
+                item["source_review"] = verify_source(client, thai, source_map[item["source_url"]])
+                verified.append(item)
+                seen.add(thai)
+            except ValueError as exc:
+                problems.append(f"{thai}: {exc}")
+        selected = select_short_candidates(verified, count, min_sources)
+        ok = selected is not None
+        if not ok:
+            problems.append(f"Only {len(verified)} verified candidates accumulated; need {count} from {min_sources} sources.")
         if ok:
             print(f"SHORTS DONE: {len(selected)} final short candidates accepted")
             return selected
@@ -504,18 +523,15 @@ def main():
 
         client = OpenAI()
 
-        selected_shorts = generate_shorts(
-            client, articles, allowed, allowed_text
-        )
-
-        # Keep two L2 review questions and three new L3 questions each week.
+        # Generate only the required count for each level; preserve source diversity.
         l2_vocab = [row for row in vocab if int(row["level"]) <= 2]
         l2_selected = generate_shorts(client, articles, [row["thai"] for row in l2_vocab],
-            "\n".join(f"{row['thai']} = {row['japanese']}" for row in l2_vocab))[:2]
+            "\n".join(f"{row['thai']} = {row['japanese']}" for row in l2_vocab),
+            count=2, min_sources=2)
         l2_urls = {item["source_url"] for item in l2_selected}
-        l3_selected = [item for item in selected_shorts if item["source_url"] not in l2_urls][:3]
-        if len(l3_selected) < 3:
-            l3_selected = generate_shorts(client, [a for a in articles if a["source_url"] not in l2_urls], allowed, allowed_text)[:3]
+        l3_selected = generate_shorts(client,
+            [a for a in articles if a["source_url"] not in l2_urls],
+            allowed, allowed_text, count=3, min_sources=2)
         selected_shorts = [{**item, "level": 2} for item in l2_selected] + [{**item, "level": 3} for item in l3_selected]
         passages = generate_passages(client, articles, allowed, allowed_text, [item["source_url"] for item in selected_shorts])
 
@@ -549,3 +565,4 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
