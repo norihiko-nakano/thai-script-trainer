@@ -65,7 +65,7 @@ class PipelineTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     common.verify_source(None, 'candidate', self.article)
 
-    def test_shorts_accumulate_valid_candidates_and_reject_unknown_words(self):
+    def test_shorts_accept_unknown_words_after_source_review(self):
         articles = [{'source_url': str(i)} for i in range(3)]
         def item(source, word):
             return {'source_url': str(source), 'thai_tokens': [word] * 4}
@@ -78,16 +78,20 @@ class PipelineTests(unittest.TestCase):
             result = gen.generate_shorts(None, articles, ['a', 'b'], 'vocab', count=2, min_sources=2)
         self.assertEqual(len(result), 2)
         self.assertEqual(review.call_count, 2)
+        self.assertIn('unknown', result[1]['thai_tokens'])
         self.assertEqual({q['source_url'] for q in result}, {'0', '1'})
 
     def test_ai_readings_cannot_override_dictionary(self):
         q=self.seed['short_news'][0]
-        localized={'title_ja':q['title'],'choices':q['choices'],'correct_index':0,'token_readings':['WRONG']*4,
+        localized={'token_meanings':['文中の意味']*len(q['thai_tokens']),'title_ja':q['title'],'choices':q['choices'],'correct_index':0,'token_readings':['WRONG']*4,
                    'explanation':'説明です','grammar_note':'文法です','reading_tip':'分けて読みます','choice_explanations':['説明です']*4}
         result=build.build_short(q,localized,self.dictionary)
         self.assertEqual(result['reading'],q['reading'])
         missing=copy.deepcopy(self.dictionary);missing[q['thai_tokens'][0]]['reading']=''
-        with self.assertRaises(ValueError):build.build_short(q,localized,missing)
+        result = build.build_short(q,localized,missing)
+        self.assertEqual(result['breakdown'][0]['reading'], '')
+        self.assertEqual(result['breakdown'][0]['japanese'], '文中の意味')
+        self.assertIn('読み未登録', result['reading'])
         self.assertNotIn('token_readings',build.short_schema(4)['properties'])
         self.assertNotIn('reading',build.passage_schema(1)['properties']['note_localizations']['items']['properties'])
 
@@ -96,6 +100,22 @@ class PipelineTests(unittest.TestCase):
         localized={'title_ja':'タイトル','note_localizations':[{'japanese':'注釈の意味'}],
                    'questions':[{'prompt':'質問です','choices':['正解','違う','別','他'],'answer_index':0,'explanation':'説明です'}]}
         self.assertEqual(build.build_passage(p,localized,self.dictionary)['annotations'][0]['reading'],'')
+
+    def test_passage_has_no_new_vocabulary_ceiling(self):
+        passage = {'lines': [{'tokens': [{'thai': f'word{i}', 'kind': 'note'} for i in range(10)]}]*3}
+        self.assertTrue(gen.validate_passage(passage, [])[0])
+
+    def test_all_passage_words_get_contextual_meanings(self):
+        article = self.article
+        item = {'source_url': article['source_url'], 'source_fact_th': 'fact',
+                'source_review': {}, 'lines': [{'tokens': [
+                    {'thai':'เขา', 'kind':'known'}, {'thai':'ใหม่', 'kind':'note'}]}]*3}
+        candidate = gen.enrich_passage(item, {article['source_url']:article}, 1)
+        self.assertEqual(candidate['note_words'], ['เขา', 'ใหม่'])
+        localized = {'title_ja':'記事', 'note_localizations':[{'japanese':'彼'},{'japanese':'新しい'}], 'questions':[]}
+        result = build.build_passage(candidate, localized, {'เขา':{'japanese':'山', 'reading':'カオ'}})
+        self.assertEqual(result['annotations'][0]['japanese'], '彼')
+        self.assertEqual(result['annotations'][1]['reading'], '')
 
     def test_offline_vocab_is_complete(self):
         with patch.object(common.requests,'get',side_effect=ConnectionError('offline')):
@@ -131,7 +151,7 @@ class PipelineTests(unittest.TestCase):
                     'short_candidates':[dict(q, source_fact_th='fact') for q in self.seed['short_news']],
                     'reading_passages':[dict(p, source_fact_th='fact',note_words=[]) for p in self.seed['reading_passages']]}
         def short(client,q,article,vocab):
-            return {'title_ja':q['title'],'choices':q['choices'],'correct_index':0,
+            return {'token_meanings':['文中の意味']*len(q['thai_tokens']),'title_ja':q['title'],'choices':q['choices'],'correct_index':0,
                     'explanation':q['explanation'],'grammar_note':q['grammar_note'],'reading_tip':q['reading_tip'],
                     'choice_explanations':['説明です']*4}
         def passage(client,p,article):
