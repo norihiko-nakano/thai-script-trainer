@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ver7.0: source-verified L2 review/L3 shorts and Level 3 passages."""
+"""Source-verified short news and passages using Level 1-3 vocabulary."""
 from __future__ import annotations
 
 import os
@@ -523,23 +523,22 @@ def main():
 
         client = OpenAI()
 
-        # Generate only the required count for each level; preserve source diversity.
-        l2_vocab = [row for row in vocab if int(row["level"]) <= 2]
-        l2_selected = generate_shorts(client, articles, [row["thai"] for row in l2_vocab],
-            "\n".join(f"{row['thai']} = {row['japanese']}" for row in l2_vocab),
-            count=2, min_sources=2)
-        l2_urls = {item["source_url"] for item in l2_selected}
-        l3_selected = generate_shorts(client,
-            [a for a in articles if a["source_url"] not in l2_urls],
-            allowed, allowed_text, count=3, min_sources=2)
-        selected_shorts = [{**item, "level": 2} for item in l2_selected] + [{**item, "level": 3} for item in l3_selected]
+        # All five news questions may use Level 1-3 vocabulary.
+        # Do not require a separate Level 2 batch: it forces unnatural paraphrases.
+        selected_shorts = [
+            {**item, "level": LEVEL}
+            for item in generate_shorts(
+                client, articles, allowed, allowed_text,
+                count=SHORT_FINAL_SIZE, min_sources=3,
+            )
+        ]
         passages = generate_passages(client, articles, allowed, allowed_text, [item["source_url"] for item in selected_shorts])
 
         final = {
             "schema_version": 1,
             "generated_at": now_jst(),
             "target_level": LEVEL,
-            "generator_version": "7.0",
+            "generator_version": "8.3-news-l3",
             "raw_source_file": "data/news_raw.json",
             "raw_fetched_at": raw.get("fetched_at"),
             "short_candidates": [
