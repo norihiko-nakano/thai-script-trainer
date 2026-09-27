@@ -183,7 +183,7 @@ def localize_short(client, candidate, article, vocab_by_thai):
     known = [
         {
             "thai": token,
-            "japanese": vocab_by_thai.get(token, {}).get("japanese", ""),
+            "japanese": vocab_by_thai.get(token.strip(), {}).get("japanese", ""),
         }
         for token in tokens
     ]
@@ -311,7 +311,7 @@ def build_short(candidate, localized, vocab_by_thai):
     if len(meanings) != len(candidate["thai_tokens"]):
         raise ValueError("Token meaning count mismatch")
     breakdown = [
-        {"thai": token, "reading": vocab_by_thai.get(token, {}).get("reading") or "",
+        {"thai": token, "reading": vocab_by_thai.get(token.strip(), {}).get("reading") or "",
          "japanese": meanings[i]}
         for i, token in enumerate(candidate["thai_tokens"])
     ]
@@ -350,7 +350,7 @@ def build_passage(candidate, localized, dictionary):
         {
             "thai": thai,
             "japanese": localized["note_localizations"][i]["japanese"],
-            "reading": dictionary.get(thai, {}).get("reading") or "",
+            "reading": dictionary.get(thai.strip(), {}).get("reading") or "",
         }
         for i, thai in enumerate(candidate["note_words"])
     ]
