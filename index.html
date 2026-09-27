@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver8.3</title>
+  <title>Thai Vocabulary Trainer Ver8.4</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1152,6 +1152,9 @@
       .passage-body { font-size: 1.12rem; }
     }
 
+    .news-word { display: inline; width: auto; padding: 0 2px; margin: 0; border: 0; border-bottom: 1px dotted currentColor; border-radius: 3px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+    .news-word:hover, .news-word:focus-visible { background: #dbeafe; color: #172554; }
+    .news-word-hint { margin-top: 12px; padding: 10px; background: #eff6ff; color: #172554; border-radius: 8px; font-size: 1rem; font-weight: normal; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -1159,7 +1162,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver8.3</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver8.4</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1550,7 +1553,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=8.3"></script>
+    <script src="supabase-config.js?v=8.4"></script>
   <script>
     "use strict";
 
@@ -2637,7 +2640,7 @@
 
     async function loadWordQuestions() {
       // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
-      const response = await fetch("questions.json?v=8.3", { cache: "no-store" });
+      const response = await fetch("questions.json?v=8.4", { cache: "no-store" });
       if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
       const data = await response.json();
       const local = Array.isArray(data) ? data : data.questions;
@@ -2837,21 +2840,53 @@
       const dictionary = dictionaryMap();
       const tokens = item.thai_tokens || (item.breakdown || []).map(row => row.thai);
       if (!tokens.length || tokens.join("") !== item.thai) return null;
-      const breakdown = tokens.map(thai => {
+      const breakdown = tokens.map((thai, index) => {
         const row = dictionary.get(thai);
-        if (!row || !row.reading || Number(row.difficulty) < 1 || Number(row.difficulty) > Number(item.level)) return null;
-        return {thai, reading: row.reading, japanese: row.japanese};
+        const saved = (item.breakdown || [])[index];
+        const japanese = saved?.thai === thai ? saved.japanese : row?.japanese;
+        if (!japanese) return null;
+        return {thai, reading: row?.reading || "", japanese};
       });
       if (breakdown.some(row => !row)) return null;
-      return {...item, breakdown, reading: breakdown.map(row => row.reading).join(" ")};
+      return {...item, breakdown, reading: breakdown.map(row => row.reading || `〔${row.thai}：読み未登録〕`).join(" ")};
     }
 
     function hydratePassageReadings(item) {
       const dictionary = dictionaryMap();
       return {...item, annotations: (item.annotations || []).map(note => {
         const row = dictionary.get(note.thai);
-        return {...note, japanese: row?.japanese || note.japanese, reading: row?.reading || ""};
+        return {...note, japanese: note.japanese || row?.japanese, reading: row?.reading || ""};
       })};
+    }
+
+    function renderNewsWords(container, text, entries) {
+      container.replaceChildren();
+      const words = new Map((entries || []).filter(row => row.thai && row.japanese).map(row => [row.thai, row]));
+      const keys = [...words.keys()].sort((a,b) => b.length-a.length);
+      const sentence = document.createElement("span");
+      sentence.style.whiteSpace = "pre-wrap";
+      const hint = document.createElement("div");
+      hint.className = "news-word-hint";
+      hint.setAttribute("role", "status");
+      hint.setAttribute("aria-live", "polite");
+      hint.textContent = "👆 単語をタップすると、この文での意味が出ます";
+      const exact = (entries || []).map(row => row.thai).join("") === text ? entries : null;
+      let tokenIndex = 0;
+      for (let pos = 0; pos < text.length;) {
+        const key = exact ? exact[tokenIndex]?.thai : keys.find(word => text.startsWith(word, pos));
+        if (!key) { sentence.appendChild(document.createTextNode(text[pos++])); continue; }
+        const entry = exact ? exact[tokenIndex++] : words.get(key), button = document.createElement("button");
+        button.type = "button";
+        button.className = "news-word";
+        button.textContent = key;
+        button.setAttribute("aria-label", key + " の意味を表示");
+        button.addEventListener("click", () => {
+          hint.textContent = key + "：" + entry.japanese + (entry.reading ? " ／ 読み：" + entry.reading : " ／ 読み未登録");
+        });
+        sentence.appendChild(button);
+        pos += key.length;
+      }
+      container.append(sentence, hint);
     }
 
     function selectNewsWithReview(pool, count, level) {
@@ -2953,12 +2988,15 @@
       title.textContent = `📰 ${question.passageTitle || "ニュース長文"}`;
       const body = document.createElement("div");
       body.className = "passage-body";
-      body.textContent = question.passageBody || question.thai || "";
+      renderNewsWords(body, question.passageBody || question.thai || "", question.annotations);
       elements.passagePanel.append(title, body);
 
       if (Array.isArray(question.annotations) && question.annotations.length) {
-        const ann = document.createElement("div");
+        const ann = document.createElement("details");
         ann.className = "passage-annotations";
+        const summary = document.createElement("summary");
+        summary.textContent = "単語の意味を一覧で見る";
+        ann.appendChild(summary);
         question.annotations.forEach(item => {
           const line = document.createElement("div");
           const word = document.createElement("strong");
@@ -3889,7 +3927,8 @@ function showQuestion() {
     elements.promptLabel.textContent = newsQuestion
       ? "📰 ニュース短文の意味を選んでください"
       : sentenceQuestion ? "このタイ語の文章の意味を選んでください" : question.weakPriority ? "🐙 苦手単語：このタイ語の意味を選んでください" : "このタイ語の意味を選んでください";
-    elements.promptWord.textContent = question.thai;
+    if (newsQuestion) renderNewsWords(elements.promptWord, question.thai, question.breakdown);
+    else elements.promptWord.textContent = question.thai;
     elements.promptWord.className = (sentenceQuestion || newsQuestion) ? "prompt-word sentence-prompt" : "prompt-word";
     elements.readingArea.classList.remove("hidden");
     elements.readingInput.value = "";
@@ -4576,6 +4615,6 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
       return [...new Set(values.filter(value => typeof value === "string" && value.trim()))];
     }
   </script>
-  <script src="speaking-v8.js?v=8.3"></script>
+  <script src="speaking-v8.js?v=8.4"></script>
 </body>
 </html>
