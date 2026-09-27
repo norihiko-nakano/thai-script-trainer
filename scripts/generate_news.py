@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Source-verified short news and passages using Level 1-3 vocabulary."""
+"""Source-verified natural news with contextual clickable vocabulary."""
 from __future__ import annotations
 
 import os
@@ -22,7 +22,6 @@ from news_common import (
 SHORT_POOL_SIZE = 8
 SHORT_FINAL_SIZE = 5
 PASSAGE_COUNT = 2
-MAX_NOTES_PER_PASSAGE = 7
 SHORT_ATTEMPTS = 3
 PASSAGE_ATTEMPTS_PER_ARTICLE = 3
 
@@ -193,18 +192,6 @@ def validate_passage(passage, allowed):
 
     notes, known_violations = passage_stats(passage, allowed)
 
-    if known_violations:
-        problems.append(
-            "labels unknown words as known: "
-            + ", ".join(known_violations[:10])
-        )
-
-    if len(notes) > MAX_NOTES_PER_PASSAGE:
-        problems.append(
-            f"has {len(notes)} note words; max {MAX_NOTES_PER_PASSAGE}. "
-            "Rewrite much more simply with known vocabulary."
-        )
-
     return not problems, problems, notes
 
 
@@ -251,7 +238,7 @@ def enrich_passage(item, source_map, index):
         "source_fact_th": item["source_fact_th"],
         "body_thai": "\n".join(body_lines),
         "lines": normalized_lines,
-        "note_words": note_words,
+        "note_words": list(dict.fromkeys(t["thai"] for line in normalized_lines for t in line["tokens"])),
         "source_name": source["source_name"],
         "source_title": source["source_title"],
         "source_url": source["source_url"],
@@ -288,19 +275,20 @@ def generate_shorts(client, articles, allowed, allowed_text, count=5, min_source
 Return exactly {SHORT_POOL_SIZE} short candidates. This call creates NO long passages.
 
 RULES:
-- thai_tokens may use ONLY entries from ALLOWED VOCABULARY.
+- Vocabulary is unrestricted. Prefer simple natural Thai, but retain necessary news terms.
+- Split thai_tokens into meaningful words or short lexical phrases for clickable translations.
 - Use 4-14 tokens and make a natural complete Thai sentence.
 - Every sentence must express a concrete fact genuinely supported by its source article.
-- If one article cannot be expressed naturally with the allowed vocabulary, skip it and use another article.
+- Choose facts that can be stated clearly in one sentence. Do not distort facts to simplify words.
 - Create candidates from several sources. We need {count} final items from at least {min_sources} sources, max 2 per source.
-- Start with a source-supported natural sentence, then split into exact vocabulary entries.
-- Never substitute a similar-looking but unrelated word to fit the vocabulary.
+- Start with a source-supported natural sentence, then segment it without changing the text.
+- Never substitute an unrelated word to fit the dictionary. Words outside it are welcome.
 - Do not add "today" unless the source explicitly supports that time reference.
 - Avoid already accepted sentences: {list(seen)}
 - Do not create Japanese, readings, explanations, or four-choice answers here.
 - source_fact_th briefly states the factual connection to the source.
 
-ALLOWED VOCABULARY (Level 1-{LEVEL}):
+OPTIONAL FAMILIAR VOCABULARY (not a restriction):
 {allowed_text}
 
 RAW NEWS SNAPSHOT:
@@ -313,7 +301,7 @@ RAW NEWS SNAPSHOT:
             schema=schema,
             instructions=(
                 "Select real-news facts that can be expressed naturally with the "
-                "learner's known Thai vocabulary. Skip unsuitable articles rather "
+                "learner's level where practical, without a vocabulary ceiling. Skip unsuitable articles rather "
                 "than inventing a weak connection."
             ),
             prompt=prompt,
@@ -326,9 +314,8 @@ RAW NEWS SNAPSHOT:
             if item.get("source_url") not in source_map or not 4 <= len(tokens) <= 14:
                 problems.append(f"Invalid source or token count: {thai}")
                 continue
-            bad = [token for token in tokens if token not in allowed]
-            if bad:
-                problems.append(f"{thai}: words outside vocabulary: {bad}")
+            if any(not isinstance(token, str) or not token.strip() for token in tokens):
+                problems.append("Empty or invalid token")
                 continue
             if thai in seen:
                 continue
@@ -371,21 +358,20 @@ BODY: {article['body']}
 TARGET:
 - 3-5 SHORT lines.
 - Preserve one coherent factual story from the article.
-- Rewrite aggressively into easy Thai for a Level {LEVEL} learner.
-- Prefer words from ALLOWED VOCABULARY.
+- Write clear Thai for learners without forcing a vocabulary level.
+- Use natural Thai with no vocabulary or difficulty ceiling. Prefer clear short sentences.
 - Every token must be marked:
-  kind="known" ONLY if thai exactly equals one allowed-vocabulary entry.
-  kind="note" ONLY when the word/phrase is genuinely necessary.
-- HARD TARGET: 1-{MAX_NOTES_PER_PASSAGE} DISTINCT note words total.
+  kind="known" if thai is in the optional familiar vocabulary.
+  kind="note" for any other word or short lexical phrase. Both kinds are permitted.
+- There is no limit on new vocabulary; all words receive contextual Japanese meanings later.
 - If the source contains difficult names, exact official titles, technical terms,
-  detailed numbers, or other material that would require too many notes, OMIT
-  those details and keep only an easier supported fact.
+  detailed numbers, omit only nonessential details. Keep facts and actors accurate.
 - Do not preserve difficult wording merely because it appears in the source.
-  Simplify the wording while keeping the meaning true.
+  Keep necessary names and news terms when needed to preserve the meaning.
 - source_fact_th briefly states the source fact represented by the passage.
 - Do not write Japanese content.
 
-ALLOWED VOCABULARY:
+OPTIONAL FAMILIAR VOCABULARY:
 {allowed_text}
 
 {retry_note}'''
@@ -407,8 +393,8 @@ def generate_one_passage(client, article, allowed, allowed_text):
             schema=schema,
             instructions=(
                 "Simplify the article heavily for a beginner/intermediate Thai "
-                "learner. The seven-note ceiling is a hard usability constraint. "
-                "Use known vocabulary wherever possible, and omit source details "
+                "learner. Vocabulary is unrestricted and contextual translations will be supplied. "
+                "Use clear natural sentences, and omit source details "
                 "that are not essential to the simplified factual story."
             ),
             prompt=article_passage_prompt(article, allowed_text, retry_note),
@@ -425,7 +411,7 @@ def generate_one_passage(client, article, allowed, allowed_text):
                 problems.append(str(exc))
         if ok:
             print(
-                f"PASSAGE ACCEPTED: {len(notes)} note word(s) | "
+                f"PASSAGE ACCEPTED: {len(notes)} new word(s) | "
                 f"{article['source_url']}"
             )
             return passage
@@ -440,8 +426,7 @@ def generate_one_passage(client, article, allowed, allowed_text):
         time.sleep(1)
 
     print(
-        "PASSAGE SKIP ARTICLE: could not reach <= "
-        f"{MAX_NOTES_PER_PASSAGE} note words after "
+        "PASSAGE SKIP ARTICLE: source/naturalness validation failed after "
         f"{PASSAGE_ATTEMPTS_PER_ARTICLE} attempts"
     )
     return None
@@ -492,8 +477,7 @@ def generate_passages(client, articles, allowed, allowed_text, short_sources):
             return accepted
 
     raise RuntimeError(
-        "Could not find 2 long passages with <= "
-        f"{MAX_NOTES_PER_PASSAGE} note words. "
+        "Could not find 2 source-verified natural passages. "
         "Short candidates were already generated successfully."
     )
 
@@ -523,7 +507,7 @@ def main():
 
         client = OpenAI()
 
-        # All five news questions may use Level 1-3 vocabulary.
+        # Level 3 is the news menu placement, not a vocabulary restriction.
         # Do not require a separate Level 2 batch: it forces unnatural paraphrases.
         selected_shorts = [
             {**item, "level": LEVEL}
@@ -538,7 +522,7 @@ def main():
             "schema_version": 1,
             "generated_at": now_jst(),
             "target_level": LEVEL,
-            "generator_version": "8.3-news-l3",
+            "generator_version": "8.4-context-vocabulary",
             "raw_source_file": "data/news_raw.json",
             "raw_fetched_at": raw.get("fetched_at"),
             "short_candidates": [
