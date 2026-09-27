@@ -2841,7 +2841,7 @@
       const tokens = item.thai_tokens || (item.breakdown || []).map(row => row.thai);
       if (!tokens.length || tokens.join("") !== item.thai) return null;
       const breakdown = tokens.map((thai, index) => {
-        const row = dictionary.get(thai);
+        const row = dictionary.get(thai.trim());
         const saved = (item.breakdown || [])[index];
         const japanese = saved?.thai === thai ? saved.japanese : row?.japanese;
         if (!japanese) return null;
@@ -2854,7 +2854,7 @@
     function hydratePassageReadings(item) {
       const dictionary = dictionaryMap();
       return {...item, annotations: (item.annotations || []).map(note => {
-        const row = dictionary.get(note.thai);
+        const row = dictionary.get(note.thai.trim());
         return {...note, japanese: note.japanese || row?.japanese, reading: row?.reading || ""};
       })};
     }
