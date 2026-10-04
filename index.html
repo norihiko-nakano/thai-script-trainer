@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver8.4</title>
+  <title>Thai Vocabulary Trainer Ver8.5</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -68,7 +68,7 @@
 
     .mode-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
       margin: 24px 0;
     }
@@ -1162,7 +1162,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver8.4</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver8.5</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1193,7 +1193,7 @@
           <button class="mode-button" type="button" data-mode="choice">
             <span class="mode-icon" aria-hidden="true">🐨</span>
             <span class="mode-title">読む📕🐨</span>
-            <span class="mode-description">単語・ニュース短文を読んで、日本語の意味を選ぶ</span>
+            <span class="mode-description">単語・文章・ニュースを読んで、日本語の意味を選ぶ</span>
           </button>
 
           <button class="mode-button" type="button" data-mode="longreading" title="Level 3で長文読解">
@@ -1249,14 +1249,14 @@
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
 
-        <p class="muted center">Level 1・2は各100語、Level 3〜8は各200語を目標に段階学習。単語は選択Level、ニュース短文はLevel 1〜選択Levelの既知語彙に制約します。</p>
+        <p class="muted center">Level 1・2は各100語、Level 3〜8は各200語を目標に段階学習。単語は選択Level。文章読解はLevel 3の単語3つを使う短文セット、ニュース読解には語彙のLevel制限を設けません。</p>
         <div id="selectedModeCard" class="selected-mode-card"></div>
 
         <section id="compositionSettings" class="composition-settings" aria-labelledby="compositionHeading">
           <h3 id="compositionHeading">出題構成 🧩</h3>
           <div class="composition-grid">
             <div class="composition-control">
-              <label for="wordQuestionCount">単語問題</label>
+              <label for="wordQuestionCount">単語問題 🐟️</label>
               <select id="wordQuestionCount">
                 <option value="0">0問</option>
                 <option value="1">1問</option>
@@ -1268,14 +1268,17 @@
                 <option value="100">100問</option>
               </select>
             </div>
-            <div class="composition-control hidden" aria-hidden="true">
-              <label for="sentenceQuestionCount">旧通常文章（Ver6.0では使用しない）</label>
-              <select id="sentenceQuestionCount" disabled>
-                <option value="0" selected>0問</option>
+            <div class="composition-control">
+              <label for="sentenceQuestionCount">文章読解 🐬</label>
+              <select id="sentenceQuestionCount">
+                <option value="0" selected>0セット</option>
+                <option value="1">1セット（3問）</option>
+                <option value="2">2セット（6問）</option>
+                <option value="3">3セット（9問）</option>
               </select>
             </div>
             <div class="composition-control">
-              <label for="newsQuestionCount">ニュース短文 📰</label>
+              <label for="newsQuestionCount">ニュース読解 📰</label>
               <select id="newsQuestionCount">
                 <option value="0">0問</option>
                 <option value="1">1問</option>
@@ -1287,7 +1290,7 @@
             </div>
           </div>
           <p id="compositionTotal" class="composition-total">合計：5問</p>
-          <p id="compositionNote" class="composition-note">ニュース短文は「読む📕🐨」で出題します。</p>
+          <p id="compositionNote" class="composition-note">ニュース読解は「読む📕🐨」で出題します。</p>
           <p id="sentenceSourceNote" class="sentence-source-note"></p>
         </section>
 
@@ -1296,7 +1299,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐣</span>
             <span>
               <span class="difficulty-title">Level 1　基礎</span>
-              <span class="difficulty-description">Level 1単語 + Level 1語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 1単語 + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="1">読み込み中</span>
           </button>
@@ -1305,7 +1308,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐙</span>
             <span>
               <span class="difficulty-title">Level 2　基礎＋</span>
-              <span class="difficulty-description">Level 2単語（約20％は下位Levelの復習） + Level 1〜2語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 2単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="2">読み込み中</span>
           </button>
@@ -1314,7 +1317,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦑</span>
             <span>
               <span class="difficulty-title">Level 3　初級</span>
-              <span class="difficulty-description">Level 3単語（約20％は下位Levelの復習） + Level 1〜3語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 3単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="3">準備中</span>
           </button>
@@ -1323,7 +1326,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐟</span>
             <span>
               <span class="difficulty-title">Level 4</span>
-              <span class="difficulty-description">Level 4単語（約20％は下位Levelの復習） + Level 1〜4語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 4単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="4">準備中</span>
           </button>
@@ -1332,7 +1335,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐢</span>
             <span>
               <span class="difficulty-title">Level 5</span>
-              <span class="difficulty-description">Level 5単語（約20％は下位Levelの復習） + Level 1〜5語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 5単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="5">準備中</span>
           </button>
@@ -1341,7 +1344,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦜</span>
             <span>
               <span class="difficulty-title">Level 6</span>
-              <span class="difficulty-description">Level 6単語（約20％は下位Levelの復習） + Level 1〜6語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 6単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="6">準備中</span>
           </button>
@@ -1350,7 +1353,7 @@
             <span class="difficulty-icon" aria-hidden="true">🦊</span>
             <span>
               <span class="difficulty-title">Level 7</span>
-              <span class="difficulty-description">Level 7単語（約20％は下位Levelの復習） + Level 1〜7語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 7単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="7">準備中</span>
           </button>
@@ -1359,7 +1362,7 @@
             <span class="difficulty-icon" aria-hidden="true">🐯</span>
             <span>
               <span class="difficulty-title">Level 8</span>
-              <span class="difficulty-description">Level 8単語（約20％は下位Levelの復習） + Level 1〜8語彙で読めるニュース短文</span>
+              <span class="difficulty-description">Level 8単語（約20％は下位Levelの復習） + ニュース読解（語彙制限なし）</span>
             </span>
             <span class="difficulty-count" data-level-count="8">準備中</span>
           </button>
@@ -1553,7 +1556,7 @@
     </section>
   </main>
 
-    <script src="supabase-config.js?v=8.4"></script>
+    <script src="supabase-config.js?v=8.5"></script>
   <script>
     "use strict";
 
@@ -1572,6 +1575,27 @@
     ];
 
 
+const READING_SETS = [{"id": "reading85-study-1", "questionType": "sentence", "difficulty": 3, "setId": "study", "setTitle": "家での勉強", "setPosition": 1, "targetWords": ["การบ้าน", "ตั้งใจ", "ทุกคืน"], "thai": "ผมทำการบ้านทุกคืน", "japanese": "私は毎晩宿題をします。", "choices": ["私は毎晩宿題をします。", "私は毎朝学校へ行きます。", "私は毎晩テレビを見ます。", "私は時々宿題を忘れます。"], "breakdown": [{"thai": "ผม", "japanese": "私は"}, {"thai": "ทำ", "japanese": "する"}, {"thai": "การบ้าน", "japanese": "宿題"}, {"thai": "ทุกคืน", "japanese": "毎晩"}], "explanation": "ผม＝私は / ทำ＝する / การบ้าน＝宿題 / ทุกคืน＝毎晩"}, {"id": "reading85-study-2", "questionType": "sentence", "difficulty": 3, "setId": "study", "setTitle": "家での勉強", "setPosition": 2, "targetWords": ["การบ้าน", "ตั้งใจ", "ทุกคืน"], "thai": "คืนนี้ผมตั้งใจอ่านหนังสือ", "japanese": "今夜、私は集中して本を読みます。", "choices": ["今夜、私は集中して本を読みます。", "今夜、私は本を買います。", "明日、私は友達に本を貸します。", "今夜、私は早く寝ます。"], "breakdown": [{"thai": "คืนนี้", "japanese": "今夜"}, {"thai": "ผม", "japanese": "私は"}, {"thai": "ตั้งใจ", "japanese": "集中して・一生懸命に"}, {"thai": "อ่าน", "japanese": "読む"}, {"thai": "หนังสือ", "japanese": "本"}], "explanation": "คืนนี้＝今夜 / ผม＝私は / ตั้งใจ＝集中して・一生懸命に / อ่าน＝読む / หนังสือ＝本"}, {"id": "reading85-study-3", "questionType": "sentence", "difficulty": 3, "setId": "study", "setTitle": "家での勉強", "setPosition": 3, "targetWords": ["การบ้าน", "ตั้งใจ", "ทุกคืน"], "thai": "หลังจากอ่านหนังสือผมทำการบ้านต่อ", "japanese": "本を読んだ後、私は宿題を続けます。", "choices": ["本を読んだ後、私は宿題を続けます。", "宿題の前に私は夕食を作ります。", "本を読んだ後、私は外へ出かけます。", "宿題を終えた後、私は本を売ります。"], "breakdown": [{"thai": "หลังจาก", "japanese": "〜した後"}, {"thai": "อ่าน", "japanese": "読む"}, {"thai": "หนังสือ", "japanese": "本"}, {"thai": "ผม", "japanese": "私は"}, {"thai": "ทำ", "japanese": "する"}, {"thai": "การบ้าน", "japanese": "宿題"}, {"thai": "ต่อ", "japanese": "続ける"}], "explanation": "หลังจาก＝〜した後 / อ่าน＝読む / หนังสือ＝本 / ผม＝私は / ทำ＝する / การบ้าน＝宿題 / ต่อ＝続ける"}, {"id": "reading85-office-1", "questionType": "sentence", "difficulty": 3, "setId": "office", "setTitle": "会社の会議", "setPosition": 1, "targetWords": ["บริษัท", "ประชุม", "ข้อความ"], "thai": "พรุ่งนี้บริษัทมีประชุม", "japanese": "明日、会社で会議があります。", "choices": ["明日、会社で会議があります。", "昨日、会社で会議がありました。", "明日は会社が休みです。", "明日、新しい会社を作ります。"], "breakdown": [{"thai": "พรุ่งนี้", "japanese": "明日"}, {"thai": "บริษัท", "japanese": "会社"}, {"thai": "มี", "japanese": "ある"}, {"thai": "ประชุม", "japanese": "会議"}], "explanation": "พรุ่งนี้＝明日 / บริษัท＝会社 / มี＝ある / ประชุม＝会議"}, {"id": "reading85-office-2", "questionType": "sentence", "difficulty": 3, "setId": "office", "setTitle": "会社の会議", "setPosition": 2, "targetWords": ["บริษัท", "ประชุม", "ข้อความ"], "thai": "ผมส่งข้อความถึงเพื่อน", "japanese": "私は友達にメッセージを送ります。", "choices": ["私は友達にメッセージを送ります。", "私は友達から荷物を受け取ります。", "私は友達に電話を借ります。", "私は友達と映画を見ます。"], "breakdown": [{"thai": "ผม", "japanese": "私は"}, {"thai": "ส่ง", "japanese": "送る"}, {"thai": "ข้อความ", "japanese": "メッセージ"}, {"thai": "ถึง", "japanese": "〜へ"}, {"thai": "เพื่อน", "japanese": "友達"}], "explanation": "ผม＝私は / ส่ง＝送る / ข้อความ＝メッセージ / ถึง＝〜へ / เพื่อน＝友達"}, {"id": "reading85-office-3", "questionType": "sentence", "difficulty": 3, "setId": "office", "setTitle": "会社の会議", "setPosition": 3, "targetWords": ["บริษัท", "ประชุม", "ข้อความ"], "thai": "ในข้อความผมบอกเวลาประชุม", "japanese": "メッセージで私は会議の時刻を伝えます。", "choices": ["メッセージで私は会議の時刻を伝えます。", "メッセージで私は店の場所を尋ねます。", "私は会議の時刻を忘れます。", "私は会議で友達の名前を聞きます。"], "breakdown": [{"thai": "ใน", "japanese": "〜の中で"}, {"thai": "ข้อความ", "japanese": "メッセージ"}, {"thai": "ผม", "japanese": "私は"}, {"thai": "บอก", "japanese": "伝える"}, {"thai": "เวลา", "japanese": "時刻"}, {"thai": "ประชุม", "japanese": "会議"}], "explanation": "ใน＝〜の中で / ข้อความ＝メッセージ / ผม＝私は / บอก＝伝える / เวลา＝時刻 / ประชุม＝会議"}, {"id": "reading85-bus-1", "questionType": "sentence", "difficulty": 3, "setId": "bus", "setTitle": "バスでの移動", "setPosition": 1, "targetWords": ["นักท่องเที่ยว", "แผนที่", "ป้ายรถเมล์"], "thai": "นักท่องเที่ยวดูแผนที่", "japanese": "観光客が地図を見ています。", "choices": ["観光客が地図を見ています。", "観光客が切符を買っています。", "観光客が写真を撮っています。", "観光客が荷物を探しています。"], "breakdown": [{"thai": "นักท่องเที่ยว", "japanese": "観光客"}, {"thai": "ดู", "japanese": "見る"}, {"thai": "แผนที่", "japanese": "地図"}], "explanation": "นักท่องเที่ยว＝観光客 / ดู＝見る / แผนที่＝地図"}, {"id": "reading85-bus-2", "questionType": "sentence", "difficulty": 3, "setId": "bus", "setTitle": "バスでの移動", "setPosition": 2, "targetWords": ["นักท่องเที่ยว", "แผนที่", "ป้ายรถเมล์"], "thai": "เขาหาป้ายรถเมล์ในแผนที่", "japanese": "その人は地図でバス停を探します。", "choices": ["その人は地図でバス停を探します。", "その人は駅で友達を待ちます。", "その人は地図をバスに忘れます。", "その人はバス停で食事をします。"], "breakdown": [{"thai": "เขา", "japanese": "その人は"}, {"thai": "หา", "japanese": "探す"}, {"thai": "ป้ายรถเมล์", "japanese": "バス停"}, {"thai": "ใน", "japanese": "〜の中で"}, {"thai": "แผนที่", "japanese": "地図"}], "explanation": "เขา＝その人は / หา＝探す / ป้ายรถเมล์＝バス停 / ใน＝〜の中で / แผนที่＝地図"}, {"id": "reading85-bus-3", "questionType": "sentence", "difficulty": 3, "setId": "bus", "setTitle": "バスでの移動", "setPosition": 3, "targetWords": ["นักท่องเที่ยว", "แผนที่", "ป้ายรถเมล์"], "thai": "แล้วเขาเดินไปรอรถเมล์ที่ป้ายรถเมล์", "japanese": "それから、その人は歩いてバス停へ行き、バスを待ちます。", "choices": ["それから、その人は歩いてバス停へ行き、バスを待ちます。", "それから、その人はバスでホテルに戻ります。", "それから、その人は駅まで車を運転します。", "それから、その人はバス停を通り過ぎます。"], "breakdown": [{"thai": "แล้ว", "japanese": "それから"}, {"thai": "เขา", "japanese": "その人は"}, {"thai": "เดิน", "japanese": "歩く"}, {"thai": "ไป", "japanese": "行く"}, {"thai": "รอ", "japanese": "待つ"}, {"thai": "รถเมล์", "japanese": "路線バス"}, {"thai": "ที่", "japanese": "〜で"}, {"thai": "ป้ายรถเมล์", "japanese": "バス停"}], "explanation": "แล้ว＝それから / เขา＝その人は / เดิน＝歩く / ไป＝行く / รอ＝待つ / รถเมล์＝路線バス / ที่＝〜で / ป้ายรถเมล์＝バス停"}];
+function renderStudySentence(container, question) {
+  container.replaceChildren();
+  const title = document.createElement("div");
+  title.className = "muted";
+  title.style.fontSize = "1rem";
+  title.textContent = `🐬 ${question.setTitle} ${question.setPosition}/3 ／ 練習語：${question.targetWords.join("・")}`;
+  const body = document.createElement("div"); body.textContent = question.thai;
+  const hint = document.createElement("div"); hint.style.fontSize = "1rem";
+  const button = document.createElement("button"); button.type = "button";
+  button.textContent = "① 区切りを見る";
+  let stage = 0;
+  button.addEventListener("click", () => {
+    stage++;
+    if (stage === 1) { body.textContent = question.breakdown.map(x=>x.thai).join(" / "); button.textContent="② 単語の意味を見る"; }
+    else if (stage === 2) { renderNewsWords(body, question.thai, question.breakdown); button.textContent="③ 全文訳を見る"; }
+    else { hint.textContent=question.japanese; button.disabled=true; }
+  });
+  container.append(title, body, button, hint);
+}
+
     const COMPOSITION_STORAGE_KEY = "thaiVocabularyTrainerCompositionV1";
     const compositionPreferences = loadCompositionPreferences();
 
@@ -1589,7 +1613,8 @@
         Array.from(select.options).some(option => option.value === value);
       if (!valid(elements.wordQuestionCount, saved.words) ||
           !valid(elements.newsQuestionCount, saved.news) ||
-          Number(saved.words) + (mode === "writing" ? 0 : Number(saved.news)) < 1) return;
+          Number(saved.words) + (mode === "writing" ? 0 : Number(saved.news) + Number(saved.sentences || 0)) < 1) return;
+      elements.sentenceQuestionCount.value = mode !== "writing" && valid(elements.sentenceQuestionCount, saved.sentences) ? saved.sentences : "0";
       elements.wordQuestionCount.value = saved.words;
       elements.newsQuestionCount.value = mode === "writing" ? "0" : saved.news;
     }
@@ -1598,6 +1623,7 @@
       if (!["choice", "writing"].includes(state.mode)) return;
       compositionPreferences[state.mode] = {
         words: elements.wordQuestionCount.value,
+        sentences: state.mode === "writing" ? "0" : elements.sentenceQuestionCount.value,
         news: state.mode === "writing" ? "0" : elements.newsQuestionCount.value
       };
       try {
@@ -2625,8 +2651,8 @@
 
         // Ver6.1: 旧来の定型文（「今日/明日〜」型）は出題しない。
         // 実文章はニュース由来だけを使う。
-        state.allSentences = [];
-        state.sentenceSource = "Ver6.1では旧通常文章を使用しない";
+        state.allSentences = READING_SETS.map(q => ({...q}));
+        state.sentenceSource = "Level 3：3セット・9問";
         await loadNewsContent();
         updateDataSummary();
         updateCompositionSummary();
@@ -2640,7 +2666,7 @@
 
     async function loadWordQuestions() {
       // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
-      const response = await fetch("questions.json?v=8.4", { cache: "no-store" });
+      const response = await fetch("questions.json?v=8.5", { cache: "no-store" });
       if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
       const data = await response.json();
       const local = Array.isArray(data) ? data : data.questions;
@@ -3015,7 +3041,7 @@ function updateDataSummary() {
 
   for (let level = 1; level <= 8; level += 1) {
     const wordCount = state.allQuestions.filter(question => Number(question.difficulty) === level).length;
-    const sentenceCount = 0; // Ver6.0.2: 旧通常文章は廃止
+    const sentenceCount = state.allSentences.filter(q => Number(q.difficulty) === level).length;
     const newsCount = state.allNewsQuestions.filter(question => Number(question.difficulty) === level).length;
     const passageCount = state.readingPassages.filter(passage => Number(passage.level) === level).length;
 
@@ -3041,7 +3067,7 @@ function updateDataSummary() {
   }
 
   elements.dataSummary.textContent = `単語データ：${state.wordSource} ／ ${summaries.join(" ／ ")}`;
-  elements.sentenceSourceNote.textContent = `文章問題：📰 Newsのみ ／ Newsデータ：${state.newsSource}`;
+  elements.sentenceSourceNote.textContent = `文章読解 🐬：${state.sentenceSource} ／ ニュース読解 📰：${state.newsSource}`;
 
   const updated = state.newsGeneratedAt ? new Date(state.newsGeneratedAt) : null;
   const updatedLabel = updated && !Number.isNaN(updated.getTime())
@@ -3062,8 +3088,8 @@ function updateCompositionSummary() {
     return;
   }
 
-  elements.sentenceQuestionCount.value = "0";
-  elements.sentenceQuestionCount.disabled = true;
+  elements.sentenceQuestionCount.disabled = writingMode;
+  if (writingMode) elements.sentenceQuestionCount.value = "0";
   if (writingMode) {
     elements.newsQuestionCount.value = "0";
     elements.newsQuestionCount.disabled = true;
@@ -3072,12 +3098,13 @@ function updateCompositionSummary() {
   } else {
     elements.newsQuestionCount.disabled = state.allNewsQuestions.length === 0;
     if (!state.allNewsQuestions.length) elements.newsQuestionCount.value = "0";
-    elements.compositionNote.textContent = "読む📕🐨：単語 + 実ニュース由来のAI簡易化短文を出題します。単語は🐙 苦手単語を優先。ニュース5問なら新Level 3問＋前Levelの復習2問が目安です（在庫が少ないLevelは、ある分だけ出題します）。";
+    elements.compositionNote.textContent = "単語問題 🐟️・文章読解 🐬・ニュース読解 📰を組み合わせます。文章読解はLevel 3で利用でき、1セット3問を順番に読みます。";
   }
 
   const wordCount = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
+  const sentenceCount = writingMode ? 0 : 3 * (Number(elements.sentenceQuestionCount.value) || 0);
   const newsCount = writingMode ? 0 : (Number.parseInt(elements.newsQuestionCount.value, 10) || 0);
-  elements.compositionTotal.textContent = `合計：${wordCount + newsCount}問`;
+  elements.compositionTotal.textContent = `合計：${wordCount + sentenceCount + newsCount}問`;
 }
     function isUsableQuestion(question) {
       return question &&
@@ -3107,7 +3134,7 @@ function updateCompositionSummary() {
 function openDifficultyScreen(mode) {
   state.mode = mode;
   const info = mode === "choice"
-    ? ["🐨 読む📕🐨", "単語・実ニュース由来の短文を読んで、日本語の意味を選択"]
+    ? ["🐨 読む📕🐨", "単語問題 🐟️・文章読解 🐬・ニュース読解 📰から選んで練習"]
     : mode === "longreading"
       ? ["📰 長文読解📰🐘", "タイの実ニュースをAIで学習用に調整。数個の難語は※日本語注釈で読む"]
       : ["🐮 書くφ(`･ω･´ )🐮", "日本語を見て、タイ語を画面キーボードで入力（単語問題のみ）"];
@@ -3826,11 +3853,11 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
     }
 
     const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
-    const requestedSentences = 0; // Ver6.1: サザエさん予告型の旧通常文章は廃止
+    const requestedSentences = state.mode === "choice" ? Number(elements.sentenceQuestionCount.value) || 0 : 0;
     const requestedNews = state.mode === "choice" ? Math.min(newsPool.length, Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
 
-    if (requestedWords + requestedNews < 1) {
-      window.alert("単語・ニュース短文のどちらかを1問以上にしてください。");
+    if (requestedWords + requestedSentences + requestedNews < 1) {
+      window.alert("単語問題・文章読解・ニュース読解のいずれかを選んでください。");
       return;
     }
     if (requestedWords > wordPool.length) {
@@ -3840,14 +3867,19 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
 
     const candidateSentencePool = []; // 旧通常文章は出題しない
     if (requestedNews > newsPool.length) {
-      window.alert(`Level ${state.difficulty}のニュース短文は${newsPool.length}問です。ニュース問題数を減らしてください。`);
+      window.alert(`Level ${state.difficulty}のニュース読解は${newsPool.length}問です。ニュース問題数を減らしてください。`);
       return;
     }
 
     const wordQuestions = selectWordQuestionsWithReview(wordPool, lowerWordPool, requestedWords);
-    const sentenceQuestions = [];
+    const setIds = [...new Set(sentencePool.map(q => q.setId))];
+    if (requestedSentences > setIds.length) {
+      window.alert(`Level ${state.difficulty}の文章読解は${setIds.length}セットです。文章読解のセット数を調整してください。`);
+      return;
+    }
+    const sentenceQuestions = shuffle(setIds).slice(0, requestedSentences).flatMap(id => sentencePool.filter(q => q.setId === id).sort((a,b) => a.setPosition-b.setPosition));
     const newsQuestions = selectNewsWithReview(newsPool, requestedNews, state.difficulty);
-    state.quizQuestions = shuffle([...wordQuestions, ...newsQuestions]);
+    state.quizQuestions = [...shuffle([...wordQuestions, ...newsQuestions]), ...sentenceQuestions];
   }
 
   const wordCount = state.quizQuestions.filter(q => q.questionType === "word").length;
@@ -3857,7 +3889,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
   const weakCount = state.quizQuestions.filter(q => q.questionType === "word" && q.weakPriority).length;
   elements.quizLevelBadge.textContent = passageCount
     ? `Level ${state.difficulty} ／ 長文読解 📰 ／ ${passageCount}設問`
-    : `Level ${state.difficulty} ／ 単語${wordCount}${weakCount ? `（🐙${weakCount}）` : ""} + 📰News${newsCount}`;
+    : `Level ${state.difficulty} ／ 単語${wordCount}${weakCount ? `（🐙${weakCount}）` : ""} + 🐬文章${sentenceCount} + 📰ニュース${newsCount}`;
 
   if (!suppliedQuestions && state.quizQuestions.length) saveCompositionPreferences();
   renderKeyboard();
@@ -3925,9 +3957,10 @@ function showQuestion() {
     elements.readingInput.disabled = true;
   } else {
     elements.promptLabel.textContent = newsQuestion
-      ? "📰 ニュース短文の意味を選んでください"
+      ? "📰 ニュース読解の意味を選んでください"
       : sentenceQuestion ? "このタイ語の文章の意味を選んでください" : question.weakPriority ? "🐙 苦手単語：このタイ語の意味を選んでください" : "このタイ語の意味を選んでください";
-    if (newsQuestion) renderNewsWords(elements.promptWord, question.thai, question.breakdown);
+    if (sentenceQuestion && question.setId) renderStudySentence(elements.promptWord, question);
+    else if (newsQuestion) renderNewsWords(elements.promptWord, question.thai, question.breakdown);
     else elements.promptWord.textContent = question.thai;
     elements.promptWord.className = (sentenceQuestion || newsQuestion) ? "prompt-word sentence-prompt" : "prompt-word";
     elements.readingArea.classList.remove("hidden");
@@ -3954,7 +3987,7 @@ function renderChoices(question) {
   const correctLabel = japaneseDisplay(question);
   let choices = null;
 
-  if (question.questionType === "news" || question.questionType === "passage") {
+  if (question.questionType === "news" || question.questionType === "passage" || (question.questionType === "sentence" && question.setId)) {
     choices = uniqueStrings(Array.isArray(question.choices) ? question.choices : []);
     if (!choices.includes(correctLabel)) choices.unshift(correctLabel);
     if (choices.length < 2) {
@@ -3996,6 +4029,7 @@ function renderChoices(question) {
     function canBuildCandidateSentenceChoices(question) {
       if (!question || question.questionType !== "sentence") return false;
 
+      if (question.setId) return Array.isArray(question.choices) && question.choices.length === 4 && question.choices.includes(question.japanese);
       const candidate1 = state.choiceWordsById.get(Number(question.candidate1_word_id));
       const candidate2 = state.choiceWordsById.get(Number(question.candidate2_word_id));
       if (!candidate1 || !candidate2) return false;
@@ -4263,7 +4297,7 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
   title.textContent = isCorrect ? "✅ 正解！ ดีมาก!" : "❌ 不正解。ここで覚えれば勝ちですじゃ";
   const typeBadge = document.createElement("span");
   typeBadge.className = "question-type-badge";
-  typeBadge.textContent = question.questionType === "passage" ? "長文" : question.questionType === "news" ? "📰 News" : question.questionType === "sentence" ? "文章" : "単語";
+  typeBadge.textContent = question.questionType === "passage" ? "長文" : question.questionType === "news" ? "📰 News" : question.questionType === "sentence" ? "文章読解 🐬" : "単語 🐟️";
   title.appendChild(typeBadge);
   elements.feedback.appendChild(title);
 
@@ -4615,6 +4649,6 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
       return [...new Set(values.filter(value => typeof value === "string" && value.trim()))];
     }
   </script>
-  <script src="speaking-v8.js?v=8.4"></script>
+  <script src="speaking-v8.js?v=8.5"></script>
 </body>
 </html>
