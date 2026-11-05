@@ -1229,6 +1229,7 @@
             <div class="review-book-launch-row">
               <button id="openReviewBookButton" class="small-button" type="button">復習帳を開く</button>
               <button id="openReviewDrillButton" class="small-button" type="button">復習φ(`･ω･´ )ドリル🐼</button>
+              <button id="exportReviewBookButton" class="small-button" type="button">復習帳をJSON保存🐍</button>
               <span id="reviewBookCount" class="review-book-count">0語</span>
             </div>
             <p class="history-note">不正解になった単語を自動登録します。覚え方メモは自由編集・自動保存です。</p>
@@ -2531,6 +2532,7 @@ function renderStudySentence(container, question) {
         "historyPageExportButton", "historyPageClearButton",
         "openReviewBookButton", "reviewBookCount", "reviewBookScreen", "reviewBookBackButton",
         "openReviewDrillButton", "reviewDrillScreen", "reviewDrillBackButton", "reviewDrillStatus",
+        "exportReviewBookButton",
         "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList",
         "openReadingMemoButton", "readingMemoScreen", "readingMemoBackButton",
         "readingMemoContent", "clearReadingMemoButton"
@@ -2572,6 +2574,7 @@ function renderStudySentence(container, question) {
       elements.historySearchInput.addEventListener("input", resetAndRenderHistory);
       elements.openReviewBookButton.addEventListener("click", showReviewBookScreen);
       elements.openReviewDrillButton.addEventListener("click", showReviewDrillScreen);
+      elements.exportReviewBookButton.addEventListener("click", exportReviewBookJson);
       elements.reviewDrillBackButton.addEventListener("click", showMenu);
       elements.reviewBookBackButton.addEventListener("click", showMenu);
       elements.reviewBookSearchInput.addEventListener("input", renderReviewBook);
@@ -3335,6 +3338,24 @@ function openDifficultyScreen(mode) {
       }
     }
 
+    function exportReviewBookJson() {
+      if (!state.reviewBook.length) {
+        window.alert("復習帳に単語がありません。");
+        return;
+      }
+      // 保存済みのデータをコピーするだけで、復習帳は変更しない。
+      const json = JSON.stringify(state.reviewBook, null, 2);
+      const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "review_book_export.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
     function reviewBookKey(question) {
       const id = question && question.id !== undefined && question.id !== null
         ? String(question.id).trim()
@@ -3383,6 +3404,7 @@ function addWrongWordToReviewBook(question) {
       const count = state.reviewBook.length;
       elements.reviewBookCount.textContent = `${count}語`;
       if (elements.clearReviewBookButton) elements.clearReviewBookButton.disabled = count === 0;
+      if (elements.exportReviewBookButton) elements.exportReviewBookButton.disabled = count === 0;
     }
 
     function renderReviewBook() {
