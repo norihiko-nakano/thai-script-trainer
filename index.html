@@ -1228,6 +1228,7 @@
             <h3>復習帳φ(`･ω･´ )🍣</h3>
             <div class="review-book-launch-row">
               <button id="openReviewBookButton" class="small-button" type="button">復習帳を開く</button>
+              <button id="openReviewDrillButton" class="small-button" type="button">復習φ(`･ω･´ )ドリル🐼</button>
               <span id="reviewBookCount" class="review-book-count">0語</span>
             </div>
             <p class="history-note">不正解になった単語を自動登録します。覚え方メモは自由編集・自動保存です。</p>
@@ -1455,6 +1456,16 @@
         <p id="reviewBookSummary" class="muted"></p>
         <p class="history-note">表示：タイ語 ／ 意味 ／ 読み ／ Level・不正解回数 ／ 覚え方メモ</p>
         <div id="reviewBookList" class="review-book-list"></div>
+      </div>
+
+      <div id="reviewDrillScreen" class="hidden">
+        <div class="history-page-header">
+          <button id="reviewDrillBackButton" class="icon-button" type="button" aria-label="メニューへ戻る">← 戻る</button>
+          <h2>復習φ(`･ω･´ )ドリル🐼</h2>
+          <span aria-hidden="true" style="width: 58px;"></span>
+        </div>
+        <p id="reviewDrillStatus" class="muted center"></p>
+        <p class="history-note center">この画面は学習用の土台です。まだ出題や復習帳の削除はしません。</p>
       </div>
 
       <div id="readingMemoScreen" class="hidden">
@@ -2519,6 +2530,7 @@ function renderStudySentence(container, question) {
         "historyResultCount", "weakWordList", "historyList", "historyLoadMoreButton",
         "historyPageExportButton", "historyPageClearButton",
         "openReviewBookButton", "reviewBookCount", "reviewBookScreen", "reviewBookBackButton",
+        "openReviewDrillButton", "reviewDrillScreen", "reviewDrillBackButton", "reviewDrillStatus",
         "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList",
         "openReadingMemoButton", "readingMemoScreen", "readingMemoBackButton",
         "readingMemoContent", "clearReadingMemoButton"
@@ -2559,6 +2571,8 @@ function renderStudySentence(container, question) {
         .forEach(control => control.addEventListener("change", resetAndRenderHistory));
       elements.historySearchInput.addEventListener("input", resetAndRenderHistory);
       elements.openReviewBookButton.addEventListener("click", showReviewBookScreen);
+      elements.openReviewDrillButton.addEventListener("click", showReviewDrillScreen);
+      elements.reviewDrillBackButton.addEventListener("click", showMenu);
       elements.reviewBookBackButton.addEventListener("click", showMenu);
       elements.reviewBookSearchInput.addEventListener("input", renderReviewBook);
       elements.clearReviewBookButton.addEventListener("click", clearReviewBook);
@@ -3120,6 +3134,7 @@ function updateCompositionSummary() {
         difficulty: elements.difficultyScreen,
         history: elements.historyScreen,
         reviewBook: elements.reviewBookScreen,
+        reviewDrill: elements.reviewDrillScreen,
         readingMemo: elements.readingMemoScreen,
         quiz: elements.quizScreen,
         result: elements.resultScreen
@@ -3176,6 +3191,14 @@ function openDifficultyScreen(mode) {
     function showReviewBookScreen() {
       renderReviewBook();
       showScreen("reviewBook");
+    }
+
+    function showReviewDrillScreen() {
+      const count = state.reviewBook.length;
+      elements.reviewDrillStatus.textContent = count
+        ? `復習帳に${count}語あります。次はここで復習問題を表示します。`
+        : "復習帳は空です。間違えた単語が登録されると、ここで復習できます。";
+      showScreen("reviewDrill");
     }
 
     function showReadingMemoScreen() {
