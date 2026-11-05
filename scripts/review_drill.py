@@ -20,21 +20,8 @@ DEFAULT_FILE = Path(__file__).resolve().parent.parent / "review_book_export.json
 
 
 def pick_random_words(review_book, count=3):
-    """タイ語が重複しないように、最大count語をランダムに選ぶ。"""
-    unique_words = []
-    seen_thai = set()
-
-    for word in review_book:
-        if not isinstance(word, dict):
-            continue
-        thai = str(word.get("thai") or "").strip()
-        if not thai or thai in seen_thai:
-            continue
-        seen_thai.add(thai)
-        unique_words.append(word)
-
-    # sample() は元のリストを変更せず、同じ要素を二度選ばない
-    return random.sample(unique_words, min(count, len(unique_words)))
+    """復習帳から最大count語をランダムに選ぶ（元データは変更しない）。"""
+    return random.sample(review_book, min(count, len(review_book)))
 
 
 def main():
