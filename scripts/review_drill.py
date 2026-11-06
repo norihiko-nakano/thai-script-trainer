@@ -57,6 +57,17 @@ def main():
     html += f"<p>{words[i]['thai']}</p>"
     
     display(HTML(html))
+    button = widgets.Button(description="答えを見る🐼")
+    answer_area = widgets.Output()
+    
+    def show_answer(b):
+        with answer_area:
+            answer_area.clear_output()
+            html = f"<h2>正解：{words[i]['japanese']}</h2>"
+            display(HTML(html))
+    
+    button.on_click(show_answer)
+    display(button, answer_area)
     print(f"\n{len(words)}語を表示しました。復習帳のデータは変更していません。")
     return 0
 
