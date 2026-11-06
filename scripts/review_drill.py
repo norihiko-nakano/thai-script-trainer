@@ -14,6 +14,8 @@ import json
 import random
 import sys
 from pathlib import Path
+import ipywidgets as widgets
+from IPython.display import HTML, display
 
 # GitHubリポジトリ直下へ保存した場合の既定のファイル名
 DEFAULT_FILE = Path(__file__).resolve().parent.parent / "review_book_export.json"
@@ -50,11 +52,11 @@ def main():
     if len(words) < 3:
         print(f"復習帳に有効な単語が{len(words)}語しかないため、ある分だけ表示します。")
 
-    for number, word in enumerate(words, start=1):
-        print(f"{number}. タイ語: {word['thai']}")
-        print(f"   意味: {word.get('japanese') or '未登録'}")
-        print(f"   読み: {word.get('reading') or '未登録'}")
-
+    html = "<h2>復習ドリル🐼</h2>"
+    html += f"<p>{i+1}問目/{len(words)}問</p>"
+    html += f"<p>{words[i]['thai']}</p>"
+    
+    display(HTML(html))
     print(f"\n{len(words)}語を表示しました。復習帳のデータは変更していません。")
     return 0
 
