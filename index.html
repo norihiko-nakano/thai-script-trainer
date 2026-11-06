@@ -752,6 +752,19 @@
       margin-top: 18px;
     }
 
+    .review-drill-answer {
+      max-width: 520px;
+      margin: 16px auto 0;
+      padding: 16px;
+      border: 1px solid #b9d9c5;
+      border-radius: 14px;
+      background: var(--success-bg);
+      line-height: 1.8;
+      white-space: pre-line;
+      text-align: center;
+      font-weight: 700;
+    }
+
     .review-book-launch {
       margin-top: 16px;
       padding-top: 14px;
@@ -1466,7 +1479,19 @@
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
         <p id="reviewDrillStatus" class="muted center"></p>
-        <p class="history-note center">この画面は学習用の土台です。まだ出題や復習帳の削除はしません。</p>
+        <p class="history-note center">復習帳からランダムに最大3語を出題します。「答えを見る」を押した単語は復習帳から削除され、再出題されません。まだ答えを見ていない単語は残ります。必要なら始める前にメニューの「復習帳をJSON保存🐍」でバックアップしてください。</p>
+        <div id="reviewDrillQuestionArea" class="hidden">
+          <p id="reviewDrillWord" class="prompt-word thai" lang="th"></p>
+          <div id="reviewDrillAnswer" class="review-drill-answer hidden" role="status" aria-live="polite"></div>
+          <div class="actions">
+            <button id="reviewDrillRevealButton" class="button primary" type="button">答えを見る🐼</button>
+            <button id="reviewDrillNextButton" class="button primary hidden" type="button">次の問題へ</button>
+          </div>
+        </div>
+        <div id="reviewDrillDone" class="hidden center">
+          <p id="reviewDrillDoneMessage"></p>
+          <button id="reviewDrillAgainButton" class="button secondary" type="button">さらに3語復習🐼</button>
+        </div>
       </div>
 
       <div id="readingMemoScreen" class="hidden">
@@ -2506,6 +2531,9 @@ function renderStudySentence(container, question) {
       newsGeneratedAt: null,
       history: [],
       reviewBook: [],
+      reviewDrillWords: [],
+      reviewDrillIndex: 0,
+      reviewDrillRevealed: false,
       readingMemoNotes: {},
       questionStartedAt: null,
       historyVisibleCount: 50
@@ -2532,7 +2560,9 @@ function renderStudySentence(container, question) {
         "historyPageExportButton", "historyPageClearButton",
         "openReviewBookButton", "reviewBookCount", "reviewBookScreen", "reviewBookBackButton",
         "openReviewDrillButton", "reviewDrillScreen", "reviewDrillBackButton", "reviewDrillStatus",
-        "exportReviewBookButton",
+        "reviewDrillQuestionArea", "reviewDrillWord", "reviewDrillAnswer",
+        "reviewDrillRevealButton", "reviewDrillNextButton", "reviewDrillDone",
+        "reviewDrillDoneMessage", "reviewDrillAgainButton", "exportReviewBookButton",
         "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList",
         "openReadingMemoButton", "readingMemoScreen", "readingMemoBackButton",
         "readingMemoContent", "clearReadingMemoButton"
@@ -2576,6 +2606,9 @@ function renderStudySentence(container, question) {
       elements.openReviewDrillButton.addEventListener("click", showReviewDrillScreen);
       elements.exportReviewBookButton.addEventListener("click", exportReviewBookJson);
       elements.reviewDrillBackButton.addEventListener("click", showMenu);
+      elements.reviewDrillRevealButton.addEventListener("click", revealReviewDrillAnswer);
+      elements.reviewDrillNextButton.addEventListener("click", nextReviewDrillQuestion);
+      elements.reviewDrillAgainButton.addEventListener("click", showReviewDrillScreen);
       elements.reviewBookBackButton.addEventListener("click", showMenu);
       elements.reviewBookSearchInput.addEventListener("input", renderReviewBook);
       elements.clearReviewBookButton.addEventListener("click", clearReviewBook);
@@ -3197,11 +3230,81 @@ function openDifficultyScreen(mode) {
     }
 
     function showReviewDrillScreen() {
-      const count = state.reviewBook.length;
-      elements.reviewDrillStatus.textContent = count
-        ? `復習帳に${count}語あります。次はここで復習問題を表示します。`
-        : "復習帳は空です。間違えた単語が登録されると、ここで復習できます。";
+      // 復習帳そのものは並べ替えず、今回出題する最大3語をコピーして選ぶ。
+      const available = state.reviewBook.filter(item =>
+        item && typeof item.thai === "string" && item.thai.trim() &&
+        typeof item.japanese === "string" && item.japanese.trim()
+      );
+      state.reviewDrillWords = shuffle([...available]).slice(0, 3);
+      state.reviewDrillIndex = 0;
+      state.reviewDrillRevealed = false;
       showScreen("reviewDrill");
+      renderReviewDrillQuestion();
+    }
+
+    function renderReviewDrillQuestion() {
+      const words = state.reviewDrillWords;
+      const index = state.reviewDrillIndex;
+      const word = words[index];
+
+      elements.reviewDrillQuestionArea.classList.toggle("hidden", !word);
+      elements.reviewDrillDone.classList.toggle("hidden", Boolean(word));
+
+      if (!word) {
+        elements.reviewDrillStatus.textContent = words.length
+          ? `今回の${words.length}問は終了じゃ！🐼`
+          : "復習帳に出題できる単語がありません。";
+        elements.reviewDrillDoneMessage.textContent = words.length
+          ? `おつかれさま！復習帳の残りは${state.reviewBook.length}語です。`
+          : "通常の問題で間違えた単語が登録されると、ここで復習できます。";
+        elements.reviewDrillAgainButton.disabled = !state.reviewBook.some(item =>
+          item && typeof item.thai === "string" && item.thai.trim() &&
+          typeof item.japanese === "string" && item.japanese.trim()
+        );
+        return;
+      }
+
+      elements.reviewDrillStatus.textContent =
+        `${index + 1}問目 / ${words.length}問（復習帳 残り${state.reviewBook.length}語）`;
+      elements.reviewDrillWord.textContent = word.thai;
+      elements.reviewDrillAnswer.textContent = "";
+      elements.reviewDrillAnswer.classList.add("hidden");
+      elements.reviewDrillRevealButton.classList.remove("hidden");
+      elements.reviewDrillNextButton.classList.add("hidden");
+      elements.reviewDrillNextButton.textContent =
+        index + 1 === words.length ? "復習終了へ" : "次の問題へ";
+    }
+
+    function revealReviewDrillAnswer() {
+      if (state.reviewDrillRevealed) return;
+      const word = state.reviewDrillWords[state.reviewDrillIndex];
+      if (!word) return;
+
+      state.reviewDrillRevealed = true;
+      const lines = [`正解：${word.japanese}`];
+      if (word.reading) lines.push(`読み：${word.reading}`);
+      if (word.note) lines.push(`覚え方メモ：${word.note}`);
+      elements.reviewDrillAnswer.textContent = lines.join("\n");
+      elements.reviewDrillAnswer.classList.remove("hidden");
+      elements.reviewDrillRevealButton.classList.add("hidden");
+      elements.reviewDrillNextButton.classList.remove("hidden");
+
+      // 答えを確認した語だけを削除。残りの2語は途中で戻っても消えない。
+      const previousCount = state.reviewBook.length;
+      state.reviewBook = state.reviewBook.filter(item => item !== word);
+      if (state.reviewBook.length < previousCount) {
+        saveReviewBook();
+        updateReviewBookSummary();
+      }
+      elements.reviewDrillStatus.textContent =
+        `${state.reviewDrillIndex + 1}問目 / ${state.reviewDrillWords.length}問（復習帳 残り${state.reviewBook.length}語）`;
+    }
+
+    function nextReviewDrillQuestion() {
+      if (!state.reviewDrillRevealed) return;
+      state.reviewDrillIndex += 1;
+      state.reviewDrillRevealed = false;
+      renderReviewDrillQuestion();
     }
 
     function showReadingMemoScreen() {
