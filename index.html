@@ -1479,13 +1479,14 @@
           <span aria-hidden="true" style="width: 58px;"></span>
         </div>
         <p id="reviewDrillStatus" class="muted center"></p>
-        <p class="history-note center">復習帳からランダムに最大3語を出題します。「答えを見る」を押した単語は復習帳から削除され、再出題されません。まだ答えを見ていない単語は残ります。必要なら始める前にメニューの「復習帳をJSON保存🐍」でバックアップしてください。</p>
+        <p class="history-note center">復習帳からランダムに最大3語を出題します。答えを確認した後、「分かった( ＾∀＾)⚡️」なら復習帳から削除、「分からん(・´ｪ`・)☁️」なら残します。どちらも次の問題に進みます。必要ならメニューの「復習帳をJSON保存🐍」でバックアップしてください。</p>
         <div id="reviewDrillQuestionArea" class="hidden">
           <p id="reviewDrillWord" class="prompt-word thai" lang="th"></p>
           <div id="reviewDrillAnswer" class="review-drill-answer hidden" role="status" aria-live="polite"></div>
           <div class="actions">
             <button id="reviewDrillRevealButton" class="button primary" type="button">答えを見る🐼</button>
-            <button id="reviewDrillNextButton" class="button primary hidden" type="button">次の問題へ</button>
+            <button id="reviewDrillKnownButton" class="button primary hidden" type="button">分かった( ＾∀＾)⚡️</button>
+            <button id="reviewDrillUnknownButton" class="button secondary hidden" type="button">分からん(・´ｪ`・)☁️</button>
           </div>
         </div>
         <div id="reviewDrillDone" class="hidden center">
@@ -2534,6 +2535,8 @@ function renderStudySentence(container, question) {
       reviewDrillWords: [],
       reviewDrillIndex: 0,
       reviewDrillRevealed: false,
+      reviewDrillKnownCount: 0,
+      reviewDrillUnknownCount: 0,
       readingMemoNotes: {},
       questionStartedAt: null,
       historyVisibleCount: 50
@@ -2561,7 +2564,7 @@ function renderStudySentence(container, question) {
         "openReviewBookButton", "reviewBookCount", "reviewBookScreen", "reviewBookBackButton",
         "openReviewDrillButton", "reviewDrillScreen", "reviewDrillBackButton", "reviewDrillStatus",
         "reviewDrillQuestionArea", "reviewDrillWord", "reviewDrillAnswer",
-        "reviewDrillRevealButton", "reviewDrillNextButton", "reviewDrillDone",
+        "reviewDrillRevealButton", "reviewDrillKnownButton", "reviewDrillUnknownButton", "reviewDrillDone",
         "reviewDrillDoneMessage", "reviewDrillAgainButton", "exportReviewBookButton",
         "reviewBookSearchInput", "clearReviewBookButton", "reviewBookSummary", "reviewBookList",
         "openReadingMemoButton", "readingMemoScreen", "readingMemoBackButton",
@@ -2607,7 +2610,8 @@ function renderStudySentence(container, question) {
       elements.exportReviewBookButton.addEventListener("click", exportReviewBookJson);
       elements.reviewDrillBackButton.addEventListener("click", showMenu);
       elements.reviewDrillRevealButton.addEventListener("click", revealReviewDrillAnswer);
-      elements.reviewDrillNextButton.addEventListener("click", nextReviewDrillQuestion);
+      elements.reviewDrillKnownButton.addEventListener("click", () => judgeReviewDrillAnswer(true));
+      elements.reviewDrillUnknownButton.addEventListener("click", () => judgeReviewDrillAnswer(false));
       elements.reviewDrillAgainButton.addEventListener("click", showReviewDrillScreen);
       elements.reviewBookBackButton.addEventListener("click", showMenu);
       elements.reviewBookSearchInput.addEventListener("input", renderReviewBook);
@@ -3238,6 +3242,8 @@ function openDifficultyScreen(mode) {
       state.reviewDrillWords = shuffle([...available]).slice(0, 3);
       state.reviewDrillIndex = 0;
       state.reviewDrillRevealed = false;
+      state.reviewDrillKnownCount = 0;
+      state.reviewDrillUnknownCount = 0;
       showScreen("reviewDrill");
       renderReviewDrillQuestion();
     }
@@ -3255,7 +3261,7 @@ function openDifficultyScreen(mode) {
           ? `今回の${words.length}問は終了じゃ！🐼`
           : "復習帳に出題できる単語がありません。";
         elements.reviewDrillDoneMessage.textContent = words.length
-          ? `おつかれさま！復習帳の残りは${state.reviewBook.length}語です。`
+          ? `おつかれさま！分かった：${state.reviewDrillKnownCount}語 ／ 分からん：${state.reviewDrillUnknownCount}語。復習帳の残りは${state.reviewBook.length}語です。`
           : "通常の問題で間違えた単語が登録されると、ここで復習できます。";
         elements.reviewDrillAgainButton.disabled = !state.reviewBook.some(item =>
           item && typeof item.thai === "string" && item.thai.trim() &&
@@ -3270,9 +3276,8 @@ function openDifficultyScreen(mode) {
       elements.reviewDrillAnswer.textContent = "";
       elements.reviewDrillAnswer.classList.add("hidden");
       elements.reviewDrillRevealButton.classList.remove("hidden");
-      elements.reviewDrillNextButton.classList.add("hidden");
-      elements.reviewDrillNextButton.textContent =
-        index + 1 === words.length ? "復習終了へ" : "次の問題へ";
+      elements.reviewDrillKnownButton.classList.add("hidden");
+      elements.reviewDrillUnknownButton.classList.add("hidden");
     }
 
     function revealReviewDrillAnswer() {
@@ -3287,23 +3292,32 @@ function openDifficultyScreen(mode) {
       elements.reviewDrillAnswer.textContent = lines.join("\n");
       elements.reviewDrillAnswer.classList.remove("hidden");
       elements.reviewDrillRevealButton.classList.add("hidden");
-      elements.reviewDrillNextButton.classList.remove("hidden");
-
-      // 答えを確認した語だけを削除。残りの2語は途中で戻っても消えない。
-      const previousCount = state.reviewBook.length;
-      state.reviewBook = state.reviewBook.filter(item => item !== word);
-      if (state.reviewBook.length < previousCount) {
-        saveReviewBook();
-        updateReviewBookSummary();
-      }
-      elements.reviewDrillStatus.textContent =
-        `${state.reviewDrillIndex + 1}問目 / ${state.reviewDrillWords.length}問（復習帳 残り${state.reviewBook.length}語）`;
+      elements.reviewDrillKnownButton.classList.remove("hidden");
+      elements.reviewDrillUnknownButton.classList.remove("hidden");
+      // 答えを見るだけでは削除しない。次の2択で卒業か保留を決める。
     }
 
-    function nextReviewDrillQuestion() {
+    function judgeReviewDrillAnswer(understood) {
       if (!state.reviewDrillRevealed) return;
-      state.reviewDrillIndex += 1;
+      const word = state.reviewDrillWords[state.reviewDrillIndex];
+      if (!word) return;
+
+      // 連打しても同じ問題を二重に処理しない。
       state.reviewDrillRevealed = false;
+      if (understood) {
+        state.reviewDrillKnownCount += 1;
+        const previousCount = state.reviewBook.length;
+        state.reviewBook = state.reviewBook.filter(item => item !== word);
+        if (state.reviewBook.length < previousCount) {
+          saveReviewBook();
+          updateReviewBookSummary();
+        }
+      } else {
+        state.reviewDrillUnknownCount += 1;
+        // 「分からん」の単語は復習帳に残す。
+      }
+      // どちらを選んでも、今回の3問の次の単語へ進む。
+      state.reviewDrillIndex += 1;
       renderReviewDrillQuestion();
     }
 
