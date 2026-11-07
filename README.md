@@ -4,6 +4,8 @@
 
 **[English feature guide / Ver9.0 documentation](README_V9.0.md)**
 
+**[変更履歴：Ver0.0〜Ver9.0](CHANGELOG.md)** · **[全147コミットの履歴索引](docs/COMMIT_HISTORY_THROUGH_V9.md)**
+
 Ver9.0 introduces a Japanese/English interface switch and an English explanation of every main feature for international visitors and hiring teams. The underlying Thai-to-Japanese exercises are unchanged. The English interface does **not** replace Japanese word meanings with English translations.
 
 ## 長文読解の一時休止（2026-11-07）
