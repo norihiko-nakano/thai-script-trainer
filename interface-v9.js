@@ -90,6 +90,14 @@
   const JAPANESE_TO_ENGLISH = new Map([
     ["すべて", "All"], ["正解のみ", "Correct only"], ["不正解のみ", "Incorrect only"],
     ["新しい順", "Newest first"], ["古い順", "Oldest first"],
+    ["0問", "0 questions"], ["1問", "1 question"], ["2問", "2 questions"],
+    ["3問", "3 questions"], ["5問", "5 questions"], ["10問", "10 questions"],
+    ["20問", "20 questions"], ["100問", "100 questions"],
+    ["0セット", "0 sets"], ["1セット（3問）", "1 set (3 questions)"],
+    ["2セット（6問）", "2 sets (6 questions)"], ["3セット（9問）", "3 sets (9 questions)"],
+    ["準備中", "Coming soon"], ["読み込み中", "Loading"],
+    ["🐨 読む📕🐨", "🐨 Read Thai"], ["🐮 書くφ(" + String.fromCharCode(96) + "･ω･´ )🐮", "🐮 Write Thai"],
+    ["📰 長文読解📰🐘", "📰 News Reading"],
     ["書くφ(" + String.fromCharCode(96) + "･ω･´ )🐮", "Write Thai 🐮"],
     ["読む📕🐨", "Read Thai 🐨"], ["長文読解📰🐘", "News Reading 📰🐘"],
     ["戻る", "Back"], ["答えを見る🐼", "Reveal answer 🐼"], ["回答する", "Check answer"],
@@ -112,6 +120,9 @@
     ["単語 🐟️", "Vocabulary 🐟"], ["文章読解 🐬", "Sentence practice 🐬"],
     ["長文", "Long reading"], ["正解", "Correct answer"],
     ["未回答", "No answer"], ["未入力", "Not entered"], ["未登録", "Not available"],
+    ["単語問題 🐟️・文章読解 🐬・ニュース読解 📰から選んで練習", "Choose vocabulary questions, sentences or news practice."],
+    ["タイの実ニュースをAIで学習用に調整。数個の難語は※日本語注釈で読む", "AI-supported Thai news lessons with Japanese vocabulary notes."],
+    ["日本語を見て、タイ語を画面キーボードで入力（単語問題のみ）", "See Japanese clues and type Thai with the on-screen keyboard."],
     ["復習する問題", "Questions to review"], ["削除", "Delete"],
     ["まだ回答履歴はありません。", "No answers yet."],
     ["まだ復習帳は空です。不正解になった単語が自動で追加されます。", "The notebook is empty. Missed words are added automatically."],
@@ -155,6 +166,8 @@
       if (!english && /^(\d+)問目 \/ (\d+)問（復習帳 残り(\d+)語）$/.test(current))
         english = current.replace(/^(\d+)問目 \/ (\d+)問（復習帳 残り(\d+)語）$/, "Word $1 of $2 · $3 left in notebook");
       if (!english && /^さらに50件表示$/.test(current)) english = "Show 50 more";
+      if (!english && /^(d+)件を表示対象にしています（全(d+)件）$/.test(current))
+        english = current.replace(/^(d+)件を表示対象にしています（全(d+)件）$/, "Showing $1 of $2 records");
       if (!english) return;
       translated.set(element, {ja:current, en:english});
       if (current !== english) element.textContent = english;
@@ -173,7 +186,9 @@
       "#feedback .feedback-title", "#feedback dt",
       "#wrongList h3","#wrongList .muted", "#reviewBookList .review-book-remove",
       "#reviewDrillAnswer", "#historyList .history-row.header > div",
-      "#historyModeFilter option", "#historyResultFilter option", "#historySortOrder option"
+      "#historyModeFilter option", "#historyResultFilter option", "#historySortOrder option",
+      "#wordQuestionCount option", "#sentenceQuestionCount option", "#newsQuestionCount option",
+      "#selectedModeCard strong", "#selectedModeCard span"
     ];
     targets.forEach((selector) => document.querySelectorAll(selector).forEach(translateExact));
   }
