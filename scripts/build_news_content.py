@@ -444,6 +444,66 @@ def build_passage(candidate, localized, dictionary):
     }
 
 
+def build_shorts_with_fallback(client, primary, backups, source_map, vocab_by_thai):
+    """Skip rejected news and use an independently verified article instead.
+
+    If fewer than five safe questions survive, do not publish incomplete content.
+    The 3-source diversity and max-2-per-source rules are preserved.
+    """
+    accepted = []
+    source_counts = {}
+    rejected_sources = set()
+    seen_sentences = set()
+    for candidate in [*primary, *backups]:
+        if len(accepted) == 5:
+            break
+        url = candidate["source_url"]
+        if url in rejected_sources:
+            print(f"SKIP short {candidate['id']}: source article was already rejected")
+            continue
+        if source_counts.get(url, 0) >= 2:
+            continue
+        if len(accepted) == 4 and len(source_counts) < 3 and url in source_counts:
+            # Do not fill the final slot before reaching three distinct articles.
+            continue
+        thai = candidate["thai"]
+        if thai in seen_sentences:
+            continue
+        seen_sentences.add(thai)
+        article = source_map.get(url)
+        if article is None:
+            raise RuntimeError(f"Raw source missing for {url}")
+        try:
+            localized = localize_short(client, candidate, article, vocab_by_thai)
+            review = verify_source(client, thai, article, localized)
+        except (ValueError, RuntimeError) as exc:
+            rejected_sources.add(url)
+            print(
+                f"REJECT short {candidate['id']} from {url}: {exc}. "
+                "Looking for a different verified news article."
+            )
+            continue
+        candidate["source_review"] = review
+        finished = build_short(candidate, localized, vocab_by_thai)
+        finished["id"] = f"sn-l{candidate['level']}-{len(accepted) + 1}"
+        accepted.append(finished)
+        source_counts[url] = source_counts.get(url, 0) + 1
+
+    if len(accepted) != 5 or len(source_counts) < 3:
+        raise RuntimeError(
+            "Only "
+            f"{len(accepted)}/5 source-verified short-news questions from "
+            f"{len(source_counts)}/3 required articles survived; "
+            "no safe replacements remain. Published news was not changed."
+        )
+    print(
+        f"SHORTS VERIFIED: {len(accepted)} published from "
+        f"{len(source_counts)} source articles; "
+        f"{len(rejected_sources)} rejected article(s) skipped"
+    )
+    return accepted
+
+
 def main():
     try:
         if not os.getenv("OPENAI_API_KEY"):
@@ -479,6 +539,7 @@ def main():
         vocab_by_thai = vocab_map(vocab)
 
         short_candidates = candidates.get("short_candidates") or []
+        backup_short_candidates = candidates.get("backup_short_candidates") or []
         passage_candidates = candidates.get("reading_passages") or []
 
         if len(short_candidates) != 5:
@@ -491,19 +552,10 @@ def main():
         from openai import OpenAI
 
         client = OpenAI()
-        short_news = []
-
-        for candidate in short_candidates:
-            article = source_map.get(candidate["source_url"])
-            if not article:
-                raise RuntimeError(
-                    f"Raw source missing for {candidate['source_url']}"
-                )
-            localized = localize_short(
-                client, candidate, article, vocab_by_thai
-            )
-            candidate["source_review"] = verify_source(client, candidate["thai"], article, localized)
-            short_news.append(build_short(candidate, localized, vocab_by_thai))
+        short_news = build_shorts_with_fallback(
+            client, short_candidates, backup_short_candidates,
+            source_map, vocab_by_thai,
+        )
 
         dictionary = vocab_map(load_vocab(include_unassigned=True))
         passages = []
