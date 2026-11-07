@@ -1,3 +1,13 @@
+# Thai Vocabulary Trainer Ver9.0 | English interface for international visitors
+
+**Live app:** https://norihiko-nakano.github.io/thai-script-trainer/
+
+**[English feature guide / Ver9.0 documentation](README_V9.0.md)**
+
+Ver9.0 introduces a Japanese/English interface switch and an English explanation of every main feature for international visitors and hiring teams. The underlying Thai-to-Japanese exercises are unchanged. The English interface does **not** replace Japanese word meanings with English translations.
+
+---
+
 # Ver7.0 更新版
 
 Level 3（200語）、L2復習、辞書の読み、長文読解を追加しました。導入方法は [README_V7.0.md](README_V7.0.md) を参照してください。以下は過去バージョンの説明です。

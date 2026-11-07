@@ -1168,6 +1168,20 @@
     .news-word { display: inline; width: auto; padding: 0 2px; margin: 0; border: 0; border-bottom: 1px dotted currentColor; border-radius: 3px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
     .news-word:hover, .news-word:focus-visible { background: #dbeafe; color: #172554; }
     .news-word-hint { margin-top: 12px; padding: 10px; background: #eff6ff; color: #172554; border-radius: 8px; font-size: 1rem; font-weight: normal; line-height: 1.6; }
+    /* Ver9.0: bilingual interface and interview-friendly product explanation. */
+    .interface-lang-picker {display:flex; justify-content:flex-end; align-items:center; gap:10px; margin:0 0 16px; flex-wrap:wrap; font-size:.9rem;}
+    .interface-lang-picker label {font-weight:700;}
+    .interface-lang-picker select {font:inherit; padding:8px 12px; border:1px solid var(--border); border-radius:9px; background:white;}
+    .interface-project-overview {text-align:left; border:1px solid var(--border); background:var(--surface, #fff); padding:18px; border-radius:14px; margin:18px 0;}
+    .interface-project-overview h2 {font-size:1.16rem; margin:0 0 8px;}
+    .interface-project-overview p {line-height:1.65; margin:8px 0; font-size:.9rem;}
+    .interface-feature-grid {display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:15px 0;}
+    .interface-feature-grid > div {background:var(--soft-bg,#fff8ed); border:1px solid var(--border); border-radius:10px; padding:12px;}
+    .interface-feature-grid strong {display:block; font-size:.9rem; margin-bottom:4px;}
+    .interface-feature-grid span {display:block; font-size:.83rem; line-height:1.5;}
+    .interface-disclaimer {font-size:.8rem !important; color:var(--muted);}
+    #englishFeatureOverview[hidden], #japaneseFeatureOverview[hidden], #englishScriptIntro[hidden], #japaneseScriptIntro[hidden] {display:none !important;}
+    @media(max-width:600px) {.interface-feature-grid {grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -1175,7 +1189,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver8.5</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver9.0</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -4812,5 +4826,6 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
     }
   </script>
   <script src="speaking-v8.js?v=8.5"></script>
+  <script src="interface-v9.js?v=9.0"></script>
 </body>
 </html>
