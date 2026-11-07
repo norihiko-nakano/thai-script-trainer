@@ -13,7 +13,7 @@
     ['[data-mode="writing"] .mode-description', "See a Japanese clue, then type Thai using the on-screen keyboard."],
     ['[data-mode="choice"] .mode-title', "Read Thai 🐨"],
     ['[data-mode="choice"] .mode-description', "Read Thai words and select their Japanese meanings. Includes news and sentences."],
-    ['[data-mode="longreading"] .mode-title', "News Reading 📰🐘"],
+    ['[data-mode="longreading"] .mode-title', "News Reading (Hibernating 🐻🧊🗿)"],
     ['[data-mode="longreading"] .mode-description', "Paused 🧊🗿"],
     ["#historyHeading", "📊 Your learning progress"],
     ["#menuScreen .review-book-launch > p.history-note", "Missed words are automatically added to your personal notebook. Write and save your own memory cues."],
