@@ -336,7 +336,9 @@ class PipelineTests(unittest.TestCase):
         def localize(client, candidate, article, vocab_by_thai):
             return {'token_meanings':['意味']*len(candidate['thai_tokens']),
                     'title_ja':'タイトル', 'choices':['選択一','選択二','選択三','選択四'],
-                    'correct_index':0, 'explanation':'説明'}
+                    'correct_index':0, 'explanation':'説明',
+                    'grammar_note':'語順の説明', 'reading_tip':'語句を区切ります',
+                    'choice_explanations':['解説一','解説二','解説三','解説四']}
         def review(client, thai, article, localized):
             if thai == primary[2]['thai']:
                 raise ValueError('natural_thai=False, supported=False')
