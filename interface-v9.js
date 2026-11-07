@@ -166,8 +166,8 @@
       if (!english && /^(\d+)問目 \/ (\d+)問（復習帳 残り(\d+)語）$/.test(current))
         english = current.replace(/^(\d+)問目 \/ (\d+)問（復習帳 残り(\d+)語）$/, "Word $1 of $2 · $3 left in notebook");
       if (!english && /^さらに50件表示$/.test(current)) english = "Show 50 more";
-      if (!english && /^(d+)件を表示対象にしています（全(d+)件）$/.test(current))
-        english = current.replace(/^(d+)件を表示対象にしています（全(d+)件）$/, "Showing $1 of $2 records");
+      if (!english && /^(\d+)件を表示対象にしています（全(\d+)件）$/.test(current))
+        english = current.replace(/^(\d+)件を表示対象にしています（全(\d+)件）$/, "Showing $1 of $2 records");
       if (!english) return;
       translated.set(element, {ja:current, en:english});
       if (current !== english) element.textContent = english;
