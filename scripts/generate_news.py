@@ -306,7 +306,8 @@ def align_tokens_to_sentence(sentence, tokens):
     return aligned
 
 
-def generate_shorts(client, articles, allowed, allowed_text, count=5, min_sources=3):
+def generate_shorts(client, articles, allowed, allowed_text, count=5, min_sources=3, backup_count=0):
+    """Return the primary shorts, then optional source-verified spare articles."""
     source_urls = [a["source_url"] for a in articles]
     schema = short_schema(allowed, source_urls)
     retry_note = ""
@@ -328,7 +329,7 @@ RULES:
 - Use 4-14 tokens and make a natural complete Thai sentence.
 - Every sentence must express a concrete fact genuinely supported by its source article.
 - Choose facts that can be stated clearly in one sentence. Do not distort facts to simplify words.
-- Create candidates from several sources. We need {count} final items from at least {min_sources} sources, max 2 per source.
+- Create candidates from several sources. We need {count} final items from at least {min_sources} sources, max 2 per source. Also prepare up to {backup_count} extra distinct verified candidates from other articles so rejected items can be replaced during Japanese localization.
 - Start with a source-supported natural sentence, then segment it without changing the text.
 - Never substitute an unrelated word to fit the dictionary. Words outside it are welcome.
 - Do not add "today" unless the source explicitly supports that time reference.
@@ -386,16 +387,34 @@ RAW NEWS SNAPSHOT:
             except ValueError as exc:
                 problems.append(f"{thai}: {exc}")
         selected = select_short_candidates(verified, count, min_sources)
-        ok = selected is not None
-        if not ok:
-            problems.append(f"Only {len(verified)} verified candidates accumulated; need {count} from {min_sources} sources.")
-        if ok:
-            print(f"SHORTS DONE: {len(selected)} final short candidates accepted")
-            return selected
+        if selected is not None:
+            # Prefer fallback candidates from entirely different news articles.
+            # Keep their source checks: every backup has already passed stage 2.
+            primary_ids = {id(item) for item in selected}
+            primary_sources = {item["source_url"] for item in selected}
+            extra = [item for item in verified if id(item) not in primary_ids]
+            extra.sort(key=lambda item: item["source_url"] in primary_sources)
+            backups = extra[:backup_count]
+            if len(backups) >= backup_count or attempt == SHORT_ATTEMPTS:
+                print(
+                    f"SHORTS DONE: {len(selected)} main + "
+                    f"{len(backups)} backup candidate(s) verified"
+                )
+                return selected + backups
+            problems.append(
+                f"Only {len(backups)}/{backup_count} verified backup candidates; "
+                "try other source articles"
+            )
+        else:
+            problems.append(
+                f"Only {len(verified)} verified candidates accumulated; "
+                f"need {count} from {min_sources} sources."
+            )
 
-        print("SHORTS validation failed:\n- " + "\n- ".join(problems))
+        print("SHORTS validation pending:\n- " + "\n- ".join(problems))
         retry_note = (
-            "Previous short draft failed validation. Fix ALL:\n- "
+            "Previous short draft needs more source-verified, naturally spaced "
+            "candidates from different articles. Fix ALL:\n- "
             + "\n- ".join(problems)
         )
         time.sleep(1)
@@ -569,14 +588,20 @@ def main():
 
         # Level 3 is the news menu placement, not a vocabulary restriction.
         # Do not require a separate Level 2 batch: it forces unnatural paraphrases.
+        short_pool = generate_shorts(
+            client, articles, allowed, allowed_text,
+            count=SHORT_FINAL_SIZE, min_sources=3, backup_count=3,
+        )
         selected_shorts = [
-            {**item, "level": LEVEL}
-            for item in generate_shorts(
-                client, articles, allowed, allowed_text,
-                count=SHORT_FINAL_SIZE, min_sources=3,
-            )
+            {**item, "level": LEVEL} for item in short_pool[:SHORT_FINAL_SIZE]
         ]
-        passages = generate_passages(client, articles, allowed, allowed_text, [item["source_url"] for item in selected_shorts])
+        backup_shorts = [
+            {**item, "level": LEVEL} for item in short_pool[SHORT_FINAL_SIZE:]
+        ]
+        passages = generate_passages(
+            client, articles, allowed, allowed_text,
+            [item["source_url"] for item in selected_shorts],
+        )
 
         final = {
             "schema_version": 1,
@@ -589,6 +614,10 @@ def main():
                 enrich_short(item, source_map, i + 1)
                 for i, item in enumerate(selected_shorts)
             ],
+            "backup_short_candidates": [
+                enrich_short(item, source_map, SHORT_FINAL_SIZE + i + 1)
+                for i, item in enumerate(backup_shorts)
+            ],
             "reading_passages": [
                 enrich_passage(item, source_map, i + 1)
                 for i, item in enumerate(passages)
@@ -597,7 +626,9 @@ def main():
         write_json_atomic(CANDIDATES_FILE, final)
         print(
             "CANDIDATES DONE: wrote "
-            f"{len(final['short_candidates'])} short + {len(passages)} passages to {CANDIDATES_FILE}"
+            f"{len(final['short_candidates'])} short + "
+            f"{len(final['backup_short_candidates'])} backups + "
+            f"{len(passages)} passages to {CANDIDATES_FILE}"
         )
         return 0
 

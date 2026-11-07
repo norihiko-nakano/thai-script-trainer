@@ -284,8 +284,8 @@ class PipelineTests(unittest.TestCase):
     def test_generation_stage_smoke(self):
         # Exercises production main/enrichment and the all-Level-3 news curriculum offline.
         calls = []
-        def fake_shorts(client,articles,allowed,text,count=5,min_sources=3):
-            calls.append((set(allowed), count, min_sources))
+        def fake_shorts(client,articles,allowed,text,count=5,min_sources=3,backup_count=0):
+            calls.append((set(allowed), count, min_sources, backup_count))
             return [{'source_url':a['source_url'],'thai_tokens':['เขา','เดินทาง','ด้วย','เครื่องบิน'],
                      'source_fact_th':'fact','source_review':{'method':'mock'}} for a in articles[:count]]
         def fake_passages(client,articles,allowed,text,short_sources):
@@ -297,9 +297,70 @@ class PipelineTests(unittest.TestCase):
                 self.assertEqual(gen.main(),0)
             data=json.loads(target.read_text())
             self.assertEqual([q['level'] for q in data['short_candidates']],[3,3,3,3,3])
-            self.assertEqual(calls, [(set(row['thai'] for row in self.vocab), 5, 3)])
+            self.assertEqual(calls, [(set(row['thai'] for row in self.vocab), 5, 3, 3)])
+            self.assertEqual(data['backup_short_candidates'], [])
             self.assertEqual(len(data['reading_passages']),2)
             self.assertTrue(all(q['level']==3 for q in data['reading_passages']))
+
+    def test_short_generator_keeps_three_verified_backup_articles(self):
+        articles = self.raw['articles'][:8]
+        self.assertEqual(len({a['source_url'] for a in articles}), 8)
+        pool = []
+        for i, article in enumerate(articles):
+            words = ['เขา', 'เดินทาง', 'จาก', f'จังหวัด{i}', 'ไปตลาด']
+            pool.append({'source_url':article['source_url'], 'source_fact_th':'fact',
+                         'thai':''.join(words), 'thai_tokens':words})
+        with patch.object(gen, 'structured_response', return_value={'short_pool':pool}), \
+             patch.object(gen, 'verify_source', return_value={'method':'mock'}), \
+             patch.object(gen.time, 'sleep'):
+            result = gen.generate_shorts(
+                None, articles, [], '', count=5, min_sources=3, backup_count=3
+            )
+        self.assertEqual(len(result), 8)
+        self.assertEqual(len({q['source_url'] for q in result[:5]}), 5)
+        self.assertEqual(
+            len({q['source_url'] for q in result[5:]} -
+                {q['source_url'] for q in result[:5]}), 3
+        )
+
+    def test_failed_source_review_uses_a_different_article(self):
+        articles = self.raw['articles'][:7]
+        self.assertEqual(len({a['source_url'] for a in articles}), 7)
+        source_map = {article['source_url']:article for article in articles}
+        seed = self.seed['short_news'][0]
+        def candidate(i):
+            return {**seed, 'id':f'sn-l3-{i+1}', 'level':3,
+                    'thai':f'ข่าวทดสอบ{i}', 'source_url':articles[i]['source_url']}
+        primary = [candidate(i) for i in range(5)]
+        backups = [candidate(i) for i in range(5,7)]
+        def localize(client, candidate, article, vocab_by_thai):
+            return {'token_meanings':['意味']*len(candidate['thai_tokens']),
+                    'title_ja':'タイトル', 'choices':['選択一','選択二','選択三','選択四'],
+                    'correct_index':0, 'explanation':'説明',
+                    'grammar_note':'語順の説明', 'reading_tip':'語句を区切ります',
+                    'choice_explanations':['解説一','解説二','解説三','解説四']}
+        def review(client, thai, article, localized):
+            if thai == primary[2]['thai']:
+                raise ValueError('natural_thai=False, supported=False')
+            return {'method':'independent_model_review'}
+        with patch.object(build,'localize_short',side_effect=localize), \
+             patch.object(build,'verify_source',side_effect=review):
+            result = build.build_shorts_with_fallback(
+                None, primary, backups, source_map, self.dictionary
+            )
+        self.assertEqual(len(result), 5)
+        self.assertEqual([q['id'] for q in result], [
+            'sn-l3-1','sn-l3-2','sn-l3-3','sn-l3-4','sn-l3-5'
+        ])
+        self.assertNotIn(primary[2]['source_url'], {q['source_url'] for q in result})
+        self.assertIn(backups[0]['source_url'], {q['source_url'] for q in result})
+        self.assertGreaterEqual(len({q['source_url'] for q in result}), 3)
+        with patch.object(build,'localize_short',side_effect=localize), \
+             patch.object(build,'verify_source',side_effect=review):
+            with self.assertRaisesRegex(RuntimeError, 'no safe replacements remain'):
+                build.build_shorts_with_fallback(
+                    None, primary, [], source_map, self.dictionary
+                )
 
     def test_complete_build_and_late_rejection(self):
         candidates={'raw_fetched_at':self.raw['fetched_at'],'target_level':3,
