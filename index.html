@@ -6,6 +6,10 @@
   <meta name="theme-color" content="#8a4f2d" />
   <title>Thai Vocabulary Trainer Ver8.5</title>
   <style>
+    .meaning-language-picker {display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:9px;margin:8px 0 16px;padding:10px;background:#fff8ec;border-radius:12px}
+    .meaning-language-picker label{font-weight:700;font-size:.9rem}
+    .meaning-language-picker select{padding:8px;border:1px solid #c6b9aa;border-radius:8px;font:inherit}
+    .meaning-language-picker p{width:100%;margin:0;text-align:center;font-size:.85rem}
     :root {
       --paper: #fffdf8;
       --background: #f4eee5;
@@ -1175,9 +1179,17 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver8.5</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver9.0</small></h1>
       </div>
 
+      <div class="meaning-language-picker">
+        <label for="meaningLanguage">🌐 意味の言語 / Meaning language</label>
+        <select id="meaningLanguage" aria-label="Meaning language">
+          <option value="ja">🇯🇵 日本語</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+        <p id="meaningLanguageNote" class="muted">日本語問題に加えて英訳を確認できます。</p>
+      </div>
       <div id="loadingScreen" class="center">
         <p class="subtitle">単語・文章データを読み込んでいます… 🐘</p>
       </div>
@@ -1194,19 +1206,19 @@
       </div>
 
       <div id="menuScreen" class="hidden center">
-        <p class="subtitle">本物のタイ単語を、表と裏から鍛えますぞ(｀･∀･´)</p>
+        <p class="subtitle">本物のタイ単語を、表と裏から鍛えますぞ(｀･∀･´) / Learn Thai with Japanese or English</p>
 
         <div class="mode-grid">
           <button class="mode-button" type="button" data-mode="writing">
             <span class="mode-icon" aria-hidden="true">🐮</span>
             <span class="mode-title">書くφ(`･ω･´ )🐮</span>
-            <span class="mode-description">日本語を見て、画面キーボードでタイ語を書く</span>
+            <span class="mode-description">日本語・英語からタイ語を書く / Write Thai</span>
           </button>
 
           <button class="mode-button" type="button" data-mode="choice">
             <span class="mode-icon" aria-hidden="true">🐨</span>
             <span class="mode-title">読む📕🐨</span>
-            <span class="mode-description">単語・文章・ニュースを読んで、日本語の意味を選ぶ</span>
+            <span class="mode-description">タイ語の意味を日本語・英語で選ぶ / Read Thai</span>
           </button>
 
           <button class="mode-button" type="button" data-mode="longreading" title="Level 3で長文読解">
@@ -2532,6 +2544,9 @@ function renderStudySentence(container, question) {
       newsGeneratedAt: null,
       history: [],
       reviewBook: [],
+      meaningLanguage: "ja",
+      englishEntries: {},
+      dictionaryWords: [],
       reviewDrillWords: [],
       reviewDrillIndex: 0,
       reviewDrillRevealed: false,
@@ -2548,7 +2563,7 @@ function renderStudySentence(container, question) {
 
     function init() {
       [
-        "loadingScreen", "errorScreen", "errorMessage", "menuScreen", "difficultyScreen",
+        "loadingScreen", "errorScreen", "errorMessage", "menuScreen", "difficultyScreen", "meaningLanguage", "meaningLanguageNote",
         "difficultyBackButton", "selectedModeCard", "level1Count", "quizScreen", "compositionSettings",
         "resultScreen", "wordQuestionCount", "sentenceQuestionCount", "newsQuestionCount", "compositionTotal", "compositionNote", "sentenceSourceNote", "dataSummary", "newsDataSummary", "quitButton", "progressFill",
         "progressText", "quizLevelBadge", "passagePanel", "promptLabel", "promptWord", "writingArea", "answerInput",
@@ -2581,6 +2596,7 @@ function renderStudySentence(container, question) {
         });
       });
 
+      elements.meaningLanguage.addEventListener("change", changeMeaningLanguage);
       elements.wordQuestionCount.addEventListener("change", updateCompositionSummary);
       elements.sentenceQuestionCount.addEventListener("change", updateCompositionSummary);
       elements.newsQuestionCount.addEventListener("change", updateCompositionSummary);
@@ -2632,6 +2648,10 @@ function renderStudySentence(container, question) {
         }
       });
 
+      try { state.meaningLanguage = localStorage.getItem("thaiVocabularyTrainerMeaningLanguageV9") === "en" ? "en" : "ja"; }
+      catch (_) { state.meaningLanguage = "ja"; }
+      elements.meaningLanguage.value = state.meaningLanguage;
+      updateMeaningLanguageUi();
       state.history = loadHistory();
       state.reviewBook = loadReviewBook();
       state.readingMemoNotes = loadReadingMemoNotes();
@@ -2720,12 +2740,21 @@ function renderStudySentence(container, question) {
 
     async function loadWordQuestions() {
       // Local snapshot gives offline L1/L2/L3 and stable Supabase IDs.
-      const response = await fetch("questions.json?v=8.5", { cache: "no-store" });
+      const response = await fetch("questions.json?v=9.0", { cache: "no-store" });
       if (!response.ok) throw new Error(`questions.jsonの取得に失敗しました（HTTP ${response.status}）。`);
       const data = await response.json();
       const local = Array.isArray(data) ? data : data.questions;
       if (!Array.isArray(local)) throw new Error("単語データの形式が正しくありません。");
       state.meta = data.meta || {};
+      try {
+        const englishResponse = await fetch("translations_en.json?v=9.0", { cache: "no-store" });
+        if (!englishResponse.ok) throw new Error("English dictionary HTTP " + englishResponse.status);
+        const translated = await englishResponse.json();
+        state.englishEntries = translated.entries && typeof translated.entries === "object" ? translated.entries : {};
+      } catch (error) {
+        console.warn("English dictionary unavailable; Japanese still works.", error);
+        state.englishEntries = {};
+      }
       const words = new Map(local.filter(isUsableQuestion).map(q => [String(q.id), {...q}]));
       state.wordSource = "同梱辞書";
       if (getSupabaseRestConfig().configured) {
@@ -2753,7 +2782,7 @@ function renderStudySentence(container, question) {
           state.wordSource = "同梱辞書（オフライン）";
         }
       }
-      state.dictionaryWords = [...words.values()];
+      state.dictionaryWords = [...words.values()].map(word => ({...word, english: lookupEnglish(word)}));
       state.allQuestions = state.dictionaryWords
         .filter(q => Number.isInteger(Number(q.difficulty)) && Number(q.difficulty) >= 1 && Number(q.difficulty) <= 8)
         .map(q => ({...q, questionType: "word"}));
@@ -2768,6 +2797,38 @@ function renderStudySentence(container, question) {
         && Number.isInteger(level)
         && level >= 1
         && level <= 8;
+    }
+
+    function lookupEnglish(word) {
+      if (!word || word.id == null) return "";
+      const entry = state.englishEntries[String(word.id)];
+      return entry && normalizeThai(entry.thai) === normalizeThai(word.thai) ? String(entry.english || "").trim() : "";
+    }
+    function englishForReviewWord(word) {
+      return lookupEnglish({id: word.questionId, thai: word.thai}) ||
+        (state.dictionaryWords.find(item => normalizeThai(item.thai) === normalizeThai(word.thai) && item.english)?.english || "");
+    }
+    function meaningDisplay(question) {
+      return state.meaningLanguage === "en" && question.questionType === "word"
+        ? (question.english || japaneseDisplay(question)) : japaneseDisplay(question);
+    }
+    function changeMeaningLanguage() {
+      state.meaningLanguage = elements.meaningLanguage.value === "en" ? "en" : "ja";
+      try { localStorage.setItem("thaiVocabularyTrainerMeaningLanguageV9", state.meaningLanguage); } catch (_) {}
+      updateMeaningLanguageUi();
+      if (!elements.difficultyScreen.classList.contains("hidden")) {
+        updateCompositionSummary();
+        refreshDifficultyButtons();
+      }
+      if (!elements.reviewBookScreen.classList.contains("hidden")) renderReviewBook();
+    }
+    function updateMeaningLanguageUi() {
+      const en = state.meaningLanguage === "en";
+      elements.meaningLanguageNote.textContent = en
+        ? "English is available for vocabulary quizzes. AI news and reading passages remain in Japanese."
+        : "日本語問題に加えて英訳を確認できます。";
+      const longRead = document.querySelector('[data-mode="longreading"]');
+      if (longRead) longRead.disabled = en;
     }
 
     function normalizeDbWordQuestion(word) {
@@ -3142,13 +3203,14 @@ function updateCompositionSummary() {
     return;
   }
 
-  elements.sentenceQuestionCount.disabled = writingMode;
-  if (writingMode) elements.sentenceQuestionCount.value = "0";
-  if (writingMode) {
+  const englishOnly = state.meaningLanguage === "en";
+  elements.sentenceQuestionCount.disabled = writingMode || englishOnly;
+  if (writingMode || englishOnly) elements.sentenceQuestionCount.value = "0";
+  if (writingMode || englishOnly) {
     elements.newsQuestionCount.value = "0";
     elements.newsQuestionCount.disabled = true;
     if (Number.parseInt(elements.wordQuestionCount.value, 10) === 0) elements.wordQuestionCount.value = "5";
-    elements.compositionNote.textContent = "書くφ(`･ω･´ )🐮 は単語問題のみです。🐙 苦手単語があれば優先出題します。";
+    elements.compositionNote.textContent = englishOnly ? "English mode: Thai vocabulary only. Choose meanings or type Thai words." : "書くφ(`･ω･´ )🐮 は単語問題のみです。🐙 苦手単語があれば優先出題します。";
   } else {
     elements.newsQuestionCount.disabled = state.allNewsQuestions.length === 0;
     if (!state.allNewsQuestions.length) elements.newsQuestionCount.value = "0";
@@ -3167,6 +3229,7 @@ function updateCompositionSummary() {
     }
 
     function showScreen(name) {
+      elements.meaningLanguage.disabled = !["menu","difficulty","reviewBook"].includes(name);
       const screens = {
         loading: elements.loadingScreen,
         error: elements.errorScreen,
@@ -3187,6 +3250,10 @@ function updateCompositionSummary() {
 
 
 function openDifficultyScreen(mode) {
+  if (state.meaningLanguage === "en" && mode === "longreading") {
+    window.alert("Long reading is available in Japanese only.");
+    return;
+  }
   state.mode = mode;
   const info = mode === "choice"
     ? ["🐨 読む📕🐨", "単語問題 🐟️・文章読解 🐬・ニュース読解 📰から選んで練習"]
@@ -3205,6 +3272,10 @@ function openDifficultyScreen(mode) {
     elements.newsQuestionCount.value = "0";
   }
   restoreCompositionPreferences(mode);
+  if (state.meaningLanguage === "en") {
+    elements.sentenceQuestionCount.value = "0";
+    elements.newsQuestionCount.value = "0";
+  }
   updateCompositionSummary();
   refreshDifficultyButtons();
   showScreen("difficulty");
@@ -3286,7 +3357,10 @@ function openDifficultyScreen(mode) {
       if (!word) return;
 
       state.reviewDrillRevealed = true;
-      const lines = [`正解：${word.japanese}`];
+      const english = englishForReviewWord(word);
+      const lines = ["正解：" + (state.meaningLanguage === "en" && english ? english : word.japanese)];
+      if (english) lines.push("English: " + english);
+      if (state.meaningLanguage === "en") lines.push("日本語：" + word.japanese);
       if (word.reading) lines.push(`読み：${word.reading}`);
       if (word.note) lines.push(`覚え方メモ：${word.note}`);
       elements.reviewDrillAnswer.textContent = lines.join("\n");
@@ -3566,7 +3640,7 @@ function addWrongWordToReviewBook(question) {
 
         const meaning = document.createElement("div");
         meaning.className = "review-book-meaning";
-        meaning.textContent = item.japanese || "意味未登録";
+        meaning.textContent = [item.japanese || "意味未登録", englishForReviewWord(item)].filter(Boolean).join(" / ");
         meaning.title = item.japanese || "";
 
         const reading = document.createElement("div");
@@ -3969,7 +4043,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
   state.wrongQuestions = [];
   state.shifted = false;
 
-  const wordPool = uniqueByPromptPair(state.allQuestions.filter(q => Number(q.difficulty) === state.difficulty));
+  const wordPool = uniqueByPromptPair(state.allQuestions.filter(q => Number(q.difficulty) === state.difficulty && (state.meaningLanguage !== "en" || q.english)));
   const sentencePool = uniqueByPromptPair(state.allSentences.filter(q => Number(q.difficulty) === state.difficulty));
   const newsPool = uniqueByPromptPair(state.allNewsQuestions.filter(q => Number(q.difficulty) === state.difficulty || (state.mode === "choice" && Number(q.difficulty) === state.difficulty - 1)));
   const passagePool = state.readingPassages.filter(p => Number(p.level) === state.difficulty);
@@ -3977,7 +4051,7 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
   const currentWordKeys = new Set(wordPool.map(q => normalizeThai(q.thai)));
   const lowerWordPool = uniqueByPromptPair(state.allQuestions.filter(q =>
     Number(q.difficulty) >= 1 && Number(q.difficulty) < state.difficulty &&
-    !currentWordKeys.has(normalizeThai(q.thai))));
+    !currentWordKeys.has(normalizeThai(q.thai)) && (state.meaningLanguage !== "en" || q.english)));
   state.activeQuestionPool = [...wordPool, ...lowerWordPool];
   state.activeSentencePool = sentencePool;
   state.activeNewsPool = newsPool;
@@ -4015,8 +4089,8 @@ function startQuiz(mode, suppliedQuestions = null, difficulty = state.difficulty
     }
 
     const requestedWords = Number.parseInt(elements.wordQuestionCount.value, 10) || 0;
-    const requestedSentences = state.mode === "choice" ? Number(elements.sentenceQuestionCount.value) || 0 : 0;
-    const requestedNews = state.mode === "choice" ? Math.min(newsPool.length, Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
+    const requestedSentences = state.mode === "choice" && state.meaningLanguage !== "en" ? Number(elements.sentenceQuestionCount.value) || 0 : 0;
+    const requestedNews = state.mode === "choice" && state.meaningLanguage !== "en" ? Math.min(newsPool.length, Number.parseInt(elements.newsQuestionCount.value, 10) || 0) : 0;
 
     if (requestedWords + requestedSentences + requestedNews < 1) {
       window.alert("単語問題・文章読解・ニュース読解のいずれかを選んでください。");
@@ -4093,8 +4167,10 @@ function showQuestion() {
   renderPassagePanel(question);
 
   if (!choiceQuestion) {
-    elements.promptLabel.textContent = question.weakPriority ? "🐙 苦手単語：この日本語をタイ語で入力してください" : "この日本語をタイ語で入力してください";
-    elements.promptWord.textContent = question.japanese;
+    elements.promptLabel.textContent = state.meaningLanguage === "en"
+      ? "Write the Thai word for this English meaning"
+      : question.weakPriority ? "🐙 苦手単語：この日本語をタイ語で入力してください" : "この日本語をタイ語で入力してください";
+    elements.promptWord.textContent = meaningDisplay(question);
     elements.promptWord.className = "prompt-word";
     elements.writingArea.classList.remove("hidden");
     elements.readingArea.classList.add("hidden");
@@ -4118,8 +4194,9 @@ function showQuestion() {
     elements.readingInput.value = "";
     elements.readingInput.disabled = true;
   } else {
-    elements.promptLabel.textContent = newsQuestion
-      ? "📰 ニュース読解の意味を選んでください"
+    elements.promptLabel.textContent = state.meaningLanguage === "en" && question.questionType === "word"
+      ? "Choose the English meaning of this Thai word"
+      : newsQuestion ? "📰 ニュース読解の意味を選んでください"
       : sentenceQuestion ? "このタイ語の文章の意味を選んでください" : question.weakPriority ? "🐙 苦手単語：このタイ語の意味を選んでください" : "このタイ語の意味を選んでください";
     if (sentenceQuestion && question.setId) renderStudySentence(elements.promptWord, question);
     else if (newsQuestion) renderNewsWords(elements.promptWord, question.thai, question.breakdown);
@@ -4146,7 +4223,7 @@ function showQuestion() {
 function renderChoices(question) {
   elements.choiceArea.replaceChildren();
   elements.submitButton.disabled = false;
-  const correctLabel = japaneseDisplay(question);
+  const correctLabel = meaningDisplay(question);
   let choices = null;
 
   if (question.questionType === "news" || question.questionType === "passage" || (question.questionType === "sentence" && question.setId)) {
@@ -4172,8 +4249,8 @@ function renderChoices(question) {
     const distractors = uniqueStrings(
       shuffle([...pool])
         .filter(item => item.thai !== question.thai)
-        .map(japaneseDisplay)
-        .filter(label => label !== correctLabel)
+        .map(meaningDisplay)
+        .filter(label => label && label !== correctLabel)
     ).slice(0, 3);
     choices = shuffle([correctLabel, ...distractors]);
   }
@@ -4360,7 +4437,7 @@ function submitAnswer() {
       return;
     }
     userAnswer = state.selectedChoice;
-    isCorrect = userAnswer === japaneseDisplay(question);
+    isCorrect = userAnswer === meaningDisplay(question);
     if (!passageQuestion) elements.readingInput.disabled = true;
     markChoiceButtons(question, userAnswer);
   }
@@ -4456,7 +4533,9 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
 
   const title = document.createElement("div");
   title.className = "feedback-title";
-  title.textContent = isCorrect ? "✅ 正解！ ดีมาก!" : "❌ 不正解。ここで覚えれば勝ちですじゃ";
+  title.textContent = state.meaningLanguage === "en"
+    ? (isCorrect ? "✅ Correct! ดีมาก!" : "❌ Incorrect. Try again!")
+    : (isCorrect ? "✅ 正解！ ดีมาก!" : "❌ 不正解。ここで覚えれば勝ちですじゃ");
   const typeBadge = document.createElement("span");
   typeBadge.className = "question-type-badge";
   typeBadge.textContent = question.questionType === "passage" ? "長文" : question.questionType === "news" ? "📰 News" : question.questionType === "sentence" ? "文章読解 🐬" : "単語 🐟️";
@@ -4471,7 +4550,10 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
   }
 
   const details = [];
-  details.push([question.questionType === "passage" ? "正解" : "意味", japaneseDisplay(question)]);
+  details.push([state.meaningLanguage === "en" ? "Meaning" : (question.questionType === "passage" ? "正解" : "意味"), meaningDisplay(question)]);
+  if (question.questionType === "word" && question.english) {
+    details.push(state.meaningLanguage === "en" ? ["日本語", japaneseDisplay(question)] : ["English", question.english]);
+  }
   const choiceQuestion = state.mode === "choice" || ["sentence", "news"].includes(question.questionType);
   if (choiceQuestion) details.push(["あなたの読み（採点なし）", readingAttempt || "未入力"]);
   if (question.reading) details.push(["正しい読み", question.reading]);
@@ -4535,7 +4617,7 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
             ? (question.questionPrompt || "長文読解")
             : question.thai;
           const meaning = document.createElement("div");
-          meaning.textContent = `正解：${japaneseDisplay(question)}${question.reading ? ` ／ ${question.reading}` : ""}`;
+          meaning.textContent = (state.meaningLanguage === "en" ? "Correct: " : "正解：") + meaningDisplay(question) + (question.reading ? " ／ " + question.reading : "");
           const answer = document.createElement("div");
           answer.className = "muted";
           answer.textContent = `あなたの回答：${userAnswer || "未回答"}`;
@@ -4563,6 +4645,10 @@ function renderFeedback(question, userAnswer, isCorrect, readingAttempt = "", ad
     }
 
     function scoreMessage(percent) {
+      if (state.meaningLanguage === "en") {
+        if (percent === 100) return "Perfect score! 🇹🇭";
+        return percent >= 80 ? "Great progress! 🐘" : "Keep practicing! 🐙";
+      }
       if (percent === 100) return "満点ですぞ！タイ文字部隊、完全整列(σﾟ∀ﾟ)σ🇹🇭";
       if (percent >= 80) return "かなり良いですじゃ。あと少しで🦛級です。";
       if (percent >= 60) return "土台はできています。間違えた語をもう一周しましょう。";
@@ -4610,6 +4696,8 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
     japanese: question.questionType === "passage" ? (question.questionPrompt || question.japanese) : question.japanese,
     thai: question.thai,
     userAnswer,
+    english: question.english || "",
+    meaningLanguage: state.meaningLanguage,
     readingAttempt: choiceQuestion ? readingAttempt : "",
     correctReading: question.reading || "",
     isCorrect,
