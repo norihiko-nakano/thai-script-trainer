@@ -41,6 +41,11 @@
     ['[data-difficulty="1"] .difficulty-description', "Level 1 vocabulary + news reading"],
     ['[data-difficulty="2"] .difficulty-description', "Level 2 vocabulary + approximately 20% review + news"],
     ['[data-difficulty="3"] .difficulty-description', "Level 3 vocabulary + approximately 20% review + news"],
+    ['[data-difficulty="4"] .difficulty-description', "Level 4 vocabulary (under development) + review + news"],
+    ['[data-difficulty="5"] .difficulty-description', "Level 5 vocabulary (under development) + review + news"],
+    ['[data-difficulty="6"] .difficulty-description', "Level 6 vocabulary (under development) + review + news"],
+    ['[data-difficulty="7"] .difficulty-description', "Level 7 vocabulary (under development) + review + news"],
+    ['[data-difficulty="8"] .difficulty-description', "Level 8 vocabulary (under development) + review + news"],
     ["#historyScreen .history-page-header h2", "Learning history 📊"],
     ["#historyScreen > p.muted.center", "Review your answers recorded in this browser."],
     ["#historyScreen #weakWordsHeading + p.history-note", "Words missed three or more times and most recently answered incorrectly are prioritized in practice."],
@@ -120,6 +125,9 @@
     ["単語 🐟️", "Vocabulary 🐟"], ["文章読解 🐬", "Sentence practice 🐬"],
     ["長文", "Long reading"], ["正解", "Correct answer"],
     ["未回答", "No answer"], ["未入力", "Not entered"], ["未登録", "Not available"],
+    ["書くφ(" + String.fromCharCode(96) + "･ω･´ )🐮 は単語問題のみです。🐙 苦手単語があれば優先出題します。", "Writing mode covers vocabulary only. Frequently missed words are prioritized."],
+    ["単語問題 🐟️・文章読解 🐬・ニュース読解 📰を組み合わせます。文章読解はLevel 3で利用でき、1セット3問を順番に読みます。", "Mix vocabulary, sentence and news questions. Sentence practice is available in Level 3, in sets of three."],
+    ["ニュース長文を1本選び、その記事について複数の設問に答えます。難語は※注釈つきです。", "Read one Thai news passage and answer comprehension questions. Difficult words have Japanese notes."],
     ["単語問題 🐟️・文章読解 🐬・ニュース読解 📰から選んで練習", "Choose vocabulary questions, sentences or news practice."],
     ["タイの実ニュースをAIで学習用に調整。数個の難語は※日本語注釈で読む", "AI-supported Thai news lessons with Japanese vocabulary notes."],
     ["日本語を見て、タイ語を画面キーボードで入力（単語問題のみ）", "See Japanese clues and type Thai with the on-screen keyboard."],
@@ -180,7 +188,7 @@
   }
   function dynamicUi() {
     const targets = [
-      "#promptLabel","#progressText","#compositionTotal","#nextButton","#submitButton",
+      "#promptLabel","#progressText","#compositionTotal","#compositionNote","#nextButton","#submitButton",
       "#scoreMessage","#reviewBookSummary","#reviewBookCount","#reviewDrillStatus",
       "#historyLastStudy","#readingArea label","#reviewDrillDoneMessage",
       "#feedback .feedback-title", "#feedback dt",
