@@ -16,6 +16,8 @@
     ['[data-mode="longreading"] .mode-title', "News Reading 📰🐘"],
     ['[data-mode="longreading"] .mode-description', "Read longer Thai news passages and answer comprehension questions (Level 3)."],
     ["#historyHeading", "📊 Your learning progress"],
+    ["#menuScreen .review-book-launch > p.history-note", "Missed words are automatically added to your personal notebook. Write and save your own memory cues."],
+    ["#menuScreen .reading-memo-launch > p.history-note", "A Thai script reference: consonants, vowels, tone marks, final consonants and Thai digits."],
     ["#menuScreen .history-stats .history-stat:nth-child(1) span", "Total answers"],
     ["#menuScreen .history-stats .history-stat:nth-child(2) span", "Accuracy"],
     ["#menuScreen .history-stats .history-stat:nth-child(3) span", "Answered today"],
@@ -27,6 +29,7 @@
     ["#exportReviewBookButton", "Export review notebook as JSON 🐍"],
     ["#openReadingMemoButton", "Open Thai reading guide"],
     ["#difficultyScreen .difficulty-header h2", "Choose a difficulty level 🎚️"],
+    ["#difficultyScreen > p.muted.center", "Levels 1–2 contain 100 words each; Level 3 contains 200. Higher levels are being developed. Japanese meanings are used because this app teaches Thai to Japanese speakers."],
     ["#difficultyBackButton", "← Back"],
     ["#compositionHeading", "Question mix 🧩"],
     ['label[for="wordQuestionCount"]', "Vocabulary 🐟"],
@@ -39,6 +42,8 @@
     ['[data-difficulty="2"] .difficulty-description', "Level 2 vocabulary + approximately 20% review + news"],
     ['[data-difficulty="3"] .difficulty-description', "Level 3 vocabulary + approximately 20% review + news"],
     ["#historyScreen .history-page-header h2", "Learning history 📊"],
+    ["#historyScreen > p.muted.center", "Review your answers recorded in this browser."],
+    ["#historyScreen #weakWordsHeading + p.history-note", "Words missed three or more times and most recently answered incorrectly are prioritized in practice."],
     ["#historyBackButton", "← Back"],
     ["#historyScreen .history-overview-item:nth-child(1) span", "Total answers"],
     ["#historyScreen .history-overview-item:nth-child(2) span", "Accuracy"],
@@ -54,10 +59,13 @@
     ["#historyPageExportButton", "Export CSV"],
     ["#historyPageClearButton", "Clear history"],
     ["#reviewBookScreen .history-page-header h2", "Review notebook 🍣"],
+    ["#reviewBookScreen > p.muted.center", "This notebook is stored in your browser, not on GitHub or Supabase."],
+    ["#reviewBookScreen .history-note", "Columns: Thai / meaning / pronunciation / level and errors / personal memory cue."],
     ["#reviewBookBackButton", "← Back"],
     ['label[for="reviewBookSearchInput"]', "Search words, meanings and notes"],
     ["#clearReviewBookButton", "Clear notebook"],
     ["#reviewDrillScreen .history-page-header h2", "Panda Review Drill 🐼"],
+    ["#reviewDrillScreen .history-note.center", "Review up to three randomly chosen notebook words. After revealing the answer, Got it removes the word; Not yet keeps it. Both continue to the next word. Export your notebook to JSON before clearing important notes."],
     ["#reviewDrillBackButton", "← Back"],
     ["#reviewDrillRevealButton", "Reveal answer 🐼"],
     ["#reviewDrillKnownButton", "Got it! ⚡"],
@@ -66,6 +74,7 @@
     ["#readingMemoScreen .history-page-header h2", "Thai Script Guide 📕🐨"],
     ["#readingMemoBackButton", "← Back"],
     ["#clearReadingMemoButton", "Clear my personal notes"],
+    ["#readingMemoScreen .reading-memo-footer + p.history-note", "Personal notes are stored only in this browser, not on GitHub or Supabase."],
     ["#quitButton", "← Back"],
     ["#writingArea label[for='answerInput']", "Your Thai answer"],
     [".keyboard-toolbar span:nth-child(1)", "Thai on-screen keyboard"],
@@ -171,6 +180,10 @@
   function applyLanguage() {
     document.documentElement.lang = language;
     document.documentElement.dataset.interfaceLanguage = language;
+    const quizTip = $("#englishQuizNotice");
+    const difficultyTip = $("#englishDifficultyNotice");
+    if (quizTip) quizTip.hidden = !isEnglish();
+    if (difficultyTip) difficultyTip.hidden = !isEnglish();
     FIXED.forEach(([selector, english]) => document.querySelectorAll(selector).forEach(el => setFixed(el, english)));
     const englishPanel = $("#englishFeatureOverview");
     const japanesePanel = $("#japaneseFeatureOverview");
@@ -252,6 +265,25 @@
       '</section>';
     modeGrid.insertAdjacentElement("beforebegin", wrapper);
   }
+  function setupQuizHints() {
+    const quiz = $("#quizScreen");
+    const passage = $("#passagePanel");
+    if (quiz && passage) {
+      const tip = document.createElement("p");
+      tip.id = "englishQuizNotice";
+      tip.className = "interface-inline-tip";
+      tip.textContent = "Demo note: the app teaches Thai to Japanese speakers. Japanese meanings are intentionally preserved as exercise content.";
+      passage.insertAdjacentElement("beforebegin", tip);
+    }
+    const grid = $("#difficultyScreen .difficulty-grid");
+    if (grid) {
+      const tip = document.createElement("p");
+      tip.id = "englishDifficultyNotice";
+      tip.className = "interface-inline-tip";
+      tip.textContent = "Choose an available level. Japanese exercise prompts remain part of the learning content.";
+      grid.insertAdjacentElement("beforebegin", tip);
+    }
+  }
   function setupScriptGuideEnglish() {
     const ja = $("#readingMemoScreen .reading-memo-intro");
     if (!ja) return;
@@ -272,6 +304,7 @@
     setupLanguageSwitcher();
     setupOverview();
     setupScriptGuideEnglish();
+    setupQuizHints();
     applyLanguage();
     const app = $("main.app-shell");
     if (app) {
