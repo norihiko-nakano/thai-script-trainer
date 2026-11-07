@@ -372,7 +372,7 @@ Ver9.0の日本語/Englishインターフェースを提供。ニュース短文
 
 - [Ver5.0当時のREADME](https://github.com/norihiko-nakano/thai-script-trainer/blob/2719278adc0be8c20dbb1d8f01205139e92dfb67/README.md)：Ver0.x〜5.0の説明とLevelの設計。
 - 当時の保存資料：README_V5.md、README_V5.1.md、README_V5.1_FULL_READING.md、README_V5.1.1.md。本文を読んで、復習帳・読み方メモの追加内容を確認。
-- [README_V6.4.md](README_V6.4.md)、[README_V7.0.md](README_V7.0.md)、[README_V9.0.md](README_V9.0.md)：各時点の仕様。古い文書の説明は現在の仕様と異なる場合があります。
+- [README_V6.4.md](docs/versions/README_V6.4.md)、[README_V7.0.md](docs/versions/README_V7.0.md)、[README_V9.0.md](docs/versions/README_V9.0.md)：各時点の仕様。古い文書の説明は現在の仕様と異なる場合があります。
 - GitHubのコミット一覧と、初期版・ニュース修正・各機能の関連差分。コミットの原文は[全件索引](docs/COMMIT_HISTORY_THROUGH_V9.md)から確認できます。
 - 過去の開発会話：初期試作、ニュース更新、話す練習、Ver9.0の英語UI、2026-11-07の修正依頼。会話全体の書き起こしではなく、仕様確認に必要な内容だけを整理しました。
 
@@ -392,3 +392,10 @@ Ver9.0の日本語/Englishインターフェースを提供。ニュース短文
 新しい版や修正では、日付・変更内容・対象コミットをこのファイルへ追記してください。版番号を変えない修正は「Ver9.0後の修正」のように区別します。将来、未確認部分の根拠が見つかったら、以前の注記を踏まえて補完してください。
 
 このファイルは変更内容の記録です。各版のコードはリンク先のGitコミットに残っています。Gitタグ・GitHub Releaseを新規作成したものではありません。
+
+## 2026-11-07：復習しやすいファイル配置へ整理（Ver9.0据置）
+
+- 未使用の初期問題データ `questions.csv`、旧文章データ `sentences.json`、重複したルートの `update_news.py` を削除。ニュースの実行入口は `scripts/update_news.py` に統一。
+- 過去版の説明書を `docs/versions/`、語彙確認資料を `docs/`、DB設定SQLを `sql/`、ODS変換スクリプトを `scripts/` へ移動。
+- READMEを現在の構成と学習用の案内に整理し、リンク・実行例・画面内の古い配置説明を更新。
+- ニュース処理、復習ドリル、Colab教材、テスト、学習データ、変更履歴は保持。過去のファイル内容はGit履歴から参照・復元可能。

@@ -1,3 +1,5 @@
+> 過去版の資料です。現在の仕様・配置は [README](../../README.md) を参照してください。長文読解は現在冬眠中です。
+
 # Thai Vocabulary Trainer · Ver9.0
 
 **Live application:** https://norihiko-nakano.github.io/thai-script-trainer/
@@ -38,4 +40,4 @@ This approach keeps the existing Japanese application backward-compatible while 
 
 The English switcher changes interface language only. Existing Japanese learning materials, stored review notebook entries and question-answer validation are unchanged. Some extended reading-reference descriptions and learning content remain in Japanese.
 
-For development setup and earlier changes, see [README_V7.0.md](README_V7.0.md) and [README.md](README.md).
+For development setup and earlier changes, see [README_V7.0.md](README_V7.0.md) and [README.md](../../README.md).

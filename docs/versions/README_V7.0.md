@@ -1,3 +1,5 @@
+> 過去版の資料です。現在の仕様・配置は [README](../../README.md) を参照してください。長文読解は現在冬眠中です。
+
 # Thai Vocabulary Trainer Ver7.0
 
 既存のVer6.4を更新したLevel 3解放版です。デザイン、タイ語キーボード、回答履歴、苦手単語、復習帳、読みメモを引き継ぎます。
@@ -27,11 +29,11 @@ https://norihiko-nakano.github.io/thai-script-trainer/
 | 3 | 200 | 既存の未割当語から選抜 |
 | 4〜8 | 未割当 | 辞書拡充後、各200語を選抜予定 |
 
-実際のSupabase辞書は513件でした。1,400語の辞書を新規完成した版ではありません。追加候補169語と、重複・誤記の確認事項は `VOCABULARY_REVIEW_V7.md` にあります。L3選抜結果は `data/level3_words.json` に収録しています。
+実際のSupabase辞書は513件でした。1,400語の辞書を新規完成した版ではありません。追加候補169語と、重複・誤記の確認事項は [VOCABULARY_REVIEW_V7.md](../VOCABULARY_REVIEW_V7.md) にあります。L3選抜結果は `data/level3_words.json` に収録しています。
 
 `questions.json`は現在のSupabaseのID・意味・読みを基にした同梱データです。通信できる場合はSupabaseの最新の読み・意味・設定済みLevelを優先し、Levelが未設定の同一ID・同一タイ語だけ同梱の割当を補います。通信に失敗した場合も同梱の400語で学習できます。既存辞書の読みをAIで修正していません。
 
-SupabaseにもL3割当を反映する場合は `setup_ver7_level3.sql` をSQL Editorで実行します。200件のIDとタイ語を照合してからLevelのみ更新し、意味・読み・既存L1/L2・学習履歴は更新しません。二重実行可能ですが、既存データとの衝突があれば中断します。今回、本番DBへのSQL実行はしていません。
+SupabaseにもL3割当を反映する場合は `sql/setup_ver7_level3.sql` をSQL Editorで実行します。200件のIDとタイ語を照合してからLevelのみ更新し、意味・読み・既存L1/L2・学習履歴は更新しません。二重実行可能ですが、既存データとの衝突があれば中断します。今回、本番DBへのSQL実行はしていません。
 
 ## ニュースと長文
 
@@ -55,7 +57,7 @@ python -m pip install -r requirements-news.txt
 python scripts/update_news.py
 ```
 
-キーは環境変数で設定し、ファイルに書き込まないでください。Ver7.0の週次生成は`THAI_NEWS_LEVEL=3`が前提です。古い`data/news_candidates.json`をStage 3だけで使い回さず、Stage 2から生成してください。旧ルートの`update_news.py`も新しい検証付きパイプラインに転送します。
+キーは環境変数で設定し、ファイルに書き込まないでください。Ver7.0の週次生成は`THAI_NEWS_LEVEL=3`が前提です。古い`data/news_candidates.json`をStage 3だけで使い回さず、Stage 2から生成してください。実行入口は `scripts/update_news.py` です（ルートの旧互換ファイルは2026-11-07の整理で削除）。
 
 ## 確認したこと
 

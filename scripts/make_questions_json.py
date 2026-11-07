@@ -2,9 +2,9 @@
 """Convert the "Thai" sheet in an ODS vocabulary notebook to questions.json.
 
 Usage:
-    python make_questions_json.py
-    python make_questions_json.py "Thai language.ods" questions.json
-    python make_questions_json.py --input "Thai language.ods" --output questions.json
+    python scripts/make_questions_json.py
+    python scripts/make_questions_json.py "Thai language.ods" questions.json
+    python scripts/make_questions_json.py --input "Thai language.ods" --output questions.json
 
 The script uses only Python's standard library. It preserves the contents of
 columns A-G without automatically correcting the source data.
