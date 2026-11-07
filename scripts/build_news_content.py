@@ -122,7 +122,7 @@ def numeric_value(value):
     normalized = unicodedata.normalize("NFKC", value.strip()).translate(
         str.maketrans("๐๑๒๓๔๕๖๗๘๙", "0123456789")
     )
-    if not re.fullmatch(r"[+-]?(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\\.[0-9]+)?", normalized):
+    if not re.fullmatch(r"[+-]?(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\.[0-9]+)?", normalized):
         return None
     try:
         return Decimal(normalized.replace(",", ""))
