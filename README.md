@@ -6,6 +6,12 @@
 
 Ver9.0 introduces a Japanese/English interface switch and an English explanation of every main feature for international visitors and hiring teams. The underlying Thai-to-Japanese exercises are unchanged. The English interface does **not** replace Japanese word meanings with English translations.
 
+## 長文読解の一時休止（2026-11-07）
+
+長文読解は再開を決めるまで休止中です。ニュース短文5問と予備候補の生成・検証は継続します。長文の生成・日本語化・検証は実行せず、出力の `reading_passages` は空配列、`long_reading_status` は `paused` になります。既存の候補に長文が含まれていても無視します。画面の長文メニューは「休止中」と表示して無効化し、以前の配信データに残る長文も読み込みません。再開用の関数は保持しています。
+
+Long reading is temporarily paused; the five short-news questions continue to be generated and verified.
+
 ---
 
 # Ver7.0 更新版

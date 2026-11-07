@@ -598,10 +598,9 @@ def main():
         backup_shorts = [
             {**item, "level": LEVEL} for item in short_pool[SHORT_FINAL_SIZE:]
         ]
-        passages = generate_passages(
-            client, articles, allowed, allowed_text,
-            [item["source_url"] for item in selected_shorts],
-        )
+        # Long reading is paused. Keep the generator functions for a future restart.
+        passages = []
+        print("PASSAGES PAUSED: generating short-news questions only")
 
         final = {
             "schema_version": 1,
@@ -618,6 +617,7 @@ def main():
                 enrich_short(item, source_map, SHORT_FINAL_SIZE + i + 1)
                 for i, item in enumerate(backup_shorts)
             ],
+            "long_reading_status": "paused",
             "reading_passages": [
                 enrich_passage(item, source_map, i + 1)
                 for i, item in enumerate(passages)

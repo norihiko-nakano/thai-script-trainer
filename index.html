@@ -1223,10 +1223,10 @@
             <span class="mode-description">単語・文章・ニュースを読んで、日本語の意味を選ぶ</span>
           </button>
 
-          <button class="mode-button" type="button" data-mode="longreading" title="Level 3で長文読解">
+          <button class="mode-button mode-button-frozen" type="button" data-mode="longreading" disabled aria-disabled="true" title="長文読解は休止中です">
             <span class="mode-icon" aria-hidden="true">📰🐘</span>
             <span class="mode-title">長文読解📰🐘</span>
-            <span class="mode-description">Level 3から。記事を読んで3問に挑戦します。</span>
+            <span class="mode-description">休止中 🧊🗿</span>
           </button>
         </div>
 
@@ -2910,9 +2910,8 @@ function renderStudySentence(container, question) {
             acceptedJapanese: [item.japanese]
           }));
 
-        state.readingPassages = (Array.isArray(data.reading_passages) ? data.reading_passages : [])
-          .filter(item => item && item.source_verified === true && Number(item.level) >= 3 && item.body_thai && Array.isArray(item.questions) && item.questions.length)
-          .map(hydratePassageReadings);
+        // Long reading is paused, including passages in older published snapshots.
+        state.readingPassages = [];
 
         state.newsSource = `news_content.json（短文 ${state.allNewsQuestions.length}問・長文 ${state.readingPassages.length}本）`;
       } catch (error) {
@@ -3141,7 +3140,7 @@ function updateDataSummary() {
   const updatedLabel = updated && !Number.isNaN(updated.getTime())
     ? updated.toLocaleString("ja-JP")
     : "未更新";
-  elements.newsDataSummary.textContent = `毎週日曜日に更新予定。記事の日付は各問題で確認できます。現在：${state.allNewsQuestions.length}短文 ／ 長文 ${state.readingPassages.length}本（Lv3から） ／ 最終生成 ${updatedLabel}`;
+  elements.newsDataSummary.textContent = `毎週日曜日に更新予定。記事の日付は各問題で確認できます。現在：${state.allNewsQuestions.length}短文 ／ 長文読解は休止中 🧊 ／ 最終生成 ${updatedLabel}`;
   refreshDifficultyButtons();
 }
 
@@ -3201,6 +3200,7 @@ function updateCompositionSummary() {
 
 
 function openDifficultyScreen(mode) {
+  if (mode === "longreading") return; // Paused until explicitly re-enabled.
   state.mode = mode;
   const info = mode === "choice"
     ? ["🐨 読む📕🐨", "単語問題 🐟️・文章読解 🐬・ニュース読解 📰から選んで練習"]

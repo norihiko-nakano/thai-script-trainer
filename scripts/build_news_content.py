@@ -540,14 +540,12 @@ def main():
 
         short_candidates = candidates.get("short_candidates") or []
         backup_short_candidates = candidates.get("backup_short_candidates") or []
-        passage_candidates = candidates.get("reading_passages") or []
+        # Ignore even older snapshots containing passages while long reading is paused.
 
         if len(short_candidates) != 5:
             raise RuntimeError(
                 "news_candidates.json must contain exactly 5 short candidates"
             )
-        if len(passage_candidates) != 2:
-            raise RuntimeError("Ver7.0 requires two Level 3 passages")
 
         from openai import OpenAI
 
@@ -557,13 +555,8 @@ def main():
             source_map, vocab_by_thai,
         )
 
-        dictionary = vocab_map(load_vocab(include_unassigned=True))
         passages = []
-        for candidate in passage_candidates:
-            article = source_map[candidate["source_url"]]
-            localized = localize_passage(client, candidate, article)
-            candidate["source_review"] = verify_source(client, candidate["body_thai"], article, localized)
-            passages.append(build_passage(candidate, localized, dictionary))
+        print("PASSAGES PAUSED: skipping long-reading localization and validation")
 
         final = {
             "schema_version": 3,
@@ -572,11 +565,11 @@ def main():
             "generation_method": (
                 f"Ver8.4 unrestricted vocabulary: raw Thai PBS snapshot -> "
                 f"5 Thai short candidates -> Japanese short-news content "
-                f"with independent source review by {MODEL}; dictionary readings; Level 3 passages."
+                f"with independent source review by {MODEL}; dictionary readings; long reading paused."
             ),
             "raw_source_file": "data/news_raw.json",
             "candidate_source_file": "data/news_candidates.json",
-            "long_reading_status": "available_from_level_3",
+            "long_reading_status": "paused",
             "short_news": short_news,
             "reading_passages": passages,
         }

@@ -14,7 +14,7 @@
     ['[data-mode="choice"] .mode-title', "Read Thai 🐨"],
     ['[data-mode="choice"] .mode-description', "Read Thai words and select their Japanese meanings. Includes news and sentences."],
     ['[data-mode="longreading"] .mode-title', "News Reading 📰🐘"],
-    ['[data-mode="longreading"] .mode-description', "Read longer Thai news passages and answer comprehension questions (Level 3)."],
+    ['[data-mode="longreading"] .mode-description', "Paused 🧊🗿"],
     ["#historyHeading", "📊 Your learning progress"],
     ["#menuScreen .review-book-launch > p.history-note", "Missed words are automatically added to your personal notebook. Write and save your own memory cues."],
     ["#menuScreen .reading-memo-launch > p.history-note", "A Thai script reference: consonants, vowels, tone marks, final consonants and Thai digits."],

@@ -20,14 +20,14 @@ const run = code => vm.runInContext(code, context);
   assert.equal(run('state.history[0].recordId'), 'keep');
   await run('loadNewsContent()');
   assert.equal(run('state.allNewsQuestions.length'),5);
-  assert.equal(run('state.readingPassages.length'),2);
+  assert.equal(run('state.readingPassages.length'),0);
   for(let i=0;i<100;i++){
     assert.equal(run('selectNewsWithReview(state.allNewsQuestions,5,3).filter(q=>q.difficulty===3).length'),3);
     assert.equal(run('selectNewsWithReview(state.allNewsQuestions,5,3).filter(q=>q.reviewQuestion).length'),2);
   }
   assert.equal(run('new Set(selectNewsWithReview(state.allNewsQuestions,10,3).map(q=>q.id)).size'),5);
   assert.equal(run('selectNewsWithReview(state.allNewsQuestions.filter(q=>q.difficulty===2),5,2).length'),2);
-  assert.equal(run('buildLongReadingQuestions(state.readingPassages[0]).length'),3);
+  assert.equal(run('buildLongReadingQuestions(state.readingPassages[0]).length'),0);
   assert.equal(run('hydrateNewsReadings({...state.allNewsQuestions[0],thai:"tampered"})'),null);
   // A current Supabase pronunciation beats both packaged data and AI material.
   run('getSupabaseRestConfig = () => ({configured:true}); restGet = async () => [{id:1,thai:"กลับ",japanese:"戻る,帰る",reading:"辞書の更新読み",level:2}];');
