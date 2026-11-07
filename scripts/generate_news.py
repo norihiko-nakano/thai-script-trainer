@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 import time
 
@@ -137,6 +138,29 @@ def select_short_candidates(pool, count=SHORT_FINAL_SIZE, min_sources=3):
         counts[source_url] = counts.get(source_url, 0) + 1
 
     return selected if len(selected) == count else None
+
+
+def has_word_by_word_spacing(thai):
+    """Catch obviously space-separated Thai word lists before AI source review.
+
+    Thai normally separates phrases with spaces, not every word. Four consecutive
+    bare Thai chunks (three space boundaries) are a strong signal that the model
+    emitted a segmented token list instead of a naturally spaced sentence.
+    Keep this conservative: abbreviations, numbers, and punctuation break a run.
+    """
+    if not isinstance(thai, str):
+        return False
+    chunks = thai.split()
+    thai_chunk = re.compile(r"[\u0e01-\u0e3a\u0e40-\u0e5b]+")
+    run = 0
+    for chunk in chunks:
+        if thai_chunk.fullmatch(chunk):
+            run += 1
+            if run >= 4:
+                return True
+        else:
+            run = 0
+    return False
 
 
 def validate_short_pool(pool, allowed, source_urls):
@@ -299,7 +323,7 @@ Return exactly {SHORT_POOL_SIZE} short candidates. This call creates NO long pas
 
 RULES:
 - Vocabulary is unrestricted. Prefer simple natural Thai, but retain necessary news terms.
-- Write thai as a complete naturally spaced sentence FIRST, including spaces around numbers and abbreviations where appropriate.
+- Write thai as a complete naturally spaced sentence FIRST. Thai joins normal words without spaces; spaces separate clauses/phrases and may appear around numbers/abbreviations. For example, write "ตำรวจพบเงินบริจาครวมกว่า 815 ล้านบาท", NOT "ตำรวจ พบ เงินบริจาค รวมกว่า 815 ล้านบาท".
 - Split thai_tokens into meaningful words or short lexical phrases, in the SAME order as thai, without omitting or changing any non-whitespace character. Spaces may be omitted from tokens; code restores them from thai. Do not emit standalone whitespace tokens.
 - Use 4-14 tokens and make a natural complete Thai sentence.
 - Every sentence must express a concrete fact genuinely supported by its source article.
@@ -348,6 +372,12 @@ RAW NEWS SNAPSHOT:
                 problems.append("Empty or invalid token")
                 continue
             if thai in seen:
+                continue
+            if has_word_by_word_spacing(thai):
+                problems.append(
+                    f"Unnatural Thai word-by-word spacing: {thai!r}. "
+                    "Write a natural Thai sentence, not space-delimited tokens."
+                )
                 continue
             try:
                 item["source_review"] = verify_source(client, thai, source_map[item["source_url"]])

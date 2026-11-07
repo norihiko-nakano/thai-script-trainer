@@ -137,6 +137,22 @@ def valid_numeric_token_meaning(token, meaning):
     return original is not None and translated is not None and original == translated
 
 
+def valid_japanese_token_meaning(meaning):
+    """Accept Japanese glosses, including katakana names and Thai/Japanese mixed labels.
+
+    Keep this more permissive check scoped to token meanings; news titles,
+    choices and explanations retain their existing Japanese semantic checks.
+    """
+    if not isinstance(meaning, str) or not meaning.strip():
+        return False
+    japanese_chars = re.findall(r"[\u3040-\u30ff\u3400-\u9fff]", meaning)
+    thai_chars = re.findall(r"[\u0e00-\u0e7f]", meaning)
+    if not japanese_chars:
+        return False
+    # Thai quotations are okay only if accompanied by a substantive Japanese gloss.
+    return len(japanese_chars) >= (2 if thai_chars else 1)
+
+
 def validate_short_localization(result, token_count, tokens=None):
     problems = []
     meanings = result.get("token_meanings") or []
@@ -148,7 +164,7 @@ def validate_short_localization(result, token_count, tokens=None):
     for index in range(max(token_count, len(meanings))):
         thai_token = tokens[index] if tokens is not None and index < len(tokens) else None
         meaning = meanings[index] if index < len(meanings) else None
-        if looks_japanese(meaning):
+        if valid_japanese_token_meaning(meaning):
             continue
         if thai_token is not None and valid_numeric_token_meaning(thai_token, meaning):
             continue
@@ -256,7 +272,9 @@ OUTPUT RULES:
 - title_ja: short natural Japanese news-style title.
 - token_meanings: one Japanese meaning for EVERY token, in EXACT token order, using this sentence context. Dictionary meanings are hints, not a substitute for contextual meaning.
 - For a standalone numeric token (for example 815 or 80), it is valid to use the exact matching numeric value as its meaning (815 or 80). Do not change its value or introduce units.
-- Do NOT generate pronunciations or katakana. Readings are taken verbatim from the user dictionary.
+- Japanese proper names may correctly use katakana alone, e.g. タイ for ประเทศไทย or ワット・カオポートーン for a temple name. This is a Japanese meaning, not a pronunciation note.
+- You may quote a Thai word followed by its Japanese meaning in the same token gloss, but ALWAYS supply a meaningful Japanese translation.
+- Do NOT generate Thai pronunciations or katakana phonetic reading guides. Dictionary readings are supplied separately, verbatim.
 - choices: four JAPANESE MEANING choices. They must not be pronunciation choices.
 - correct_index: index of the choice that accurately translates the fixed Thai sentence.
 - explanation: Japanese explanation of why the sentence has that meaning. Thai words may be quoted inside Japanese prose.
@@ -273,7 +291,8 @@ OUTPUT RULES:
             instructions=(
                 "あなたは日本人向けタイ語教材の編集者です。"
                 "意味・選択肢・解説・文法・読み方の説明は自然な日本語で書きます。"
-                "読みや発音を生成しないでください。"
+                "タイ語の読みや発音を生成しないでください。"
+                "ただし、日本語の固有名詞・地名の訳としてのカタカナは使用できます。"
                 "タイ語を日本語解説内で引用することは許可されています。"
             ),
             prompt=prompt,

@@ -170,6 +170,52 @@ class PipelineTests(unittest.TestCase):
         result={'title_ja':'記事です','choices':['同じです']*4,'correct_index':0,'explanation':'説明です','grammar_note':'文法です','reading_tip':'読みます','choice_explanations':['説明です']*4}
         self.assertFalse(build.validate_short_localization(result,4)[0])
 
+    def test_katakana_and_mixed_thai_japanese_meanings(self):
+        # Proper names and quoted Thai terms are meanings, not romanized readings.
+        valid = [
+            'タイ', 'ワット・カオポートーン', 'ประเทศไทย：タイ国内',
+            'ความผันผวน：変動', '変動', '水', '815（八百十五）',
+        ]
+        invalid = ['', ' ', 'ประเทศไทย', 'ความผันผวน', 'ประเทศไทย：タ', '815']
+        for meaning in valid:
+            self.assertTrue(build.valid_japanese_token_meaning(meaning), meaning)
+        for meaning in invalid:
+            self.assertFalse(build.valid_japanese_token_meaning(meaning), meaning)
+
+        tokens = ['ประเทศไทย ', 'ความผันผวน ', '80']
+        localized = {
+            'title_ja':'タイ経済のニュース',
+            'choices':['経済状況を説明する', '事故を発表する', '会議を開く', '雨が降った'],
+            'correct_index':0,
+            'explanation':'経済の変動を説明します',
+            'grammar_note':'語順の説明です',
+            'reading_tip':'自然に区切って読みます',
+            'choice_explanations':['正しいです', '間違いです', '誤りです', '違います'],
+            'token_meanings':['ประเทศไทย：タイ国内', 'ความผันผวน：変動', '80'],
+        }
+        self.assertTrue(build.validate_short_localization(localized, len(tokens), tokens=tokens)[0])
+        invalid_localized = {**localized, 'token_meanings':['ประเทศไทย', *localized['token_meanings'][1:]]}
+        ok, errors = build.validate_short_localization(invalid_localized, len(tokens), tokens=tokens)
+        self.assertFalse(ok)
+        self.assertIn("Thai token='ประเทศไทย '", '\\n'.join(errors))
+
+    def test_short_generation_flags_word_by_word_spaced_thai(self):
+        bad = [
+            'ตำรวจ พบ เงินบริจาค รวมกว่า 815 ล้านบาท',
+            'ประเทศไทย มีพื้นฐาน แข็งแรง พอ รับมือ ความผันผวน โลก ได้',
+            'ประชาชน ยัง สามารถ ใช้ชีวิต ตามปกติ ได้',
+        ]
+        good = [
+            'ตำรวจพบเงินบริจาครวมกว่า 815 ล้านบาท',
+            'ประชาชนยังสามารถใช้ชีวิตตามปกติได้',
+            'ขบวน นปผ. แวะพักค้างคืน ที่วัดเขาโพธิ์ทอง',
+            'ถนน 31 เส้นทาง',
+        ]
+        for phrase in bad:
+            self.assertTrue(gen.has_word_by_word_spacing(phrase), phrase)
+        for phrase in good:
+            self.assertFalse(gen.has_word_by_word_spacing(phrase), phrase)
+
     def test_matching_numeric_token_meanings(self):
         # Standalone numerals can be returned without Japanese glyphs.
         source_tokens = ['แม่สาย', 'จ่ายน้ำประปา ', 'ได้ประมาณ', 'ร้อยละ ', '80']
