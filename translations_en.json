@@ -1,0 +1,2058 @@
+{
+  "version": "9.0",
+  "description": "English glosses for the existing Thai vocabulary. Entries are checked against the Thai spelling and ID; unverified items must not silently override another word.",
+  "entries": {
+    "1": {
+      "thai": "กลับ",
+      "english": "return; go back"
+    },
+    "2": {
+      "thai": "ติดต่อ",
+      "english": "contact; get in touch"
+    },
+    "3": {
+      "thai": "โรงพยาบาล",
+      "english": "hospital"
+    },
+    "4": {
+      "thai": "สถานี",
+      "english": "station"
+    },
+    "5": {
+      "thai": "สนามบิน",
+      "english": "airport"
+    },
+    "6": {
+      "thai": "เหนื่อย",
+      "english": "tired"
+    },
+    "7": {
+      "thai": "อายุ",
+      "english": "age"
+    },
+    "8": {
+      "thai": "๑",
+      "english": "Thai digit one"
+    },
+    "9": {
+      "thai": "๒",
+      "english": "Thai digit two"
+    },
+    "10": {
+      "thai": "๓",
+      "english": "Thai digit three"
+    },
+    "11": {
+      "thai": "๔",
+      "english": "Thai digit four"
+    },
+    "12": {
+      "thai": "๕",
+      "english": "Thai digit five"
+    },
+    "13": {
+      "thai": "ก็",
+      "english": "then; also"
+    },
+    "14": {
+      "thai": "ก็ได้",
+      "english": "that's fine; okay"
+    },
+    "15": {
+      "thai": "กระดาษ",
+      "english": "paper"
+    },
+    "16": {
+      "thai": "กระเป๋า",
+      "english": "bag"
+    },
+    "17": {
+      "thai": "กลัว",
+      "english": "afraid; scared"
+    },
+    "18": {
+      "thai": "กลางคืน",
+      "english": "nighttime"
+    },
+    "19": {
+      "thai": "ก็เลย",
+      "english": "so; therefore"
+    },
+    "20": {
+      "thai": "กว่า",
+      "english": "than"
+    },
+    "21": {
+      "thai": "ก่อน",
+      "english": "before"
+    },
+    "22": {
+      "thai": "กัน",
+      "english": "together; each other"
+    },
+    "23": {
+      "thai": "กับ",
+      "english": "with; and"
+    },
+    "24": {
+      "thai": "กางเกง",
+      "english": "pants; trousers"
+    },
+    "25": {
+      "thai": "กาแฟ",
+      "english": "coffee"
+    },
+    "26": {
+      "thai": "การแข่งขัน",
+      "english": "competition"
+    },
+    "27": {
+      "thai": "การบ้าน",
+      "english": "homework"
+    },
+    "28": {
+      "thai": "การพัฒนา",
+      "english": "development"
+    },
+    "29": {
+      "thai": "กำลัง",
+      "english": "currently doing; in progress"
+    },
+    "30": {
+      "thai": "กิน",
+      "english": "eat"
+    },
+    "31": {
+      "thai": "กี่โมง",
+      "english": "what time?"
+    },
+    "32": {
+      "thai": "กุญแจ",
+      "english": "key"
+    },
+    "33": {
+      "thai": "เก่ง",
+      "english": "skilled; good at"
+    },
+    "34": {
+      "thai": "เก็บ",
+      "english": "keep; store; save"
+    },
+    "35": {
+      "thai": "เกลือ",
+      "english": "salt"
+    },
+    "36": {
+      "thai": "เก้าอี้",
+      "english": "chair"
+    },
+    "37": {
+      "thai": "เกาะ",
+      "english": "island"
+    },
+    "38": {
+      "thai": "เกินไป",
+      "english": "too much; excessively"
+    },
+    "39": {
+      "thai": "เกี่ยวกับ",
+      "english": "about; concerning"
+    },
+    "40": {
+      "thai": "เกือบ",
+      "english": "almost; nearly"
+    },
+    "41": {
+      "thai": "แก้ว",
+      "english": "glass; cup"
+    },
+    "42": {
+      "thai": "โกรธ",
+      "english": "angry"
+    },
+    "43": {
+      "thai": "ใกล้",
+      "english": "near; close"
+    },
+    "44": {
+      "thai": "ไก่",
+      "english": "chicken"
+    },
+    "45": {
+      "thai": "ไกล",
+      "english": "far"
+    },
+    "46": {
+      "thai": "ขนม",
+      "english": "snack; dessert"
+    },
+    "47": {
+      "thai": "ขวา",
+      "english": "right"
+    },
+    "48": {
+      "thai": "ขอ",
+      "english": "ask for; request"
+    },
+    "49": {
+      "thai": "ข้อความ",
+      "english": "message; text"
+    },
+    "50": {
+      "thai": "ของ",
+      "english": "thing; belonging to; of"
+    },
+    "51": {
+      "thai": "ของขวัญ",
+      "english": "gift; present"
+    },
+    "52": {
+      "thai": "ขอบคุณ",
+      "english": "thank you"
+    },
+    "53": {
+      "thai": "ข้อสอบ",
+      "english": "exam question"
+    },
+    "54": {
+      "thai": "ขอให้",
+      "english": "wish; ask someone to"
+    },
+    "55": {
+      "thai": "ขับ",
+      "english": "drive"
+    },
+    "56": {
+      "thai": "ข้าง ๆ",
+      "english": "beside; next to"
+    },
+    "57": {
+      "thai": "ข้างหน้า",
+      "english": "in front"
+    },
+    "58": {
+      "thai": "ข้างหลัง",
+      "english": "behind"
+    },
+    "59": {
+      "thai": "ข้าม",
+      "english": "cross; go across"
+    },
+    "60": {
+      "thai": "ขาย",
+      "english": "sell"
+    },
+    "61": {
+      "thai": "ขาว",
+      "english": "white"
+    },
+    "62": {
+      "thai": "ข่าว",
+      "english": "news"
+    },
+    "63": {
+      "thai": "ข้าว",
+      "english": "rice; cooked rice"
+    },
+    "64": {
+      "thai": "ข้าว",
+      "english": "rice"
+    },
+    "65": {
+      "thai": "ข้าวเย็น",
+      "english": "dinner; evening meal"
+    },
+    "66": {
+      "thai": "ขึ้น",
+      "english": "go up; depart; take off"
+    },
+    "67": {
+      "thai": "ขึ้น",
+      "english": "board; get on"
+    },
+    "68": {
+      "thai": "เขา",
+      "english": "he; she; they"
+    },
+    "69": {
+      "thai": "เขียน",
+      "english": "write"
+    },
+    "70": {
+      "thai": "ไข่",
+      "english": "egg"
+    },
+    "71": {
+      "thai": "คง",
+      "english": "probably; likely"
+    },
+    "72": {
+      "thai": "คน",
+      "english": "person"
+    },
+    "73": {
+      "thai": "ครอบครัว",
+      "english": "family"
+    },
+    "74": {
+      "thai": "ครึ่ง",
+      "english": "half"
+    },
+    "75": {
+      "thai": "ครู",
+      "english": "teacher"
+    },
+    "76": {
+      "thai": "ควร",
+      "english": "should; ought to"
+    },
+    "77": {
+      "thai": "ความคิดเห็น",
+      "english": "opinion"
+    },
+    "78": {
+      "thai": "ความรับผิดชอบ",
+      "english": "responsibility"
+    },
+    "79": {
+      "thai": "ความรู้",
+      "english": "knowledge"
+    },
+    "80": {
+      "thai": "ความล้มเหลว",
+      "english": "failure"
+    },
+    "81": {
+      "thai": "ความสำเร็จ",
+      "english": "success"
+    },
+    "82": {
+      "thai": "ความหมาย",
+      "english": "meaning"
+    },
+    "83": {
+      "thai": "ค่อนข้าง",
+      "english": "rather; somewhat; quite"
+    },
+    "84": {
+      "thai": "คอมพิวเตอร์",
+      "english": "computer"
+    },
+    "85": {
+      "thai": "ค่าใช้จ่าย",
+      "english": "expense; cost"
+    },
+    "86": {
+      "thai": "คำศัพท์",
+      "english": "vocabulary; word"
+    },
+    "87": {
+      "thai": "คิด",
+      "english": "think"
+    },
+    "88": {
+      "thai": "คิดถึง",
+      "english": "miss someone; think of"
+    },
+    "89": {
+      "thai": "คือ",
+      "english": "be; is"
+    },
+    "90": {
+      "thai": "คู่",
+      "english": "pair"
+    },
+    "91": {
+      "thai": "เคย",
+      "english": "have ever; used to"
+    },
+    "92": {
+      "thai": "เครื่องบิน",
+      "english": "airplane"
+    },
+    "93": {
+      "thai": "ใคร",
+      "english": "who?"
+    },
+    "94": {
+      "thai": "ง่วง",
+      "english": "sleepy"
+    },
+    "95": {
+      "thai": "งาน",
+      "english": "work; event"
+    },
+    "96": {
+      "thai": "ง่าย",
+      "english": "easy"
+    },
+    "97": {
+      "thai": "เงิน",
+      "english": "money"
+    },
+    "98": {
+      "thai": "เงียบ",
+      "english": "quiet"
+    },
+    "99": {
+      "thai": "จดหมาย",
+      "english": "letter"
+    },
+    "100": {
+      "thai": "จมูก",
+      "english": "nose"
+    },
+    "101": {
+      "thai": "จอด",
+      "english": "park; stop a vehicle"
+    },
+    "102": {
+      "thai": "จะ",
+      "english": "will; going to"
+    },
+    "103": {
+      "thai": "จัง",
+      "english": "so; very"
+    },
+    "104": {
+      "thai": "จังหวัด",
+      "english": "province"
+    },
+    "105": {
+      "thai": "จาก",
+      "english": "from"
+    },
+    "106": {
+      "thai": "จาน",
+      "english": "plate; dish"
+    },
+    "107": {
+      "thai": "จ่าย",
+      "english": "pay"
+    },
+    "108": {
+      "thai": "จำ",
+      "english": "remember"
+    },
+    "109": {
+      "thai": "จำนวน",
+      "english": "number; quantity"
+    },
+    "110": {
+      "thai": "จำเป็น",
+      "english": "necessary"
+    },
+    "111": {
+      "thai": "จึง",
+      "english": "therefore; thus"
+    },
+    "112": {
+      "thai": "เจ็บ",
+      "english": "hurt; painful"
+    },
+    "113": {
+      "thai": "ช่วงนี้",
+      "english": "lately; these days"
+    },
+    "114": {
+      "thai": "ช่วย",
+      "english": "help; please"
+    },
+    "115": {
+      "thai": "ช่วยเหลือ",
+      "english": "help; assist"
+    },
+    "116": {
+      "thai": "ช้อน",
+      "english": "spoon"
+    },
+    "117": {
+      "thai": "ชอบ",
+      "english": "like"
+    },
+    "118": {
+      "thai": "ชั้น",
+      "english": "floor; storey"
+    },
+    "119": {
+      "thai": "ชั่วโมง",
+      "english": "hour"
+    },
+    "120": {
+      "thai": "ชื่อ",
+      "english": "name"
+    },
+    "121": {
+      "thai": "เช้า",
+      "english": "morning"
+    },
+    "122": {
+      "thai": "เชื้อสาย",
+      "english": "ancestry; descent"
+    },
+    "123": {
+      "thai": "ใช้",
+      "english": "use"
+    },
+    "124": {
+      "thai": "ใช้เวลา",
+      "english": "take time"
+    },
+    "125": {
+      "thai": "ซ่อม",
+      "english": "repair; fix"
+    },
+    "126": {
+      "thai": "ซ้าย",
+      "english": "left"
+    },
+    "127": {
+      "thai": "ซื้อ",
+      "english": "buy"
+    },
+    "128": {
+      "thai": "ซื้อของ",
+      "english": "go shopping"
+    },
+    "129": {
+      "thai": "ด่วน",
+      "english": "urgent; express"
+    },
+    "130": {
+      "thai": "ด้วย",
+      "english": "with; also; by"
+    },
+    "131": {
+      "thai": "ดอกไม้",
+      "english": "flower"
+    },
+    "132": {
+      "thai": "ด้าน",
+      "english": "side; aspect"
+    },
+    "133": {
+      "thai": "ด้าน ขวา",
+      "english": "right side"
+    },
+    "134": {
+      "thai": "ด้าน ซ้าย",
+      "english": "left side"
+    },
+    "135": {
+      "thai": "ด้าม",
+      "english": "handle; classifier for pens"
+    },
+    "136": {
+      "thai": "ดาว",
+      "english": "star"
+    },
+    "137": {
+      "thai": "ดำ",
+      "english": "black"
+    },
+    "138": {
+      "thai": "ดิฉัน",
+      "english": "I (formal, female)"
+    },
+    "139": {
+      "thai": "ดินสอ",
+      "english": "pencil"
+    },
+    "140": {
+      "thai": "ดีกว่า",
+      "english": "better than"
+    },
+    "141": {
+      "thai": "ดีใจ",
+      "english": "glad; happy"
+    },
+    "142": {
+      "thai": "ดึก",
+      "english": "late at night"
+    },
+    "143": {
+      "thai": "ดื่ม",
+      "english": "drink"
+    },
+    "144": {
+      "thai": "ดู",
+      "english": "look; watch"
+    },
+    "145": {
+      "thai": "เดิน",
+      "english": "walk"
+    },
+    "146": {
+      "thai": "เดิน เล่น",
+      "english": "take a walk"
+    },
+    "147": {
+      "thai": "เดินตรงไป",
+      "english": "walk straight ahead"
+    },
+    "148": {
+      "thai": "เดินทาง",
+      "english": "travel"
+    },
+    "149": {
+      "thai": "แดง",
+      "english": "red"
+    },
+    "150": {
+      "thai": "โดย",
+      "english": "by; through; via"
+    },
+    "151": {
+      "thai": "โดยเฉพาะ",
+      "english": "especially"
+    },
+    "152": {
+      "thai": "ได้",
+      "english": "get; obtain; be able to"
+    },
+    "153": {
+      "thai": "ได้ยินว่า",
+      "english": "apparently; I heard that"
+    },
+    "154": {
+      "thai": "ตก",
+      "english": "fall; drop"
+    },
+    "155": {
+      "thai": "ต้นไม้",
+      "english": "tree"
+    },
+    "156": {
+      "thai": "ตรงข้าม",
+      "english": "opposite; across from"
+    },
+    "157": {
+      "thai": "ตลาด",
+      "english": "market"
+    },
+    "158": {
+      "thai": "ต้อง",
+      "english": "must; have to"
+    },
+    "159": {
+      "thai": "ต้องการ",
+      "english": "want; need"
+    },
+    "160": {
+      "thai": "ตอน",
+      "english": "when; at the time of"
+    },
+    "161": {
+      "thai": "ตอบ",
+      "english": "answer"
+    },
+    "162": {
+      "thai": "ตะเกียบ",
+      "english": "chopsticks"
+    },
+    "163": {
+      "thai": "ตั้ง",
+      "english": "set up; establish"
+    },
+    "164": {
+      "thai": "ตั้งใจ",
+      "english": "intend; be determined"
+    },
+    "165": {
+      "thai": "ตั้งแต่",
+      "english": "since; from"
+    },
+    "166": {
+      "thai": "ตั้งอยู่",
+      "english": "be located"
+    },
+    "167": {
+      "thai": "ตัดสินใจ",
+      "english": "decide"
+    },
+    "168": {
+      "thai": "ตำรวจ",
+      "english": "police; police officer"
+    },
+    "169": {
+      "thai": "ติดรถ",
+      "english": "ride along; get a lift"
+    },
+    "170": {
+      "thai": "ตื่นนอน",
+      "english": "wake up"
+    },
+    "171": {
+      "thai": "เตรียม",
+      "english": "prepare"
+    },
+    "172": {
+      "thai": "เตียง",
+      "english": "bed"
+    },
+    "173": {
+      "thai": "แต่งงาน",
+      "english": "get married"
+    },
+    "174": {
+      "thai": "แตงโม",
+      "english": "watermelon"
+    },
+    "175": {
+      "thai": "โต๊ะ",
+      "english": "table; desk"
+    },
+    "176": {
+      "thai": "ใต้",
+      "english": "under; below"
+    },
+    "177": {
+      "thai": "ใต้ดิน",
+      "english": "underground"
+    },
+    "178": {
+      "thai": "ถนน",
+      "english": "road; street"
+    },
+    "179": {
+      "thai": "ถนน",
+      "english": "road"
+    },
+    "180": {
+      "thai": "ถนนติด",
+      "english": "traffic jam"
+    },
+    "181": {
+      "thai": "ถัดไป",
+      "english": "next; following"
+    },
+    "182": {
+      "thai": "ถ้า",
+      "english": "if"
+    },
+    "183": {
+      "thai": "ถาม",
+      "english": "ask"
+    },
+    "184": {
+      "thai": "ถามใจ",
+      "english": "ask oneself"
+    },
+    "185": {
+      "thai": "ถามว่า",
+      "english": "ask whether; ask that"
+    },
+    "186": {
+      "thai": "ถึง",
+      "english": "arrive; reach"
+    },
+    "187": {
+      "thai": "ถึงแล้ว",
+      "english": "arrived already!"
+    },
+    "188": {
+      "thai": "ถุง",
+      "english": "bag; sack"
+    },
+    "189": {
+      "thai": "ถูก",
+      "english": "cheap"
+    },
+    "190": {
+      "thai": "ถูก",
+      "english": "be subjected to; be (passive)"
+    },
+    "191": {
+      "thai": "ถูกใจ",
+      "english": "like; be pleased with"
+    },
+    "192": {
+      "thai": "แถวนี้",
+      "english": "around here"
+    },
+    "193": {
+      "thai": "ทหาร",
+      "english": "soldier"
+    },
+    "194": {
+      "thai": "ทอน",
+      "english": "give change"
+    },
+    "195": {
+      "thai": "ทะเล",
+      "english": "sea"
+    },
+    "196": {
+      "thai": "ทาง",
+      "english": "way; road"
+    },
+    "197": {
+      "thai": "ทางขวา",
+      "english": "to the right; right-hand way"
+    },
+    "198": {
+      "thai": "ทางซ้าย",
+      "english": "to the left; left-hand way"
+    },
+    "199": {
+      "thai": "ท่าทาง",
+      "english": "seem; appear"
+    },
+    "200": {
+      "thai": "ทำ",
+      "english": "make; do"
+    },
+    "201": {
+      "thai": "ทำ",
+      "english": "do"
+    },
+    "202": {
+      "thai": "ทำงาน",
+      "english": "work"
+    },
+    "203": {
+      "thai": "ทำไม",
+      "english": "why?"
+    },
+    "204": {
+      "thai": "ทำให้เป็น",
+      "english": "cause to become"
+    },
+    "205": {
+      "thai": "ที่",
+      "english": "at; that; which"
+    },
+    "206": {
+      "thai": "ที่นั่น",
+      "english": "there"
+    },
+    "207": {
+      "thai": "ที่นี่",
+      "english": "here"
+    },
+    "208": {
+      "thai": "ที่โน่น",
+      "english": "over there"
+    },
+    "209": {
+      "thai": "ที่สุด",
+      "english": "most; -est"
+    },
+    "210": {
+      "thai": "ทุก",
+      "english": "every; all"
+    },
+    "211": {
+      "thai": "ทุกคืน",
+      "english": "every night"
+    },
+    "212": {
+      "thai": "ทุกเช้า",
+      "english": "every morning"
+    },
+    "213": {
+      "thai": "ทุกเดือน",
+      "english": "every month"
+    },
+    "214": {
+      "thai": "ทุกอาทิตย์",
+      "english": "every week"
+    },
+    "215": {
+      "thai": "เทคโนโลยี",
+      "english": "technology"
+    },
+    "216": {
+      "thai": "เท้า",
+      "english": "foot"
+    },
+    "217": {
+      "thai": "เท่าไหร่",
+      "english": "how much?; how many?"
+    },
+    "218": {
+      "thai": "เที่ยว",
+      "english": "travel; visit"
+    },
+    "219": {
+      "thai": "โทร",
+      "english": "call; telephone"
+    },
+    "220": {
+      "thai": "โทร ＋ กลับ",
+      "english": "call back"
+    },
+    "221": {
+      "thai": "โทรศัพท์",
+      "english": "telephone; mobile phone"
+    },
+    "222": {
+      "thai": "โทรหา",
+      "english": "call someone"
+    },
+    "223": {
+      "thai": "โทรหา",
+      "english": "telephone someone"
+    },
+    "224": {
+      "thai": "ธนาคาร",
+      "english": "bank"
+    },
+    "225": {
+      "thai": "เธอ",
+      "english": "you (informal)"
+    },
+    "226": {
+      "thai": "นก",
+      "english": "bird"
+    },
+    "227": {
+      "thai": "นนั้น",
+      "english": "that (possible typo)"
+    },
+    "228": {
+      "thai": "นม",
+      "english": "milk"
+    },
+    "229": {
+      "thai": "นอน",
+      "english": "sleep"
+    },
+    "230": {
+      "thai": "นักท่องเที่ยว",
+      "english": "tourist; traveler"
+    },
+    "231": {
+      "thai": "นักเรียน",
+      "english": "student; pupil"
+    },
+    "232": {
+      "thai": "นั่ง",
+      "english": "sit; ride"
+    },
+    "233": {
+      "thai": "นั่ง",
+      "english": "sit"
+    },
+    "234": {
+      "thai": "นัด",
+      "english": "appointment; arrange to meet"
+    },
+    "235": {
+      "thai": "น่าจะ",
+      "english": "probably; should"
+    },
+    "236": {
+      "thai": "นาที",
+      "english": "minute"
+    },
+    "237": {
+      "thai": "นาน",
+      "english": "a long time"
+    },
+    "238": {
+      "thai": "นาฬิกา",
+      "english": "clock; watch"
+    },
+    "239": {
+      "thai": "น้ำ",
+      "english": "water"
+    },
+    "240": {
+      "thai": "น้ำ ชา",
+      "english": "tea (spaced spelling)"
+    },
+    "241": {
+      "thai": "น้ำแข็ง",
+      "english": "ice"
+    },
+    "242": {
+      "thai": "น้ำอัดลม",
+      "english": "soft drink; soda"
+    },
+    "243": {
+      "thai": "นิดหน่อย",
+      "english": "a little"
+    },
+    "244": {
+      "thai": "เนื่องจาก",
+      "english": "because of; due to"
+    },
+    "245": {
+      "thai": "ใน",
+      "english": "in; inside"
+    },
+    "246": {
+      "thai": "ในอนาคต",
+      "english": "in the future"
+    },
+    "247": {
+      "thai": "บน",
+      "english": "on; above"
+    },
+    "248": {
+      "thai": "บริการ",
+      "english": "service"
+    },
+    "249": {
+      "thai": "บริษัท",
+      "english": "company"
+    },
+    "250": {
+      "thai": "บอก",
+      "english": "tell; say"
+    },
+    "251": {
+      "thai": "บ่อยๆ",
+      "english": "often"
+    },
+    "252": {
+      "thai": "บัตร",
+      "english": "card; ticket"
+    },
+    "253": {
+      "thai": "บันได",
+      "english": "stairs"
+    },
+    "254": {
+      "thai": "บางครั้ง",
+      "english": "sometimes"
+    },
+    "255": {
+      "thai": "บ้าน",
+      "english": "house; home"
+    },
+    "256": {
+      "thai": "เบอร์โทร",
+      "english": "phone number"
+    },
+    "257": {
+      "thai": "เบียร์",
+      "english": "beer"
+    },
+    "258": {
+      "thai": "ใบเสร็จ",
+      "english": "receipt"
+    },
+    "259": {
+      "thai": "ปกติ",
+      "english": "normal; usual"
+    },
+    "260": {
+      "thai": "ประชุม",
+      "english": "meeting; meet"
+    },
+    "261": {
+      "thai": "ประตู",
+      "english": "door; gate"
+    },
+    "262": {
+      "thai": "ประตู",
+      "english": "door"
+    },
+    "263": {
+      "thai": "ประเทศเพื่อนบ้าน",
+      "english": "neighboring country"
+    },
+    "264": {
+      "thai": "ประมาณ",
+      "english": "approximately; about"
+    },
+    "265": {
+      "thai": "ประโยค",
+      "english": "sentence"
+    },
+    "266": {
+      "thai": "ประสบการณ์",
+      "english": "experience"
+    },
+    "267": {
+      "thai": "ประสบความสำเร็จ",
+      "english": "succeed; achieve success"
+    },
+    "268": {
+      "thai": "ปลอด",
+      "english": "safe; free from"
+    },
+    "269": {
+      "thai": "ปลอดภัย",
+      "english": "safe"
+    },
+    "270": {
+      "thai": "ปลา",
+      "english": "fish"
+    },
+    "271": {
+      "thai": "ปลูก",
+      "english": "plant; grow"
+    },
+    "272": {
+      "thai": "ป่วย",
+      "english": "sick; ill"
+    },
+    "273": {
+      "thai": "ปัญหา",
+      "english": "problem"
+    },
+    "274": {
+      "thai": "ปาก",
+      "english": "mouth"
+    },
+    "275": {
+      "thai": "ปากกา",
+      "english": "pen"
+    },
+    "276": {
+      "thai": "ป้าย",
+      "english": "sign; notice"
+    },
+    "277": {
+      "thai": "ป้ายรถเมล์",
+      "english": "bus stop"
+    },
+    "278": {
+      "thai": "ปิด",
+      "english": "close; switch off"
+    },
+    "279": {
+      "thai": "เป็น",
+      "english": "be; become"
+    },
+    "280": {
+      "thai": "เปลี่ยน",
+      "english": "change; replace"
+    },
+    "281": {
+      "thai": "เปิด",
+      "english": "open; switch on"
+    },
+    "282": {
+      "thai": "แปล",
+      "english": "translate"
+    },
+    "283": {
+      "thai": "ไป",
+      "english": "go"
+    },
+    "284": {
+      "thai": "ไปรษณีย์",
+      "english": "post office"
+    },
+    "285": {
+      "thai": "ผม",
+      "english": "I (male)"
+    },
+    "286": {
+      "thai": "ผลไม้",
+      "english": "fruit"
+    },
+    "287": {
+      "thai": "ผลลัพธ์",
+      "english": "result; outcome"
+    },
+    "288": {
+      "thai": "ผ่าน",
+      "english": "pass; go through"
+    },
+    "289": {
+      "thai": "ผิด　พลาด",
+      "english": "mistake; error"
+    },
+    "290": {
+      "thai": "เผ็ด",
+      "english": "spicy"
+    },
+    "291": {
+      "thai": "แผนที่",
+      "english": "map"
+    },
+    "292": {
+      "thai": "ฝน",
+      "english": "rain"
+    },
+    "293": {
+      "thai": "พนักงาน",
+      "english": "employee"
+    },
+    "294": {
+      "thai": "พบ",
+      "english": "meet; encounter"
+    },
+    "295": {
+      "thai": "พยายาม",
+      "english": "try; make an effort"
+    },
+    "296": {
+      "thai": "พรุ่งนี้",
+      "english": "tomorrow"
+    },
+    "297": {
+      "thai": "พ่อ",
+      "english": "father"
+    },
+    "298": {
+      "thai": "พอดี",
+      "english": "exactly; just right"
+    },
+    "299": {
+      "thai": "พัก",
+      "english": "rest; stay"
+    },
+    "300": {
+      "thai": "พา",
+      "english": "take; bring someone along"
+    },
+    "301": {
+      "thai": "พูด",
+      "english": "speak; talk"
+    },
+    "302": {
+      "thai": "เพราะว่า",
+      "english": "because"
+    },
+    "303": {
+      "thai": "เพิ่ง",
+      "english": "just; recently"
+    },
+    "304": {
+      "thai": "เพื่อ",
+      "english": "for; in order to"
+    },
+    "305": {
+      "thai": "เพื่อน",
+      "english": "friend"
+    },
+    "306": {
+      "thai": "แพง",
+      "english": "expensive"
+    },
+    "307": {
+      "thai": "ฟัง",
+      "english": "listen"
+    },
+    "308": {
+      "thai": "ฟ้า",
+      "english": "sky"
+    },
+    "309": {
+      "thai": "ไฟ",
+      "english": "fire; light; electricity"
+    },
+    "310": {
+      "thai": "ภรรยา",
+      "english": "wife"
+    },
+    "311": {
+      "thai": "ภัย",
+      "english": "danger; threat"
+    },
+    "312": {
+      "thai": "ภาพ",
+      "english": "picture; image"
+    },
+    "313": {
+      "thai": "ภาษา",
+      "english": "language"
+    },
+    "314": {
+      "thai": "ภาษา ไทย",
+      "english": "Thai language"
+    },
+    "315": {
+      "thai": "ภาษาญี่ปุ่น",
+      "english": "Japanese language"
+    },
+    "316": {
+      "thai": "ภูเขา",
+      "english": "mountain"
+    },
+    "317": {
+      "thai": "มา",
+      "english": "come"
+    },
+    "318": {
+      "thai": "มา ＋ นาน ＋ เท่าไหร่ ＋ แล้ว",
+      "english": "how long have you been here?"
+    },
+    "319": {
+      "thai": "มาก",
+      "english": "very; much"
+    },
+    "320": {
+      "thai": "มารวม",
+      "english": "gather; join together"
+    },
+    "321": {
+      "thai": "มารวมกัน",
+      "english": "gather together"
+    },
+    "322": {
+      "thai": "มาสาย",
+      "english": "arrive late"
+    },
+    "323": {
+      "thai": "มี〜อยู่ー",
+      "english": "there is ... in ..."
+    },
+    "324": {
+      "thai": "มีประโยชน์",
+      "english": "useful; beneficial"
+    },
+    "325": {
+      "thai": "มือ",
+      "english": "hand"
+    },
+    "326": {
+      "thai": "มือถือ",
+      "english": "mobile phone"
+    },
+    "327": {
+      "thai": "เมื่อกี้",
+      "english": "a moment ago"
+    },
+    "328": {
+      "thai": "เมือง ไทย",
+      "english": "Thailand"
+    },
+    "329": {
+      "thai": "เมื่อวาน",
+      "english": "yesterday"
+    },
+    "330": {
+      "thai": "เมื่อไหร่",
+      "english": "when?"
+    },
+    "331": {
+      "thai": "แม่น้ำ",
+      "english": "river"
+    },
+    "332": {
+      "thai": "แมว",
+      "english": "cat"
+    },
+    "333": {
+      "thai": "โมง",
+      "english": "o'clock (hour)"
+    },
+    "334": {
+      "thai": "ไม่ค่อย",
+      "english": "not very; not often"
+    },
+    "335": {
+      "thai": "ไม่เป็นไร",
+      "english": "no problem; it's okay"
+    },
+    "336": {
+      "thai": "ยาก",
+      "english": "difficult"
+    },
+    "337": {
+      "thai": "ย่าน",
+      "english": "area; district"
+    },
+    "338": {
+      "thai": "ย้าย",
+      "english": "move; relocate"
+    },
+    "339": {
+      "thai": "ยินดีด้วย",
+      "english": "congratulations"
+    },
+    "340": {
+      "thai": "ยินดีที่ได้รู้จัก",
+      "english": "nice to meet you"
+    },
+    "341": {
+      "thai": "ยืม",
+      "english": "borrow"
+    },
+    "342": {
+      "thai": "ยุ่ง",
+      "english": "busy"
+    },
+    "343": {
+      "thai": "เย็น",
+      "english": "cool; cold"
+    },
+    "344": {
+      "thai": "เยอะ",
+      "english": "a lot; many"
+    },
+    "345": {
+      "thai": "เยี่ยม",
+      "english": "visit"
+    },
+    "346": {
+      "thai": "รถแท็กซี่",
+      "english": "taxi"
+    },
+    "347": {
+      "thai": "รถบัส",
+      "english": "bus"
+    },
+    "348": {
+      "thai": "รถไฟ",
+      "english": "train"
+    },
+    "349": {
+      "thai": "รถไฟฟ้า",
+      "english": "electric train; BTS/MRT"
+    },
+    "350": {
+      "thai": "รถเมล์",
+      "english": "city bus"
+    },
+    "351": {
+      "thai": "ร่ม",
+      "english": "umbrella"
+    },
+    "352": {
+      "thai": "รอ",
+      "english": "wait"
+    },
+    "353": {
+      "thai": "รองเท้า",
+      "english": "shoes"
+    },
+    "354": {
+      "thai": "ร้อน",
+      "english": "hot"
+    },
+    "355": {
+      "thai": "ระวัง",
+      "english": "be careful"
+    },
+    "356": {
+      "thai": "ระวัง",
+      "english": "watch out"
+    },
+    "357": {
+      "thai": "ระหว่าง",
+      "english": "between; during"
+    },
+    "358": {
+      "thai": "รัก",
+      "english": "love"
+    },
+    "359": {
+      "thai": "รับ",
+      "english": "receive; pick up"
+    },
+    "360": {
+      "thai": "รับสาย",
+      "english": "answer the phone"
+    },
+    "361": {
+      "thai": "ร้า",
+      "english": "shop (possible typo)"
+    },
+    "362": {
+      "thai": "ราคา",
+      "english": "price"
+    },
+    "363": {
+      "thai": "ร้าน",
+      "english": "shop; store"
+    },
+    "364": {
+      "thai": "ร้านยา",
+      "english": "pharmacy"
+    },
+    "365": {
+      "thai": "ร้านสะดวกซื้อ",
+      "english": "convenience store"
+    },
+    "366": {
+      "thai": "ร้านอาหาร",
+      "english": "restaurant"
+    },
+    "367": {
+      "thai": "รายละเอียด",
+      "english": "details"
+    },
+    "368": {
+      "thai": "ราว ๆ",
+      "english": "roughly; about"
+    },
+    "369": {
+      "thai": "รีบ",
+      "english": "hurry"
+    },
+    "370": {
+      "thai": "รู้จัก",
+      "english": "know; be acquainted with"
+    },
+    "371": {
+      "thai": "รูป",
+      "english": "photo; picture"
+    },
+    "372": {
+      "thai": "เร็ว",
+      "english": "fast; quick"
+    },
+    "373": {
+      "thai": "เริ่ม",
+      "english": "start; begin"
+    },
+    "374": {
+      "thai": "เรียน",
+      "english": "study; learn"
+    },
+    "375": {
+      "thai": "เรียบร้อย",
+      "english": "finished; completed"
+    },
+    "376": {
+      "thai": "เรื่อง",
+      "english": "matter; story"
+    },
+    "377": {
+      "thai": "โรงเรียน",
+      "english": "school"
+    },
+    "378": {
+      "thai": "โรงแรม",
+      "english": "hotel"
+    },
+    "379": {
+      "thai": "ลง",
+      "english": "get off; go down"
+    },
+    "380": {
+      "thai": "ลด",
+      "english": "reduce; discount"
+    },
+    "381": {
+      "thai": "ล้มเหลว",
+      "english": "fail"
+    },
+    "382": {
+      "thai": "ลิฟต์",
+      "english": "elevator; lift"
+    },
+    "383": {
+      "thai": "ลืม",
+      "english": "forget"
+    },
+    "384": {
+      "thai": "เล่น",
+      "english": "play"
+    },
+    "385": {
+      "thai": "เล่ม",
+      "english": "classifier for books"
+    },
+    "386": {
+      "thai": "เลย",
+      "english": "then; right away; at all"
+    },
+    "387": {
+      "thai": "เลิก",
+      "english": "stop; quit"
+    },
+    "388": {
+      "thai": "เลี้ยว",
+      "english": "turn"
+    },
+    "389": {
+      "thai": "เลือก",
+      "english": "choose; select"
+    },
+    "390": {
+      "thai": "แล้ว",
+      "english": "already; then"
+    },
+    "391": {
+      "thai": "แล้วก็",
+      "english": "and then"
+    },
+    "392": {
+      "thai": "และ",
+      "english": "and"
+    },
+    "393": {
+      "thai": "วัฒนธรรม",
+      "english": "culture"
+    },
+    "394": {
+      "thai": "วัน อาทิตย์",
+      "english": "Sunday"
+    },
+    "395": {
+      "thai": "วันก่อน",
+      "english": "the other day"
+    },
+    "396": {
+      "thai": "วันจันทร์",
+      "english": "Monday"
+    },
+    "397": {
+      "thai": "วันนี้",
+      "english": "today"
+    },
+    "398": {
+      "thai": "วันพฤหัสบดี",
+      "english": "Thursday"
+    },
+    "399": {
+      "thai": "วันพุธ",
+      "english": "Wednesday"
+    },
+    "400": {
+      "thai": "วันศุกร์",
+      "english": "Friday"
+    },
+    "401": {
+      "thai": "วันเสาร์",
+      "english": "Saturday"
+    },
+    "402": {
+      "thai": "วันหยุด",
+      "english": "holiday; day off"
+    },
+    "403": {
+      "thai": "วันอังคาร",
+      "english": "Tuesday"
+    },
+    "404": {
+      "thai": "ว่า",
+      "english": "that; whether"
+    },
+    "405": {
+      "thai": "วาง",
+      "english": "put; place"
+    },
+    "406": {
+      "thai": "วางสาย",
+      "english": "hang up the phone"
+    },
+    "407": {
+      "thai": "วาด",
+      "english": "draw"
+    },
+    "408": {
+      "thai": "ว่าย",
+      "english": "swim"
+    },
+    "409": {
+      "thai": "วิธี",
+      "english": "method; way"
+    },
+    "410": {
+      "thai": "วิธีการ",
+      "english": "procedure; method"
+    },
+    "411": {
+      "thai": "เวลา",
+      "english": "time; when"
+    },
+    "412": {
+      "thai": "แว่นตา",
+      "english": "glasses; eyeglasses"
+    },
+    "413": {
+      "thai": "แวะ",
+      "english": "stop by; drop in"
+    },
+    "414": {
+      "thai": "ส่ง",
+      "english": "send"
+    },
+    "415": {
+      "thai": "สนใจ",
+      "english": "be interested in"
+    },
+    "416": {
+      "thai": "สนุก",
+      "english": "fun; enjoyable"
+    },
+    "417": {
+      "thai": "สบาย ดี",
+      "english": "fine; well; comfortable"
+    },
+    "418": {
+      "thai": "สมัคร",
+      "english": "apply; register"
+    },
+    "419": {
+      "thai": "สมัคร",
+      "english": "apply"
+    },
+    "420": {
+      "thai": "สมาชิก",
+      "english": "member"
+    },
+    "421": {
+      "thai": "สมุด",
+      "english": "notebook"
+    },
+    "422": {
+      "thai": "สวย",
+      "english": "beautiful"
+    },
+    "423": {
+      "thai": "สว่าง",
+      "english": "bright; light"
+    },
+    "424": {
+      "thai": "สว่าง",
+      "english": "bright; illuminated"
+    },
+    "425": {
+      "thai": "สอน",
+      "english": "teach"
+    },
+    "426": {
+      "thai": "สอบ",
+      "english": "take an exam; examination"
+    },
+    "427": {
+      "thai": "ส้อม",
+      "english": "fork"
+    },
+    "428": {
+      "thai": "สะดวก",
+      "english": "convenient"
+    },
+    "429": {
+      "thai": "สะพาน",
+      "english": "bridge"
+    },
+    "430": {
+      "thai": "สะอาด",
+      "english": "clean"
+    },
+    "431": {
+      "thai": "สักครู่",
+      "english": "a moment; briefly"
+    },
+    "432": {
+      "thai": "สั่ง",
+      "english": "order; command"
+    },
+    "433": {
+      "thai": "สังคม",
+      "english": "society"
+    },
+    "434": {
+      "thai": "สัมภาษณ์",
+      "english": "interview"
+    },
+    "435": {
+      "thai": "สาด",
+      "english": "splash; pour"
+    },
+    "436": {
+      "thai": "สาม",
+      "english": "three"
+    },
+    "437": {
+      "thai": "สำคัญ",
+      "english": "important"
+    },
+    "438": {
+      "thai": "สำหรับ",
+      "english": "for; regarding"
+    },
+    "439": {
+      "thai": "สิ่งแวดล้อม",
+      "english": "environment"
+    },
+    "440": {
+      "thai": "สี",
+      "english": "color"
+    },
+    "441": {
+      "thai": "สี่แยก",
+      "english": "intersection"
+    },
+    "442": {
+      "thai": "สุขภาพ",
+      "english": "health"
+    },
+    "443": {
+      "thai": "เสร็จ",
+      "english": "finished; completed"
+    },
+    "444": {
+      "thai": "เสีย",
+      "english": "broken; damaged; lose"
+    },
+    "445": {
+      "thai": "เสียง",
+      "english": "sound; voice"
+    },
+    "446": {
+      "thai": "เสียใจ",
+      "english": "sad; sorry"
+    },
+    "447": {
+      "thai": "เสื้อ",
+      "english": "shirt; clothes"
+    },
+    "448": {
+      "thai": "ใส่",
+      "english": "wear; put on"
+    },
+    "449": {
+      "thai": "หน่อย",
+      "english": "a little; please"
+    },
+    "450": {
+      "thai": "หนัก",
+      "english": "heavy; severe"
+    },
+    "451": {
+      "thai": "หนัง",
+      "english": "movie; film"
+    },
+    "452": {
+      "thai": "หนังสือ",
+      "english": "book"
+    },
+    "453": {
+      "thai": "หน้าต่าง",
+      "english": "window"
+    },
+    "454": {
+      "thai": "หนาว",
+      "english": "cold (weather)"
+    },
+    "455": {
+      "thai": "หนึ่ง",
+      "english": "one"
+    },
+    "456": {
+      "thai": "หมวก",
+      "english": "hat"
+    },
+    "457": {
+      "thai": "หมอ",
+      "english": "doctor"
+    },
+    "458": {
+      "thai": "หมา",
+      "english": "dog"
+    },
+    "459": {
+      "thai": "หมู",
+      "english": "pork; pig"
+    },
+    "460": {
+      "thai": "หยิบ",
+      "english": "pick up"
+    },
+    "461": {
+      "thai": "หรือ ยัง",
+      "english": "already?; yet?"
+    },
+    "462": {
+      "thai": "หรือเปล่า",
+      "english": "or not?; question particle"
+    },
+    "463": {
+      "thai": "หรือยัง",
+      "english": "yet?; already?"
+    },
+    "464": {
+      "thai": "หรือยัง",
+      "english": "have you ... yet?"
+    },
+    "465": {
+      "thai": "หลังจาก",
+      "english": "after"
+    },
+    "466": {
+      "thai": "หลาย",
+      "english": "many; several"
+    },
+    "467": {
+      "thai": "หวาน",
+      "english": "sweet"
+    },
+    "468": {
+      "thai": "ห้อง",
+      "english": "room"
+    },
+    "469": {
+      "thai": "ห้องครัว",
+      "english": "kitchen"
+    },
+    "470": {
+      "thai": "ห้องน้ำ",
+      "english": "bathroom; toilet"
+    },
+    "471": {
+      "thai": "ห้องเรียน",
+      "english": "classroom"
+    },
+    "472": {
+      "thai": "ห้าม",
+      "english": "do not; prohibited"
+    },
+    "473": {
+      "thai": "หิว",
+      "english": "hungry"
+    },
+    "474": {
+      "thai": "หู",
+      "english": "ear"
+    },
+    "475": {
+      "thai": "เหตุผล",
+      "english": "reason"
+    },
+    "476": {
+      "thai": "เห็น",
+      "english": "see"
+    },
+    "477": {
+      "thai": "เหมือน",
+      "english": "similar; like"
+    },
+    "478": {
+      "thai": "ให้",
+      "english": "give; let"
+    },
+    "479": {
+      "thai": "ให้〜หน่อยค่ะ",
+      "english": "please ... for me"
+    },
+    "480": {
+      "thai": "ไหม",
+      "english": "question particle"
+    },
+    "481": {
+      "thai": "อธิบาย",
+      "english": "explain"
+    },
+    "482": {
+      "thai": "อนาคต",
+      "english": "future"
+    },
+    "483": {
+      "thai": "อนุญาต",
+      "english": "allow; permit"
+    },
+    "484": {
+      "thai": "อย่า",
+      "english": "don't; do not"
+    },
+    "485": {
+      "thai": "อยาก",
+      "english": "want to"
+    },
+    "486": {
+      "thai": "อย่างไร",
+      "english": "how?"
+    },
+    "487": {
+      "thai": "อย่างไรบ้าง",
+      "english": "how is it?; in what ways?"
+    },
+    "488": {
+      "thai": "อยู่",
+      "english": "live; be located"
+    },
+    "489": {
+      "thai": "อยู่",
+      "english": "be at; be in"
+    },
+    "490": {
+      "thai": "อยู่",
+      "english": "exist; be; stay"
+    },
+    "491": {
+      "thai": "อร่อย",
+      "english": "delicious"
+    },
+    "492": {
+      "thai": "อรุณสวัสดิ์",
+      "english": "good morning"
+    },
+    "493": {
+      "thai": "ออก",
+      "english": "go out; come out"
+    },
+    "494": {
+      "thai": "อะไร",
+      "english": "what?"
+    },
+    "495": {
+      "thai": "อันตราย",
+      "english": "dangerous; danger"
+    },
+    "496": {
+      "thai": "อากาศ",
+      "english": "weather; air"
+    },
+    "497": {
+      "thai": "อาจจะ",
+      "english": "might; perhaps"
+    },
+    "498": {
+      "thai": "อาจารย์",
+      "english": "teacher; lecturer"
+    },
+    "499": {
+      "thai": "อาชีพ",
+      "english": "occupation; profession"
+    },
+    "500": {
+      "thai": "อาทิตย์หน้า",
+      "english": "next week"
+    },
+    "501": {
+      "thai": "อ่าน",
+      "english": "read"
+    },
+    "502": {
+      "thai": "อาบน้ำ",
+      "english": "bathe; take a shower"
+    },
+    "503": {
+      "thai": "อาหาร",
+      "english": "food; meal"
+    },
+    "504": {
+      "thai": "อีก",
+      "english": "again; more"
+    },
+    "505": {
+      "thai": "อุบัติเหตุ",
+      "english": "accident"
+    },
+    "506": {
+      "thai": "เอกสาร",
+      "english": "document; paperwork"
+    },
+    "507": {
+      "thai": "เอง",
+      "english": "oneself; by oneself"
+    },
+    "508": {
+      "thai": "เอา",
+      "english": "take; want"
+    },
+    "509": {
+      "thai": "โอกาส",
+      "english": "opportunity; chance"
+    },
+    "510": {
+      "thai": "เชื่อ",
+      "english": "believe"
+    },
+    "511": {
+      "thai": "ล้ม",
+      "english": "fall over"
+    },
+    "512": {
+      "thai": "ผัก",
+      "english": "vegetable"
+    },
+    "513": {
+      "thai": "ขนมปัง",
+      "english": "bread"
+    }
+  }
+}
