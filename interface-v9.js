@@ -284,7 +284,7 @@
       '<section id="japaneseFeatureOverview" aria-label="アプリの紹介" hidden>' +
       '<h2>Thai Vocabulary Trainer · このアプリでできること</h2>' +
       '<p>日本人向けのタイ語学習アプリ。タイ文字の読み書き、AI支援ニュース教材、苦手単語の復習、学習履歴の記録に対応しています。</p>' +
-      '<p>🇬🇧 Englishに切り替えると、海外の採用担当者も各機能を英語で確認できます。</p>' +
+      '<p>🇬🇧 Englishに切り替えると、各機能を英語で確認できます。</p>' +
       '</section>';
     modeGrid.insertAdjacentElement("beforebegin", wrapper);
   }
