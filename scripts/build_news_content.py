@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 import time
+import unicodedata
+from decimal import Decimal, InvalidOperation
 
 from news_common import (
     CANDIDATES_FILE,
@@ -112,11 +115,48 @@ def passage_schema(note_count: int):
     }
 
 
-def validate_short_localization(result, token_count):
+def numeric_value(value):
+    """Read a standalone numeral without accepting units, words, or partial numbers."""
+    if not isinstance(value, str):
+        return None
+    normalized = unicodedata.normalize("NFKC", value.strip()).translate(
+        str.maketrans("๐๑๒๓๔๕๖๗๘๙", "0123456789")
+    )
+    if not re.fullmatch(r"[+-]?(?:[0-9]+|[0-9]{1,3}(?:,[0-9]{3})+)(?:\\.[0-9]+)?", normalized):
+        return None
+    try:
+        return Decimal(normalized.replace(",", ""))
+    except InvalidOperation:
+        return None
+
+
+def valid_numeric_token_meaning(token, meaning):
+    """Allow a numeral-only gloss only when it matches the original Thai token."""
+    original = numeric_value(token)
+    translated = numeric_value(meaning)
+    return original is not None and translated is not None and original == translated
+
+
+def validate_short_localization(result, token_count, tokens=None):
     problems = []
     meanings = result.get("token_meanings") or []
-    if len(meanings) != token_count or any(not looks_japanese(m) for m in meanings):
-        problems.append("token_meanings must give one contextual Japanese meaning per token")
+    if len(meanings) != token_count:
+        problems.append(
+            f"token_meanings count mismatch: expected {token_count} item(s), "
+            f"got {len(meanings)}"
+        )
+    for index in range(max(token_count, len(meanings))):
+        thai_token = tokens[index] if tokens is not None and index < len(tokens) else None
+        meaning = meanings[index] if index < len(meanings) else None
+        if looks_japanese(meaning):
+            continue
+        if thai_token is not None and valid_numeric_token_meaning(thai_token, meaning):
+            continue
+        problems.append(
+            f"token_meanings[{index}] invalid: "
+            f"Thai token={thai_token!r}, Japanese meaning={meaning!r}; "
+            "requires a contextual Japanese meaning or the matching numeral"
+        )
     if not looks_japanese(result.get("title_ja", "")):
         problems.append("title_ja is not Japanese")
     choices = result.get("choices") or []
@@ -215,6 +255,7 @@ SOURCE ARTICLE BODY:
 OUTPUT RULES:
 - title_ja: short natural Japanese news-style title.
 - token_meanings: one Japanese meaning for EVERY token, in EXACT token order, using this sentence context. Dictionary meanings are hints, not a substitute for contextual meaning.
+- For a standalone numeric token (for example 815 or 80), it is valid to use the exact matching numeric value as its meaning (815 or 80). Do not change its value or introduce units.
 - Do NOT generate pronunciations or katakana. Readings are taken verbatim from the user dictionary.
 - choices: four JAPANESE MEANING choices. They must not be pronunciation choices.
 - correct_index: index of the choice that accurately translates the fixed Thai sentence.
@@ -237,7 +278,7 @@ OUTPUT RULES:
             ),
             prompt=prompt,
         )
-        ok, problems = validate_short_localization(result, len(tokens))
+        ok, problems = validate_short_localization(result, len(tokens), tokens=tokens)
         if ok:
             return result
         retry_note = "Previous output problems:\n- " + "\n- ".join(problems)
