@@ -170,6 +170,71 @@ class PipelineTests(unittest.TestCase):
         result={'title_ja':'記事です','choices':['同じです']*4,'correct_index':0,'explanation':'説明です','grammar_note':'文法です','reading_tip':'読みます','choice_explanations':['説明です']*4}
         self.assertFalse(build.validate_short_localization(result,4)[0])
 
+    def test_matching_numeric_token_meanings(self):
+        # Standalone numerals can be returned without Japanese glyphs.
+        source_tokens = ['แม่สาย', 'จ่ายน้ำประปา ', 'ได้ประมาณ', 'ร้อยละ ', '80']
+        base = {
+            'title_ja': '水道供給の状況',
+            'choices': ['水道供給が再開した', '供給が止まった', '工事を開始した', '状況を調査した'],
+            'correct_index': 0,
+            'explanation': '給水状況を述べています',
+            'grammar_note': '割合を示しています',
+            'reading_tip': '語句を区切って読みます',
+            'choice_explanations': ['正しいです', '間違いです', '合いません', '違います'],
+            'token_meanings': ['地域', '水道水を供給', 'およそ', '百分率', '80'],
+        }
+        ok, errors = build.validate_short_localization(base, len(source_tokens), tokens=source_tokens)
+        self.assertTrue(ok, errors)
+        for original, meaning in [
+            ('815 ', '815'), ('1,000', '1000'), ('๘๐', '８０'),
+            ('80', '80'), ('1.5', '1.50'),
+        ]:
+            self.assertTrue(build.valid_numeric_token_meaning(original, meaning), (original, meaning))
+
+        for original, meaning in [
+            ('80', '81'), ('80', '80%'), ('80', 'eighty'),
+            ('บาท', '80'), ('815', ''), ('815', '815 บาท'),
+        ]:
+            self.assertFalse(build.valid_numeric_token_meaning(original, meaning), (original, meaning))
+
+        invalid = {**base, 'token_meanings': [*base['token_meanings'][:-1], '81']}
+        ok, errors = build.validate_short_localization(invalid, len(source_tokens), tokens=source_tokens)
+        self.assertFalse(ok)
+        self.assertIn('token_meanings[4]', '\\n'.join(errors))
+        self.assertIn("Thai token='80'", '\\n'.join(errors))
+        self.assertIn("Japanese meaning='81'", '\\n'.join(errors))
+
+        short = {**base, 'token_meanings': base['token_meanings'][:-1]}
+        ok, errors = build.validate_short_localization(short, len(source_tokens), tokens=source_tokens)
+        self.assertFalse(ok)
+        self.assertIn('expected 5 item(s), got 4', '\\n'.join(errors))
+        self.assertIn('token_meanings[4]', '\\n'.join(errors))
+        self.assertIn('Japanese meaning=None', '\\n'.join(errors))
+
+        # Numeric glosses must never bypass the Japanese requirement for non-numeric words.
+        invalid = {**base, 'token_meanings': ['80', *base['token_meanings'][1:]]}
+        ok, errors = build.validate_short_localization(invalid, len(source_tokens), tokens=source_tokens)
+        self.assertFalse(ok)
+        self.assertIn("Thai token='แม่สาย'", '\\n'.join(errors))
+
+    def test_short_localization_passes_thai_tokens_to_validator(self):
+        tokens = ['พบ', '80']
+        localized = {
+            'title_ja': '記事の見出し',
+            'choices': ['見つかった', '見つからない', '発表した', '探している'],
+            'correct_index': 0,
+            'explanation': '発見を説明します',
+            'grammar_note': '語順の説明です',
+            'reading_tip': '語を区切って読みます',
+            'choice_explanations': ['正解です', '違います', '誤りです', '不適切です'],
+            'token_meanings': ['発見する', '80'],
+        }
+        candidate = {'id':'sn-test', 'thai':'พบ 80', 'thai_tokens':tokens, 'source_fact_th':'事実'}
+        article = {'source_title':'見出し', 'body':'本文'}
+        with patch.object(build, 'structured_response', return_value=localized) as generate:
+            self.assertEqual(build.localize_short(None, candidate, article, {}), localized)
+            self.assertEqual(generate.call_count, 1)
+
     def test_generation_stage_smoke(self):
         # Exercises production main/enrichment and the all-Level-3 news curriculum offline.
         calls = []
