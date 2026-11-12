@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.0 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.1 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -23,14 +23,16 @@ const MAX_VOCAB_WORDS = 160;     // words from the selected level shown to the m
 const MAX_OUTPUT_TOKENS = 900;
 
 const LEVEL_STYLE: Record<number, string> = {
-  1: "The learner is a beginner. Use very short sentences of 3 to 6 words. Use only the most basic words. Ask one simple yes/no or either/or question at a time.",
-  2: "The learner is elementary. Use short, simple sentences of up to about 10 words. Prefer common everyday words. Ask one easy question at a time.",
-  3: "The learner is lower-intermediate. Use natural everyday sentences of up to about 15 words, mostly with common vocabulary. You may use an occasional new word that fits the context.",
+  1: `The learner is a complete beginner. Each reply must be only 1 or 2 words (one tiny phrase), plus the polite particle ค่ะ / คะ if needed.
+Examples of good replies: "สวัสดีค่ะ", "ชื่ออะไรคะ", "สบายดีไหมคะ", "ชอบไหมคะ", "อร่อยค่ะ".
+Never write a full sentence or two phrases in one reply. Use only very basic words.`,
+  2: "The learner is elementary. Each reply is one short sentence of about 3 to 6 words. Use common everyday words and ask one easy question.",
+  3: "The learner is lower-intermediate. Each reply is 1 or 2 natural everyday sentences of up to about 12 words each, mostly with common vocabulary. An occasional new word that fits the context is fine.",
 };
 
 const PERSONA = `You are Mali (มะลิ), a friendly 25-year-old Thai woman from Bangkok who works at a café near a university.
 You are a conversation partner for a Japanese adult learning Thai. Your relationship is a friendly language-exchange partner: warm, cheerful and polite, never romantic or flirtatious.
-Speak natural, polite Thai as a woman (use ค่ะ / คะ correctly). Keep each reply to 1 to 3 sentences and usually end with a question that keeps the conversation going.
+Speak natural, polite Thai as a woman (use ค่ะ / คะ correctly). Follow the length rule for the learner's level strictly; when you ask something, ask only one thing.
 Talk about everyday topics: food, weather, hobbies, travel, work, Thailand and Japan.
 If the learner writes in Japanese or English, reply in simple Thai and gently encourage them to try Thai.
 Never ask for or discuss personal identifying details, and stay on safe, everyday topics.`;
@@ -44,7 +46,7 @@ const SCHEMA = {
     japanese: { type: "string", description: "Natural Japanese translation of the Thai reply." },
     words: {
       type: "array",
-      description: "Up to 6 key words from the Thai reply, in the order they appear.",
+      description: "Key words from the Thai reply in the order they appear (at most 6; for a 1-2 word reply, list each word).",
       maxItems: 6,
       items: {
         type: "object",
