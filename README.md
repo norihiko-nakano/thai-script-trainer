@@ -23,6 +23,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 - 「読む」：単語・文章セット・ニュース短文の意味を選ぶ。
 - 「書く」：日本語を見てタイ語を入力する。
 - 「話す」：お手本音声と発話練習。音声認識の対応状況はブラウザによります。
+- 「会話」💬🌺：タイ人の女の子マリとタイ語でチャット。レベル1〜3を選ぶと、そのレベルまでの単語を中心に話し方を合わせます。日本語訳・読み上げ・マイク入力つき。単語をタップすると復習帳へ入ります（読みは辞書にある語だけ表示）。
 - 復習帳・復習ドリル：「分かった」で復習帳から削除し、「分からん」で残す。
 - 学習履歴・覚え方メモ：ブラウザのlocalStorageに保存。
 - 日本語 / English：画面の言語を切り替え。学習用の日本語訳そのものは英訳しません。
@@ -34,6 +35,8 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 |---|---|
 | `index.html` | メイン画面と学習処理 |
 | `interface-v9.js` / `speaking-v8.js` | 英語UI・発話練習 |
+| `chat-v10.js` | 会話画面（マリとのチャット） |
+| `supabase/functions/thai-chat/` | 会話用のSupabase Edge Function。OpenAIのキーはSupabaseのSecretsだけに置く |
 | `supabase-config.js` | 公開用の辞書接続設定 |
 | `questions.json` / `news_content.json` | アプリが読み込む単語・ニュース教材 |
 | `scripts/` | ニュース更新、復習練習、ODS変換のPython |
@@ -43,6 +46,14 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 | `sql/` | DBの読取権限やLevel割当の設定資料 |
 | `docs/` | 語彙確認資料・過去版の説明・全コミット索引 |
 | `.github/workflows/` | ニュースの自動更新設定 |
+
+## 会話機能の設定（Supabase）
+
+1. Supabase の Edge Functions → Secrets に `OPENAI_API_KEY`（会話用キー）と `TVT_CHAT_PASSCODE`（自分で決める合言葉）を登録する。任意で `OPENAI_CHAT_MODEL`（既定 `gpt-5.4-mini`）。
+2. Edge Functions に `thai-chat` という名前で `supabase/functions/thai-chat/index.ts` をデプロイし、JWTの確認（Verify JWT）をオフにする。
+3. アプリの「会話」で合言葉を1回入力する（このブラウザのlocalStorageにだけ保存）。
+
+ブラウザにはOpenAIのキーを置きません。Supabaseの無料プランが一時停止中のときは会話できないので、ダッシュボードで再開してください。
 
 ## ニュース更新の流れ
 
