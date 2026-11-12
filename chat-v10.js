@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.0: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.1: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -51,8 +51,11 @@
     .chat-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
     .chat-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
     .chat-word{font:inherit;font-size:.9rem;padding:5px 9px;border-radius:999px;border:1px solid var(--border);background:#fff;cursor:pointer}
-    .chat-word.added{background:var(--success-bg);color:var(--success);border-color:transparent;cursor:default}
-    .chat-word small{color:#8a7a6a;margin-left:4px}
+    .chat-word.open{background:#fffaf3;border-color:#c98d5c}
+    .chat-word small{color:#8a7a6a;margin-left:6px}
+    .chat-word-wrap{display:inline-flex;gap:4px;align-items:center}
+    .chat-word-add{font:inherit;font-size:.8rem;padding:4px 8px;border-radius:999px;border:1px dashed #c98d5c;background:#fff;cursor:pointer}
+    .chat-word-add.added{background:var(--success-bg);color:var(--success);border:1px solid transparent;cursor:default}
     .chat-input-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end}
     .chat-input-row textarea{resize:vertical;min-height:52px;font-family:Tahoma,sans-serif;font-size:1.1rem}
     .chat-status{min-height:1.4em;padding:0 4px;font-size:.95rem}
@@ -102,7 +105,7 @@
         <div class="chat-profile">
           <div class="chat-avatar" aria-hidden="true">👩🏻🌺</div>
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
-          <span class="muted">単語をタップすると復習帳に入ります🍣</span></div>
+          <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣</span></div>
         </div>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
         <div id="chatStatus" class="chat-status" role="status"></div>
@@ -158,6 +161,30 @@
     el.classList.toggle("error", Boolean(isError));
   }
 
+  // Female Thai voices seen on Windows/Edge, Chrome, macOS and iOS; male ones are avoided.
+  const FEMALE_VOICE_HINTS = ["premwadee", "achara", "kanya", "narisa", "google", "female", "woman"];
+  const MALE_VOICE_HINTS = ["pattara", "niwat", "male", "man"];
+
+  function thaiVoices() {
+    if (!window.speechSynthesis) return [];
+    return speechSynthesis.getVoices().filter(v => /^th(-|_|$)/i.test(v.lang || ""));
+  }
+  function pickFemaleVoice() {
+    const voices = thaiVoices();
+    const name = v => (v.name || "").toLowerCase();
+    const isMale = v => MALE_VOICE_HINTS.some(h => new RegExp(`(^|[^a-z])${h}([^a-z]|$)`).test(name(v)));
+    for (const hint of FEMALE_VOICE_HINTS) {
+      const found = voices.find(v => name(v).includes(hint) && !isMale(v));
+      if (found) return found;
+    }
+    return voices.find(v => !isMale(v)) || null;
+  }
+  if (window.speechSynthesis) {
+    // Voices load asynchronously in Chrome/Edge.
+    speechSynthesis.getVoices();
+    speechSynthesis.addEventListener?.("voiceschanged", () => { chat.voice = pickFemaleVoice(); });
+  }
+
   function speakThai(text) {
     if (!window.speechSynthesis || !text) {
       status("このブラウザはタイ語の読み上げに対応していません。", true);
@@ -166,6 +193,18 @@
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "th-TH";
+    const voice = chat.voice || pickFemaleVoice();
+    if (voice) {
+      u.voice = voice;
+      u.pitch = 1.1;
+    } else {
+      // Only a male Thai voice (or none) is installed: raise the pitch as a fallback.
+      u.pitch = 1.5;
+      if (thaiVoices().length && !chat.voiceNoticeShown) {
+        chat.voiceNoticeShown = true;
+        status("この端末には女性のタイ語音声が入っていないため、声を高めにしています🐙");
+      }
+    }
     u.rate = chat.level === 1 ? 0.75 : chat.level === 2 ? 0.85 : 0.95;
     speechSynthesis.speak(u);
   }
@@ -206,29 +245,51 @@
 
   function wordChip(word) {
     const entry = dictionaryEntry(word.thai);
+    const wrap = document.createElement("span");
+    wrap.className = "chat-word-wrap";
+
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "chat-word";
-    chip.textContent = `${word.thai} = ${word.japanese}`;
+    chip.lang = "th";
+    chip.textContent = word.thai;
+    chip.title = "タップで意味を表示";
+
+    const meaning = document.createElement("span");
+    meaning.className = "chat-word-meaning hidden";
+    meaning.textContent = ` = ${word.japanese}`;
     if (entry?.reading) {
       const small = document.createElement("small");
       small.textContent = entry.reading;
-      chip.append(small);
+      meaning.append(small);
     }
+
+    const add = document.createElement("button");
+    add.type = "button";
+    add.className = "chat-word-add hidden";
+    add.textContent = "🍣＋復習帳";
     const markAdded = () => {
-      chip.classList.add("added");
-      chip.disabled = true;
-      chip.title = "復習帳に入っています";
-      chip.prepend("✓ ");
+      add.textContent = "✓ 復習帳";
+      add.disabled = true;
+      add.classList.add("added");
     };
     if (isInReviewBook(entry, word.thai)) markAdded();
+
     chip.addEventListener("click", () => {
+      const open = meaning.classList.toggle("hidden") === false;
+      add.classList.toggle("hidden", !open);
+      chip.classList.toggle("open", open);
+    });
+    add.addEventListener("click", () => {
       if (addWordToReviewBook(word)) {
         markAdded();
         status(`「${word.thai}」を復習帳に入れました🍣`);
       }
     });
-    return chip;
+
+    chip.append(meaning);
+    wrap.append(chip, add);
+    return wrap;
   }
 
   function renderMessage(message) {
