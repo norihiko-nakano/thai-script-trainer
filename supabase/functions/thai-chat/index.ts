@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.1 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.2 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -6,10 +6,22 @@
 //   OPENAI_API_KEY      required. OpenAI API key used only by this function.
 //   TVT_CHAT_PASSCODE   required. Any phrase you choose; the app asks for it once per browser.
 //   OPENAI_CHAT_MODEL   optional. Defaults to gpt-5.4-mini.
+//   OPENAI_TTS_VOICE    optional. Voice for Mali's speech. Defaults to coral.
 //
 // Deploy with "Verify JWT" turned OFF: the app sends the passcode instead of a login token.
 
 const MODEL = Deno.env.get("OPENAI_CHAT_MODEL") ?? "gpt-5.4-mini";
+const TTS_MODEL = "gpt-4o-mini-tts";
+const TTS_VOICE = Deno.env.get("OPENAI_TTS_VOICE") ?? "coral";
+const MAX_TTS_CHARS = 300;
+const TTS_PACE: Record<number, string> = {
+  1: "Speak slowly, with a short pause between words, so a beginner can catch every sound.",
+  2: "Speak a little slower than normal and very clearly.",
+  3: "Speak at a relaxed, natural pace.",
+};
+const TTS_STYLE = `Voice: an original, cute, high-pitched young woman's voice in a bright anime-heroine style, cheerful and friendly.
+Language: Thai. Pronounce every Thai tone and vowel length accurately, like a native speaker from Bangkok.
+Tone: warm, smiling and encouraging, like talking to a friend who is learning Thai.`;
 const ALLOWED_ORIGINS = [
   "https://norihiko-nakano.github.io",
   "http://localhost:8000",
@@ -136,6 +148,37 @@ Deno.serve(async (req) => {
   }
 
   const level = [1, 2, 3].includes(Number(body?.level)) ? Number(body.level) : 1;
+
+  // Text-to-speech: returns MP3 audio of Mali reading the given Thai text.
+  if (body?.action === "speak") {
+    const text = typeof body?.text === "string" ? body.text.trim().slice(0, MAX_TTS_CHARS) : "";
+    if (!text) return json({ error: "bad_request" }, 400, origin);
+    let speech: Response;
+    try {
+      speech = await fetch("https://api.openai.com/v1/audio/speech", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: TTS_MODEL,
+          voice: TTS_VOICE,
+          input: text,
+          instructions: `${TTS_STYLE}\nPace: ${TTS_PACE[level]}`,
+          response_format: "mp3",
+        }),
+      });
+    } catch {
+      return json({ error: "openai_unreachable" }, 502, origin);
+    }
+    if (!speech.ok) {
+      console.error("OpenAI TTS error", speech.status, await speech.text().catch(() => ""));
+      return json({ error: "openai_error", status: speech.status }, 502, origin);
+    }
+    return new Response(speech.body, {
+      status: 200,
+      headers: { ...corsHeaders(origin), "Content-Type": "audio/mpeg", "Cache-Control": "no-store" },
+    });
+  }
+
   const messages = cleanMessages(body?.messages);
   const vocab = cleanVocab(body?.vocab);
   if (messages.length === 0) messages.push({ role: "user", content: "(The learner just opened the chat. Greet them and start a conversation.)" });

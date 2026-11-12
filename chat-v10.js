@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.1: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.2: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -185,7 +185,7 @@
     speechSynthesis.addEventListener?.("voiceschanged", () => { chat.voice = pickFemaleVoice(); });
   }
 
-  function speakThai(text) {
+  function speakWithBrowser(text) {
     if (!window.speechSynthesis || !text) {
       status("このブラウザはタイ語の読み上げに対応していません。", true);
       return;
@@ -207,6 +207,63 @@
     }
     u.rate = chat.level === 1 ? 0.75 : chat.level === 2 ? 0.85 : 0.95;
     speechSynthesis.speak(u);
+  }
+
+  // Mali's own voice: OpenAI text-to-speech through the Edge Function.
+  // Audio is cached per text and level, so replaying a line costs nothing.
+  const audioCache = new Map();
+  let currentAudio = null;
+
+  function stopAudio() {
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+    if (window.speechSynthesis) speechSynthesis.cancel();
+  }
+
+  async function fetchMaliVoice(text) {
+    const key = `${chat.level}\u0000${text}`;
+    if (audioCache.has(key)) return audioCache.get(key);
+    const config = window.THAI_TRAINER_SUPABASE || {};
+    const response = await fetch(functionUrl(), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": config.publishableKey || "",
+        "x-tvt-passcode": passcode()
+      },
+      body: JSON.stringify({ action: "speak", level: chat.level, text }),
+      signal: AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined
+    });
+    if (!response.ok) throw new Error(`tts ${response.status}`);
+    const url = URL.createObjectURL(await response.blob());
+    audioCache.set(key, url);
+    return url;
+  }
+
+  async function speakThai(text, button) {
+    if (!text) return;
+    stopAudio();
+    const label = button?.textContent;
+    if (button) {
+      button.disabled = true;
+      button.textContent = "🎀 準備中…";
+    }
+    try {
+      const audio = new Audio(await fetchMaliVoice(text));
+      currentAudio = audio;
+      await audio.play();
+    } catch (error) {
+      console.warn("マリの声を再生できませんでした。ブラウザの声に切り替えます。", error);
+      status("マリの声を取得できなかったので、ブラウザの声で読みます🐙");
+      speakWithBrowser(text);
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = label;
+      }
+    }
   }
 
   function isInReviewBook(entry, thai) {
@@ -319,7 +376,7 @@
     listen.type = "button";
     listen.className = "small-button";
     listen.textContent = "🔊 聞く";
-    listen.addEventListener("click", () => speakThai(message.content));
+    listen.addEventListener("click", () => speakThai(message.content, listen));
     const translate = document.createElement("button");
     translate.type = "button";
     translate.className = "small-button";
@@ -507,7 +564,7 @@
     q("chatScreen").classList.toggle("hidden", name !== "chat");
     if (name !== "chat") {
       if (chat.recognition) chat.recognition.stop();
-      if (window.speechSynthesis) speechSynthesis.cancel();
+      stopAudio();
     }
   };
   modeDisplayLabel = mode => (mode === "chat" ? "会話💬🌺" : oldLabel(mode));
