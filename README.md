@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver10.4
+# Thai Vocabulary Trainer Ver10.5
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.4](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.5](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -54,6 +54,16 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 3. アプリの「会話」で合言葉を1回入力する（このブラウザのlocalStorageにだけ保存）。
 
 ブラウザにはOpenAIのキーを置きません。Supabaseの無料プランが一時停止中のときは会話できないので、ダッシュボードで再開してください。
+
+## マリの行動パターン（シナリオファイル）
+
+`data/mali_scenarios.json` を書き換えると、コードを触らずにマリを変えられます。
+
+- `profile`：マリの設定（年齢・仕事・好きなもの）。会話で矛盾しないようにAIへ渡す
+- `mood_rules`：表情（normal / happy / surprised）の選び方
+- `scenarios`：会話の流れ。`title` / `description` / `emoji` は画面の日本語、`situation` / `role` / `goal` / `steps` はAIへの指示（英語推奨）。`steps` は1回の返事で1つずつ進み、最後まで行くと「🎉 クリア」。`levels` に入っているレベルのときだけ選べる
+
+読み込めなかったときはフリートークで動きます。
 
 ## ニュース更新の流れ
 

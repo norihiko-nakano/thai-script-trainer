@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.4: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.5: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -140,9 +140,9 @@
   const q = id => document.getElementById(id);
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
-    normal: "images/mali-normal.webp?v=10.4",
-    happy: "images/mali-smile.webp?v=10.4",
-    surprised: "images/mali-surprise.webp?v=10.4"
+    normal: "images/mali-normal.webp?v=10.5",
+    happy: "images/mali-smile.webp?v=10.5",
+    surprised: "images/mali-surprise.webp?v=10.5"
   };
   const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
   const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
@@ -150,8 +150,45 @@
     level: 1,
     messages: [],   // {role:"user"|"assistant", content:string, japanese?, words?}
     sending: false,
-    recognition: null
+    recognition: null,
+    scenarios: null,     // loaded from data/mali_scenarios.json
+    scenarioId: "free"
   };
+
+  // ---------- Scenario file (Mali's behaviour) ----------
+  const SCENARIO_FILE = "data/mali_scenarios.json";
+  const SCENARIO_KEY = "thaiTrainerChatScenarioV10";
+  const FALLBACK_SCENARIOS = {
+    profile: [], mood_rules: [],
+    scenarios: [{ id: "free", emoji: "💬", title: "フリートーク", description: "決まった流れなし", levels: [1, 2, 3], situation: "A relaxed chat.", role: "", steps: [], goal: "" }]
+  };
+
+  async function loadScenarios() {
+    if (chat.scenarios) return chat.scenarios;
+    try {
+      const response = await fetch(`${SCENARIO_FILE}?v=10.5`, { cache: "no-cache" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      const list = Array.isArray(data.scenarios) ? data.scenarios.filter(sc => sc && sc.id && sc.title) : [];
+      if (!list.length) throw new Error("no scenarios");
+      chat.scenarios = { ...data, scenarios: list };
+    } catch (error) {
+      console.warn("シナリオファイルを読み込めませんでした。フリートークで続けます。", error);
+      chat.scenarios = FALLBACK_SCENARIOS;
+    }
+    return chat.scenarios;
+  }
+
+  function currentScenario() {
+    const list = chat.scenarios?.scenarios || FALLBACK_SCENARIOS.scenarios;
+    return list.find(sc => sc.id === chat.scenarioId) || list[0];
+  }
+  function scenarioAllows(sc, level) {
+    return !Array.isArray(sc?.levels) || sc.levels.map(Number).includes(level);
+  }
+  function scenarioSteps(sc) {
+    return Array.isArray(sc?.steps) ? sc.steps.filter(x => typeof x === "string" && x.trim()) : [];
+  }
 
   // ---------- Styles ----------
   const css = document.createElement("style");
@@ -180,6 +217,12 @@
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
+    .chat-scenario-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+    .chat-scenario{display:grid;gap:2px;text-align:left;font:inherit;padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:#fff;cursor:pointer}
+    .chat-scenario strong{font-size:1rem}
+    .chat-scenario span{font-size:.82rem;color:#7a6a5a}
+    .chat-scenario.selected{border:2px solid #ff8fab;background:#fff0f5}
+    .chat-scenario-label{display:inline-block;margin-top:2px;padding:2px 8px;border-radius:999px;background:#fff0f5;font-size:.85rem}
     .chat-voice{padding:10px 14px;border-radius:14px;background:#fff0f5;border:1px solid #f6c6d6}
     .chat-voice summary{cursor:pointer;font-weight:700}
     .chat-voice-row{display:flex;gap:10px;align-items:center;margin:8px 0}
@@ -221,7 +264,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.4" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.5" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -238,7 +281,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.4" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.5" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -247,6 +290,9 @@
           <span class="muted">このブラウザにだけ保存します。最初の1回だけでOKです。</span>
         </div>
         <p class="muted" style="margin:0">レベルを選ぶと、そのレベルまでの単語を中心に、マリが話し方を合わせてくれます🍆</p>
+        <p class="muted" style="margin:0"><strong>① シナリオ</strong>をえらぶ</p>
+        <div id="chatScenarioGrid" class="chat-scenario-grid"></div>
+        <p class="muted" style="margin:0"><strong>② レベル</strong>をえらぶと始まります</p>
         <div id="chatLevelGrid" class="chat-level-grid"></div>
         <details id="chatVoiceBox" class="chat-voice">
           <summary>🎀 マリの声の設定</summary>
@@ -260,8 +306,9 @@
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.4" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.5" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
+          <span id="chatScenarioLabel" class="chat-scenario-label"></span><br>
           <span class="muted">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
@@ -488,11 +535,34 @@
       const b = document.createElement("button");
       b.type = "button";
       b.className = "chat-level-button";
-      b.disabled = count === 0;
+      b.disabled = count === 0 || !scenarioAllows(currentScenario(), item.level);
       b.innerHTML = `<strong></strong><span class="muted"></span>`;
       b.querySelector("strong").textContent = `${item.title}（${count}語まで）`;
       b.querySelector("span").textContent = item.note;
       b.addEventListener("click", () => startChat(item.level));
+      box.append(b);
+    }
+  }
+
+  function renderScenarios() {
+    const box = q("chatScenarioGrid");
+    box.replaceChildren();
+    for (const sc of chat.scenarios?.scenarios || FALLBACK_SCENARIOS.scenarios) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chat-scenario" + (sc.id === chat.scenarioId ? " selected" : "");
+      const title = document.createElement("strong");
+      title.textContent = `${sc.emoji || "💬"} ${sc.title}`;
+      const note = document.createElement("span");
+      const levels = Array.isArray(sc.levels) ? `Lv${sc.levels.join("・")}` : "";
+      note.textContent = [sc.description, levels].filter(Boolean).join(" ／ ");
+      b.append(title, note);
+      b.addEventListener("click", () => {
+        chat.scenarioId = sc.id;
+        try { localStorage.setItem(SCENARIO_KEY, sc.id); } catch (_) { /* ignore */ }
+        renderScenarios();
+        renderLevels();
+      });
       box.append(b);
     }
   }
@@ -699,6 +769,11 @@
     q("chatForgetPasscode").classList.toggle("hidden", !hasPasscode);
     q("chatPasscode").value = "";
     renderLevels();
+    loadScenarios().then(() => {
+      if (!chat.scenarios.scenarios.some(sc => sc.id === chat.scenarioId)) chat.scenarioId = chat.scenarios.scenarios[0].id;
+      renderScenarios();
+      renderLevels();
+    });
   }
 
   function showRoom() {
@@ -706,7 +781,25 @@
     q("chatRoom").classList.remove("hidden");
     const item = LEVELS.find(l => l.level === chat.level);
     q("chatLevelLabel").textContent = item ? `／${item.title}` : "";
+    renderScenarioProgress();
     renderLog();
+  }
+
+  function maliTurns() {
+    return chat.messages.filter(m => m.role === "assistant").length;
+  }
+  function renderScenarioProgress() {
+    const sc = currentScenario();
+    const steps = scenarioSteps(sc);
+    const label = q("chatScenarioLabel");
+    if (!steps.length) {
+      label.textContent = `${sc.emoji || "💬"} ${sc.title}`;
+      return;
+    }
+    const done = Math.min(maliTurns(), steps.length);
+    label.textContent = done >= steps.length
+      ? `${sc.emoji || "💬"} ${sc.title}：🎉 クリア！`
+      : `${sc.emoji || "💬"} ${sc.title}：ステップ ${Math.max(done, 1)}/${steps.length}`;
   }
 
   // ---------- Talking to the Edge Function ----------
@@ -739,6 +832,13 @@
         body: JSON.stringify({
           level: chat.level,
           vocab: levelVocab(chat.level),
+          profile: chat.scenarios?.profile || [],
+          mood_rules: chat.scenarios?.mood_rules || [],
+          scenario: (() => {
+            const sc = currentScenario();
+            return { title: sc.title, situation: sc.situation, role: sc.role, goal: sc.goal, steps: scenarioSteps(sc) };
+          })(),
+          step: maliTurns(),
           messages: chat.messages.map(m => ({ role: m.role, content: m.content }))
         }),
         signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
@@ -762,6 +862,7 @@
       }
 
       const reply = data.reply;
+      const stepsTotal = scenarioSteps(currentScenario()).length;
       chat.messages.push({
         role: "assistant",
         content: String(reply.thai),
@@ -770,6 +871,8 @@
         words: Array.isArray(reply.words) ? reply.words.filter(w => w && w.thai) : [],
         choices: Array.isArray(reply.choices) ? reply.choices.filter(c => c && c.thai).slice(0, 3) : []
       });
+      renderScenarioProgress();
+      if (stepsTotal && maliTurns() === stepsTotal) status("🎉 シナリオクリア！ このまま話しても、「🌱 新しい会話」で別のシナリオに行ってもOKです。");
     } catch (error) {
       console.warn("会話の送信に失敗しました。", error);
       status("つながりませんでした🐙 Supabaseが一時停止中（無料プランの自動停止）かもしれません。ダッシュボードで起こしてから、もう一度送ってくだされ。", true);
@@ -788,6 +891,10 @@
       status("");
       q("chatPasscode").focus();
       window.alert("先に合言葉を入れてくだされ🔑");
+      return;
+    }
+    if (!scenarioAllows(currentScenario(), level)) {
+      status("このシナリオはこのレベルでは選べません。", true);
       return;
     }
     chat.level = level;
@@ -871,6 +978,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     try { chat.level = Number(localStorage.getItem(LEVEL_KEY)) || 1; } catch (_) { /* ignore */ }
+    try { chat.scenarioId = localStorage.getItem(SCENARIO_KEY) || "free"; } catch (_) { /* ignore */ }
     q("chatBack").addEventListener("click", () => {
       if (!q("chatRoom").classList.contains("hidden") && chat.messages.length) {
         if (!window.confirm("会話を終えてメニューに戻りますか？（会話の中身は保存されません）")) return;

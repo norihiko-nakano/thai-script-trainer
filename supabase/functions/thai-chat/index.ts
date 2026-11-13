@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.4 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.5 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -214,6 +214,21 @@ function replyOutsideWords(reply: any, allowed: Set<string>, maxLen: number): st
   return [...new Set(texts.filter((t) => typeof t === "string").flatMap((t) => outsideWords(t, allowed, maxLen)))];
 }
 
+// Short plain-text lines from the scenario file (data/mali_scenarios.json),
+// trimmed and capped so a request cannot grow the prompt without limit.
+function cleanLines(raw: unknown, maxItems: number, maxChars = 200): string[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((x) => typeof x === "string")
+    .map((x) => x.replace(/\s+/g, " ").trim().slice(0, maxChars))
+    .filter(Boolean)
+    .slice(0, maxItems);
+}
+
+function cleanText(raw: unknown, maxChars = 300): string {
+  return typeof raw === "string" ? raw.replace(/\s+/g, " ").trim().slice(0, maxChars) : "";
+}
+
 // The learner is a man: his ready-made answers must use the male polite particle.
 // Only a particle at the end of a phrase is changed, so words such as คะแนน stay intact.
 function toMaleSpeech(text: string): string {
@@ -289,16 +304,39 @@ Deno.serve(async (req) => {
   for (const word of outsideWords(learnerText, allowed, maxLen)) allowed.add(word);
   maxLen = Math.max(maxLen, ...[...allowed].map((w) => w.length));
 
+  // Mali's behaviour from the scenario file, sent by the app.
+  const profile = cleanLines(body?.profile, 8);
+  const moodRules = cleanLines(body?.mood_rules, 5);
+  const scenario = body?.scenario && typeof body.scenario === "object" ? body.scenario : null;
+  const steps = cleanLines(scenario?.steps, 10);
+  const step = Math.max(0, Math.floor(Number(body?.step) || 0));
+  const scenarioText = scenario
+    ? [
+      `Scenario: ${cleanText(scenario.title, 60)}. ${cleanText(scenario.situation)}`,
+      cleanText(scenario.role) ? `Your role: ${cleanText(scenario.role)}` : "",
+      cleanText(scenario.goal) ? `Learning goal: ${cleanText(scenario.goal)}` : "",
+      steps.length
+        ? `Follow these steps in order, ONE step per reply:\n${steps.map((t, i) => `${i + 1}. ${t}`).join("\n")}\n` +
+          (step < steps.length
+            ? `Now do step ${step + 1}: ${steps[step]} (first react briefly to what the learner said, if anything).`
+            : "All steps are done: thank the learner, praise their Thai, and close the conversation kindly. If they keep talking, chat freely.")
+        : "",
+    ].filter(Boolean).join("\n")
+    : "";
+
   const baseInstructions = [
     PERSONA,
+    profile.length ? `About Mali (stay consistent with these facts):\n- ${profile.join("\n- ")}` : "",
     LEVEL_STYLE[level],
+    scenarioText,
+    moodRules.length ? `How to choose mood:\n- ${moodRules.join("\n- ")}` : "",
     `Word rule (very important): in your reply AND in the 3 choices, use ONLY these words, combined freely. Do not use any other Thai word, even a common one. If you cannot say something with these words, say something simpler.
 Allowed words: ${[...vocab, ...BASIC_WORDS].join(", ")}`,
     "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
-    `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn, for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today. React to what the learner said, then ask one new thing.`,
+    `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn (follow the scenario steps if there are any; otherwise for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today). React to what the learner said, then ask one new thing.`,
     `The learner is a Japanese MAN. Every choice is something HE says, so a choice ends with ครับ (never ค่ะ or คะ) and uses ผม for "I" (never ฉัน or ดิฉัน). The 3 choices must not copy your own line word for word.`,
     "Return JSON that matches the schema. The japanese field translates your Thai reply. The choices are 3 ready-made answers the learner can tap.",
-  ].join("\n\n");
+  ].filter(Boolean).join("\n\n");
 
   async function ask(extra: string): Promise<{ reply?: any; error?: Response }> {
     let openai: Response;
