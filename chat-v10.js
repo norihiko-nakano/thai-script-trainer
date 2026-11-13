@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.0: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.1: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -41,7 +41,13 @@
     .chat-passcode input,.chat-input-row textarea{font:inherit;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff}
     .chat-card{display:grid;gap:12px}
     .chat-profile{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#fffaf3;border:1px solid var(--border)}
-    .chat-avatar{font-size:2.2rem;line-height:1}
+    .chat-avatar{width:72px;height:72px;flex:none;border-radius:50%;box-shadow:0 4px 12px rgba(255,143,171,.35)}
+    .chat-row{display:flex;gap:8px;align-items:flex-end;justify-self:start;max-width:94%}
+    .chat-row .chat-bubble{max-width:100%}
+    .chat-mini{width:40px;height:40px;flex:none;border-radius:50%;box-shadow:0 2px 6px rgba(255,143,171,.35)}
+    .chat-typing .chat-mini,.chat-room-talking .chat-avatar{animation:chat-bob 1s ease-in-out infinite}
+    @keyframes chat-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    @media (prefers-reduced-motion:reduce){.chat-typing .chat-mini,.chat-room-talking .chat-avatar{animation:none}}
     .chat-log{display:grid;gap:12px;max-height:56vh;overflow-y:auto;padding:6px 2px}
     .chat-bubble{max-width:88%;padding:12px 14px;border-radius:18px;line-height:1.6;word-break:break-word}
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
@@ -68,7 +74,7 @@
     .chat-choice .chat-choice-thai{font:700 1.2rem/1.5 Tahoma,sans-serif}
     .chat-choice .chat-choice-ja{font-size:.9rem;color:#6f5f50}
     #chatTypeToggle{justify-self:start}
-    .chat-typing{justify-self:start;color:#8a7a6a;font-size:.95rem}
+    .chat-typing{justify-self:start;align-items:center;color:#8a7a6a;font-size:.95rem}
     @media (max-width:560px){.chat-input-row{grid-template-columns:1fr 1fr}.chat-input-row textarea{grid-column:1/-1}}
   `;
   document.head.append(css);
@@ -79,7 +85,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true">💬🌺</span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="mali.svg?v=10.1" alt="" style="width:2.6em;height:2.6em;border-radius:50%;vertical-align:middle"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -96,7 +102,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <div class="chat-avatar" aria-hidden="true">👩🏻🌺</div>
+          <img class="chat-avatar" src="mali.svg?v=10.1" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -111,7 +117,7 @@
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <div class="chat-avatar" aria-hidden="true">👩🏻🌺</div>
+          <img class="chat-avatar" src="mali.svg?v=10.1" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
           <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
@@ -383,6 +389,9 @@
     }
 
     bubble.className = "chat-bubble mali";
+    const row = document.createElement("div");
+    row.className = "chat-row";
+    row.append(miniAvatar(), bubble);
     const thai = document.createElement("div");
     thai.className = "chat-thai";
     thai.lang = "th";
@@ -414,7 +423,16 @@
       message.words.forEach(word => words.append(wordChip(word)));
       bubble.append(words);
     }
-    return bubble;
+    return row;
+  }
+
+  function miniAvatar() {
+    const img = document.createElement("img");
+    img.className = "chat-mini";
+    img.src = "mali.svg?v=10.1";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    return img;
   }
 
   function renderLog() {
@@ -422,8 +440,10 @@
     log.replaceChildren(...chat.messages.map(renderMessage));
     if (chat.sending) {
       const typing = document.createElement("div");
-      typing.className = "chat-typing";
-      typing.textContent = "マリが入力中… ✍️";
+      typing.className = "chat-typing chat-row";
+      const dots = document.createElement("span");
+      dots.textContent = "マリが入力中… ✍️";
+      typing.append(miniAvatar(), dots);
       log.append(typing);
     }
     log.scrollTop = log.scrollHeight;
