@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.0 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.1 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -52,10 +52,15 @@ Never ask for or discuss personal identifying details, and stay on safe, everyda
 const SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["thai", "japanese", "words", "choices"],
+  required: ["thai", "japanese", "mood", "words", "choices"],
   properties: {
     thai: { type: "string", description: "Mali's reply in Thai script only." },
     japanese: { type: "string", description: "Natural Japanese translation of the Thai reply." },
+    mood: {
+      type: "string",
+      enum: ["normal", "happy", "surprised"],
+      description: "Mali's feeling in this reply: happy when laughing, delighted or praising; surprised when something is unexpected or impressive; otherwise normal.",
+    },
     choices: {
       type: "array",
       description: "Exactly 3 different replies the learner could send back to Mali, written from the learner's point of view (a Japanese man, so polite particle ครับ). Each must be a natural, correct answer that fits Mali's reply, follows the same length rule for the learner's level, and differs in meaning (for example yes / no / something else).",

@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver10.0
+# Thai Vocabulary Trainer Ver10.1
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.0](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.1](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -35,7 +35,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 |---|---|
 | `index.html` | メイン画面と学習処理 |
 | `interface-v9.js` / `speaking-v8.js` | 英語UI・発話練習 |
-| `chat-v10.js` | 会話画面（マリとのチャット） |
+| `chat-v10.js` / `images/mali-*.webp` | 会話画面（マリとのチャット）とマリの表情イラスト（通常・笑顔・驚き） |
 | `supabase/functions/thai-chat/` | 会話用のSupabase Edge Function。OpenAIのキーはSupabaseのSecretsだけに置く |
 | `supabase-config.js` | 公開用の辞書接続設定 |
 | `questions.json` / `news_content.json` | アプリが読み込む単語・ニュース教材 |
