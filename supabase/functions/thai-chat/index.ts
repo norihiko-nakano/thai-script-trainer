@@ -212,6 +212,18 @@ function replyOutsideWords(reply: any, allowed: Set<string>, maxLen: number): st
   return [...new Set(texts.filter((t) => typeof t === "string").flatMap((t) => outsideWords(t, allowed, maxLen)))];
 }
 
+// The learner is a man: his ready-made answers must use the male polite particle.
+// Only a particle at the end of a phrase is changed, so words such as คะแนน stay intact.
+function toMaleSpeech(text: string): string {
+  return text
+    .replace(/(ค่ะ|คะ|ค๊ะ)(?=$|[\s!?.,…~]|ๆ)/g, "ครับ")
+    .replace(/^(ดิฉัน|ฉัน)/, "ผม");
+}
+
+function normaliseThai(text: unknown): string {
+  return typeof text === "string" ? text.replace(/[\s!?.,…~]/g, "") : "";
+}
+
 Deno.serve(async (req) => {
   const origin = req.headers.get("Origin");
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders(origin) });
@@ -281,6 +293,8 @@ Deno.serve(async (req) => {
     `Word rule (very important): in your reply AND in the 3 choices, use ONLY these words, combined freely. Do not use any other Thai word, even a common one. If you cannot say something with these words, say something simpler.
 Allowed words: ${[...vocab, ...BASIC_WORDS].join(", ")}`,
     "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
+    `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn, for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today. React to what the learner said, then ask one new thing.`,
+    `The learner is a Japanese MAN. Every choice is something HE says, so a choice ends with ครับ (never ค่ะ or คะ) and uses ผม for "I" (never ฉัน or ดิฉัน). The 3 choices must not copy your own line word for word.`,
     "Return JSON that matches the schema. The japanese field translates your Thai reply. The choices are 3 ready-made answers the learner can tap.",
   ].join("\n\n");
 
@@ -314,23 +328,43 @@ Allowed words: ${[...vocab, ...BASIC_WORDS].join(", ")}`,
     }
   }
 
+  // Lines Mali has already said, to stop her repeating herself.
+  const saidBefore = new Set(messages.filter((m) => m.role === "assistant").map((m) => normaliseThai(m.content)));
+  const problemsOf = (r: any) => {
+    const outside = replyOutsideWords(r, allowed, maxLen);
+    const repeated = saidBefore.has(normaliseThai(r?.thai));
+    return { outside, repeated, score: outside.length + (repeated ? 5 : 0) };
+  };
+
   let result = await ask("");
   if (result.error) return result.error;
   let reply = result.reply;
-  let outside = replyOutsideWords(reply, allowed, maxLen);
+  let problems = problemsOf(reply);
 
-  // One retry when words outside the list slipped in; keep whichever draft is better.
-  if (outside.length) {
-    const retry = await ask(
-      `Your previous draft used words that are NOT allowed: ${outside.join(", ")}. Write a new reply and new choices using only the allowed words.`,
-    );
+  // One retry when words outside the list slipped in or Mali repeated a line;
+  // keep whichever draft has fewer problems.
+  if (problems.score > 0) {
+    const notes: string[] = [];
+    if (problems.outside.length) {
+      notes.push(`Your previous draft used words that are NOT allowed: ${problems.outside.join(", ")}. Use only the allowed words.`);
+    }
+    if (problems.repeated) {
+      notes.push(`Your previous draft "${reply.thai}" repeats something you already said. Say something new that moves the conversation forward.`);
+    }
+    const retry = await ask(`${notes.join("\n")}\nWrite a new reply and new choices.`);
     if (retry.reply) {
-      const retryOutside = replyOutsideWords(retry.reply, allowed, maxLen);
-      if (retryOutside.length <= outside.length) {
+      const retryProblems = problemsOf(retry.reply);
+      if (retryProblems.score <= problems.score) {
         reply = retry.reply;
-        outside = retryOutside;
+        problems = retryProblems;
       }
     }
+  }
+  const outside = problems.outside;
+
+  // Make sure every ready-made answer is in the learner's (male) voice.
+  if (Array.isArray(reply.choices)) {
+    reply.choices = reply.choices.map((c: any) => ({ ...c, thai: toMaleSpeech(String(c?.thai ?? "")) }));
   }
 
   // Tell the app where each key word comes from: dictionary, basic list, or new.
