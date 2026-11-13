@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.3: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.4: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -140,9 +140,9 @@
   const q = id => document.getElementById(id);
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
-    normal: "images/mali-normal.webp?v=10.3",
-    happy: "images/mali-smile.webp?v=10.3",
-    surprised: "images/mali-surprise.webp?v=10.3"
+    normal: "images/mali-normal.webp?v=10.4",
+    happy: "images/mali-smile.webp?v=10.4",
+    surprised: "images/mali-surprise.webp?v=10.4"
   };
   const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
   const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
@@ -180,6 +180,11 @@
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
+    .chat-voice{padding:10px 14px;border-radius:14px;background:#fff0f5;border:1px solid #f6c6d6}
+    .chat-voice summary{cursor:pointer;font-weight:700}
+    .chat-voice-row{display:flex;gap:10px;align-items:center;margin:8px 0}
+    .chat-voice-row label{min-width:3em}
+    .chat-voice select{font:inherit;padding:6px 8px;border-radius:10px;border:1px solid var(--border);background:#fff}
     .chat-thai .news-word{font:inherit;padding:0 1px}
     .chat-thai .news-word.selected{background:#dbeafe;color:#172554}
     .chat-thai .chat-unknown{border-bottom:1px dotted #c9a0a0}
@@ -216,7 +221,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.3" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.4" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -233,7 +238,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.3" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.4" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -243,12 +248,19 @@
         </div>
         <p class="muted" style="margin:0">レベルを選ぶと、そのレベルまでの単語を中心に、マリが話し方を合わせてくれます🍆</p>
         <div id="chatLevelGrid" class="chat-level-grid"></div>
+        <details id="chatVoiceBox" class="chat-voice">
+          <summary>🎀 マリの声の設定</summary>
+          <div class="chat-voice-row"><label for="chatVoice">声</label><select id="chatVoice"></select></div>
+          <div class="chat-voice-row"><label for="chatPitch">高さ</label><select id="chatPitch"></select></div>
+          <button id="chatVoiceTest" class="small-button" type="button">🔊 試しに聞く</button>
+          <span class="muted">このブラウザに保存されます。</span>
+        </details>
         <button id="chatForgetPasscode" class="small-button hidden" type="button">合言葉を入れ直す</button>
       </section>
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.3" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.4" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
           <span class="muted">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
@@ -363,7 +375,34 @@
   }
 
   // Mali's own voice: OpenAI text-to-speech through the Edge Function.
-  // Audio is cached per text and level, so replaying a line costs nothing.
+  // Audio is cached per text, level and voice, so replaying a line costs nothing.
+  const VOICE_KEY = "thaiTrainerChatVoiceV10";
+  const VOICES = [
+    { id: "nova", label: "ノヴァ（明るく元気）" },
+    { id: "shimmer", label: "シマー（やわらか）" },
+    { id: "coral", label: "コーラル（落ち着き）" },
+    { id: "sage", label: "セージ（ささやき系）" }
+  ];
+  const PITCHES = [
+    { rate: 1, label: "ふつう" },
+    { rate: 1.08, label: "少し高め" },
+    { rate: 1.15, label: "高め（アニメ声）" }
+  ];
+  function loadVoiceSettings() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(VOICE_KEY) || "{}");
+      return {
+        voice: VOICES.some(v => v.id === saved.voice) ? saved.voice : "nova",
+        rate: PITCHES.some(p => p.rate === saved.rate) ? saved.rate : 1.08
+      };
+    } catch (_) {
+      return { voice: "nova", rate: 1.08 };
+    }
+  }
+  const voiceSettings = loadVoiceSettings();
+  function saveVoiceSettings() {
+    try { localStorage.setItem(VOICE_KEY, JSON.stringify(voiceSettings)); } catch (_) { /* ignore */ }
+  }
   const audioCache = new Map();
   let currentAudio = null;
 
@@ -376,7 +415,7 @@
   }
 
   async function fetchMaliVoice(text) {
-    const key = `${chat.level}\u0000${text}`;
+    const key = `${chat.level}\u0000${voiceSettings.voice}\u0000${text}`;
     if (audioCache.has(key)) return audioCache.get(key);
     const config = window.THAI_TRAINER_SUPABASE || {};
     const response = await fetch(functionUrl(), {
@@ -386,7 +425,7 @@
         "apikey": config.publishableKey || "",
         "x-tvt-passcode": passcode()
       },
-      body: JSON.stringify({ action: "speak", level: chat.level, text }),
+      body: JSON.stringify({ action: "speak", level: chat.level, voice: voiceSettings.voice, text }),
       signal: AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined
     });
     if (!response.ok) throw new Error(`tts ${response.status}`);
@@ -405,6 +444,11 @@
     }
     try {
       const audio = new Audio(await fetchMaliVoice(text));
+      // Playing a little faster without keeping the pitch makes the voice higher and younger.
+      audio.preservesPitch = false;
+      audio.mozPreservesPitch = false;
+      audio.webkitPreservesPitch = false;
+      audio.playbackRate = voiceSettings.rate;
       currentAudio = audio;
       await audio.play();
     } catch (error) {
@@ -856,6 +900,21 @@
       startChat(chat.level);
     });
     q("chatChangeLevel").addEventListener("click", showSetup);
+    const voiceSelect = q("chatVoice");
+    const pitchSelect = q("chatPitch");
+    VOICES.forEach(v => voiceSelect.append(new Option(v.label, v.id, false, v.id === voiceSettings.voice)));
+    PITCHES.forEach(p => pitchSelect.append(new Option(p.label, String(p.rate), false, p.rate === voiceSettings.rate)));
+    voiceSelect.addEventListener("change", () => { voiceSettings.voice = voiceSelect.value; saveVoiceSettings(); });
+    pitchSelect.addEventListener("change", () => { voiceSettings.rate = Number(pitchSelect.value); saveVoiceSettings(); });
+    q("chatVoiceTest").addEventListener("click", () => {
+      const typed = q("chatPasscode").value.trim();
+      if (typed) writePasscode(typed);
+      if (!passcode()) {
+        status("先に合言葉を入れてくだされ🔑", true);
+        return;
+      }
+      speakThai("สวัสดีค่ะ ชื่อมะลิค่ะ ยินดีที่ได้รู้จักนะคะ", q("chatVoiceTest"));
+    });
     q("chatForgetPasscode").addEventListener("click", () => {
       writePasscode("");
       showSetup();

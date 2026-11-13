@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver10.3
+# Thai Vocabulary Trainer Ver10.4
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.3](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.4](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -49,7 +49,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 
 ## 会話機能の設定（Supabase）
 
-1. Supabase の Edge Functions → Secrets に `OPENAI_API_KEY`（会話用キー）と `TVT_CHAT_PASSCODE`（自分で決める合言葉）を登録する。任意で `OPENAI_CHAT_MODEL`（既定 `gpt-5.4-mini`）。
+1. Supabase の Edge Functions → Secrets に `OPENAI_API_KEY`（会話用キー）と `TVT_CHAT_PASSCODE`（自分で決める合言葉）を登録する。任意で `OPENAI_CHAT_MODEL`（既定 `gpt-5.4-mini`）、`OPENAI_TTS_VOICE`（既定 `nova`。アプリの「マリの声の設定」で選んだ声が優先）。
 2. Edge Functions に `thai-chat` という名前で `supabase/functions/thai-chat/index.ts` をデプロイし、JWTの確認（Verify JWT）をオフにする。
 3. アプリの「会話」で合言葉を1回入力する（このブラウザのlocalStorageにだけ保存）。
 
