@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.2 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.3 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -52,10 +52,24 @@ Never ask for or discuss personal identifying details, and stay on safe, everyda
 const SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["thai", "japanese", "words"],
+  required: ["thai", "japanese", "words", "choices"],
   properties: {
     thai: { type: "string", description: "Mali's reply in Thai script only." },
     japanese: { type: "string", description: "Natural Japanese translation of the Thai reply." },
+    choices: {
+      type: "array",
+      description: "Exactly 3 different replies the learner could send back to Mali, written from the learner's point of view (a Japanese man, so polite particle ครับ). Each must be a natural, correct answer that fits Mali's reply, follows the same length rule for the learner's level, and differs in meaning (for example yes / no / something else).",
+      maxItems: 3,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["thai", "japanese"],
+        properties: {
+          thai: { type: "string", description: "The learner's reply in Thai script only." },
+          japanese: { type: "string", description: "Natural Japanese translation of that reply." },
+        },
+      },
+    },
     words: {
       type: "array",
       description: "Key words from the Thai reply in the order they appear (at most 6; for a 1-2 word reply, list each word).",
@@ -189,7 +203,7 @@ Deno.serve(async (req) => {
     vocab.length
       ? `Prefer these words the learner is studying (level ${level} and below), and avoid harder words when an easier one works: ${vocab.join(", ")}`
       : "",
-    "Return JSON that matches the schema. The japanese field translates your Thai reply.",
+    "Return JSON that matches the schema. The japanese field translates your Thai reply. The choices are 3 ready-made answers the learner can tap, using words at or below their level.",
   ].filter(Boolean).join("\n\n");
 
   let openai: Response;

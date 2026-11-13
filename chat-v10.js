@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.2: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.3: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -60,6 +60,14 @@
     .chat-input-row textarea{resize:vertical;min-height:52px;font-family:Tahoma,sans-serif;font-size:1.1rem}
     .chat-status{min-height:1.4em;padding:0 4px;font-size:.95rem}
     .chat-status.error{color:var(--danger)}
+    .chat-choices{display:grid;gap:8px;padding:12px;border-radius:16px;background:#f7efe5}
+    .chat-choices-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .chat-choice-list{display:grid;gap:8px}
+    .chat-choice{display:grid;gap:2px;text-align:left;font:inherit;padding:12px 14px;border-radius:14px;border:1px solid var(--border);background:#fff;cursor:pointer}
+    .chat-choice:hover,.chat-choice:focus-visible{border-color:#c98d5c;background:#fffaf3}
+    .chat-choice .chat-choice-thai{font:700 1.2rem/1.5 Tahoma,sans-serif}
+    .chat-choice .chat-choice-ja{font-size:.9rem;color:#6f5f50}
+    #chatTypeToggle{justify-self:start}
     .chat-typing{justify-self:start;color:#8a7a6a;font-size:.95rem}
     @media (max-width:560px){.chat-input-row{grid-template-columns:1fr 1fr}.chat-input-row textarea{grid-column:1/-1}}
   `;
@@ -109,7 +117,15 @@
         </div>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
         <div id="chatStatus" class="chat-status" role="status"></div>
-        <div class="chat-input-row">
+        <div id="chatChoices" class="chat-choices hidden">
+          <div class="chat-choices-head">
+            <strong>👉 返事をえらんでね</strong>
+            <button id="chatChoicesTranslate" class="small-button" type="button">🇯🇵 訳を見る</button>
+          </div>
+          <div id="chatChoiceList" class="chat-choice-list"></div>
+        </div>
+        <button id="chatTypeToggle" class="small-button" type="button">✏️ 自分で入力する</button>
+        <div id="chatInputRow" class="chat-input-row hidden">
           <textarea id="chatInput" rows="2" placeholder="タイ語で返事してみよう（日本語でもOK）" lang="th"></textarea>
           <button id="chatMic" class="small-button" type="button" title="タイ語で話して入力">🎤 話す</button>
           <button id="chatSend" class="button primary" type="button">送信</button>
@@ -405,6 +421,40 @@
       log.append(typing);
     }
     log.scrollTop = log.scrollHeight;
+    renderChoices();
+  }
+
+  function renderChoices() {
+    const box = q("chatChoices");
+    const list = q("chatChoiceList");
+    const last = chat.messages[chat.messages.length - 1];
+    const choices = !chat.sending && last?.role === "assistant" ? last.choices || [] : [];
+    list.replaceChildren();
+    box.classList.toggle("hidden", choices.length === 0);
+    q("chatChoicesTranslate").textContent = chat.showChoiceJapanese ? "🇯🇵 訳をかくす" : "🇯🇵 訳を見る";
+    for (const choice of choices) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chat-choice";
+      const thai = document.createElement("span");
+      thai.className = "chat-choice-thai";
+      thai.lang = "th";
+      thai.textContent = choice.thai;
+      const ja = document.createElement("span");
+      ja.className = "chat-choice-ja";
+      ja.textContent = choice.japanese || "";
+      ja.classList.toggle("hidden", !chat.showChoiceJapanese);
+      b.append(thai, ja);
+      b.addEventListener("click", () => sendText(choice.thai));
+      list.append(b);
+    }
+    // No choices came back (or the reply failed): let the learner type instead.
+    if (!chat.sending && last?.role === "assistant" && choices.length === 0) showTyping(true);
+  }
+
+  function showTyping(open) {
+    q("chatInputRow").classList.toggle("hidden", !open);
+    q("chatTypeToggle").textContent = open ? "✖ 入力をとじる" : "✏️ 自分で入力する";
   }
 
   function showSetup() {
@@ -482,7 +532,8 @@
         role: "assistant",
         content: String(reply.thai),
         japanese: String(reply.japanese || ""),
-        words: Array.isArray(reply.words) ? reply.words.filter(w => w && w.thai) : []
+        words: Array.isArray(reply.words) ? reply.words.filter(w => w && w.thai) : [],
+        choices: Array.isArray(reply.choices) ? reply.choices.filter(c => c && c.thai).slice(0, 3) : []
       });
     } catch (error) {
       console.warn("会話の送信に失敗しました。", error);
@@ -507,18 +558,25 @@
     chat.level = level;
     try { localStorage.setItem(LEVEL_KEY, String(level)); } catch (_) { /* ignore */ }
     chat.messages = [];
+    showTyping(false);
     showRoom();
     askMali(); // Mali greets first.
   }
 
-  function sendMessage() {
+  function sendText(text) {
     if (chat.sending) return;
+    const value = String(text || "").trim();
+    if (!value) return;
+    chat.messages.push({ role: "user", content: value.slice(0, 400) });
+    askMali();
+  }
+
+  function sendMessage() {
     const input = q("chatInput");
     const text = input.value.trim();
-    if (!text) return;
-    chat.messages.push({ role: "user", content: text.slice(0, 400) });
+    if (!text || chat.sending) return;
     input.value = "";
-    askMali();
+    sendText(text);
   }
 
   function toggleMic() {
@@ -592,6 +650,14 @@
       }
     });
     q("chatMic").addEventListener("click", toggleMic);
+    q("chatTypeToggle").addEventListener("click", () => {
+      showTyping(q("chatInputRow").classList.contains("hidden"));
+      if (!q("chatInputRow").classList.contains("hidden")) q("chatInput").focus();
+    });
+    q("chatChoicesTranslate").addEventListener("click", () => {
+      chat.showChoiceJapanese = !chat.showChoiceJapanese;
+      renderChoices();
+    });
     q("chatNew").addEventListener("click", () => {
       if (chat.messages.length && !window.confirm("今の会話を消して、新しく始めますか？")) return;
       startChat(chat.level);
