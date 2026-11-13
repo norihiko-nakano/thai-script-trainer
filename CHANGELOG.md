@@ -1,6 +1,6 @@
-# Thai Vocabulary Trainer 変更履歴 — Ver0.0〜Ver9.0
+# Thai Vocabulary Trainer 変更履歴 — Ver0.0〜Ver10.0
 
-最終整理日：2026-11-07（日本時間）
+最終整理日：2026-11-13（日本時間）
 
 ## この記録について
 
@@ -14,7 +14,7 @@
 
 ## 現在の状態
 
-Ver9.0の日本語/Englishインターフェースを提供。ニュース短文5問の更新を継続し、長文読解は「冬眠中🐻🧊🗿」として生成・日本語化・検証・起動を停止しています。再開用の関数は残しています。学習履歴や個人メモはブラウザのlocalStorageに保存されます。
+Ver10.0で、マリとタイ語でチャットする「会話💬🌺」モードを追加。Ver9.0の日本語/Englishインターフェースを提供。ニュース短文5問の更新を継続し、長文読解は「冬眠中🐻🧊🗿」として生成・日本語化・検証・起動を停止しています。再開用の関数は残しています。学習履歴や個人メモはブラウザのlocalStorageに保存されます。
 
 ## バージョン別の変更
 
@@ -367,6 +367,13 @@ Ver9.0の日本語/Englishインターフェースを提供。ニュース短文
 - **変更内容：** 最初の画面の「海外の採用担当者も」を削除。「Englishに切り替えると、各機能を英語で確認できます。」という案内に変更。
 - **確認状況：** コード変更で確認。
 - **対応コミット：** [483c1f65](https://github.com/norihiko-nakano/thai-script-trainer/commit/483c1f65f31d908c8ade2e6c1746f4a8ecd038e1)
+
+### Ver10.0
+
+- **確認日・変更日：** 2026-11-12〜2026-11-13
+- **変更内容：** メニューに5つ目のモード「会話💬🌺」を追加。タイ人の女の子マリ（AI）とタイ語でチャットする。最初にLevel 1〜3を選び、そのレベルまでの辞書の単語＋会話の基本語（約80語）だけで話す（Supabase側で単語をチェックし、はみ出たら1回作り直し）。Level 1は1〜2語の返事。返事ごとに答えの候補3つから選ぶ選択式（自由入力も可）。日本語訳はタップで表示。オリジナルのかわいいAI音声（OpenAI gpt-4o-mini-tts）で読み上げ、失敗時はブラウザの女性の声。マイク入力。単語ボタンはタップで意味と読みを表示し、復習帳へ追加できる（📘辞書／🔰基本語／⭐辞書にない語。「สวัสดีค่ะ」のように許可された語の組み合わせは🔰）。読みは辞書にある語だけ表示。
+- **確認状況：** ブラウザ（GitHub Pages）→ Supabase Edge Function `thai-chat` → OpenAI の構成。OpenAIのキーはSupabaseのSecretsだけに置き、合言葉 `TVT_CHAT_PASSCODE` で関数を保護。Edge FunctionはSupabaseへ手動でデプロイする。
+- **対応コミット：** [e20f40f2](https://github.com/norihiko-nakano/thai-script-trainer/commit/e20f40f2d511f7135177e310dd0e98f3582b8c09)（会話の追加）、[95c7a4cd](https://github.com/norihiko-nakano/thai-script-trainer/commit/95c7a4cd8218b4b72eaf834ce31f8930e37df36b)（女性の声・Level 1の短文化・単語はタップで意味）、[5d1e7a39](https://github.com/norihiko-nakano/thai-script-trainer/commit/5d1e7a394ed1f865852820b5068a1ab05ec968dc)（AI音声）、[d19f940f](https://github.com/norihiko-nakano/thai-script-trainer/commit/d19f940f6f93f25b670e4c3825bc33a8e6e23904)（選択式・辞書の単語だけで話す）
 
 ## 復元に使った資料
 

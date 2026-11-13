@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.4 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.0 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -72,7 +72,7 @@ const SCHEMA = {
     },
     words: {
       type: "array",
-      description: "Key words from the Thai reply in the order they appear (at most 6; for a 1-2 word reply, list each word).",
+      description: "Key words from the Thai reply in the order they appear (at most 6; for a 1-2 word reply, list each word). List each word on its own, without a polite particle such as ค่ะ / คะ / ครับ attached.",
       maxItems: 6,
       items: {
         type: "object",
@@ -332,10 +332,13 @@ Allowed words: ${[...vocab, ...BASIC_WORDS].join(", ")}`,
   const vocabSet = new Set(vocab);
   const basicSet = new Set(BASIC_WORDS);
   if (Array.isArray(reply.words)) {
-    reply.words = reply.words.map((w: any) => ({
-      ...w,
-      source: vocabSet.has(w?.thai) ? "dictionary" : basicSet.has(w?.thai) ? "basic" : "new",
-    }));
+    reply.words = reply.words.map((w: any) => {
+      const thai = typeof w?.thai === "string" ? w.thai.trim() : "";
+      // A word made only of allowed pieces (for example สวัสดี + ค่ะ) still counts as known.
+      const known = thai && outsideWords(thai, allowed, maxLen).length === 0;
+      const source = vocabSet.has(thai) ? "dictionary" : basicSet.has(thai) || known ? "basic" : "new";
+      return { ...w, thai, source };
+    });
   }
   reply.outside = outside;
   return json({ reply, model: MODEL }, 200, origin);
