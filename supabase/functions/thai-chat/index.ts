@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.4 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.5 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -168,6 +168,8 @@ const BASIC_WORDS = [
   "นี่", "นี้", "นั่น", "นั้น", "วัน", "ชื่อ",
   // places
   "ไทย", "ญี่ปุ่น", "กรุงเทพ", "ประเทศ",
+  // Mali's own name
+  "มะลิ",
 ];
 
 const THAI_RUN = /[\u0E00-\u0E7F]+/g;
@@ -212,6 +214,16 @@ function outsideWords(text: string, allowed: Set<string>, maxLen: number): strin
 function replyOutsideWords(reply: any, allowed: Set<string>, maxLen: number): string[] {
   const texts = [reply?.thai, ...(Array.isArray(reply?.choices) ? reply.choices.map((c: any) => c?.thai) : [])];
   return [...new Set(texts.filter((t) => typeof t === "string").flatMap((t) => outsideWords(t, allowed, maxLen)))];
+}
+
+// Mali's profile: short lines from data/mali_profile.txt, written by the learner.
+function cleanLines(raw: unknown, maxItems: number, maxChars = 200): string[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((x) => typeof x === "string")
+    .map((x) => x.replace(/\s+/g, " ").trim().slice(0, maxChars))
+    .filter(Boolean)
+    .slice(0, maxItems);
 }
 
 // The learner is a man: his ready-made answers must use the male polite particle.
@@ -284,21 +296,29 @@ Deno.serve(async (req) => {
   // Allowed words: the learner's dictionary words up to this level, the basic words,
   // and anything the learner typed themselves (for example their own name).
   const learnerText = messages.filter((m) => m.role === "user").map((m) => m.content).join(" ");
-  const allowed = new Set<string>([...vocab, ...BASIC_WORDS]);
+  // Thai words written in the profile (for example ジム（ยิม）) may be used at any level.
+  const profile = cleanLines(body?.profile, 30);
+  const profileWords = [...new Set(profile.flatMap((line) => line.match(THAI_RUN) ?? []))];
+  const allowed = new Set<string>([...vocab, ...BASIC_WORDS, ...profileWords]);
   let maxLen = Math.max(1, ...[...allowed].map((w) => w.length));
   for (const word of outsideWords(learnerText, allowed, maxLen)) allowed.add(word);
   maxLen = Math.max(maxLen, ...[...allowed].map((w) => w.length));
 
   const baseInstructions = [
     PERSONA,
+    profile.length
+      ? `About Mali (written by the learner, in Japanese; stay consistent with these facts):
+- ${profile.join("\n- ")}
+Use these facts to make the conversation interesting: when you need a new topic, bring up ONE of them naturally (for example tell about it and ask the learner a related question), and answer consistently when the learner asks about you. Do not list several facts at once, and do not repeat a fact you already told.`
+      : "",
     LEVEL_STYLE[level],
     `Word rule (very important): in your reply AND in the 3 choices, use ONLY these words, combined freely. Do not use any other Thai word, even a common one. If you cannot say something with these words, say something simpler.
-Allowed words: ${[...vocab, ...BASIC_WORDS].join(", ")}`,
+Allowed words: ${[...vocab, ...BASIC_WORDS, ...profileWords].join(", ")}`,
     "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
     `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn, for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today. React to what the learner said, then ask one new thing.`,
     `The learner is a Japanese MAN. Every choice is something HE says, so a choice ends with ครับ (never ค่ะ or คะ) and uses ผม for "I" (never ฉัน or ดิฉัน). The 3 choices must not copy your own line word for word.`,
     "Return JSON that matches the schema. The japanese field translates your Thai reply. The choices are 3 ready-made answers the learner can tap.",
-  ].join("\n\n");
+  ].filter(Boolean).join("\n\n");
 
   async function ask(extra: string): Promise<{ reply?: any; error?: Response }> {
     let openai: Response;

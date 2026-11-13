@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver10.4
+# Thai Vocabulary Trainer Ver10.5
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.4](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.5](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -54,6 +54,14 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 3. アプリの「会話」で合言葉を1回入力する（このブラウザのlocalStorageにだけ保存）。
 
 ブラウザにはOpenAIのキーを置きません。Supabaseの無料プランが一時停止中のときは会話できないので、ダッシュボードで再開してください。
+
+## マリの設定（data/mali_profile.txt）
+
+メモ帳で書きかえるだけで、マリの設定を変えられます。マリはこの設定を参考に話題をふったり、質問に答えたりします。
+
+- 「・」で始まる行がマリの設定、「#」で始まる行はメモ（マリには伝わらない）
+- タイ語をかっこで書くと、辞書になくても会話で使える単語になる：`ジム（ยิม）`
+- かっこの中で「・」のあとにカタカナを書くと、その単語をタップしたときの読み方になる：`ジム（ยิม・イム）`
 
 ## ニュース更新の流れ
 

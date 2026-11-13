@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.4: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.5: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -46,10 +46,48 @@
     "นิดหน่อย": ["ニットノイ", "少し"], "จริง": ["チン", "本当"], "นี่": ["ニー", "これ"],
     "นี้": ["ニー", "この"], "นั่น": ["ナン", "それ"], "นั้น": ["ナン", "その"], "วัน": ["ワン", "日"],
     "ชื่อ": ["チュー", "名前"], "ไทย": ["タイ", "タイ"], "ญี่ปุ่น": ["イープン", "日本"],
-    "กรุงเทพ": ["クルンテープ", "バンコク"], "ประเทศ": ["プラテート", "国"]
+    "กรุงเทพ": ["クルンテープ", "バンコク"], "ประเทศ": ["プラテート", "国"],
+    "มะลิ": ["マリ", "マリ（名前・ジャスミン）"]
   };
   let lexicon = null;
   let lexiconMaxLen = 1;
+
+  // ---------- Mali's profile (data/mali_profile.txt, written in Notepad) ----------
+  // Lines starting with ・ (or -, *, •) are facts about Mali; # lines are notes.
+  // Thai in brackets becomes a usable word, and ・katakana after it is its reading:
+  //   ・マリは最近ジム（ยิม・イム）に行っている
+  const PROFILE_FILE = "data/mali_profile.txt";
+  const profile = { loaded: false, lines: [], words: [] };
+
+  function parseProfile(text) {
+    const lines = [];
+    const words = [];
+    for (const raw of String(text || "").split(/\r?\n/)) {
+      const line = raw.trim();
+      if (!line || line.startsWith("#")) continue;
+      const fact = line.replace(/^[・\-*•]\s*/, "").trim();
+      if (!fact) continue;
+      lines.push(fact.slice(0, 200));
+      for (const m of fact.matchAll(/[（(]\s*([\u0E00-\u0E7F]+)\s*(?:[・･\/／、,]\s*([\u30A0-\u30FF\s]+?))?\s*[）)]/g)) {
+        words.push({ thai: m[1], reading: (m[2] || "").replace(/\s+/g, "") });
+      }
+    }
+    return { lines: lines.slice(0, 30), words };
+  }
+
+  async function loadProfile() {
+    if (profile.loaded) return profile;
+    try {
+      const response = await fetch(`${PROFILE_FILE}?v=10.5`, { cache: "no-cache" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      Object.assign(profile, parseProfile(await response.text()));
+    } catch (error) {
+      console.warn("マリのプロフィールを読み込めませんでした。設定なしで続けます。", error);
+    }
+    profile.loaded = true;
+    lexicon = null; // rebuild so profile words get their readings
+    return profile;
+  }
 
   // thai -> { reading, japanese, source: "dictionary" | "basic" }
   function buildLexicon() {
@@ -62,6 +100,9 @@
         if (prev?.source === "dictionary" && Number(prev.difficulty) >= 1 && !(Number(w.difficulty) >= 1)) continue;
         map.set(t, { reading: w.reading || prev?.reading || "", japanese: w.japanese || prev?.japanese || "", source: "dictionary", difficulty: w.difficulty, entry: w });
       }
+    }
+    for (const w of profile.words) {
+      if (!map.has(w.thai)) map.set(w.thai, { reading: w.reading, japanese: "", source: "profile" });
     }
     lexicon = map;
     lexiconMaxLen = Math.max(1, ...[...map.keys()].map(k => k.length));
@@ -140,9 +181,9 @@
   const q = id => document.getElementById(id);
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
-    normal: "images/mali-normal.webp?v=10.4",
-    happy: "images/mali-smile.webp?v=10.4",
-    surprised: "images/mali-surprise.webp?v=10.4"
+    normal: "images/mali-normal.webp?v=10.5",
+    happy: "images/mali-smile.webp?v=10.5",
+    surprised: "images/mali-surprise.webp?v=10.5"
   };
   const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
   const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
@@ -181,6 +222,7 @@
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
     .chat-voice{padding:10px 14px;border-radius:14px;background:#fff0f5;border:1px solid #f6c6d6}
+    .chat-profile-list{margin:8px 0;padding-left:1.2em;line-height:1.7}
     .chat-voice summary{cursor:pointer;font-weight:700}
     .chat-voice-row{display:flex;gap:10px;align-items:center;margin:8px 0}
     .chat-voice-row label{min-width:3em}
@@ -221,7 +263,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.4" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.5" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -238,7 +280,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.4" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.5" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -248,6 +290,11 @@
         </div>
         <p class="muted" style="margin:0">レベルを選ぶと、そのレベルまでの単語を中心に、マリが話し方を合わせてくれます🍆</p>
         <div id="chatLevelGrid" class="chat-level-grid"></div>
+        <details id="chatProfileBox" class="chat-voice">
+          <summary id="chatProfileSummary">📝 マリの設定</summary>
+          <ul id="chatProfileList" class="chat-profile-list"></ul>
+          <span class="muted">data/mali_profile.txt をメモ帳で書きかえると変わります。</span>
+        </details>
         <details id="chatVoiceBox" class="chat-voice">
           <summary>🎀 マリの声の設定</summary>
           <div class="chat-voice-row"><label for="chatVoice">声</label><select id="chatVoice"></select></div>
@@ -260,9 +307,9 @@
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.4" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.5" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
-          <span class="muted">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
+          <span class="muted">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　📝マリの設定の単語　⭐辞書にない単語</span></div>
         </div>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
         <div id="chatStatus" class="chat-status" role="status"></div>
@@ -544,7 +591,7 @@
     } else {
       const reading = token.info?.reading || "";
       const meaning = token.extra?.japanese || token.info?.japanese || "";
-      const source = token.info?.source === "dictionary" ? "📘" : token.info ? "🔰" : "⭐";
+      const source = { dictionary: "📘", basic: "🔰", profile: "📝" }[token.info?.source] || "⭐";
       const word = document.createElement("span");
       word.className = "chat-hint-word";
       word.lang = "th";
@@ -699,6 +746,19 @@
     q("chatForgetPasscode").classList.toggle("hidden", !hasPasscode);
     q("chatPasscode").value = "";
     renderLevels();
+    loadProfile().then(renderProfile);
+  }
+
+  function renderProfile() {
+    const list = q("chatProfileList");
+    list.replaceChildren(...profile.lines.map(line => {
+      const li = document.createElement("li");
+      li.textContent = line;
+      return li;
+    }));
+    q("chatProfileSummary").textContent = profile.lines.length
+      ? `📝 マリの設定（${profile.lines.length}こ）`
+      : "📝 マリの設定（なし）";
   }
 
   function showRoom() {
@@ -717,6 +777,7 @@
   }
 
   async function askMali() {
+    await loadProfile();
     const url = functionUrl();
     if (!url) {
       status("Supabaseの設定（supabase-config.js）が見つかりません。", true);
@@ -739,6 +800,7 @@
         body: JSON.stringify({
           level: chat.level,
           vocab: levelVocab(chat.level),
+          profile: profile.lines,
           messages: chat.messages.map(m => ({ role: m.role, content: m.content }))
         }),
         signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
