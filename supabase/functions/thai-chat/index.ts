@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.2 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.4 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -31,7 +31,7 @@ const ALLOWED_ORIGINS = [
 // Abuse and cost limits.
 const MAX_TURNS = 24;            // most recent messages sent to the model
 const MAX_MESSAGE_CHARS = 400;   // per message
-const MAX_VOCAB_WORDS = 160;     // words from the selected level shown to the model
+const MAX_VOCAB_WORDS = 600;     // dictionary words up to the selected level (Level 3 has about 400)
 const MAX_OUTPUT_TOKENS = 900;
 
 const LEVEL_STYLE: Record<number, string> = {
@@ -52,10 +52,24 @@ Never ask for or discuss personal identifying details, and stay on safe, everyda
 const SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["thai", "japanese", "words"],
+  required: ["thai", "japanese", "words", "choices"],
   properties: {
     thai: { type: "string", description: "Mali's reply in Thai script only." },
     japanese: { type: "string", description: "Natural Japanese translation of the Thai reply." },
+    choices: {
+      type: "array",
+      description: "Exactly 3 different replies the learner could send back to Mali, written from the learner's point of view (a Japanese man, so polite particle ครับ). Each must be a natural, correct answer that fits Mali's reply, follows the same length rule for the learner's level, and differs in meaning (for example yes / no / something else).",
+      maxItems: 3,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["thai", "japanese"],
+        properties: {
+          thai: { type: "string", description: "The learner's reply in Thai script only." },
+          japanese: { type: "string", description: "Natural Japanese translation of that reply." },
+        },
+      },
+    },
     words: {
       type: "array",
       description: "Key words from the Thai reply in the order they appear (at most 6; for a 1-2 word reply, list each word).",
@@ -128,6 +142,71 @@ function outputText(data: any): string {
   return "";
 }
 
+// Everyday words a conversation cannot do without, allowed at every level on top of
+// the learner's dictionary words (questions.json). Edit this list to taste.
+const BASIC_WORDS = [
+  // greetings and politeness
+  "สวัสดี", "ขอบคุณ", "ขอโทษ", "ไม่เป็นไร", "ยินดี", "รู้จัก", "ลาก่อน", "โชคดี",
+  // polite particles and sentence endings
+  "ค่ะ", "คะ", "ครับ", "นะ", "จ้ะ", "จ้า", "ไหม", "มั้ย", "หรือ", "เหรอ", "หรอ",
+  // yes / no
+  "ใช่", "ไม่", "ไม่ใช่", "โอเค", "ได้",
+  // people
+  "ฉัน", "ผม", "คุณ", "เขา", "เรา", "คน",
+  // question words
+  "อะไร", "ใคร", "ที่ไหน", "ไหน", "เมื่อไร", "ทำไม", "อย่างไร", "ยังไง", "กี่", "เท่าไร",
+  // very common verbs and words
+  "เป็น", "คือ", "มี", "อยู่", "ไป", "มา", "ทำ", "ชอบ", "อยาก", "จะ", "แล้ว", "ยัง", "ก็", "ด้วย",
+  "และ", "แต่", "กับ", "ที่", "ของ", "กัน", "เจอ", "สบาย", "สบายดี", "ดี", "มาก", "นิดหน่อย", "จริง",
+  "นี่", "นี้", "นั่น", "นั้น", "วัน", "ชื่อ",
+  // places
+  "ไทย", "ญี่ปุ่น", "กรุงเทพ", "ประเทศ",
+];
+
+const THAI_RUN = /[\u0E00-\u0E7F]+/g;
+
+// Finds the parts of a Thai text that cannot be built from the allowed words.
+// Thai has no spaces, so this is a dynamic-programming segmentation that
+// minimises the number of uncovered characters.
+function outsideWords(text: string, allowed: Set<string>, maxLen: number): string[] {
+  const found: string[] = [];
+  for (const run of text.match(THAI_RUN) ?? []) {
+    const n = run.length;
+    const cost = new Array<number>(n + 1).fill(Infinity);
+    const prev = new Array<number>(n + 1).fill(-1);
+    const matched = new Array<boolean>(n + 1).fill(false);
+    cost[0] = 0;
+    for (let i = 0; i < n; i++) {
+      if (cost[i] === Infinity) continue;
+      if (cost[i] + 1 < cost[i + 1]) { cost[i + 1] = cost[i] + 1; prev[i + 1] = i; matched[i + 1] = false; }
+      for (let len = 1; len <= maxLen && i + len <= n; len++) {
+        if (allowed.has(run.slice(i, i + len)) && cost[i] < cost[i + len]) {
+          cost[i + len] = cost[i]; prev[i + len] = i; matched[i + len] = true;
+        }
+      }
+    }
+    if (cost[n] === 0) continue;
+    // Walk back and join neighbouring uncovered characters into spans.
+    const spans: string[] = [];
+    let span = "";
+    for (let j = n; j > 0; j = prev[j]) {
+      if (matched[j]) {
+        if (span) { spans.push(span); span = ""; }
+      } else {
+        span = run.slice(prev[j], j) + span;
+      }
+    }
+    if (span) spans.push(span);
+    found.push(...spans.reverse());
+  }
+  return [...new Set(found)];
+}
+
+function replyOutsideWords(reply: any, allowed: Set<string>, maxLen: number): string[] {
+  const texts = [reply?.thai, ...(Array.isArray(reply?.choices) ? reply.choices.map((c: any) => c?.thai) : [])];
+  return [...new Set(texts.filter((t) => typeof t === "string").flatMap((t) => outsideWords(t, allowed, maxLen)))];
+}
+
 Deno.serve(async (req) => {
   const origin = req.headers.get("Origin");
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders(origin) });
@@ -183,43 +262,81 @@ Deno.serve(async (req) => {
   const vocab = cleanVocab(body?.vocab);
   if (messages.length === 0) messages.push({ role: "user", content: "(The learner just opened the chat. Greet them and start a conversation.)" });
 
-  const instructions = [
+  // Allowed words: the learner's dictionary words up to this level, the basic words,
+  // and anything the learner typed themselves (for example their own name).
+  const learnerText = messages.filter((m) => m.role === "user").map((m) => m.content).join(" ");
+  const allowed = new Set<string>([...vocab, ...BASIC_WORDS]);
+  let maxLen = Math.max(1, ...[...allowed].map((w) => w.length));
+  for (const word of outsideWords(learnerText, allowed, maxLen)) allowed.add(word);
+  maxLen = Math.max(maxLen, ...[...allowed].map((w) => w.length));
+
+  const baseInstructions = [
     PERSONA,
     LEVEL_STYLE[level],
-    vocab.length
-      ? `Prefer these words the learner is studying (level ${level} and below), and avoid harder words when an easier one works: ${vocab.join(", ")}`
-      : "",
-    "Return JSON that matches the schema. The japanese field translates your Thai reply.",
-  ].filter(Boolean).join("\n\n");
+    `Word rule (very important): in your reply AND in the 3 choices, use ONLY these words, combined freely. Do not use any other Thai word, even a common one. If you cannot say something with these words, say something simpler.
+Allowed words: ${[...vocab, ...BASIC_WORDS].join(", ")}`,
+    "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
+    "Return JSON that matches the schema. The japanese field translates your Thai reply. The choices are 3 ready-made answers the learner can tap.",
+  ].join("\n\n");
 
-  let openai: Response;
-  try {
-    openai = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: MODEL,
-        instructions,
-        input: messages,
-        max_output_tokens: MAX_OUTPUT_TOKENS,
-        text: { format: { type: "json_schema", name: "mali_reply", strict: true, schema: SCHEMA } },
-      }),
-    });
-  } catch {
-    return json({ error: "openai_unreachable" }, 502, origin);
+  async function ask(extra: string): Promise<{ reply?: any; error?: Response }> {
+    let openai: Response;
+    try {
+      openai = await fetch("https://api.openai.com/v1/responses", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: MODEL,
+          instructions: extra ? `${baseInstructions}\n\n${extra}` : baseInstructions,
+          input: messages,
+          max_output_tokens: MAX_OUTPUT_TOKENS,
+          text: { format: { type: "json_schema", name: "mali_reply", strict: true, schema: SCHEMA } },
+        }),
+      });
+    } catch {
+      return { error: json({ error: "openai_unreachable" }, 502, origin) };
+    }
+    const data = await openai.json().catch(() => null);
+    if (!openai.ok) {
+      console.error("OpenAI error", openai.status, JSON.stringify(data?.error ?? data));
+      return { error: json({ error: "openai_error", status: openai.status }, 502, origin) };
+    }
+    try {
+      return { reply: JSON.parse(outputText(data)) };
+    } catch {
+      console.error("Unparseable OpenAI output", JSON.stringify(data));
+      return { error: json({ error: "bad_model_output" }, 502, origin) };
+    }
   }
 
-  const data = await openai.json().catch(() => null);
-  if (!openai.ok) {
-    console.error("OpenAI error", openai.status, JSON.stringify(data?.error ?? data));
-    return json({ error: "openai_error", status: openai.status }, 502, origin);
+  let result = await ask("");
+  if (result.error) return result.error;
+  let reply = result.reply;
+  let outside = replyOutsideWords(reply, allowed, maxLen);
+
+  // One retry when words outside the list slipped in; keep whichever draft is better.
+  if (outside.length) {
+    const retry = await ask(
+      `Your previous draft used words that are NOT allowed: ${outside.join(", ")}. Write a new reply and new choices using only the allowed words.`,
+    );
+    if (retry.reply) {
+      const retryOutside = replyOutsideWords(retry.reply, allowed, maxLen);
+      if (retryOutside.length <= outside.length) {
+        reply = retry.reply;
+        outside = retryOutside;
+      }
+    }
   }
 
-  try {
-    const reply = JSON.parse(outputText(data));
-    return json({ reply, model: MODEL }, 200, origin);
-  } catch {
-    console.error("Unparseable OpenAI output", JSON.stringify(data));
-    return json({ error: "bad_model_output" }, 502, origin);
+  // Tell the app where each key word comes from: dictionary, basic list, or new.
+  const vocabSet = new Set(vocab);
+  const basicSet = new Set(BASIC_WORDS);
+  if (Array.isArray(reply.words)) {
+    reply.words = reply.words.map((w: any) => ({
+      ...w,
+      source: vocabSet.has(w?.thai) ? "dictionary" : basicSet.has(w?.thai) ? "basic" : "new",
+    }));
   }
+  reply.outside = outside;
+  return json({ reply, model: MODEL }, 200, origin);
 });
