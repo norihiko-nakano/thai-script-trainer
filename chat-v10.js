@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.1: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.2: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -14,6 +14,79 @@
   const PASSCODE_KEY = "thaiTrainerChatPasscodeV10";
   const LEVEL_KEY = "thaiTrainerChatLevelV10";
   const MAX_VOCAB = 600; // all dictionary words up to the level (Level 3 has about 400)
+
+  // Hand-checked readings for the basic conversation words that are not in the
+  // dictionary (the same list the Edge Function allows). Dictionary readings win.
+  // Readings are never taken from the AI.
+  const BASIC_READINGS = {
+    "สวัสดี": "サワッディー", "ขอบคุณ": "コップクン", "ขอโทษ": "コートート", "ไม่เป็นไร": "マイペンライ",
+    "ยินดี": "インディー", "รู้จัก": "ルーチャック", "ลาก่อน": "ラーコーン", "โชคดี": "チョークディー",
+    "ค่ะ": "カ", "คะ": "カ", "ครับ": "クラップ", "นะ": "ナ", "จ้ะ": "チャ", "จ้า": "チャー",
+    "ไหม": "マイ", "มั้ย": "マイ", "หรือ": "ルー", "เหรอ": "ロー", "หรอ": "ロー",
+    "ใช่": "チャイ", "ไม่": "マイ", "ไม่ใช่": "マイチャイ", "โอเค": "オーケー", "ได้": "ダイ",
+    "ฉัน": "チャン", "ผม": "ポム", "คุณ": "クン", "เขา": "カオ", "เรา": "ラオ", "คน": "コン",
+    "อะไร": "アライ", "ใคร": "クライ", "ที่ไหน": "ティーナイ", "ไหน": "ナイ", "เมื่อไร": "ムアライ",
+    "ทำไม": "タムマイ", "อย่างไร": "ヤーンライ", "ยังไง": "ヤンガイ", "กี่": "キー", "เท่าไร": "タオライ",
+    "เป็น": "ペン", "คือ": "クー", "มี": "ミー", "อยู่": "ユー", "ไป": "パイ", "มา": "マー", "ทำ": "タム",
+    "ชอบ": "チョープ", "อยาก": "ヤーク", "จะ": "チャ", "แล้ว": "レーオ", "ยัง": "ヤン", "ก็": "コー",
+    "ด้วย": "ドゥアイ", "และ": "レ", "แต่": "テー", "กับ": "カップ", "ที่": "ティー", "ของ": "コーン",
+    "กัน": "カン", "เจอ": "チュー", "สบาย": "サバーイ", "สบายดี": "サバーイディー", "ดี": "ディー",
+    "มาก": "マーク", "นิดหน่อย": "ニットノイ", "จริง": "チン", "นี่": "ニー", "นี้": "ニー",
+    "นั่น": "ナン", "นั้น": "ナン", "วัน": "ワン", "ชื่อ": "チュー", "ไทย": "タイ", "ญี่ปุ่น": "イープン",
+    "กรุงเทพ": "クルンテープ", "ประเทศ": "プラテート"
+  };
+  let readingTable = null;
+  let readingMaxLen = 1;
+
+  function buildReadingTable() {
+    const table = new Map(Object.entries(BASIC_READINGS));
+    for (const w of dictionaryWords()) {
+      if (!w.reading) continue;
+      for (const t of [w.thai, ...(Array.isArray(w.acceptedThai) ? w.acceptedThai : [])]) {
+        if (t) table.set(t, w.reading);
+      }
+    }
+    readingTable = table;
+    readingMaxLen = Math.max(1, ...[...table.keys()].map(k => k.length));
+  }
+
+  // Katakana reading of a Thai sentence, built word by word from the dictionary
+  // and BASIC_READINGS. Parts with no known reading are shown as ［Thai］.
+  function thaiReading(text) {
+    if (!readingTable) buildReadingTable();
+    return String(text || "").replace(/[\u0E00-\u0E7F]+/g, run => {
+      const n = run.length;
+      const best = Array(n + 1).fill(null);
+      best[0] = { cost: 0, words: 0, prev: -1, known: false };
+      for (let i = 0; i < n; i++) {
+        if (!best[i]) continue;
+        const step = (j, known) => {
+          const cost = best[i].cost + (known ? 0 : j - i);
+          const words = best[i].words + 1;
+          const cur = best[j];
+          if (!cur || cost < cur.cost || (cost === cur.cost && words < cur.words)) best[j] = { cost, words, prev: i, known };
+        };
+        step(i + 1, false);
+        for (let len = 2; len <= readingMaxLen && i + len <= n; len++) {
+          if (readingTable.has(run.slice(i, i + len))) step(i + len, true);
+        }
+        if (readingTable.has(run[i])) step(i + 1, true);
+      }
+      const parts = [];
+      for (let j = n; j > 0; j = best[j].prev) {
+        const piece = run.slice(best[j].prev, j);
+        parts.unshift({ piece, known: best[j].known });
+      }
+      // Join neighbouring unknown characters into one bracket.
+      const out = [];
+      for (const part of parts) {
+        if (part.known) out.push(readingTable.get(part.piece));
+        else if (out.length && out[out.length - 1].startsWith("［")) out[out.length - 1] = out[out.length - 1].slice(0, -1) + part.piece + "］";
+        else out.push(`［${part.piece}］`);
+      }
+      return out.join(" ");
+    });
+  }
   const LEVELS = [
     { level: 1, title: "Level 1 · 基礎", note: "とても短い文で、ゆっくり話してくれます" },
     { level: 2, title: "Level 2 · 基礎＋", note: "短くてやさしい文で話します" },
@@ -23,9 +96,9 @@
   const q = id => document.getElementById(id);
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
-    normal: "images/mali-normal.webp?v=10.1.1",
-    happy: "images/mali-smile.webp?v=10.1.1",
-    surprised: "images/mali-surprise.webp?v=10.1.1"
+    normal: "images/mali-normal.webp?v=10.2",
+    happy: "images/mali-smile.webp?v=10.2",
+    surprised: "images/mali-surprise.webp?v=10.2"
   };
   const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
   const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
@@ -63,6 +136,10 @@
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
+    .chat-reading{margin-top:6px;padding:6px 10px;border-radius:10px;background:#fff7d6;font-size:1rem;letter-spacing:.02em}
+    .chat-reading::before{content:"🔤 ";}
+    .chat-hint[disabled]{opacity:.55;cursor:default}
+    .chat-choice .chat-choice-reading{font-size:.9rem;color:#8a6a2a}
     .chat-japanese{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f7efe5;font-size:.95rem}
     .chat-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
     .chat-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -95,7 +172,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.1.1" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.2" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -112,7 +189,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.1.1" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.2" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -127,7 +204,7 @@
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.1.1" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.2" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
           <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
@@ -136,7 +213,7 @@
         <div id="chatChoices" class="chat-choices hidden">
           <div class="chat-choices-head">
             <strong>👉 返事をえらんでね</strong>
-            <button id="chatChoicesTranslate" class="small-button" type="button">🇯🇵 訳を見る</button>
+            <button id="chatChoicesTranslate" class="small-button chat-hint" type="button">ヒント⚡ 読み</button>
           </div>
           <div id="chatChoiceList" class="chat-choice-list"></div>
         </div>
@@ -332,7 +409,7 @@
     }
   }
 
-  function wordChip(word) {
+  function wordChip(word, startOpen) {
     const entry = dictionaryEntry(word.thai);
     const wrap = document.createElement("span");
     wrap.className = "chat-word-wrap";
@@ -384,6 +461,7 @@
 
     chip.append(meaning);
     wrap.append(chip, add);
+    if (startOpen) chip.click();
     return wrap;
   }
 
@@ -407,9 +485,12 @@
     thai.lang = "th";
     thai.textContent = message.content;
 
-    const japanese = document.createElement("div");
-    japanese.className = "chat-japanese hidden";
-    japanese.textContent = message.japanese || "（訳がありません）";
+    // Hints open step by step: ⚡ reading → ⚡⚡ word meanings → ⚡⚡⚡ full translation.
+    // First try to read the Thai yourself.
+    const hasWords = Array.isArray(message.words) && message.words.length > 0;
+    const steps = hasWords ? ["reading", "words", "japanese"] : ["reading", "japanese"];
+    const stage = message.hint || 0;
+    const shown = steps.slice(0, stage);
 
     const tools = document.createElement("div");
     tools.className = "chat-tools";
@@ -418,20 +499,40 @@
     listen.className = "small-button";
     listen.textContent = "🔊 聞く";
     listen.addEventListener("click", () => speakThai(message.content, listen));
-    const translate = document.createElement("button");
-    translate.type = "button";
-    translate.className = "small-button";
-    translate.textContent = "🇯🇵 日本語訳";
-    translate.addEventListener("click", () => japanese.classList.toggle("hidden"));
-    tools.append(listen, translate);
+    const hint = document.createElement("button");
+    hint.type = "button";
+    hint.className = "small-button chat-hint";
+    const label = { reading: "読み方", words: "単語の意味", japanese: "日本語訳" };
+    if (stage >= steps.length) {
+      hint.textContent = "💡 ヒント全部オープン";
+      hint.disabled = true;
+    } else {
+      hint.textContent = `ヒント${"⚡".repeat(stage + 1)}（${label[steps[stage]]}）`;
+      hint.addEventListener("click", () => {
+        message.hint = stage + 1;
+        renderLog({ keepScroll: true });
+      });
+    }
+    tools.append(listen, hint);
+    bubble.append(thai, tools);
 
-    bubble.append(thai, tools, japanese);
-
-    if (Array.isArray(message.words) && message.words.length) {
+    if (shown.includes("reading")) {
+      const reading = document.createElement("div");
+      reading.className = "chat-reading";
+      reading.textContent = thaiReading(message.content);
+      bubble.append(reading);
+    }
+    if (hasWords) {
       const words = document.createElement("div");
       words.className = "chat-words";
-      message.words.forEach(word => words.append(wordChip(word)));
+      message.words.forEach(word => words.append(wordChip(word, shown.includes("words"))));
       bubble.append(words);
+    }
+    if (shown.includes("japanese")) {
+      const japanese = document.createElement("div");
+      japanese.className = "chat-japanese";
+      japanese.textContent = message.japanese || "（訳がありません）";
+      bubble.append(japanese);
     }
     return row;
   }
@@ -445,8 +546,9 @@
     return img;
   }
 
-  function renderLog() {
+  function renderLog(options = {}) {
     const log = q("chatLog");
+    const keepScroll = options.keepScroll ? log.scrollTop : null;
     log.replaceChildren(...chat.messages.map(renderMessage));
     if (chat.sending) {
       const typing = document.createElement("div");
@@ -456,7 +558,7 @@
       typing.append(miniAvatar("normal"), dots);
       log.append(typing);
     }
-    log.scrollTop = log.scrollHeight;
+    log.scrollTop = keepScroll ?? log.scrollHeight;
     renderChoices();
     updateBigAvatar();
   }
@@ -482,7 +584,10 @@
     const choices = !chat.sending && last?.role === "assistant" ? last.choices || [] : [];
     list.replaceChildren();
     box.classList.toggle("hidden", choices.length === 0);
-    q("chatChoicesTranslate").textContent = chat.showChoiceJapanese ? "🇯🇵 訳をかくす" : "🇯🇵 訳を見る";
+    const choiceStage = last?.choiceHint || 0;
+    const hintButton = q("chatChoicesTranslate");
+    hintButton.disabled = choiceStage >= 2;
+    hintButton.textContent = ["ヒント⚡ 読み", "ヒント⚡⚡ 訳", "💡 全部オープン"][Math.min(choiceStage, 2)];
     for (const choice of choices) {
       const b = document.createElement("button");
       b.type = "button";
@@ -491,11 +596,19 @@
       thai.className = "chat-choice-thai";
       thai.lang = "th";
       thai.textContent = choice.thai;
-      const ja = document.createElement("span");
-      ja.className = "chat-choice-ja";
-      ja.textContent = choice.japanese || "";
-      ja.classList.toggle("hidden", !chat.showChoiceJapanese);
-      b.append(thai, ja);
+      b.append(thai);
+      if (choiceStage >= 1) {
+        const reading = document.createElement("span");
+        reading.className = "chat-choice-reading";
+        reading.textContent = `🔤 ${thaiReading(choice.thai)}`;
+        b.append(reading);
+      }
+      if (choiceStage >= 2) {
+        const ja = document.createElement("span");
+        ja.className = "chat-choice-ja";
+        ja.textContent = choice.japanese || "";
+        b.append(ja);
+      }
       b.addEventListener("click", () => sendText(choice.thai));
       list.append(b);
     }
@@ -707,7 +820,9 @@
       if (!q("chatInputRow").classList.contains("hidden")) q("chatInput").focus();
     });
     q("chatChoicesTranslate").addEventListener("click", () => {
-      chat.showChoiceJapanese = !chat.showChoiceJapanese;
+      const last = chat.messages[chat.messages.length - 1];
+      if (!last || last.role !== "assistant") return;
+      last.choiceHint = Math.min((last.choiceHint || 0) + 1, 2);
       renderChoices();
     });
     q("chatNew").addEventListener("click", () => {
@@ -722,5 +837,5 @@
   });
 
   // Exposed for tests.
-  window.__tvtChat = { chat, levelVocab, dictionaryEntry, functionUrl, addWordToReviewBook };
+  window.__tvtChat = { chat, levelVocab, thaiReading, dictionaryEntry, functionUrl, addWordToReviewBook };
 })();
