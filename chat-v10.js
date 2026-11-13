@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.4: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.0: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public

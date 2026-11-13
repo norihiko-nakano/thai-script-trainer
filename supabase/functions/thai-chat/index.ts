@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.4 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.0 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
