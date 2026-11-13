@@ -21,6 +21,14 @@
   ];
 
   const q = id => document.getElementById(id);
+  const MOODS = ["normal", "happy", "surprised"];
+  const MOOD_IMAGE = {
+    normal: "images/mali-normal.webp?v=10.1",
+    happy: "images/mali-smile.webp?v=10.1",
+    surprised: "images/mali-surprise.webp?v=10.1"
+  };
+  const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
+  const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
   const chat = {
     level: 1,
     messages: [],   // {role:"user"|"assistant", content:string, japanese?, words?}
@@ -41,10 +49,12 @@
     .chat-passcode input,.chat-input-row textarea{font:inherit;padding:10px 12px;border:1px solid var(--border);border-radius:12px;background:#fff}
     .chat-card{display:grid;gap:12px}
     .chat-profile{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:#fffaf3;border:1px solid var(--border)}
-    .chat-avatar{width:72px;height:72px;flex:none;border-radius:50%;box-shadow:0 4px 12px rgba(255,143,171,.35)}
+    .chat-avatar{width:108px;height:144px;flex:none;border-radius:16px;object-fit:cover;object-position:50% 0;background:#fdf6f0;box-shadow:0 4px 12px rgba(255,143,171,.35);transition:transform .2s}
+    .chat-avatar.pop{animation:chat-pop .35s ease-out}
+    @keyframes chat-pop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
     .chat-row{display:flex;gap:8px;align-items:flex-end;justify-self:start;max-width:94%}
     .chat-row .chat-bubble{max-width:100%}
-    .chat-mini{width:40px;height:40px;flex:none;border-radius:50%;box-shadow:0 2px 6px rgba(255,143,171,.35)}
+    .chat-mini{width:44px;height:44px;flex:none;border-radius:50%;background:#fdf6f0;box-shadow:0 2px 6px rgba(255,143,171,.35)}
     .chat-typing .chat-mini,.chat-room-talking .chat-avatar{animation:chat-bob 1s ease-in-out infinite}
     @keyframes chat-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
     @media (prefers-reduced-motion:reduce){.chat-typing .chat-mini,.chat-room-talking .chat-avatar{animation:none}}
@@ -85,7 +95,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="mali.svg?v=10.1" alt="" style="width:2.6em;height:2.6em;border-radius:50%;vertical-align:middle"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile-face.webp?v=10.1" alt="" style="width:2.8em;height:2.8em;border-radius:50%;vertical-align:middle"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -102,7 +112,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="mali.svg?v=10.1" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.1" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -117,7 +127,7 @@
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <img class="chat-avatar" src="mali.svg?v=10.1" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.1" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
           <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
@@ -391,7 +401,7 @@
     bubble.className = "chat-bubble mali";
     const row = document.createElement("div");
     row.className = "chat-row";
-    row.append(miniAvatar(), bubble);
+    row.append(miniAvatar(message.mood), bubble);
     const thai = document.createElement("div");
     thai.className = "chat-thai";
     thai.lang = "th";
@@ -426,10 +436,10 @@
     return row;
   }
 
-  function miniAvatar() {
+  function miniAvatar(mood) {
     const img = document.createElement("img");
     img.className = "chat-mini";
-    img.src = "mali.svg?v=10.1";
+    img.src = moodFace(mood);
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
     return img;
@@ -443,11 +453,26 @@
       typing.className = "chat-typing chat-row";
       const dots = document.createElement("span");
       dots.textContent = "マリが入力中… ✍️";
-      typing.append(miniAvatar(), dots);
+      typing.append(miniAvatar("normal"), dots);
       log.append(typing);
     }
     log.scrollTop = log.scrollHeight;
     renderChoices();
+    updateBigAvatar();
+  }
+
+  // The large picture in the room header follows Mali's latest mood.
+  function updateBigAvatar() {
+    const img = document.querySelector("#chatRoom .chat-avatar");
+    if (!img) return;
+    const last = [...chat.messages].reverse().find(m => m.role === "assistant");
+    const src = moodImage(last?.mood);
+    if (!img.src.endsWith(src)) {
+      img.src = src;
+      img.classList.remove("pop");
+      void img.offsetWidth; // restart the animation
+      img.classList.add("pop");
+    }
   }
 
   function renderChoices() {
@@ -558,6 +583,7 @@
         role: "assistant",
         content: String(reply.thai),
         japanese: String(reply.japanese || ""),
+        mood: MOODS.includes(reply.mood) ? reply.mood : "normal",
         words: Array.isArray(reply.words) ? reply.words.filter(w => w && w.thai) : [],
         choices: Array.isArray(reply.choices) ? reply.choices.filter(c => c && c.thai).slice(0, 3) : []
       });

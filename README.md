@@ -35,7 +35,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 |---|---|
 | `index.html` | メイン画面と学習処理 |
 | `interface-v9.js` / `speaking-v8.js` | 英語UI・発話練習 |
-| `chat-v10.js` / `mali.svg` | 会話画面（マリとのチャット）とマリのイラスト |
+| `chat-v10.js` / `images/mali-*.webp` | 会話画面（マリとのチャット）とマリの表情イラスト（通常・笑顔・驚き） |
 | `supabase/functions/thai-chat/` | 会話用のSupabase Edge Function。OpenAIのキーはSupabaseのSecretsだけに置く |
 | `supabase-config.js` | 公開用の辞書接続設定 |
 | `questions.json` / `news_content.json` | アプリが読み込む単語・ニュース教材 |
