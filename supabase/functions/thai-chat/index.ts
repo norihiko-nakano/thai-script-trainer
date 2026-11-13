@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.1 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.4 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -6,22 +6,24 @@
 //   OPENAI_API_KEY      required. OpenAI API key used only by this function.
 //   TVT_CHAT_PASSCODE   required. Any phrase you choose; the app asks for it once per browser.
 //   OPENAI_CHAT_MODEL   optional. Defaults to gpt-5.4-mini.
-//   OPENAI_TTS_VOICE    optional. Voice for Mali's speech. Defaults to coral.
+//   OPENAI_TTS_VOICE    optional. Default voice for Mali's speech (the app can pick one of TTS_VOICES). Defaults to nova.
 //
 // Deploy with "Verify JWT" turned OFF: the app sends the passcode instead of a login token.
 
 const MODEL = Deno.env.get("OPENAI_CHAT_MODEL") ?? "gpt-5.4-mini";
 const TTS_MODEL = "gpt-4o-mini-tts";
-const TTS_VOICE = Deno.env.get("OPENAI_TTS_VOICE") ?? "coral";
+const TTS_VOICE = Deno.env.get("OPENAI_TTS_VOICE") ?? "nova";
+// Voices the app may choose from (female-sounding OpenAI voices).
+const TTS_VOICES = ["nova", "shimmer", "coral", "sage", "alloy"];
 const MAX_TTS_CHARS = 300;
 const TTS_PACE: Record<number, string> = {
   1: "Speak slowly, with a short pause between words, so a beginner can catch every sound.",
   2: "Speak a little slower than normal and very clearly.",
   3: "Speak at a relaxed, natural pace.",
 };
-const TTS_STYLE = `Voice: an original, cute, high-pitched young woman's voice in a bright anime-heroine style, cheerful and friendly.
+const TTS_STYLE = `Voice: an original, sweet, high-pitched voice of a cheerful young woman of about 20, like a bright anime heroine. Light, youthful and bubbly, smiling while speaking. Never deep, mature or husky.
 Language: Thai. Pronounce every Thai tone and vowel length accurately, like a native speaker from Bangkok.
-Tone: warm, smiling and encouraging, like talking to a friend who is learning Thai.`;
+Tone: warm, friendly and encouraging, like talking to a friend who is learning Thai.`;
 const ALLOWED_ORIGINS = [
   "https://norihiko-nakano.github.io",
   "http://localhost:8000",
@@ -256,7 +258,7 @@ Deno.serve(async (req) => {
         headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: TTS_MODEL,
-          voice: TTS_VOICE,
+          voice: TTS_VOICES.includes(body?.voice) ? body.voice : TTS_VOICE,
           input: text,
           instructions: `${TTS_STYLE}\nPace: ${TTS_PACE[level]}`,
           response_format: "mp3",
