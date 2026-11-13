@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.3: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.4: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -13,7 +13,7 @@
   const FUNCTION_NAME = "thai-chat";
   const PASSCODE_KEY = "thaiTrainerChatPasscodeV10";
   const LEVEL_KEY = "thaiTrainerChatLevelV10";
-  const MAX_VOCAB = 160;
+  const MAX_VOCAB = 600; // all dictionary words up to the level (Level 3 has about 400)
   const LEVELS = [
     { level: 1, title: "Level 1 · 基礎", note: "とても短い文で、ゆっくり話してくれます" },
     { level: 2, title: "Level 2 · 基礎＋", note: "短くてやさしい文で話します" },
@@ -113,7 +113,7 @@
         <div class="chat-profile">
           <div class="chat-avatar" aria-hidden="true">👩🏻🌺</div>
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
-          <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣</span></div>
+          <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
         <div id="chatStatus" class="chat-status" role="status"></div>
@@ -162,13 +162,13 @@
     const target = String(thai || "").trim();
     return dictionaryWords().find(w => w.thai === target || (Array.isArray(w.acceptedThai) && w.acceptedThai.includes(target)));
   }
-  function sampleVocab(level) {
-    const words = [...new Set(wordsUpTo(level).map(w => w.thai))];
-    for (let i = words.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [words[i], words[j]] = [words[j], words[i]];
+  function levelVocab(level) {
+    const words = new Set();
+    for (const w of wordsUpTo(level)) {
+      words.add(w.thai);
+      if (Array.isArray(w.acceptedThai)) w.acceptedThai.forEach(t => t && words.add(t));
     }
-    return words.slice(0, MAX_VOCAB);
+    return [...words].slice(0, MAX_VOCAB);
   }
 
   function status(text, isError) {
@@ -325,8 +325,14 @@
     chip.type = "button";
     chip.className = "chat-word";
     chip.lang = "th";
-    chip.textContent = word.thai;
-    chip.title = "タップで意味を表示";
+    const source = entry ? "dictionary" : word.source === "basic" ? "basic" : "new";
+    const mark = { dictionary: "📘", basic: "🔰", new: "⭐" }[source];
+    chip.textContent = `${mark} ${word.thai}`;
+    chip.title = {
+      dictionary: "TVTの辞書の単語（タップで意味）",
+      basic: "会話の基本語（タップで意味）",
+      new: "辞書にない新しい単語（タップで意味）"
+    }[source];
 
     const meaning = document.createElement("span");
     meaning.className = "chat-word-meaning hidden";
@@ -504,7 +510,7 @@
         },
         body: JSON.stringify({
           level: chat.level,
-          vocab: sampleVocab(chat.level),
+          vocab: levelVocab(chat.level),
           messages: chat.messages.map(m => ({ role: m.role, content: m.content }))
         }),
         signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
@@ -670,5 +676,5 @@
   });
 
   // Exposed for tests.
-  window.__tvtChat = { chat, sampleVocab, dictionaryEntry, functionUrl, addWordToReviewBook };
+  window.__tvtChat = { chat, levelVocab, dictionaryEntry, functionUrl, addWordToReviewBook };
 })();
