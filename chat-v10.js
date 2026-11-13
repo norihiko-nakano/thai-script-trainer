@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.2: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.3: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -15,77 +15,121 @@
   const LEVEL_KEY = "thaiTrainerChatLevelV10";
   const MAX_VOCAB = 600; // all dictionary words up to the level (Level 3 has about 400)
 
-  // Hand-checked readings for the basic conversation words that are not in the
-  // dictionary (the same list the Edge Function allows). Dictionary readings win.
-  // Readings are never taken from the AI.
-  const BASIC_READINGS = {
-    "สวัสดี": "サワッディー", "ขอบคุณ": "コップクン", "ขอโทษ": "コートート", "ไม่เป็นไร": "マイペンライ",
-    "ยินดี": "インディー", "รู้จัก": "ルーチャック", "ลาก่อน": "ラーコーン", "โชคดี": "チョークディー",
-    "ค่ะ": "カ", "คะ": "カ", "ครับ": "クラップ", "นะ": "ナ", "จ้ะ": "チャ", "จ้า": "チャー",
-    "ไหม": "マイ", "มั้ย": "マイ", "หรือ": "ルー", "เหรอ": "ロー", "หรอ": "ロー",
-    "ใช่": "チャイ", "ไม่": "マイ", "ไม่ใช่": "マイチャイ", "โอเค": "オーケー", "ได้": "ダイ",
-    "ฉัน": "チャン", "ผม": "ポム", "คุณ": "クン", "เขา": "カオ", "เรา": "ラオ", "คน": "コン",
-    "อะไร": "アライ", "ใคร": "クライ", "ที่ไหน": "ティーナイ", "ไหน": "ナイ", "เมื่อไร": "ムアライ",
-    "ทำไม": "タムマイ", "อย่างไร": "ヤーンライ", "ยังไง": "ヤンガイ", "กี่": "キー", "เท่าไร": "タオライ",
-    "เป็น": "ペン", "คือ": "クー", "มี": "ミー", "อยู่": "ユー", "ไป": "パイ", "มา": "マー", "ทำ": "タム",
-    "ชอบ": "チョープ", "อยาก": "ヤーク", "จะ": "チャ", "แล้ว": "レーオ", "ยัง": "ヤン", "ก็": "コー",
-    "ด้วย": "ドゥアイ", "และ": "レ", "แต่": "テー", "กับ": "カップ", "ที่": "ティー", "ของ": "コーン",
-    "กัน": "カン", "เจอ": "チュー", "สบาย": "サバーイ", "สบายดี": "サバーイディー", "ดี": "ディー",
-    "มาก": "マーク", "นิดหน่อย": "ニットノイ", "จริง": "チン", "นี่": "ニー", "นี้": "ニー",
-    "นั่น": "ナン", "นั้น": "ナン", "วัน": "ワン", "ชื่อ": "チュー", "ไทย": "タイ", "ญี่ปุ่น": "イープン",
-    "กรุงเทพ": "クルンテープ", "ประเทศ": "プラテート"
+  // Hand-checked readings and meanings for the basic conversation words that are
+  // not in the dictionary (the same list the Edge Function allows).
+  // The dictionary wins when it has the word. Readings never come from the AI.
+  const BASIC_WORDS = {
+    "สวัสดี": ["サワッディー", "こんにちは"], "ขอบคุณ": ["コップクン", "ありがとう"],
+    "ขอโทษ": ["コートート", "ごめんなさい"], "ไม่เป็นไร": ["マイペンライ", "大丈夫・気にしないで"],
+    "ยินดี": ["インディー", "うれしい"], "รู้จัก": ["ルーチャック", "知り合う・知っている"],
+    "ลาก่อน": ["ラーコーン", "さようなら"], "โชคดี": ["チョークディー", "幸運を・がんばって"],
+    "ค่ะ": ["カ", "（女性の丁寧な語尾）"], "คะ": ["カ", "（女性の丁寧な語尾・疑問）"],
+    "ครับ": ["クラップ", "（男性の丁寧な語尾）"], "นะ": ["ナ", "〜ね"], "จ้ะ": ["チャ", "（親しい語尾）"],
+    "จ้า": ["チャー", "（親しい語尾）"], "ไหม": ["マイ", "〜か？"], "มั้ย": ["マイ", "〜か？（話し言葉）"],
+    "หรือ": ["ルー", "または・〜か？"], "เหรอ": ["ロー", "〜なの？"], "หรอ": ["ロー", "〜なの？"],
+    "ใช่": ["チャイ", "はい・そうです"], "ไม่": ["マイ", "〜ない"], "ไม่ใช่": ["マイチャイ", "ちがう"],
+    "โอเค": ["オーケー", "オーケー"], "ได้": ["ダイ", "できる・いいよ"],
+    "ฉัน": ["チャン", "私"], "ผม": ["ポム", "僕（男性）"], "คุณ": ["クン", "あなた・〜さん"],
+    "เขา": ["カオ", "彼・彼女"], "เรา": ["ラオ", "私たち"], "คน": ["コン", "人"],
+    "อะไร": ["アライ", "何"], "ใคร": ["クライ", "だれ"], "ที่ไหน": ["ティーナイ", "どこ"],
+    "ไหน": ["ナイ", "どれ・どこ"], "เมื่อไร": ["ムアライ", "いつ"], "ทำไม": ["タムマイ", "なぜ"],
+    "อย่างไร": ["ヤーンライ", "どのように"], "ยังไง": ["ヤンガイ", "どう（話し言葉）"],
+    "กี่": ["キー", "いくつ"], "เท่าไร": ["タオライ", "いくら"],
+    "เป็น": ["ペン", "〜である"], "คือ": ["クー", "〜は（つまり）"], "มี": ["ミー", "ある・持っている"],
+    "อยู่": ["ユー", "いる・住んでいる"], "ไป": ["パイ", "行く"], "มา": ["マー", "来る"], "ทำ": ["タム", "する・作る"],
+    "ชอบ": ["チョープ", "好き"], "อยาก": ["ヤーク", "〜したい"], "จะ": ["チャ", "〜するつもり"],
+    "แล้ว": ["レーオ", "もう・〜した"], "ยัง": ["ヤン", "まだ"], "ก็": ["コー", "〜も"],
+    "ด้วย": ["ドゥアイ", "〜も・一緒に"], "และ": ["レ", "そして"], "แต่": ["テー", "でも"],
+    "กับ": ["カップ", "〜と"], "ที่": ["ティー", "〜で・〜する所"], "ของ": ["コーン", "〜の"],
+    "กัน": ["カン", "お互いに・一緒に"], "เจอ": ["チュー", "会う"], "สบาย": ["サバーイ", "気楽・快適"],
+    "สบายดี": ["サバーイディー", "元気"], "ดี": ["ディー", "良い"], "มาก": ["マーク", "とても"],
+    "นิดหน่อย": ["ニットノイ", "少し"], "จริง": ["チン", "本当"], "นี่": ["ニー", "これ"],
+    "นี้": ["ニー", "この"], "นั่น": ["ナン", "それ"], "นั้น": ["ナン", "その"], "วัน": ["ワン", "日"],
+    "ชื่อ": ["チュー", "名前"], "ไทย": ["タイ", "タイ"], "ญี่ปุ่น": ["イープン", "日本"],
+    "กรุงเทพ": ["クルンテープ", "バンコク"], "ประเทศ": ["プラテート", "国"]
   };
-  let readingTable = null;
-  let readingMaxLen = 1;
+  let lexicon = null;
+  let lexiconMaxLen = 1;
 
-  function buildReadingTable() {
-    const table = new Map(Object.entries(BASIC_READINGS));
+  // thai -> { reading, japanese, source: "dictionary" | "basic" }
+  function buildLexicon() {
+    const map = new Map();
+    for (const [thai, [reading, japanese]] of Object.entries(BASIC_WORDS)) map.set(thai, { reading, japanese, source: "basic" });
     for (const w of dictionaryWords()) {
-      if (!w.reading) continue;
       for (const t of [w.thai, ...(Array.isArray(w.acceptedThai) ? w.acceptedThai : [])]) {
-        if (t) table.set(t, w.reading);
+        if (!t) continue;
+        const prev = map.get(t);
+        if (prev?.source === "dictionary" && Number(prev.difficulty) >= 1 && !(Number(w.difficulty) >= 1)) continue;
+        map.set(t, { reading: w.reading || prev?.reading || "", japanese: w.japanese || prev?.japanese || "", source: "dictionary", difficulty: w.difficulty, entry: w });
       }
     }
-    readingTable = table;
-    readingMaxLen = Math.max(1, ...[...table.keys()].map(k => k.length));
+    lexicon = map;
+    lexiconMaxLen = Math.max(1, ...[...map.keys()].map(k => k.length));
   }
 
-  // Katakana reading of a Thai sentence, built word by word from the dictionary
-  // and BASIC_READINGS. Parts with no known reading are shown as ［Thai］.
-  function thaiReading(text) {
-    if (!readingTable) buildReadingTable();
-    return String(text || "").replace(/[\u0E00-\u0E7F]+/g, run => {
+  // Splits text into tokens: {text, thai:true, info|null} for Thai words and
+  // {text, thai:false} for spaces and punctuation. Known words come from the
+  // dictionary, the basic list, and the AI's key words for this line (extra).
+  // Unknown characters are grouped into one token.
+  function tokenize(text, extra) {
+    if (!lexicon) buildLexicon();
+    const extraMap = new Map((extra || []).filter(w => w && w.thai).map(w => [String(w.thai).trim(), w]));
+    const maxLen = Math.max(lexiconMaxLen, ...[...extraMap.keys()].map(k => k.length), 1);
+    const known = piece => lexicon.has(piece) || extraMap.has(piece);
+    const tokens = [];
+    const source = String(text || "");
+    let last = 0;
+    for (const m of source.matchAll(/[฀-๿]+/g)) {
+      if (m.index > last) tokens.push({ text: source.slice(last, m.index), thai: false });
+      const run = m[0];
       const n = run.length;
       const best = Array(n + 1).fill(null);
       best[0] = { cost: 0, words: 0, prev: -1, known: false };
       for (let i = 0; i < n; i++) {
         if (!best[i]) continue;
-        const step = (j, known) => {
-          const cost = best[i].cost + (known ? 0 : j - i);
+        const step = (j, ok) => {
+          const cost = best[i].cost + (ok ? 0 : j - i);
           const words = best[i].words + 1;
           const cur = best[j];
-          if (!cur || cost < cur.cost || (cost === cur.cost && words < cur.words)) best[j] = { cost, words, prev: i, known };
+          if (!cur || cost < cur.cost || (cost === cur.cost && words < cur.words)) best[j] = { cost, words, prev: i, known: ok };
         };
-        step(i + 1, false);
-        for (let len = 2; len <= readingMaxLen && i + len <= n; len++) {
-          if (readingTable.has(run.slice(i, i + len))) step(i + len, true);
+        step(i + 1, known(run[i]));
+        for (let len = 2; len <= maxLen && i + len <= n; len++) {
+          if (known(run.slice(i, i + len))) step(i + len, true);
         }
-        if (readingTable.has(run[i])) step(i + 1, true);
       }
       const parts = [];
-      for (let j = n; j > 0; j = best[j].prev) {
-        const piece = run.slice(best[j].prev, j);
-        parts.unshift({ piece, known: best[j].known });
-      }
-      // Join neighbouring unknown characters into one bracket.
-      const out = [];
+      for (let j = n; j > 0; j = best[j].prev) parts.unshift({ text: run.slice(best[j].prev, j), known: best[j].known });
       for (const part of parts) {
-        if (part.known) out.push(readingTable.get(part.piece));
-        else if (out.length && out[out.length - 1].startsWith("［")) out[out.length - 1] = out[out.length - 1].slice(0, -1) + part.piece + "］";
-        else out.push(`［${part.piece}］`);
+        const prev = tokens[tokens.length - 1];
+        if (!part.known && prev && prev.thai && !prev.info && !prev.extra) { prev.text += part.text; continue; }
+        const info = part.known ? lexicon.get(part.text) || null : null;
+        tokens.push({ text: part.text, thai: true, info, extra: extraMap.get(part.text) || null });
       }
-      return out.join(" ");
-    });
+      last = m.index + run.length;
+    }
+    if (last < source.length) tokens.push({ text: source.slice(last), thai: false });
+    return tokens;
+  }
+
+  // Each Thai word as a small block with its katakana reading on top.
+  function rubyLine(text, extra) {
+    const frag = document.createDocumentFragment();
+    for (const t of tokenize(text, extra)) {
+      if (!t.thai) continue; // spacing comes from the gap between blocks
+      const word = document.createElement("span");
+      word.className = "chat-ruby";
+      const rt = document.createElement("span");
+      rt.className = "chat-ruby-rt";
+      rt.textContent = t.info?.reading || "？";
+      const base = document.createElement("span");
+      base.className = "chat-ruby-base";
+      base.lang = "th";
+      base.textContent = t.text;
+      word.append(rt, base);
+      frag.append(word);
+    }
+    return frag;
   }
   const LEVELS = [
     { level: 1, title: "Level 1 · 基礎", note: "とても短い文で、ゆっくり話してくれます" },
@@ -96,9 +140,9 @@
   const q = id => document.getElementById(id);
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
-    normal: "images/mali-normal.webp?v=10.2",
-    happy: "images/mali-smile.webp?v=10.2",
-    surprised: "images/mali-surprise.webp?v=10.2"
+    normal: "images/mali-normal.webp?v=10.3",
+    happy: "images/mali-smile.webp?v=10.3",
+    surprised: "images/mali-surprise.webp?v=10.3"
   };
   const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
   const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
@@ -136,19 +180,19 @@
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
-    .chat-reading{margin-top:6px;padding:6px 10px;border-radius:10px;background:#fff7d6;font-size:1rem;letter-spacing:.02em}
-    .chat-reading::before{content:"🔤 ";}
-    .chat-hint[disabled]{opacity:.55;cursor:default}
-    .chat-choice .chat-choice-reading{font-size:.9rem;color:#8a6a2a}
-    .chat-japanese{margin-top:6px;padding:8px 10px;border-radius:10px;background:#f7efe5;font-size:.95rem}
-    .chat-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-    .chat-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-    .chat-word{font:inherit;font-size:.9rem;padding:5px 9px;border-radius:999px;border:1px solid var(--border);background:#fff;cursor:pointer}
-    .chat-word.open{background:#fffaf3;border-color:#c98d5c}
-    .chat-word small{color:#8a7a6a;margin-left:6px}
-    .chat-word-wrap{display:inline-flex;gap:4px;align-items:center}
-    .chat-word-add{font:inherit;font-size:.8rem;padding:4px 8px;border-radius:999px;border:1px dashed #c98d5c;background:#fff;cursor:pointer}
+    .chat-thai .news-word{font:inherit;padding:0 1px}
+    .chat-thai .news-word.selected{background:#dbeafe;color:#172554}
+    .chat-thai .chat-unknown{border-bottom:1px dotted #c9a0a0}
+    .chat-word-hint{margin-top:10px;padding:10px;border-radius:10px;background:#eff6ff;color:#172554;font-size:.98rem;line-height:1.6}
+    .chat-word-hint .chat-hint-word{font:700 1.1rem Tahoma,sans-serif}
+    .chat-word-hint .chat-hint-reading{font-size:1.1rem;font-weight:700;color:#7a4a00}
+    .chat-word-hint .chat-hint-more{color:#6b7280;font-size:.9rem}
+    .chat-word-add{font:inherit;font-size:.85rem;margin-left:6px;padding:3px 9px;border-radius:999px;border:1px dashed #c98d5c;background:#fff;cursor:pointer}
     .chat-word-add.added{background:var(--success-bg);color:var(--success);border:1px solid transparent;cursor:default}
+    .chat-choice.with-ruby .chat-choice-thai{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:flex-end}
+    .chat-ruby{display:inline-flex;flex-direction:column;align-items:center}
+    .chat-ruby-rt{font:600 .72rem/1.2 system-ui,sans-serif;color:#8a6a2a;white-space:nowrap}
+    .chat-ruby-base{line-height:1.4}
     .chat-input-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end}
     .chat-input-row textarea{resize:vertical;min-height:52px;font-family:Tahoma,sans-serif;font-size:1.1rem}
     .chat-status{min-height:1.4em;padding:0 4px;font-size:.95rem}
@@ -172,7 +216,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.2" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.3" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -189,7 +233,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.2" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.3" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -204,9 +248,9 @@
 
       <section id="chatRoom" class="chat-card hidden">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.2" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.3" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
-          <span class="muted">単語をタップすると意味が出て、復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
+          <span class="muted">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　⭐辞書にない単語</span></div>
         </div>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
         <div id="chatStatus" class="chat-status" role="status"></div>
@@ -409,62 +453,6 @@
     }
   }
 
-  function wordChip(word, startOpen) {
-    const entry = dictionaryEntry(word.thai);
-    const wrap = document.createElement("span");
-    wrap.className = "chat-word-wrap";
-
-    const chip = document.createElement("button");
-    chip.type = "button";
-    chip.className = "chat-word";
-    chip.lang = "th";
-    const source = entry ? "dictionary" : word.source === "basic" ? "basic" : "new";
-    const mark = { dictionary: "📘", basic: "🔰", new: "⭐" }[source];
-    chip.textContent = `${mark} ${word.thai}`;
-    chip.title = {
-      dictionary: "TVTの辞書の単語（タップで意味）",
-      basic: "会話の基本語（タップで意味）",
-      new: "辞書にない新しい単語（タップで意味）"
-    }[source];
-
-    const meaning = document.createElement("span");
-    meaning.className = "chat-word-meaning hidden";
-    meaning.textContent = ` = ${word.japanese}`;
-    if (entry?.reading) {
-      const small = document.createElement("small");
-      small.textContent = entry.reading;
-      meaning.append(small);
-    }
-
-    const add = document.createElement("button");
-    add.type = "button";
-    add.className = "chat-word-add hidden";
-    add.textContent = "🍣＋復習帳";
-    const markAdded = () => {
-      add.textContent = "✓ 復習帳";
-      add.disabled = true;
-      add.classList.add("added");
-    };
-    if (isInReviewBook(entry, word.thai)) markAdded();
-
-    chip.addEventListener("click", () => {
-      const open = meaning.classList.toggle("hidden") === false;
-      add.classList.toggle("hidden", !open);
-      chip.classList.toggle("open", open);
-    });
-    add.addEventListener("click", () => {
-      if (addWordToReviewBook(word)) {
-        markAdded();
-        status(`「${word.thai}」を復習帳に入れました🍣`);
-      }
-    });
-
-    chip.append(meaning);
-    wrap.append(chip, add);
-    if (startOpen) chip.click();
-    return wrap;
-  }
-
   function renderMessage(message) {
     const bubble = document.createElement("div");
     if (message.role === "user") {
@@ -480,17 +468,74 @@
     const row = document.createElement("div");
     row.className = "chat-row";
     row.append(miniAvatar(message.mood), bubble);
+
+    // Like the news reader: each word is tappable.
+    // 1st tap → reading, 2nd tap on the same word → meaning (+ review book).
+    const tokens = tokenize(message.content, message.words);
+    const sel = message.sel || null; // { i, stage }
     const thai = document.createElement("div");
     thai.className = "chat-thai";
     thai.lang = "th";
-    thai.textContent = message.content;
+    tokens.forEach((t, i) => {
+      if (!t.thai) { thai.append(t.text); return; }
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "news-word" + (t.info || t.extra ? "" : " chat-unknown") + (sel?.i === i ? " selected" : "");
+      b.textContent = t.text;
+      b.setAttribute("aria-label", `${t.text} の読み方を表示`);
+      b.addEventListener("click", () => {
+        message.sel = sel?.i === i ? { i, stage: Math.min(sel.stage + 1, 2) } : { i, stage: 1 };
+        renderLog({ keepScroll: true });
+      });
+      thai.append(b);
+    });
 
-    // Hints open step by step: ⚡ reading → ⚡⚡ word meanings → ⚡⚡⚡ full translation.
-    // First try to read the Thai yourself.
-    const hasWords = Array.isArray(message.words) && message.words.length > 0;
-    const steps = hasWords ? ["reading", "words", "japanese"] : ["reading", "japanese"];
-    const stage = message.hint || 0;
-    const shown = steps.slice(0, stage);
+    const hint = document.createElement("div");
+    hint.className = "chat-word-hint";
+    hint.setAttribute("role", "status");
+    hint.setAttribute("aria-live", "polite");
+    const token = sel ? tokens[sel.i] : null;
+    if (!token) {
+      hint.textContent = "👆 わからない単語をタップすると読み方、もう一度タップすると意味が出ます";
+    } else {
+      const reading = token.info?.reading || "";
+      const meaning = token.extra?.japanese || token.info?.japanese || "";
+      const source = token.info?.source === "dictionary" ? "📘" : token.info ? "🔰" : "⭐";
+      const word = document.createElement("span");
+      word.className = "chat-hint-word";
+      word.lang = "th";
+      word.textContent = `${source} ${token.text}`;
+      const read = document.createElement("span");
+      read.className = "chat-hint-reading";
+      read.textContent = reading || "読み未登録";
+      hint.append(word, "：🔤 ", read);
+      if (sel.stage >= 2) {
+        hint.append(` ／ ${meaning || "意味未登録"}`);
+        const add = document.createElement("button");
+        add.type = "button";
+        add.className = "chat-word-add";
+        const entry = token.info?.entry || dictionaryEntry(token.text);
+        const markAdded = () => {
+          add.textContent = "✓ 復習帳";
+          add.disabled = true;
+          add.classList.add("added");
+        };
+        add.textContent = "🍣＋復習帳";
+        if (isInReviewBook(entry, token.text)) markAdded();
+        add.addEventListener("click", () => {
+          if (addWordToReviewBook({ thai: token.text, japanese: meaning })) {
+            markAdded();
+            status(`「${token.text}」を復習帳に入れました🍣`);
+          }
+        });
+        hint.append(add);
+      } else {
+        const more = document.createElement("span");
+        more.className = "chat-hint-more";
+        more.textContent = "（もう一度タップで意味）";
+        hint.append(" ", more);
+      }
+    }
 
     const tools = document.createElement("div");
     tools.className = "chat-tools";
@@ -499,36 +544,18 @@
     listen.className = "small-button";
     listen.textContent = "🔊 聞く";
     listen.addEventListener("click", () => speakThai(message.content, listen));
-    const hint = document.createElement("button");
-    hint.type = "button";
-    hint.className = "small-button chat-hint";
-    const label = { reading: "読み方", words: "単語の意味", japanese: "日本語訳" };
-    if (stage >= steps.length) {
-      hint.textContent = "💡 ヒント全部オープン";
-      hint.disabled = true;
-    } else {
-      hint.textContent = `ヒント${"⚡".repeat(stage + 1)}（${label[steps[stage]]}）`;
-      hint.addEventListener("click", () => {
-        message.hint = stage + 1;
-        renderLog({ keepScroll: true });
-      });
-    }
-    tools.append(listen, hint);
-    bubble.append(thai, tools);
+    const whole = document.createElement("button");
+    whole.type = "button";
+    whole.className = "small-button";
+    whole.textContent = message.showJapanese ? "🇯🇵 文の訳をかくす" : "🇯🇵 文の訳（最後の手段）";
+    whole.addEventListener("click", () => {
+      message.showJapanese = !message.showJapanese;
+      renderLog({ keepScroll: true });
+    });
+    tools.append(listen, whole);
 
-    if (shown.includes("reading")) {
-      const reading = document.createElement("div");
-      reading.className = "chat-reading";
-      reading.textContent = thaiReading(message.content);
-      bubble.append(reading);
-    }
-    if (hasWords) {
-      const words = document.createElement("div");
-      words.className = "chat-words";
-      message.words.forEach(word => words.append(wordChip(word, shown.includes("words"))));
-      bubble.append(words);
-    }
-    if (shown.includes("japanese")) {
+    bubble.append(thai, hint, tools);
+    if (message.showJapanese) {
       const japanese = document.createElement("div");
       japanese.className = "chat-japanese";
       japanese.textContent = message.japanese || "（訳がありません）";
@@ -596,13 +623,12 @@
       thai.className = "chat-choice-thai";
       thai.lang = "th";
       thai.textContent = choice.thai;
-      b.append(thai);
       if (choiceStage >= 1) {
-        const reading = document.createElement("span");
-        reading.className = "chat-choice-reading";
-        reading.textContent = `🔤 ${thaiReading(choice.thai)}`;
-        b.append(reading);
+        // Reading sits right above each word, so it is clear which goes with which.
+        thai.replaceChildren(rubyLine(choice.thai));
+        b.classList.add("with-ruby");
       }
+      b.append(thai);
       if (choiceStage >= 2) {
         const ja = document.createElement("span");
         ja.className = "chat-choice-ja";
@@ -837,5 +863,5 @@
   });
 
   // Exposed for tests.
-  window.__tvtChat = { chat, levelVocab, thaiReading, dictionaryEntry, functionUrl, addWordToReviewBook };
+  window.__tvtChat = { chat, levelVocab, tokenize, dictionaryEntry, functionUrl, addWordToReviewBook };
 })();
