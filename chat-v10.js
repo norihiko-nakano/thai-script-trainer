@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.5: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.6: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -181,9 +181,9 @@
   const q = id => document.getElementById(id);
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
-    normal: "images/mali-normal.webp?v=10.5",
-    happy: "images/mali-smile.webp?v=10.5",
-    surprised: "images/mali-surprise.webp?v=10.5"
+    normal: "images/mali-normal.webp?v=10.6",
+    happy: "images/mali-smile.webp?v=10.6",
+    surprised: "images/mali-surprise.webp?v=10.6"
   };
   const moodImage = mood => MOOD_IMAGE[MOODS.includes(mood) ? mood : "normal"];
   const moodFace = mood => moodImage(mood).replace(".webp", "-face.webp");
@@ -210,12 +210,41 @@
     .chat-avatar{width:108px;height:144px;flex:none;object-fit:contain;object-position:50% 100%;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35));transition:transform .2s}
     .chat-avatar.pop{animation:chat-pop .35s ease-out}
     @keyframes chat-pop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+    /* Ver10.6: visual-novel layout — Mali standing on the left, chat on the right */
+    body.chat-wide .app-shell{width:min(1180px,calc(100% - 24px))}
+    .chat-room{display:grid;grid-template-columns:minmax(260px,36%) 1fr;gap:18px;align-items:start}
+    .chat-main{min-width:0}
+    .chat-legend{margin:0;font-size:.85rem}
+    .chat-stage{position:sticky;top:12px;height:calc(100vh - 24px);min-height:520px;max-height:900px;border-radius:24px;overflow:hidden;
+      background:radial-gradient(120% 70% at 50% 100%,#ffd6e4 0%,#fff3f7 45%,#fffaf5 100%);border:1px solid #f2d3dd}
+    .chat-stage::after{content:"";position:absolute;left:12%;right:12%;bottom:14px;height:22px;border-radius:50%;background:rgba(200,120,150,.18);filter:blur(4px)}
+    .chat-stage-img{position:absolute;left:50%;bottom:18px;height:calc(100% - 70px);width:auto;transform:translateX(-50%);z-index:1;
+      filter:drop-shadow(0 6px 10px rgba(180,90,120,.25));transition:opacity .18s ease}
+    .chat-stage-img.fading{opacity:.15}
+    .chat-stage-img.pop{animation:chat-stage-pop .35s ease-out}
+    @keyframes chat-stage-pop{0%{transform:translateX(-50%) scale(.97)}60%{transform:translateX(-50%) scale(1.02)}100%{transform:translateX(-50%) scale(1)}}
+    .chat-stage.talking .chat-stage-img{animation:chat-stage-bob 1s ease-in-out infinite}
+    @keyframes chat-stage-bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
+    .chat-nameplate{position:absolute;left:12px;top:12px;z-index:2;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;max-width:70%;
+      background:rgba(255,255,255,.88);border-radius:999px;padding:6px 14px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+    .chat-nameplate span{font-size:.85rem;color:#8a7a6a}
+    .chat-moods{position:absolute;right:10px;top:12px;z-index:2;display:flex;gap:4px}
+    .chat-moods span{background:rgba(255,255,255,.85);border-radius:999px;padding:3px 7px;font-size:.85rem;opacity:.6}
+    .chat-moods span.on{background:#ff8fab;opacity:1}
+    @media (min-width:761px){
+      /* keep the whole conversation beside Mali within one screen */
+      .chat-room .chat-log{max-height:calc(100vh - 430px);min-height:220px}
+    }
+    @media (max-width:760px){
+      .chat-room{grid-template-columns:1fr;gap:10px}
+      .chat-stage{top:0;z-index:5;height:34vh;min-height:220px}
+      .chat-stage-img{height:auto;width:62%;bottom:auto;top:44px}
+      .chat-stage::after{display:none}
+    }
+    @media (prefers-reduced-motion:reduce){.chat-stage-img,.chat-stage.talking .chat-stage-img{animation:none!important;transition:none}}
     .chat-row{display:flex;gap:8px;align-items:flex-end;justify-self:start;max-width:94%}
     .chat-row .chat-bubble{max-width:100%}
-    .chat-mini{width:48px;height:48px;flex:none;filter:drop-shadow(0 2px 4px rgba(255,143,171,.4))}
-    .chat-typing .chat-mini,.chat-room-talking .chat-avatar{animation:chat-bob 1s ease-in-out infinite}
     @keyframes chat-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-    @media (prefers-reduced-motion:reduce){.chat-typing .chat-mini,.chat-room-talking .chat-avatar{animation:none}}
     .chat-log{display:grid;gap:12px;max-height:56vh;overflow-y:auto;padding:6px 2px}
     .chat-bubble{max-width:88%;padding:12px 14px;border-radius:18px;line-height:1.6;word-break:break-word}
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
@@ -263,7 +292,7 @@
   button.type = "button";
   button.dataset.mode = "chat";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.5" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
+    '<span class="mode-icon" aria-hidden="true"><img src="images/mali-smile.webp?v=10.6" alt="" style="height:120px;width:auto;display:block;margin:0 auto;filter:drop-shadow(0 4px 8px rgba(255,143,171,.35))"></span>' +
     '<span class="mode-title">会話💬🌺</span>' +
     '<span class="mode-description">タイ人の女の子マリとタイ語でチャットする</span>';
   const grid = document.querySelector(".mode-grid");
@@ -280,7 +309,7 @@
 
       <section id="chatSetup" class="chat-setup">
         <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.5" alt="" aria-hidden="true">
+          <img class="chat-avatar" src="images/mali-normal.webp?v=10.6" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
@@ -305,12 +334,16 @@
         <button id="chatForgetPasscode" class="small-button hidden" type="button">合言葉を入れ直す</button>
       </section>
 
-      <section id="chatRoom" class="chat-card hidden">
-        <div class="chat-profile">
-          <img class="chat-avatar" src="images/mali-normal.webp?v=10.5" alt="" aria-hidden="true">
-          <div><strong>มะลิ（マリ）</strong> <span id="chatLevelLabel" class="muted"></span><br>
-          <span class="muted">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　📝マリの設定の単語　⭐辞書にない単語</span></div>
-        </div>
+      <section id="chatRoom" class="chat-room hidden">
+        <aside class="chat-stage" aria-label="マリ">
+          <div class="chat-nameplate"><strong>มะลิ（マリ）</strong><span id="chatLevelLabel"></span></div>
+          <div class="chat-moods" aria-hidden="true">
+            <span data-mood="normal">😊</span><span data-mood="happy">😆</span><span data-mood="surprised">😲</span>
+          </div>
+          <img id="chatStageImage" class="chat-stage-img" src="images/mali-full-normal.webp?v=10.6" alt="マリ（ふつうの表情）">
+        </aside>
+        <div class="chat-card chat-main">
+        <p class="muted chat-legend">単語をタップ→読み方、もう一度→意味。復習帳にも入れられます🍣<br>📘辞書の単語　🔰基本語　📝マリの設定の単語　⭐辞書にない単語</p>
         <div id="chatLog" class="chat-log" aria-live="polite"></div>
         <div id="chatStatus" class="chat-status" role="status"></div>
         <div id="chatChoices" class="chat-choices hidden">
@@ -329,6 +362,7 @@
         <div class="chat-tools">
           <button id="chatNew" class="small-button" type="button">🌱 新しい会話</button>
           <button id="chatChangeLevel" class="small-button" type="button">🎚️ レベルを変える</button>
+        </div>
         </div>
       </section>
     </div>`);
@@ -558,7 +592,7 @@
     bubble.className = "chat-bubble mali";
     const row = document.createElement("div");
     row.className = "chat-row";
-    row.append(miniAvatar(message.mood), bubble);
+    row.append(bubble);
 
     // Like the news reader: each word is tappable.
     // 1st tap → reading, 2nd tap on the same word → meaning (+ review book).
@@ -655,15 +689,6 @@
     return row;
   }
 
-  function miniAvatar(mood) {
-    const img = document.createElement("img");
-    img.className = "chat-mini";
-    img.src = moodFace(mood);
-    img.alt = "";
-    img.setAttribute("aria-hidden", "true");
-    return img;
-  }
-
   function renderLog(options = {}) {
     const log = q("chatLog");
     const keepScroll = options.keepScroll ? log.scrollTop : null;
@@ -673,7 +698,7 @@
       typing.className = "chat-typing chat-row";
       const dots = document.createElement("span");
       dots.textContent = "マリが入力中… ✍️";
-      typing.append(miniAvatar("normal"), dots);
+      typing.append(dots);
       log.append(typing);
     }
     log.scrollTop = keepScroll ?? log.scrollHeight;
@@ -682,17 +707,33 @@
   }
 
   // The large picture in the room header follows Mali's latest mood.
+  const MOOD_FULL = {
+    normal: "images/mali-full-normal.webp?v=10.6",
+    happy: "images/mali-full-smile.webp?v=10.6",
+    surprised: "images/mali-full-surprise.webp?v=10.6"
+  };
+  const MOOD_ALT = { normal: "ふつうの表情", happy: "笑顔", surprised: "おどろいた顔" };
+  // Preload so switching expressions is instant.
+  Object.values(MOOD_FULL).forEach(src => { const img = new Image(); img.src = src; });
+
+  // The standing picture on the left follows Mali's latest mood.
   function updateBigAvatar() {
-    const img = document.querySelector("#chatRoom .chat-avatar");
+    const img = q("chatStageImage");
     if (!img) return;
     const last = [...chat.messages].reverse().find(m => m.role === "assistant");
-    const src = moodImage(last?.mood);
-    if (!img.src.endsWith(src)) {
+    const mood = MOODS.includes(last?.mood) ? last.mood : "normal";
+    document.querySelectorAll(".chat-moods span").forEach(el => el.classList.toggle("on", el.dataset.mood === mood));
+    q("chatRoom").querySelector(".chat-stage").classList.toggle("talking", Boolean(chat.sending));
+    const src = MOOD_FULL[mood];
+    if (img.getAttribute("src") === src) return;
+    img.classList.add("fading");
+    setTimeout(() => {
       img.src = src;
-      img.classList.remove("pop");
+      img.alt = `マリ（${MOOD_ALT[mood]}）`;
+      img.classList.remove("fading", "pop");
       void img.offsetWidth; // restart the animation
       img.classList.add("pop");
-    }
+    }, 120);
   }
 
   function renderChoices() {
@@ -740,6 +781,7 @@
 
   function showSetup() {
     q("chatRoom").classList.add("hidden");
+    document.body.classList.remove("chat-wide");
     q("chatSetup").classList.remove("hidden");
     const hasPasscode = Boolean(passcode());
     q("chatPasscodeBox").classList.toggle("hidden", hasPasscode);
@@ -764,6 +806,9 @@
   function showRoom() {
     q("chatSetup").classList.add("hidden");
     q("chatRoom").classList.remove("hidden");
+    document.body.classList.add("chat-wide");
+    // Bring the room to the top so Mali is shown from head to toe.
+    requestAnimationFrame(() => q("chatRoom").scrollIntoView({ block: "start", behavior: "smooth" }));
     const item = LEVELS.find(l => l.level === chat.level);
     q("chatLevelLabel").textContent = item ? `／${item.title}` : "";
     renderLog();
@@ -917,6 +962,7 @@
   showScreen = name => {
     oldShow(name);
     q("chatScreen").classList.toggle("hidden", name !== "chat");
+    if (name !== "chat") document.body.classList.remove("chat-wide");
     if (name !== "chat") {
       if (chat.recognition) chat.recognition.stop();
       stopAudio();
