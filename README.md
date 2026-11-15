@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver10.6
+# Thai Vocabulary Trainer Ver10.7
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.6](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.7](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -23,6 +23,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 - 「読む」：単語・文章セット・ニュース短文の意味を選ぶ。
 - 「書く」：日本語を見てタイ語を入力する。
 - 「話す」：お手本音声と発話練習。音声認識の対応状況はブラウザによります。
+- 「会話」の復習φ(`･ω･´ )モード🐱：押すとすぐ、最後に勉強した日（今日なら今日）の単語と復習帳の単語を使って、マリが話しかけてくる。会話中ずっと復習の単語を使い、黄色で表示。
 - 「会話」💬🌺：タイ人の女の子マリとタイ語でチャット。レベル1〜3を選ぶと、そのレベルまでの単語を中心に話し方を合わせます。日本語訳・読み上げ・マイク入力つき。単語をタップすると復習帳へ入ります（読みは辞書にある語だけ表示）。
 - 復習帳・復習ドリル：「分かった」で復習帳から削除し、「分からん」で残す。
 - 学習履歴・覚え方メモ：ブラウザのlocalStorageに保存。

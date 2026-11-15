@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver10.6: 会話 (chat with Mali) add-on.
+/* Thai Vocabulary Trainer Ver10.7: 会話 (chat with Mali) add-on.
  *
  * Flow: browser -> Supabase Edge Function "thai-chat" -> OpenAI.
  * The OpenAI key lives only in Supabase secrets. This file only knows the public
@@ -179,6 +179,63 @@
   ];
 
   const q = id => document.getElementById(id);
+
+  // ---------- 復習φ(`･ω･´ )モード🐱 ----------
+  // Practise with the words studied on the last study day (today if studied today)
+  // or the words in the review book. Both come from this browser's saved data.
+  const REVIEW_MAX_WORDS = 40;
+  const review = { on: false, words: [] };
+
+  function localDay(date) {
+    const d = new Date(date);
+    if (Number.isNaN(d.getTime())) return "";
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+  function isThaiWord(text) {
+    return /^[\u0E00-\u0E7F]+$/.test(String(text || "").trim());
+  }
+  function uniqueWords(list) {
+    const seen = new Set();
+    return list.filter(w => isThaiWord(w.thai) && !seen.has(w.thai) && seen.add(w.thai));
+  }
+
+  // Words answered on the most recent day that has word questions.
+  function lastDayWords() {
+    const history = Array.isArray(state.history) ? state.history : [];
+    const words = history.filter(h => (h.questionType || "word") === "word" && isThaiWord(h.thai));
+    if (!words.length) return { day: "", words: [] };
+    const day = words.map(h => localDay(h.answeredAt)).filter(Boolean).sort().pop();
+    const picked = words.filter(h => localDay(h.answeredAt) === day).reverse()
+      .map(h => ({ thai: h.thai.trim(), japanese: h.japanese || "" }));
+    return { day, words: uniqueWords(picked) };
+  }
+  function reviewBookWords() {
+    const book = Array.isArray(state.reviewBook) ? state.reviewBook : [];
+    return uniqueWords(book.map(item => ({ thai: String(item.thai || "").trim(), japanese: item.japanese || "" })));
+  }
+  function dayLabel(day) {
+    if (!day) return "";
+    if (day === localDay(new Date())) return "今日";
+    const [, m, d] = day.split("-");
+    return `${Number(m)}/${Number(d)}`;
+  }
+  // Last study day's words first, then the review book, without duplicates.
+  function collectReviewWords() {
+    return uniqueWords([...lastDayWords().words, ...reviewBookWords()]).slice(0, REVIEW_MAX_WORDS);
+  }
+
+  // Words Mali has already said in this chat.
+  function usedReviewWords() {
+    const said = chat.messages.filter(m => m.role === "assistant").map(m => m.content).join(" ");
+    return new Set(review.words.filter(w => said.includes(w.thai)).map(w => w.thai));
+  }
+  function reviewPayload() {
+    if (!review.on) return [];
+    const used = usedReviewWords();
+    const fresh = review.words.filter(w => !used.has(w.thai));
+    const done = review.words.filter(w => used.has(w.thai));
+    return [...fresh, ...done].slice(0, REVIEW_MAX_WORDS);
+  }
   const MOODS = ["normal", "happy", "surprised"];
   const MOOD_IMAGE = {
     normal: "images/mali-normal.webp?v=10.6",
@@ -250,6 +307,13 @@
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
+    .chat-review-start{display:grid;gap:4px;text-align:left;font:inherit;padding:14px 16px;border-radius:16px;border:2px solid #f3cf5a;background:#fffbea;cursor:pointer}
+    .chat-review-start strong{font-size:1.1rem}
+    .chat-review-start span{font-size:.88rem;color:#6b5a2a;line-height:1.5}
+    .chat-review-start:hover,.chat-review-start:focus-visible{background:#fff3c4}
+    .chat-review-start[disabled]{opacity:.55;cursor:not-allowed}
+    .chat-thai .news-word.review-word{background:#fff3b0;border-radius:4px}
+    .chat-review-progress{display:inline-block;margin-left:4px;padding:1px 8px;border-radius:999px;background:#fff3b0;color:#6b5a2a;font-size:.8rem}
     .chat-voice{padding:10px 14px;border-radius:14px;background:#fff0f5;border:1px solid #f6c6d6}
     .chat-profile-list{margin:8px 0;padding-left:1.2em;line-height:1.7}
     .chat-voice summary{cursor:pointer;font-weight:700}
@@ -317,6 +381,10 @@
           <input id="chatPasscode" type="password" autocomplete="off" placeholder="合言葉を入力">
           <span class="muted">このブラウザにだけ保存します。最初の1回だけでOKです。</span>
         </div>
+        <button id="chatReviewStart" class="chat-review-start" type="button">
+          <strong>復習φ(&#96;･ω･´ )モード🐱</strong>
+          <span id="chatReviewInfo">押すとすぐ、勉強した単語でマリが話しかけてきます</span>
+        </button>
         <p class="muted" style="margin:0">レベルを選ぶと、そのレベルまでの単語を中心に、マリが話し方を合わせてくれます🍆</p>
         <div id="chatLevelGrid" class="chat-level-grid"></div>
         <details id="chatProfileBox" class="chat-voice">
@@ -573,7 +641,7 @@
       b.innerHTML = `<strong></strong><span class="muted"></span>`;
       b.querySelector("strong").textContent = `${item.title}（${count}語まで）`;
       b.querySelector("span").textContent = item.note;
-      b.addEventListener("click", () => startChat(item.level));
+      b.addEventListener("click", () => { review.on = false; startChat(item.level); });
       box.append(b);
     }
   }
@@ -605,7 +673,8 @@
       if (!t.thai) { thai.append(t.text); return; }
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "news-word" + (t.info || t.extra ? "" : " chat-unknown") + (sel?.i === i ? " selected" : "");
+      const isReview = review.on && review.words.some(w => w.thai === t.text);
+      b.className = "news-word" + (t.info || t.extra ? "" : " chat-unknown") + (sel?.i === i ? " selected" : "") + (isReview ? " review-word" : "");
       b.textContent = t.text;
       b.setAttribute("aria-label", `${t.text} の読み方を表示`);
       b.addEventListener("click", () => {
@@ -703,6 +772,7 @@
     }
     log.scrollTop = keepScroll ?? log.scrollHeight;
     renderChoices();
+    renderReviewProgress();
     updateBigAvatar();
   }
 
@@ -789,6 +859,21 @@
     q("chatPasscode").value = "";
     renderLevels();
     loadProfile().then(renderProfile);
+    renderReviewSetup();
+  }
+
+  function renderReviewSetup() {
+    const last = lastDayWords();
+    const book = reviewBookWords();
+    const words = collectReviewWords();
+    const parts = [];
+    if (last.words.length) parts.push(`${dayLabel(last.day)}の単語${last.words.length}語`);
+    if (book.length) parts.push(`復習帳${book.length}語`);
+    const button = q("chatReviewStart");
+    button.disabled = words.length === 0;
+    q("chatReviewInfo").textContent = words.length
+      ? `${parts.join("＋")}（${words.length}語）で、押すとすぐマリが話しかけてきます（Level ${chat.level || 1}）`
+      : "まだ復習できる単語がありません。先に「書く」「選ぶ」などで単語を勉強してくだされ🐙";
   }
 
   function renderProfile() {
@@ -803,6 +888,16 @@
       : "📝 マリの設定（なし）";
   }
 
+  function renderReviewProgress() {
+    const label = q("chatLevelLabel");
+    label.querySelector(".chat-review-progress")?.remove();
+    if (!review.on) return;
+    const badge = document.createElement("span");
+    badge.className = "chat-review-progress";
+    badge.textContent = `🐱 復習 ${usedReviewWords().size}/${review.words.length}語`;
+    label.append(badge);
+  }
+
   function showRoom() {
     q("chatSetup").classList.add("hidden");
     q("chatRoom").classList.remove("hidden");
@@ -811,6 +906,7 @@
     requestAnimationFrame(() => q("chatRoom").scrollIntoView({ block: "start", behavior: "smooth" }));
     const item = LEVELS.find(l => l.level === chat.level);
     q("chatLevelLabel").textContent = item ? `／${item.title}` : "";
+    renderReviewProgress();
     renderLog();
   }
 
@@ -846,6 +942,7 @@
           level: chat.level,
           vocab: levelVocab(chat.level),
           profile: profile.lines,
+          review_words: reviewPayload(),
           messages: chat.messages.map(m => ({ role: m.role, content: m.content }))
         }),
         signal: AbortSignal.timeout ? AbortSignal.timeout(45000) : undefined
@@ -896,6 +993,14 @@
       q("chatPasscode").focus();
       window.alert("先に合言葉を入れてくだされ🔑");
       return;
+    }
+    if (review.on) {
+      review.words = collectReviewWords();
+      if (!review.words.length) {
+        review.on = false;
+        status("復習できる単語がありません。先に単語を勉強してくだされ🐙", true);
+        return;
+      }
     }
     chat.level = level;
     try { localStorage.setItem(LEVEL_KEY, String(level)); } catch (_) { /* ignore */ }
@@ -1008,6 +1113,11 @@
       startChat(chat.level);
     });
     q("chatChangeLevel").addEventListener("click", showSetup);
+    // Review mode starts straight away at the last used level; Mali opens with a review word.
+    q("chatReviewStart").addEventListener("click", () => {
+      review.on = true;
+      startChat(chat.level || 1);
+    });
     const voiceSelect = q("chatVoice");
     const pitchSelect = q("chatPitch");
     VOICES.forEach(v => voiceSelect.append(new Option(v.label, v.id, false, v.id === voiceSettings.voice)));
@@ -1030,5 +1140,5 @@
   });
 
   // Exposed for tests.
-  window.__tvtChat = { chat, levelVocab, tokenize, dictionaryEntry, functionUrl, addWordToReviewBook };
+  window.__tvtChat = { chat, review, lastDayWords, reviewBookWords, levelVocab, tokenize, dictionaryEntry, functionUrl, addWordToReviewBook };
 })();
