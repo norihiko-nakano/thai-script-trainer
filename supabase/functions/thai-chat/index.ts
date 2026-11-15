@@ -1,4 +1,4 @@
-// Thai Vocabulary Trainer Ver10.5 — 会話 (conversation) Edge Function
+// Thai Vocabulary Trainer Ver10.7 — 会話 (conversation) Edge Function
 //
 // Browser (GitHub Pages) -> this function -> OpenAI. The OpenAI key never reaches the browser.
 //
@@ -299,7 +299,13 @@ Deno.serve(async (req) => {
   // Thai words written in the profile (for example ジム（ยิม）) may be used at any level.
   const profile = cleanLines(body?.profile, 30);
   const profileWords = [...new Set(profile.flatMap((line) => line.match(THAI_RUN) ?? []))];
-  const allowed = new Set<string>([...vocab, ...BASIC_WORDS, ...profileWords]);
+  // 復習モード: words the learner studied last time or keeps in the review book.
+  const reviewWords = (Array.isArray(body?.review_words) ? body.review_words : [])
+    .filter((w: any) => w && typeof w.thai === "string" && /^[\u0E00-\u0E7F]+$/.test(w.thai.trim()))
+    .slice(0, 40)
+    .map((w: any) => ({ thai: w.thai.trim(), japanese: typeof w.japanese === "string" ? w.japanese.slice(0, 40) : "" }));
+  const reviewThai = reviewWords.map((w: any) => w.thai);
+  const allowed = new Set<string>([...vocab, ...BASIC_WORDS, ...profileWords, ...reviewThai]);
   let maxLen = Math.max(1, ...[...allowed].map((w) => w.length));
   for (const word of outsideWords(learnerText, allowed, maxLen)) allowed.add(word);
   maxLen = Math.max(maxLen, ...[...allowed].map((w) => w.length));
@@ -313,7 +319,12 @@ Use these facts to make the conversation interesting: when you need a new topic,
       : "",
     LEVEL_STYLE[level],
     `Word rule (very important): in your reply AND in the 3 choices, use ONLY these words, combined freely. Do not use any other Thai word, even a common one. If you cannot say something with these words, say something simpler.
-Allowed words: ${[...vocab, ...BASIC_WORDS, ...profileWords].join(", ")}`,
+Allowed words: ${[...new Set([...vocab, ...BASIC_WORDS, ...profileWords, ...reviewThai])].join(", ")}`,
+    reviewWords.length
+      ? `REVIEW MODE (very important): the learner wants to practise these words (listed with their meaning; the first ones have not been used yet in this chat):
+${reviewWords.map((w: any) => `${w.thai} = ${w.japanese}`).join("\n")}
+In every reply, naturally use at least ONE of these words (prefer one that has not been used yet), and make at least one of the 3 choices use a review word too. Build the conversation around them so the learner hears and answers with them.`
+      : "",
     "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
     `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn, for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today. React to what the learner said, then ask one new thing.`,
     `The learner is a Japanese MAN. Every choice is something HE says, so a choice ends with ครับ (never ค่ะ or คะ) and uses ผม for "I" (never ฉัน or ดิฉัน). The 3 choices must not copy your own line word for word.`,
