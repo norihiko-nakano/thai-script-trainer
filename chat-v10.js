@@ -184,7 +184,7 @@
   // Practise with the words studied on the last study day (today if studied today)
   // or the words in the review book. Both come from this browser's saved data.
   const REVIEW_MAX_WORDS = 40;
-  const review = { on: false, source: "lastday", words: [] };
+  const review = { on: false, words: [] };
 
   function localDay(date) {
     const d = new Date(date);
@@ -219,6 +219,11 @@
     const [, m, d] = day.split("-");
     return `${Number(m)}/${Number(d)}`;
   }
+  // Last study day's words first, then the review book, without duplicates.
+  function collectReviewWords() {
+    return uniqueWords([...lastDayWords().words, ...reviewBookWords()]).slice(0, REVIEW_MAX_WORDS);
+  }
+
   // Words Mali has already said in this chat.
   function usedReviewWords() {
     const said = chat.messages.filter(m => m.role === "assistant").map(m => m.content).join(" ");
@@ -302,17 +307,13 @@
     .chat-bubble.mali{justify-self:start;background:#fff;border:1px solid var(--border);border-top-left-radius:6px}
     .chat-bubble.me{justify-self:end;background:#fde7d3;border-top-right-radius:6px}
     .chat-thai{font:700 1.35rem/1.6 Tahoma,sans-serif}
-    .chat-mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .chat-mode{display:grid;gap:2px;text-align:left;font:inherit;padding:12px 14px;border-radius:14px;border:1px solid var(--border);background:#fff;cursor:pointer}
-    .chat-mode span{font-size:.82rem;color:#7a6a5a}
-    .chat-mode.selected{border:2px solid #ff8fab;background:#fff0f5}
-    .chat-review-box{display:grid;gap:6px;padding:12px 14px;border-radius:14px;background:#fffbea;border:1px solid #f3dfa0}
-    .chat-review-option{display:flex;gap:8px;align-items:center;cursor:pointer}
-    .chat-review-option input:disabled + span{opacity:.5}
-    .chat-review-preview{font:600 .95rem/1.7 Tahoma,sans-serif;color:#6b5a2a;word-break:break-word}
+    .chat-review-start{display:grid;gap:4px;text-align:left;font:inherit;padding:14px 16px;border-radius:16px;border:2px solid #f3cf5a;background:#fffbea;cursor:pointer}
+    .chat-review-start strong{font-size:1.1rem}
+    .chat-review-start span{font-size:.88rem;color:#6b5a2a;line-height:1.5}
+    .chat-review-start:hover,.chat-review-start:focus-visible{background:#fff3c4}
+    .chat-review-start[disabled]{opacity:.55;cursor:not-allowed}
     .chat-thai .news-word.review-word{background:#fff3b0;border-radius:4px}
     .chat-review-progress{display:inline-block;margin-left:4px;padding:1px 8px;border-radius:999px;background:#fff3b0;color:#6b5a2a;font-size:.8rem}
-    @media (max-width:560px){.chat-mode-grid{grid-template-columns:1fr}}
     .chat-voice{padding:10px 14px;border-radius:14px;background:#fff0f5;border:1px solid #f6c6d6}
     .chat-profile-list{margin:8px 0;padding-left:1.2em;line-height:1.7}
     .chat-voice summary{cursor:pointer;font-weight:700}
@@ -380,15 +381,10 @@
           <input id="chatPasscode" type="password" autocomplete="off" placeholder="合言葉を入力">
           <span class="muted">このブラウザにだけ保存します。最初の1回だけでOKです。</span>
         </div>
-        <div class="chat-mode-grid" role="radiogroup" aria-label="会話のモード">
-          <button id="chatModeNormal" class="chat-mode selected" type="button" role="radio" aria-checked="true"><strong>💬 ふつうの会話</strong><span>マリと自由におしゃべり</span></button>
-          <button id="chatModeReview" class="chat-mode" type="button" role="radio" aria-checked="false"><strong>復習φ(&#96;･ω･´ )モード🐱</strong><span>勉強した単語でおしゃべり</span></button>
-        </div>
-        <div id="chatReviewBox" class="chat-review-box hidden">
-          <label class="chat-review-option"><input type="radio" name="chatReviewSource" value="lastday" checked> <span id="chatReviewLastDay">最後に勉強した日の単語</span></label>
-          <label class="chat-review-option"><input type="radio" name="chatReviewSource" value="book"> <span id="chatReviewBook">復習帳の単語</span></label>
-          <div id="chatReviewPreview" class="chat-review-preview" lang="th"></div>
-        </div>
+        <button id="chatReviewStart" class="chat-review-start" type="button">
+          <strong>復習φ(&#96;･ω･´ )モード🐱</strong>
+          <span id="chatReviewInfo">押すとすぐ、勉強した単語でマリが話しかけてきます</span>
+        </button>
         <p class="muted" style="margin:0">レベルを選ぶと、そのレベルまでの単語を中心に、マリが話し方を合わせてくれます🍆</p>
         <div id="chatLevelGrid" class="chat-level-grid"></div>
         <details id="chatProfileBox" class="chat-voice">
@@ -645,7 +641,7 @@
       b.innerHTML = `<strong></strong><span class="muted"></span>`;
       b.querySelector("strong").textContent = `${item.title}（${count}語まで）`;
       b.querySelector("span").textContent = item.note;
-      b.addEventListener("click", () => startChat(item.level));
+      b.addEventListener("click", () => { review.on = false; startChat(item.level); });
       box.append(b);
     }
   }
@@ -869,28 +865,15 @@
   function renderReviewSetup() {
     const last = lastDayWords();
     const book = reviewBookWords();
-    const lastInput = document.querySelector('input[name="chatReviewSource"][value="lastday"]');
-    const bookInput = document.querySelector('input[name="chatReviewSource"][value="book"]');
-    q("chatReviewLastDay").textContent = last.words.length
-      ? `最後に勉強した日（${dayLabel(last.day)}）の単語：${last.words.length}語`
-      : "最後に勉強した日の単語：まだ記録がありません";
-    q("chatReviewBook").textContent = book.length ? `復習帳の単語：${book.length}語` : "復習帳の単語：まだ入っていません";
-    lastInput.disabled = !last.words.length;
-    bookInput.disabled = !book.length;
-    if (review.source === "lastday" && lastInput.disabled && !bookInput.disabled) review.source = "book";
-    if (review.source === "book" && bookInput.disabled && !lastInput.disabled) review.source = "lastday";
-    lastInput.checked = review.source === "lastday";
-    bookInput.checked = review.source === "book";
-    review.words = (review.source === "book" ? book : last.words).slice(0, REVIEW_MAX_WORDS);
-    const extra = (review.source === "book" ? book.length : last.words.length) - review.words.length;
-    q("chatReviewPreview").textContent = review.words.length
-      ? review.words.map(w => w.thai).join("、") + (extra > 0 ? ` ほか${extra}語` : "")
-      : "復習できる単語がありません。先に「書く」「選ぶ」などで単語を勉強してくだされ🐙";
-    q("chatModeNormal").classList.toggle("selected", !review.on);
-    q("chatModeReview").classList.toggle("selected", review.on);
-    q("chatModeNormal").setAttribute("aria-checked", String(!review.on));
-    q("chatModeReview").setAttribute("aria-checked", String(review.on));
-    q("chatReviewBox").classList.toggle("hidden", !review.on);
+    const words = collectReviewWords();
+    const parts = [];
+    if (last.words.length) parts.push(`${dayLabel(last.day)}の単語${last.words.length}語`);
+    if (book.length) parts.push(`復習帳${book.length}語`);
+    const button = q("chatReviewStart");
+    button.disabled = words.length === 0;
+    q("chatReviewInfo").textContent = words.length
+      ? `${parts.join("＋")}（${words.length}語）で、押すとすぐマリが話しかけてきます（Level ${chat.level || 1}）`
+      : "まだ復習できる単語がありません。先に「書く」「選ぶ」などで単語を勉強してくだされ🐙";
   }
 
   function renderProfile() {
@@ -1012,8 +995,9 @@
       return;
     }
     if (review.on) {
-      renderReviewSetup();
+      review.words = collectReviewWords();
       if (!review.words.length) {
+        review.on = false;
         status("復習できる単語がありません。先に単語を勉強してくだされ🐙", true);
         return;
       }
@@ -1129,10 +1113,10 @@
       startChat(chat.level);
     });
     q("chatChangeLevel").addEventListener("click", showSetup);
-    q("chatModeNormal").addEventListener("click", () => { review.on = false; renderReviewSetup(); });
-    q("chatModeReview").addEventListener("click", () => { review.on = true; renderReviewSetup(); });
-    document.querySelectorAll('input[name="chatReviewSource"]').forEach(input => {
-      input.addEventListener("change", () => { review.source = input.value; renderReviewSetup(); });
+    // Review mode starts straight away at the last used level; Mali opens with a review word.
+    q("chatReviewStart").addEventListener("click", () => {
+      review.on = true;
+      startChat(chat.level || 1);
     });
     const voiceSelect = q("chatVoice");
     const pitchSelect = q("chatPitch");

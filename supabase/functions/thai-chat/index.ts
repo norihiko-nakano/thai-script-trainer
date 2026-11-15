@@ -323,7 +323,7 @@ Allowed words: ${[...new Set([...vocab, ...BASIC_WORDS, ...profileWords, ...revi
     reviewWords.length
       ? `REVIEW MODE (very important): the learner wants to practise these words (listed with their meaning; the first ones have not been used yet in this chat):
 ${reviewWords.map((w: any) => `${w.thai} = ${w.japanese}`).join("\n")}
-In every reply, naturally use at least ONE of these words (prefer one that has not been used yet), and make at least one of the 3 choices use a review word too. Build the conversation around them so the learner hears and answers with them.`
+In every reply, starting with your very first greeting, naturally use at least ONE of these words (prefer one that has not been used yet), and make at least one of the 3 choices use a review word too. Build the conversation around them so the learner hears and answers with them.`
       : "",
     "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
     `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn, for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today. React to what the learner said, then ask one new thing.`,
