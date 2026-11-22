@@ -226,6 +226,14 @@ function cleanLines(raw: unknown, maxItems: number, maxChars = 200): string[] {
     .slice(0, maxItems);
 }
 
+// The learner's name, typed in Thai by the learner. Anything that is not 1-20 Thai
+// letters (which also blocks prompt injection) falls back to the default, たろう.
+const DEFAULT_LEARNER_NAME = "ทาโร่";
+function cleanLearnerName(raw: unknown): string {
+  const name = typeof raw === "string" ? raw.replace(/\s+/g, "") : "";
+  return /^[\u0E00-\u0E7F]{1,20}$/.test(name) ? name : DEFAULT_LEARNER_NAME;
+}
+
 // The learner is a man: his ready-made answers must use the male polite particle.
 // Only a particle at the end of a phrase is changed, so words such as คะแนน stay intact.
 function toMaleSpeech(text: string): string {
@@ -305,7 +313,8 @@ Deno.serve(async (req) => {
     .slice(0, 40)
     .map((w: any) => ({ thai: w.thai.trim(), japanese: typeof w.japanese === "string" ? w.japanese.slice(0, 40) : "" }));
   const reviewThai = reviewWords.map((w: any) => w.thai);
-  const allowed = new Set<string>([...vocab, ...BASIC_WORDS, ...profileWords, ...reviewThai]);
+  const learnerName = cleanLearnerName(body?.learner_name);
+  const allowed = new Set<string>([...vocab, ...BASIC_WORDS, ...profileWords, ...reviewThai, learnerName]);
   let maxLen = Math.max(1, ...[...allowed].map((w) => w.length));
   for (const word of outsideWords(learnerText, allowed, maxLen)) allowed.add(word);
   maxLen = Math.max(maxLen, ...[...allowed].map((w) => w.length));
@@ -319,13 +328,13 @@ Use these facts to make the conversation interesting: when you need a new topic,
       : "",
     LEVEL_STYLE[level],
     `Word rule (very important): in your reply AND in the 3 choices, use ONLY these words, combined freely. Do not use any other Thai word, even a common one. If you cannot say something with these words, say something simpler.
-Allowed words: ${[...new Set([...vocab, ...BASIC_WORDS, ...profileWords, ...reviewThai])].join(", ")}`,
+Allowed words: ${[...new Set([...vocab, ...BASIC_WORDS, ...profileWords, ...reviewThai, learnerName])].join(", ")}`,
     reviewWords.length
       ? `REVIEW MODE (very important): the learner wants to practise these words (listed with their meaning; the first ones have not been used yet in this chat):
 ${reviewWords.map((w: any) => `${w.thai} = ${w.japanese}`).join("\n")}
 In every reply, starting with your very first greeting, naturally use at least ONE of these words (prefer one that has not been used yet), and make at least one of the 3 choices use a review word too. Build the conversation around them so the learner hears and answers with them.`
       : "",
-    "Names: you may use a name the learner has written. Otherwise do not invent Thai names.",
+    `The learner's name is ${learnerName} (exactly this Thai spelling; the learner typed it, or it is the default). When you ask his name, call him by it, or when a choice introduces him, use exactly this name, for example "ผมชื่อ${learnerName}ครับ". Never give the learner any other name, and do not invent other Thai names.`,
     `Keep the conversation moving (very important): never repeat a line you already said, and never answer a greeting with the same greeting again. After greeting, move to a new simple topic each turn, for example: name -> how are you -> where are you from -> what do you like -> food -> coffee -> today. React to what the learner said, then ask one new thing.`,
     `The learner is a Japanese MAN. Every choice is something HE says, so a choice ends with ครับ (never ค่ะ or คะ) and uses ผม for "I" (never ฉัน or ดิฉัน). The 3 choices must not copy your own line word for word.`,
     "Return JSON that matches the schema. The japanese field translates your Thai reply. The choices are 3 ready-made answers the learner can tap.",
