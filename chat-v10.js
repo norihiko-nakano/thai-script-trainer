@@ -13,6 +13,10 @@
   const FUNCTION_NAME = "thai-chat";
   const PASSCODE_KEY = "thaiTrainerChatPasscodeV10";
   const LEVEL_KEY = "thaiTrainerChatLevelV10";
+  const NAME_KEY = "thaiTrainerChatNameV10";
+  // The learner's name in Thai. Typed by the learner; when empty, the default is used.
+  const DEFAULT_NAME = { thai: "ทาโร่", reading: "ターロー", japanese: "たろう" };
+  const NAME_PATTERN = /^[\u0E00-\u0E7F]{1,20}$/;
   const MAX_VOCAB = 600; // all dictionary words up to the level (Level 3 has about 400)
 
   // Hand-checked readings and meanings for the basic conversation words that are
@@ -89,7 +93,25 @@
     return profile;
   }
 
-  // thai -> { reading, japanese, source: "dictionary" | "basic" }
+  // ---------- The learner's name (typed in Thai; empty means the default) ----------
+  function savedName() {
+    try { return (localStorage.getItem(NAME_KEY) || "").trim(); } catch (_) { return ""; }
+  }
+  function writeName(value) {
+    try {
+      if (value) localStorage.setItem(NAME_KEY, value);
+      else localStorage.removeItem(NAME_KEY);
+    } catch (_) { /* ignore */ }
+  }
+  function learnerName() {
+    const saved = savedName();
+    if (NAME_PATTERN.test(saved)) {
+      return saved === DEFAULT_NAME.thai ? { ...DEFAULT_NAME, isDefault: true } : { thai: saved, reading: "", japanese: "", isDefault: false };
+    }
+    return { ...DEFAULT_NAME, isDefault: true };
+  }
+
+  // thai -> { reading, japanese, source: "dictionary" | "basic" | "profile" | "name" }
   function buildLexicon() {
     const map = new Map();
     for (const [thai, [reading, japanese]] of Object.entries(BASIC_WORDS)) map.set(thai, { reading, japanese, source: "basic" });
@@ -104,6 +126,9 @@
     for (const w of profile.words) {
       if (!map.has(w.thai)) map.set(w.thai, { reading: w.reading, japanese: "", source: "profile" });
     }
+    // The learner's own name: always a usable word, shown with 🙋.
+    const nm = learnerName();
+    if (!map.has(nm.thai)) map.set(nm.thai, { reading: nm.reading, japanese: nm.japanese ? `わしの名前（${nm.japanese}）` : "わしの名前", source: "name" });
     lexicon = map;
     lexiconMaxLen = Math.max(1, ...[...map.keys()].map(k => k.length));
   }
@@ -375,6 +400,11 @@
         <div class="chat-profile">
           <img class="chat-avatar" src="images/mali-normal.webp?v=10.6" alt="" aria-hidden="true">
           <div><strong>มะลิ（マリ）</strong><br><span class="muted">バンコクの大学そばのカフェで働く25歳。タイ語の会話相手になってくれます。</span></div>
+        </div>
+        <div class="chat-passcode chat-name">
+          <label for="chatName"><strong>🙋 わしの名前（タイ語）</strong></label>
+          <input id="chatName" type="text" lang="th" autocomplete="off" maxlength="20" placeholder="例：โนริ">
+          <span class="muted">タイ語で入力すると、マリがその名前で呼んでくれます。空欄なら「ทาโร่（たろう）」になります。このブラウザに保存されます。</span>
         </div>
         <div id="chatPasscodeBox" class="chat-passcode hidden">
           <label for="chatPasscode"><strong>🔑 合言葉</strong>（Supabaseに登録した <code>TVT_CHAT_PASSCODE</code>）</label>
@@ -694,7 +724,7 @@
     } else {
       const reading = token.info?.reading || "";
       const meaning = token.extra?.japanese || token.info?.japanese || "";
-      const source = { dictionary: "📘", basic: "🔰", profile: "📝" }[token.info?.source] || "⭐";
+      const source = { dictionary: "📘", basic: "🔰", profile: "📝", name: "🙋" }[token.info?.source] || "⭐";
       const word = document.createElement("span");
       word.className = "chat-hint-word";
       word.lang = "th";
@@ -942,6 +972,7 @@
           level: chat.level,
           vocab: levelVocab(chat.level),
           profile: profile.lines,
+          learner_name: learnerName().thai,
           review_words: reviewPayload(),
           messages: chat.messages.map(m => ({ role: m.role, content: m.content }))
         }),
@@ -994,6 +1025,16 @@
       window.alert("先に合言葉を入れてくだされ🔑");
       return;
     }
+    // Name: typed in Thai, or empty for the default (たろう).
+    const typedName = q("chatName").value.replace(/\s+/g, "").trim();
+    if (typedName && !NAME_PATTERN.test(typedName)) {
+      status("名前はタイ語（タイ文字）で入力してくだされ🙋 空欄なら「ทาโร่（たろう）」になります。", true);
+      q("chatName").focus();
+      window.alert("名前はタイ語（タイ文字）で入力してくだされ🙋\n空欄なら「ทาโร่（たろう）」になります。");
+      return;
+    }
+    writeName(typedName);
+    lexicon = null; // rebuild so the name gets its entry
     if (review.on) {
       review.words = collectReviewWords();
       if (!review.words.length) {
@@ -1084,6 +1125,7 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     try { chat.level = Number(localStorage.getItem(LEVEL_KEY)) || 1; } catch (_) { /* ignore */ }
+    q("chatName").value = savedName();
     q("chatBack").addEventListener("click", () => {
       if (!q("chatRoom").classList.contains("hidden") && chat.messages.length) {
         if (!window.confirm("会話を終えてメニューに戻りますか？（会話の中身は保存されません）")) return;
@@ -1140,5 +1182,5 @@
   });
 
   // Exposed for tests.
-  window.__tvtChat = { chat, review, lastDayWords, reviewBookWords, levelVocab, tokenize, dictionaryEntry, functionUrl, addWordToReviewBook };
+  window.__tvtChat = { learnerName, chat, review, lastDayWords, reviewBookWords, levelVocab, tokenize, dictionaryEntry, functionUrl, addWordToReviewBook };
 })();
