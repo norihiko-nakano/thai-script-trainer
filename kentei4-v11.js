@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver11.2: 4級問題モード📝🦏
+/* Thai Vocabulary Trainer Ver11.3: 4級問題モード📝🦏
  *
  * Practice in the style of 実用タイ語検定 4級: Thai script only, no readings while answering.
  *   大問1 語彙の穴埋め / 大問2 会話の応答 / 大問3 語順の並べ替え : kentei4_questions.json (original questions)
@@ -31,7 +31,7 @@
     return a;
   };
 
-  const k4 = { data: null, items: [], index: 0, answers: [], timer: null, deadline: 0, picked: [], answered: false, running: false };
+  const k4 = { tokens: [], sel: null, data: null, items: [], index: 0, answers: [], timer: null, deadline: 0, picked: [], answered: false, running: false };
 
   // ---------- Data ----------
   async function loadData() {
@@ -149,7 +149,8 @@
       }
       const reading = t.info?.reading || "";
       const prev = saved[t.text] || "";
-      return `<span class="k4-w"><span class="k4-w-th" lang="th">${esc(t.text)}</span>` +
+      const idx = k4.tokens.push(t) - 1;
+      return `<span class="k4-w"><button type="button" class="k4-w-th" lang="th" data-tok="${idx}" title="タップで読み→もう一度で意味">${esc(t.text)}</button>` +
         `<input class="k4-memo" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" lang="en" ` +
         `data-thai="${esc(t.text)}" placeholder="${esc(prev || "読み")}" title="${prev ? `前回のメモ：${esc(prev)}` : "読みをアルファベットでメモ（採点なし）"}" ` +
         `size="${Math.max(3, Math.min(12, t.text.length + 1))}">` +
@@ -157,20 +158,67 @@
     }).join("");
   }
 
+  const HINT_HTML = `<div class="k4-hint" id="k4Hint">👆 単語をタップすると読み、もう一度タップで意味が出ます（マリの会話と同じ）</div>`;
+  function inReviewBook(thai) {
+    return Array.isArray(state.reviewBook) && state.reviewBook.some(r => r.thai === thai);
+  }
+  // 1st tap: reading. 2nd tap: meaning + 🍣＋復習帳 (same steps as the chat with Mali).
+  function tapWord(button) {
+    const i = Number(button.dataset.tok);
+    const t = k4.tokens[i];
+    if (!t) return;
+    k4.sel = k4.sel && k4.sel.i === i ? { i, stage: Math.min(2, k4.sel.stage + 1) } : { i, stage: 1 };
+    q("k4Prompt").querySelectorAll(".k4-w-th").forEach(b => b.classList.toggle("on", b === button));
+    button.classList.add("seen");
+    const reading = t.info?.reading || "";
+    const meaningText = t.info?.japanese || "";
+    const hint = q("k4Hint");
+    hint.replaceChildren();
+    const word = document.createElement("span");
+    word.className = "k4-hint-word";
+    word.lang = "th";
+    word.textContent = t.text;
+    const read = document.createElement("span");
+    read.className = "k4-hint-reading";
+    read.textContent = reading || "読み未登録";
+    hint.append(word, "：🔤 ", read);
+    if (k4.sel.stage >= 2) {
+      hint.append(` ／ ${meaningText || "意味未登録（辞書にない語）"}`);
+      if (meaningText) {
+        const add = document.createElement("button");
+        add.type = "button";
+        add.className = "k4-hint-add";
+        const done = () => { add.textContent = "✓ 復習帳"; add.disabled = true; };
+        add.textContent = "🍣＋復習帳";
+        if (inReviewBook(t.text)) done();
+        add.addEventListener("click", () => {
+          const api = window.__tvtChat;
+          if (api && api.addWordToReviewBook({ thai: t.text, japanese: meaningText })) done();
+        });
+        hint.append(" ", add);
+      }
+    } else {
+      const more = document.createElement("span");
+      more.className = "k4-hint-more";
+      more.textContent = "（もう一度タップで意味）";
+      hint.append(" ", more);
+    }
+  }
+
   function promptHtml(item) {
     const s = item.src;
     if (item.section === "vocab") {
-      return `<p class="k4-instr">（　）に入る最も適切な語を選びなさい。単語の下に読みをメモできます✏️</p><div class="k4-words">${wordBoxes(s.thai)}</div>`;
+      return `<p class="k4-instr">（　）に入る最も適切な語を選びなさい。単語の下に読みをメモできます✏️</p><div class="k4-words">${wordBoxes(s.thai)}</div>${HINT_HTML}`;
     }
     if (item.section === "dialogue") {
       return `<p class="k4-instr">会話が自然になるように、（　）に入る文を選びなさい。</p>
         <div class="k4-words"><span class="k4-who">A：</span>${wordBoxes(s.a)}</div>
-        <div class="k4-words"><span class="k4-who">B：</span>${wordBoxes(s.b)}</div>`;
+        <div class="k4-words"><span class="k4-who">B：</span>${wordBoxes(s.b)}</div>${HINT_HTML}`;
     }
     if (item.section === "order") {
       return `<p class="k4-instr">日本語の意味になるように、単語を正しい順に並べなさい。</p><p class="k4-ja">${esc(s.japanese)}</p>`;
     }
-    return `<p class="k4-instr">次のタイ語の意味を選びなさい。（読みは答えた後に出ます）</p><div class="k4-words k4-big-words">${wordBoxes(s.thai)}</div>`;
+    return `<p class="k4-instr">次のタイ語の意味を選びなさい。（読みは答えた後に出ます）</p><div class="k4-words k4-big-words">${wordBoxes(s.thai)}</div>${HINT_HTML}`;
   }
 
   function renderItem() {
@@ -181,6 +229,8 @@
     state.questionStartedAt = Date.now();
     q("k4Progress").textContent = `${k4.index + 1} / ${k4.items.length}問`;
     q("k4Section").textContent = `${info.icon} ${info.title}`;
+    k4.tokens = [];
+    k4.sel = null;
     q("k4Prompt").innerHTML = promptHtml(item);
     q("k4Prompt").classList.remove("k4-revealed");
     q("k4Feedback").className = "k4-feedback hidden";
@@ -475,7 +525,15 @@
     .k4-ja{font-size:1.2rem;font-weight:700}
     .k4-words{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 4px;margin:.5em 0}
     .k4-w{display:inline-flex;flex-direction:column;align-items:center;gap:3px;padding:4px 5px 5px;border-radius:10px;background:#fff;border:1px solid var(--border)}
-    .k4-w-th{font:400 1.45rem/1.5 Tahoma,"Noto Sans Thai",sans-serif;padding:0 2px}
+    .k4-w-th{font:400 1.45rem/1.5 Tahoma,"Noto Sans Thai",sans-serif;padding:0 2px;border:0;border-bottom:2px dotted #c9a98a;background:none;color:inherit;cursor:pointer;border-radius:4px}
+    .k4-w-th:hover{background:#fff4e6}
+    .k4-w-th.seen{border-bottom-color:#7fb3d5}
+    .k4-w-th.on{background:#eff6ff;border-bottom:2px solid #3b82f6}
+    .k4-hint{margin:6px 0 2px;padding:10px 12px;border-radius:10px;background:#eff6ff;color:#172554;font-size:.98rem;line-height:1.6}
+    .k4-hint-word{font:700 1.15rem Tahoma,"Noto Sans Thai",sans-serif}
+    .k4-hint-reading{font-size:1.1rem;font-weight:700;color:#7a4a00}
+    .k4-hint-more{color:#6b7280;font-size:.9rem}
+    .k4-hint-add{font:inherit;font-size:.85rem;padding:3px 9px;border-radius:999px;border:1px dashed #c98d5c;background:#fff;cursor:pointer}
     .k4-big-words .k4-w-th{font-size:2.2rem}
     .k4-big-words{justify-content:center}
     .k4-w-sep{font:400 1.45rem/1.5 Tahoma,"Noto Sans Thai",sans-serif;align-self:flex-start;padding-top:4px}
@@ -613,6 +671,10 @@
       showScreen("menu");
     });
     q("k4Start").addEventListener("click", startTest);
+    q("k4Prompt").addEventListener("click", event => {
+      const b = event.target.closest && event.target.closest(".k4-w-th");
+      if (b) tapWord(b);
+    });
     q("k4Prompt").addEventListener("input", event => {
       if (event.target.classList.contains("k4-memo")) saveMemo(event.target.dataset.thai, event.target.value);
     });
