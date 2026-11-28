@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver10.9
+# Thai Vocabulary Trainer Ver11.0
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜10.9](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜11.0](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -20,6 +20,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 
 ## 現在の機能
 
+- 「4級問題📝🐘」：実用タイ語検定4級の形（語彙の穴埋め・会話の応答・語順・単語の意味）をまねたオリジナル問題を、読み仮名なしで解く。本番モード（1問40秒）あり。大問4でまちがえた単語は復習帳へ。結果画面から、まちがえた問題だけを「読む🐨」で復習できる。
 - 「読む」：単語・文章セット・ニュース短文の意味を選ぶ。
 - 「書く」：日本語を見てタイ語を入力する。
 - 「話す」：お手本音声と発話練習。音声認識の対応状況はブラウザによります。
@@ -38,6 +39,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 | `index.html` | メイン画面と学習処理 |
 | `interface-v9.js` / `speaking-v8.js` | 英語UI・発話練習 |
 | `import-v10.js` | 復習帳（JSON）と履歴（CSV）の読み込み。別のブラウザへの引っ越し用 |
+| `kentei4-v11.js` / `kentei4_questions.json` | 4級問題モードの画面と問題集（オリジナル問題） |
 | `chat-v10.js` / `images/mali-*.webp` | 会話画面（マリとのチャット）とマリの表情イラスト（通常・笑顔・驚き。`mali-full-*` は会話画面の全身立ち絵） |
 | `supabase/functions/thai-chat/` | 会話用のSupabase Edge Function。OpenAIのキーはSupabaseのSecretsだけに置く |
 | `supabase-config.js` | 公開用の辞書接続設定 |

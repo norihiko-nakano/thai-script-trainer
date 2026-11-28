@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#8a4f2d" />
-  <title>Thai Vocabulary Trainer Ver10.9</title>
+  <title>Thai Vocabulary Trainer Ver11.0</title>
   <style>
     :root {
       --paper: #fffdf8;
@@ -1189,7 +1189,7 @@
     <section class="card">
       <div class="brand">
         <span aria-hidden="true">🇹🇭</span>
-        <h1>Thai Vocabulary Trainer <small>Ver10.9</small></h1>
+        <h1>Thai Vocabulary Trainer <small>Ver11.0</small></h1>
       </div>
 
       <div id="loadingScreen" class="center">
@@ -1633,8 +1633,8 @@ function renderStudySentence(container, question) {
   const title = document.createElement("div");
   title.className = "muted";
   title.style.fontSize = "1rem";
-  title.textContent = `🐬 ${question.setTitle} ${question.setPosition}/3 ／ 練習語：${question.targetWords.join("・")}`;
-  const body = document.createElement("div"); body.textContent = question.thai;
+  title.textContent = question.studyTitle || `🐬 ${question.setTitle} ${question.setPosition}/3 ／ 練習語：${question.targetWords.join("・")}`;
+  const body = document.createElement("div"); body.style.whiteSpace = "pre-wrap"; body.textContent = question.thai;
   const hint = document.createElement("div"); hint.style.fontSize = "1rem";
   const button = document.createElement("button"); button.type = "button";
   button.textContent = "① 区切りを見る";
@@ -4827,6 +4827,7 @@ function recordAnswer(question, userAnswer, isCorrect, readingAttempt = "") {
   </script>
   <script src="speaking-v8.js?v=8.5"></script>
   <script src="chat-v10.js?v=10.9"></script>
+  <script src="kentei4-v11.js?v=11.0"></script>
   <script src="import-v10.js?v=10.8"></script>
   <script src="interface-v9.js?v=9.0"></script>
 </body>
