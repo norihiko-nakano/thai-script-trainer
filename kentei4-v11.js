@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver11.1: 4級問題モード📝🦏
+/* Thai Vocabulary Trainer Ver11.2: 4級問題モード📝🦏
  *
  * Practice in the style of 実用タイ語検定 4級: Thai script only, no readings while answering.
  *   大問1 語彙の穴埋め / 大問2 会話の応答 / 大問3 語順の並べ替え : kentei4_questions.json (original questions)
@@ -12,6 +12,7 @@
   const DATA_URL = "kentei4_questions.json?v=11.0";
   const STATS_KEY = "thaiTrainerKentei4V11";
   const SETTINGS_KEY = "thaiTrainerKentei4SettingsV11";
+  const MEMO_KEY = "thaiTrainerKentei4MemoV11"; // { thaiWord: "kao" } — the learner's own romanization notes
   const SECONDS_PER_QUESTION = 40;
   const SECTIONS = [
     { key: "vocab", title: "大問1 語彙の穴埋め", icon: "🐟" },
@@ -125,20 +126,51 @@
     return chips.length ? `<div class="k4-chips"><span class="muted">辞書にある単語の読み：</span>${chips.join("")}</div>` : "";
   }
 
+  // ---------- 単語ごとの読みメモ ----------
+  // The sentence is split into dictionary words; under each word the learner jots a romanization
+  // (e.g. "kao ma na"). Not graded. After answering, the dictionary reading appears under the memo.
+  function memos() {
+    const m = readJson(MEMO_KEY, {});
+    return m && typeof m === "object" && !Array.isArray(m) ? m : {};
+  }
+  function saveMemo(thai, text) {
+    const m = memos();
+    if (text.trim()) m[thai] = text.trim(); else delete m[thai];
+    writeJson(MEMO_KEY, m);
+  }
+  function wordBoxes(text) {
+    const api = window.__tvtChat;
+    if (!api || typeof api.tokenize !== "function") return esc(text);
+    const saved = memos();
+    return api.tokenize(text).map(t => {
+      if (!t.thai) {
+        const plain = t.text.trim();
+        return plain ? `<span class="k4-w-sep">${esc(plain)}</span>` : "";
+      }
+      const reading = t.info?.reading || "";
+      const prev = saved[t.text] || "";
+      return `<span class="k4-w"><span class="k4-w-th" lang="th">${esc(t.text)}</span>` +
+        `<input class="k4-memo" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" lang="en" ` +
+        `data-thai="${esc(t.text)}" placeholder="${esc(prev || "読み")}" title="${prev ? `前回のメモ：${esc(prev)}` : "読みをアルファベットでメモ（採点なし）"}" ` +
+        `size="${Math.max(3, Math.min(12, t.text.length + 1))}">` +
+        `<small class="k4-w-rd">${esc(reading || "（辞書に読みなし）")}</small></span>`;
+    }).join("");
+  }
+
   function promptHtml(item) {
     const s = item.src;
     if (item.section === "vocab") {
-      return `<p class="k4-instr">（　）に入る最も適切な語を選びなさい。</p><p class="k4-thai" lang="th">${esc(s.thai)}</p>`;
+      return `<p class="k4-instr">（　）に入る最も適切な語を選びなさい。単語の下に読みをメモできます✏️</p><div class="k4-words">${wordBoxes(s.thai)}</div>`;
     }
     if (item.section === "dialogue") {
       return `<p class="k4-instr">会話が自然になるように、（　）に入る文を選びなさい。</p>
-        <p class="k4-thai" lang="th"><span class="k4-who">A：</span>${esc(s.a)}</p>
-        <p class="k4-thai" lang="th"><span class="k4-who">B：</span>${esc(s.b)}</p>`;
+        <div class="k4-words"><span class="k4-who">A：</span>${wordBoxes(s.a)}</div>
+        <div class="k4-words"><span class="k4-who">B：</span>${wordBoxes(s.b)}</div>`;
     }
     if (item.section === "order") {
       return `<p class="k4-instr">日本語の意味になるように、単語を正しい順に並べなさい。</p><p class="k4-ja">${esc(s.japanese)}</p>`;
     }
-    return `<p class="k4-instr">次のタイ語の意味を選びなさい。（読みは答えた後に出ます）</p><p class="k4-thai k4-big" lang="th">${esc(s.thai)}</p>`;
+    return `<p class="k4-instr">次のタイ語の意味を選びなさい。（読みは答えた後に出ます）</p><div class="k4-words k4-big-words">${wordBoxes(s.thai)}</div>`;
   }
 
   function renderItem() {
@@ -150,6 +182,7 @@
     q("k4Progress").textContent = `${k4.index + 1} / ${k4.items.length}問`;
     q("k4Section").textContent = `${info.icon} ${info.title}`;
     q("k4Prompt").innerHTML = promptHtml(item);
+    q("k4Prompt").classList.remove("k4-revealed");
     q("k4Feedback").className = "k4-feedback hidden";
     q("k4Feedback").innerHTML = "";
     q("k4Next").classList.add("hidden");
@@ -217,6 +250,8 @@
       body = `<p>正解：<b lang="th">${item.answer + 1}. ${esc(item.options[item.answer])}</b></p>
         <p>${esc(s.japanese)}</p><p class="muted">💡 ${esc(s.explain)}</p>`;
     }
+    q("k4Prompt").classList.add("k4-revealed");
+    q("k4Prompt").querySelectorAll(".k4-memo").forEach(i => { i.readOnly = true; });
     const fb = q("k4Feedback");
     fb.className = `k4-feedback ${ok ? "ok" : "ng"}`;
     fb.innerHTML = `<strong>${ok ? "⭕ 正解！ (σﾟ∀ﾟ)σ" : `❌ 残念… (´・ω・｀)${userText ? `　あなたの答え：<span lang="th">${esc(userText)}</span>` : ""}`}</strong>${body}${item.section === "word" ? "" : readingChips(correctThai(item))}`;
@@ -438,6 +473,18 @@
     .k4-big{font-size:2.2rem;text-align:center}
     .k4-who{font-family:inherit;font-size:1rem;color:var(--muted)}
     .k4-ja{font-size:1.2rem;font-weight:700}
+    .k4-words{display:flex;flex-wrap:wrap;align-items:flex-start;gap:6px 4px;margin:.5em 0}
+    .k4-w{display:inline-flex;flex-direction:column;align-items:center;gap:3px;padding:4px 5px 5px;border-radius:10px;background:#fff;border:1px solid var(--border)}
+    .k4-w-th{font:400 1.45rem/1.5 Tahoma,"Noto Sans Thai",sans-serif;padding:0 2px}
+    .k4-big-words .k4-w-th{font-size:2.2rem}
+    .k4-big-words{justify-content:center}
+    .k4-w-sep{font:400 1.45rem/1.5 Tahoma,"Noto Sans Thai",sans-serif;align-self:flex-start;padding-top:4px}
+    .k4-memo{width:auto;min-width:3.2em;max-width:9em;font:.9rem/1.2 ui-monospace,Menlo,Consolas,monospace;text-align:center;padding:3px 4px;border:1px dashed #c9a98a;border-radius:6px;background:#fffaf3;color:#5b3a22}
+    .k4-memo::placeholder{color:#c8b6a4}
+    .k4-memo:focus{outline:2px solid #e0a46f;border-style:solid;background:#fff}
+    .k4-w-rd{display:none;font-size:.78rem;color:var(--success);max-width:9em;text-align:center;line-height:1.2}
+    .k4-revealed .k4-w-rd{display:block}
+    .k4-revealed .k4-memo{background:#f6f1ea}
     .k4-options{display:grid;gap:8px;margin:12px 0}
     .k4-option{display:flex;gap:10px;align-items:center;text-align:left;font:1.15rem/1.5 Tahoma,"Noto Sans Thai",sans-serif;padding:12px 14px;border-radius:14px;border:1px solid var(--border);background:#fff;cursor:pointer}
     .k4-option:not(:disabled):hover{border-color:#c98d5c;background:#fffaf3}
@@ -566,6 +613,9 @@
       showScreen("menu");
     });
     q("k4Start").addEventListener("click", startTest);
+    q("k4Prompt").addEventListener("input", event => {
+      if (event.target.classList.contains("k4-memo")) saveMemo(event.target.dataset.thai, event.target.value);
+    });
     q("k4Next").addEventListener("click", next);
     q("k4OrderCheck").addEventListener("click", checkOrder);
     q("k4OrderUndo").addEventListener("click", () => {
@@ -581,6 +631,15 @@
       if (q("k4Screen").classList.contains("hidden") || q("k4Quiz").classList.contains("hidden")) return;
       const item = k4.items[k4.index];
       if (!item) return;
+      if (event.target && event.target.classList && event.target.classList.contains("k4-memo")) {
+        if (event.key === "Enter" && !event.isComposing) {
+          event.preventDefault();
+          const boxes = [...q("k4Prompt").querySelectorAll(".k4-memo")];
+          const nextBox = boxes[boxes.indexOf(event.target) + 1];
+          if (nextBox && !k4.answered) nextBox.focus(); else event.target.blur();
+        }
+        return;
+      }
       if (event.key === "Enter" && k4.answered) { event.preventDefault(); next(); return; }
       if (item.kind === "choice" && !k4.answered && /^[1-4]$/.test(event.key)) answerChoice(Number(event.key) - 1);
     });
