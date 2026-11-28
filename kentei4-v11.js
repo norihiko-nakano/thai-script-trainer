@@ -1,8 +1,8 @@
-/* Thai Vocabulary Trainer Ver11.3: 4級問題モード📝🦏
+/* Thai Vocabulary Trainer Ver11.4: 4級問題モード📝🦏
  *
  * Practice in the style of 実用タイ語検定 4級: Thai script only, no readings while answering.
  *   大問1 語彙の穴埋め / 大問2 会話の応答 / 大問3 語順の並べ替え : kentei4_questions.json (original questions)
- *   大問4 単語の意味 : dictionary words (Level 2–3) from questions.json / Supabase
+ *   大問4 単語の意味 : dictionary words (Level 2–4) from questions.json / Supabase
  * Readings appear only after answering, and only from the dictionary (same rule as the rest of the app).
  * Wrong 大問4 words go to the review book; attempts are kept in this browser's localStorage.
  */
@@ -43,7 +43,7 @@
   }
   function wordPool() {
     const all = Array.isArray(state.allQuestions) ? state.allQuestions : [];
-    return all.filter(w => [2, 3].includes(Number(w.difficulty)) && w.thai && w.japanese);
+    return all.filter(w => [2, 3, 4].includes(Number(w.difficulty)) && w.thai && w.japanese);
   }
   function meaning(w) {
     try { if (typeof japaneseDisplay === "function") return japaneseDisplay(w) || w.japanese; } catch (_) { /* fall through */ }
