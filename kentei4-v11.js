@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver11.4: 4級問題モード📝🦏
+/* Thai Vocabulary Trainer Ver11.5: 4級問題モード📝🦏
  *
  * Practice in the style of 実用タイ語検定 4級: Thai script only, no readings while answering.
  *   大問1 語彙の穴埋め / 大問2 会話の応答 / 大問3 語順の並べ替え : kentei4_questions.json (original questions)
@@ -78,8 +78,9 @@
     }
     const picked = Object.fromEntries(sectionKeys.map(k => [k, []]));
     let left = count;
+    const turn = shuffle(sectionKeys);
     while (left > 0 && sectionKeys.some(k => pools[k].length)) {
-      for (const key of sectionKeys) {
+      for (const key of turn) {
         if (left > 0 && pools[key].length) {
           picked[key].push(pools[key].pop());
           left--;
@@ -604,7 +605,7 @@
         </div>
         <div class="k4-row">
           <label for="k4Count">問題数
-            <select id="k4Count"><option value="10">10問</option><option value="20" selected>20問</option><option value="30">30問</option><option value="40">40問</option></select>
+            <select id="k4Count"><option value="1">1問</option><option value="2">2問</option><option value="3">3問</option><option value="10">10問</option><option value="20" selected>20問</option><option value="30">30問</option><option value="40">40問</option></select>
           </label>
           <label><input type="checkbox" id="k4Exam"> ⏱️ 本番モード（1問${SECONDS_PER_QUESTION}秒の制限時間）</label>
         </div>
