@@ -1,4 +1,4 @@
-/* Thai Vocabulary Trainer Ver11.0: 4級問題モード📝🐘
+/* Thai Vocabulary Trainer Ver11.1: 4級問題モード📝🦏
  *
  * Practice in the style of 実用タイ語検定 4級: Thai script only, no readings while answering.
  *   大問1 語彙の穴埋め / 大問2 会話の応答 / 大問3 語順の並べ替え : kentei4_questions.json (original questions)
@@ -475,8 +475,8 @@
   button.type = "button";
   button.dataset.mode = "kentei4";
   button.innerHTML =
-    '<span class="mode-icon" aria-hidden="true">📝🐘</span>' +
-    '<span class="mode-title">4級問題📝🐘</span>' +
+    '<span class="mode-icon" aria-hidden="true">📝🦏</span>' +
+    '<span class="mode-title">4級問題📝🦏</span>' +
     '<span class="mode-description">実用タイ語検定4級の形で解く。読み仮名なし・本番モードあり</span>';
   const grid = document.querySelector(".mode-grid");
   grid.insertBefore(button, grid.querySelector('[data-mode="longreading"]'));
@@ -486,7 +486,7 @@
     <div id="k4Screen" class="hidden">
       <div class="quiz-header">
         <button id="k4Back" class="icon-button" type="button">← 戻る</button>
-        <h2 style="margin:0">4級問題📝🐘</h2>
+        <h2 style="margin:0">4級問題📝🦏</h2>
       </div>
 
       <section id="k4Setup" class="k4-setup">
@@ -503,7 +503,7 @@
           </label>
           <label><input type="checkbox" id="k4Exam"> ⏱️ 本番モード（1問${SECONDS_PER_QUESTION}秒の制限時間）</label>
         </div>
-        <button id="k4Start" class="k4-start" type="button">試験開始！ 🐘⚔️</button>
+        <button id="k4Start" class="k4-start" type="button">試験開始！ 🦏⚔️</button>
         <p id="k4SetupMsg" class="k4-msg" role="alert"></p>
         <p id="k4Stats" class="muted"></p>
       </section>
@@ -550,7 +550,7 @@
     q("k4Screen").classList.toggle("hidden", name !== "kentei4");
     if (name !== "kentei4") stopTimer();
   };
-  modeDisplayLabel = mode => (mode === "kentei4" ? "4級問題📝🐘" : oldLabel(mode));
+  modeDisplayLabel = mode => (mode === "kentei4" ? "4級問題📝🦏" : oldLabel(mode));
   openDifficultyScreen = mode => {
     if (mode !== "kentei4") return oldOpen(mode);
     state.mode = "kentei4";

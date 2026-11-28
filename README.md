@@ -1,8 +1,8 @@
-# Thai Vocabulary Trainer Ver11.0
+# Thai Vocabulary Trainer Ver11.1
 
 日本人向けのタイ語学習アプリです。単語・文章・ニュースの読解、タイ語入力、発話練習、復習帳を備えています。
 
-**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜11.0](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
+**[アプリを開く](https://norihiko-nakano.github.io/thai-script-trainer/)** · **[変更履歴 Ver0.0〜11.1](CHANGELOG.md)** · **[English guide](docs/versions/README_V9.0.md)**
 
 ## 復習するときの読む順番 🐼
 
@@ -20,7 +20,7 @@ Webの復習ドリルは `index.html` のJavaScriptで動きます。`review_dri
 
 ## 現在の機能
 
-- 「4級問題📝🐘」：実用タイ語検定4級の形（語彙の穴埋め・会話の応答・語順・単語の意味）をまねたオリジナル問題を、読み仮名なしで解く。本番モード（1問40秒）あり。大問4でまちがえた単語は復習帳へ。結果画面から、まちがえた問題だけを「読む🐨」で復習できる。
+- 「4級問題📝🦏」：実用タイ語検定4級の形（語彙の穴埋め・会話の応答・語順・単語の意味）をまねたオリジナル問題を、読み仮名なしで解く。本番モード（1問40秒）あり。大問4でまちがえた単語は復習帳へ。結果画面から、まちがえた問題だけを「読む🐨」で復習できる。
 - 「読む」：単語・文章セット・ニュース短文の意味を選ぶ。
 - 「書く」：日本語を見てタイ語を入力する。
 - 「話す」：お手本音声と発話練習。音声認識の対応状況はブラウザによります。
